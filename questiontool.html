@@ -1,14 +1,40 @@
 <head>
-  <title>questiontool</title>
+   <meta content="text/html; charset=iso-8859-1" />
+   <META HTTP-EQUIV="PRAGMA" CONTENT="NO-CACHE" />
+   <title>Live Question Tool Chooser</title>
 </head>
-
 <body>
-  <h1>Welcome to Meteor!</h1>
-
-  {{> hello}}
+   <div id="banner">Question Tool Instance Chooser</div>
+   <br/><br/>
+   <div id="wrapper" style="text-align: center;">
+      <center>
+         <div class="center">
+            <div class="columnhead">Choose an instance</div>
+            <br/>					
+            <form action= "chooser.php" method="post">
+               <table width="100%">
+                  <tr>
+                     <td><b>Choose which instance of the question tool you would like to see:</b></td>
+                     <td>
+                        {{> instanceoptions}}
+                     </td>
+                  </tr>
+               </table>
+               <p align="center"><input type="submit" name="submit" /></p>
+               <input type="hidden" name="submit_check" value="1" />
+            </form>
+            <div class="columnhead">OR</div>
+            <br/>
+            <p style="text-align:center;"><a href="create.php">Create a new instance</a></p>
+            <p align="center"><a href="list.php">Return to the list</a></p>
+         </div>
+      </center>
+   </div>
 </body>
-
-<template name="hello">
-  <button>Click Me</button>
-  <p>You've pressed the button {{counter}} times.</p>
+<template name="instanceoptions">
+   <select name="tablename" size="1">
+      {{#each instances}}
+      <option value="{{name}}">{{name}}</option>
+      {{/each}}
+   </select>
 </template>
