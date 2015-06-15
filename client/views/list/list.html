@@ -1,0 +1,35 @@
+<template name="list">
+	<head>
+		<link rel="stylesheet" type="text/css" media="screen" href="liststyle.css" />
+		<meta http-equiv="PRAGMA" content="NO-CACHE" />
+		<meta content="text/html; charset=iso-8859-1" />
+		<link rel="alternate" type="application/rss+xml" href="http://localhost/QATool/rss.php?tablename={$tablename}"/>
+		<title>Live Question Tool</title>
+    </head>
+	<body>
+		<div id="wrapper">
+		<div id="banner">Live Question Tool: {{ tablename }}</div>
+		<br />
+		<div style="text-align: center;">
+		{{#if admin}}
+			<h2>Admin Interface</h2>
+			<a href="unhide_all.php">Unhide all questions</a> :: 
+			<a href="close.php">Delete this instance</a> ::
+			<a href="logout.php">Logout</a><br/>
+			<hr width="70%"/>
+		{{/if}}
+		<p>{{ description }}</p>
+		<a href="propose.php">Post a question</a> :: 
+		<a href="chooser.php">Choose a different instance</a> ::
+		<a href="report.php">Archived questions</a> :: 
+		<a href="rss.php?tablename={$tablename}"><img src="../images/rss.gif" alt="xml icon" /></a>
+		</div>
+		<div id="popular">
+		<div class="columnhead">Active Questions</div>
+		<div class="subcolumn">
+			<!-- LEAVE OFF COPYING OVER THE XSL TEMPLATE HERE -->
+		</div>
+	</div>
+</div>
+	</body>
+</template>
