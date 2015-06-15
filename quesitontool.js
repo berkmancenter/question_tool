@@ -8,10 +8,14 @@ if (Meteor.isClient) {
 			return [{name: "test1"}, {name: "test2"}, {name: "test3"}, {name: "test4"}, {name: "test5"}];
 		}
 	});
-
-	Template.instanceoptions.events({
-  
-	});
+	
+	Template.submitbutton.events({
+		"click #submitbutton": function(event, template) {
+			var instances = document.getElementsByTagName("select")[0];
+			var selectedInstance = instances.options[instances.selectedIndex].text;
+			Cookie.set('tablename', selectedInstance);
+		}
+	})
 }
 
 if (Meteor.isServer) {

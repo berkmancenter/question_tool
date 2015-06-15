@@ -11,7 +11,6 @@
          <div class="center">
             <div class="columnhead">Choose an instance</div>
             <br/>					
-            <form action= "chooser.php" method="post">
                <table width="100%">
                   <tr>
                      <td><b>Choose which instance of the question tool you would like to see:</b></td>
@@ -20,9 +19,10 @@
                      </td>
                   </tr>
                </table>
-               <p align="center"><input type="submit" name="submit" /></p>
+               <p align="center">
+               	{{> submitbutton}}
+               </p>
                <input type="hidden" name="submit_check" value="1" />
-            </form>
             <div class="columnhead">OR</div>
             <br/>
             <p style="text-align:center;"><a href="create.php">Create a new instance</a></p>
@@ -37,4 +37,7 @@
       <option value="{{name}}">{{name}}</option>
       {{/each}}
    </select>
+</template>
+<template name="submitbutton">
+	<button id="submitbutton">submit</button>
 </template>
