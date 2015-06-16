@@ -1,0 +1,126 @@
+<template name="create">
+
+    <head>
+        <title>Live Question Tool Creation Area</title>
+    </head>
+
+    <body>
+        <div id="banner">Question Tool Creation Area</div>
+        <br/>
+        <br/>
+        <div id="wrapper">
+            <center>
+                <div class="center">
+                    <div class="columnhead">Create a new instance</div>
+                    <br/>
+                    <center><b>{{message}}</b>
+                    </center>
+                    <br/>
+                    <table width="100%">
+                        <tr>
+                            <td><b>Name your project (4-30 characters, numbers and letters only):</b>
+                            </td>
+                            <td>
+                                <input type="text" name="tablename" maxlength="30" />
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>&nbsp;</td>
+                            <td>&nbsp;</td>
+                        </tr>
+                        <tr>
+                            <td><b>Enter a password for admin access to your instance of the question tool (4-10 characters, numbers and letters only):</b>
+                            </td>
+                            <td>
+                                <input type="password" maxlength="10" name="pword1">
+                            </td>
+                        </tr>
+                        <tr>
+                            <td><b>Enter your password again to confirm it.</b>
+                            </td>
+                            <td>
+                                <input type="password" maxlength="10" name="pword2" />
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>&nbsp;</td>
+                            <td>&nbsp;</td>
+                        </tr>
+                        <tr>
+                            <td><b>How often should the question list auto-refresh?</b>
+                            </td>
+                            <td>
+                                Every
+                                <select name="refresh_time" size="1">
+                                    <option value="15">15 seconds</option>
+                                    <option value="30">30 seconds</option>
+                                    <option value="45">45 seconds</option>
+                                    <option value="60">1 minute</option>
+                                </select>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td><b>Number of "featured" questions:</b>
+                            </td>
+                            <td>
+                                <select name="threshold" size="1">
+                                    <option value="2">2</option>
+                                    <option value="4">4</option>
+                                    <option value="6">6</option>
+                                    <option value="8">8</option>
+                                </select>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td><b>New questions appear in red text for</b>
+                            </td>
+                            <td>
+                                <select name="new_length" size="1">
+                                    <option value="30">30 seconds</option>
+                                    <option value="60">1 minute</option>
+                                    <option value="300">5 minutes</option>
+                                    <option value="3600">1 hour</option>
+                                    <option value="86400">1 day</option>
+                                    <option value="604800">1 week</option>
+                                </select>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td><b>Old questions appear in grey text after</b>
+                            </td>
+                            <td>
+                                <select name="stale_length" size="1">
+                                    <option value="900">15 minutes</option>
+                                    <option value="1800">30 minutes</option>
+                                    <option value="3600">1 hour</option>
+                                    <option value="86400">1 day</option>
+                                    <option value="604800">1 week</option>
+                                    <option value="2592000">1 month</option>
+                                    <option value="31557600">1 year</option>
+                                </select>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>&nbsp;</td>
+                            <td>&nbsp;</td>
+                        </tr>
+                        <tr>
+                            <td><i>(Optional)</i> <b>Write a description of this instance to appear at the top of the list page. Please keep it under 255 characters.</b>
+                            </td>
+                            <td>
+                                <textarea name="description" rows="4" cols="30">{{description}}</textarea>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>&nbsp;</td>
+                            <td>&nbsp;</td>
+                        </tr>
+                    </table>
+                    <p align="center">
+                        <button id="submitbutton">Submit</button>
+                    </p>
+                </div>
+            </center>
+		</div>
+    </body>
+</template>

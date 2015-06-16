@@ -2,8 +2,7 @@ if (Meteor.isClient) {
 
 	Template.instanceoptions.helpers({
 		instances: function() {
-			// get the list of instances here
-			return [{name: "test1"}, {name: "test2"}, {name: "test3"}, {name: "test4"}, {name: "test5"}];
+			return Instances.find();
 		}
 	});
 	

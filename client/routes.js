@@ -5,3 +5,11 @@ Router.route('/', function () {
 Router.route('/list', function () {
   this.render('list');
 });
+
+Router.route('/credits', function () {
+  this.render('credits');
+});
+
+Router.route('/create', function () {
+  this.render('create');
+});

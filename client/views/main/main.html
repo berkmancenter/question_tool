@@ -26,8 +26,8 @@
 	               <input type="hidden" name="submit_check" value="1" />
 	            <div class="columnhead">OR</div>
 	            <br/>
-	            <p style="text-align:center;"><a href="create.php">Create a new instance</a></p>
-	            <p align="center"><a href="list.php">Return to the list</a></p>
+	            <p style="text-align:center;"><a href="/create">Create a new instance</a></p>
+	            <p align="center"><a href="/list">Return to the list</a></p>
 	         </div>
 	      </center>
 	   </div>
@@ -36,7 +36,7 @@
 <template name="instanceoptions">
    <select name="tablename" size="1">
       {{#each instances}}
-      <option value="{{name}}">{{name}}</option>
+      <option value="{{name}}">{{tablename}}</option>
       {{/each}}
    </select>
 </template>
