@@ -5,31 +5,223 @@
 		<meta content="text/html; charset=iso-8859-1" />
 		<link rel="alternate" type="application/rss+xml" href="http://localhost/QATool/rss.php?tablename={$tablename}"/>
 		<title>Live Question Tool</title>
-    </head>
+	</head>
 	<body>
 		<div id="wrapper">
-		<div id="banner">Live Question Tool: {{ tablename }}</div>
-		<br />
-		<div style="text-align: center;">
-		{{#if admin}}
-			<h2>Admin Interface</h2>
-			<a href="unhide_all.php">Unhide all questions</a> :: 
-			<a href="close.php">Delete this instance</a> ::
-			<a href="logout.php">Logout</a><br/>
-			<hr width="70%"/>
-		{{/if}}
-		<p>{{ description }}</p>
-		<a href="propose.php">Post a question</a> :: 
-		<a href="chooser.php">Choose a different instance</a> ::
-		<a href="report.php">Archived questions</a> :: 
-		<a href="rss.php?tablename={$tablename}"><img src="../images/rss.gif" alt="xml icon" /></a>
+			<div id="banner">Live Question Tool: {{ tablename }}</div>
+			<br />
+			<div style="text-align: center;">
+				{{#if admin}}
+					<h2>Admin Interface</h2>
+					<a href="unhide_all.php">Unhide all questions</a> :: 
+					<a href="close.php">Delete this instance</a> ::
+					<a href="logout.php">Logout</a><br/>
+					<hr width="70%"/>
+				{{/if}}
+				<p>{{ description }}</p>
+				<a href="propose.php">Post a question</a> :: 
+				<a href="chooser.php">Choose a different instance</a> ::
+				<a href="report.php">Archived questions</a> :: 
+				<a href="rss.php?tablename={$tablename}"><img src="../images/rss.gif" alt="xml icon" /></a>
+			</div>
+			<div id="popular">
+				<div class="columnhead">Active Questions</div>
+				<div class="subcolumn">
+					{{#each popular}}
+						{{#if indexOne}}
+							<div class="question {{shade}} {{age_marker}}">
+								<div class="votes v{{shade}}">
+									<a href="{{votelink}}">{{votes}}<br>votes</a>
+								</div>
+								{{#if posterGreaterThanZero}}
+									{{#if emailGreaterThanZero}}
+										<b><a href="mailto:{{email}}">{{poster}}</a>: </b>
+									{{/if}}
+									{{#if emailIsZero}}
+										<b>{{poster}}: </b>
+									{{/if}}
+								{{/if}}
+								{{text}}
+								<br />
+								{{#each answer}}
+									<p>&#160;&#160;&#160;&#160;&#160;</p>
+									{{#if posterGreaterThanZero}}
+										{{#if emailGreaterThanZero}}
+											<b><a href="mailto:{{email}}">{{poster}}</a>: </b>
+										{{/if}}
+										{{#if emailIsZero}}
+											<b>{{poster}}: </b>
+										{{/if}}
+									{{/if}}
+									{{text}}
+								{{/each}}
+								<br />
+								<span style="float:right;text-align:right;width:25em">
+									{{f_time}}
+									:: <a href="{{answerlink}}">Reply</a>
+									{{#if admin}}
+										:: <a href="{{disablelink}}">Hide</a>
+										:: <a href="{{modifylink}}">Modify</a>
+									{{/if}}
+								</span>
+							</div>
+						{{/if}}
+					{{/each}}
+				</div>
+			</div>
 		</div>
-		<div id="popular">
-		<div class="columnhead">Active Questions</div>
+
 		<div class="subcolumn">
-			<!-- LEAVE OFF COPYING OVER THE XSL TEMPLATE HERE -->
+			{{#each popular}}
+				{{#if indexTwo}}
+					<div class="question {{shade}} {{age_marker}}">
+						<div class="votes v{{shade}}">
+							<a href="{{votelink}}">{{votes}}<br />votes</a>
+						</div>
+						{{#if posterGreaterThanZero}}
+							{{#if emailGreaterThanZero}}
+								<b><a href="mailto:{{email}}">{{poster}}</a>: </b>
+							{{/if}}
+							{{#if emailIsZero}}
+								<b>{{poster}}: </b>
+							{{/if}}
+						{{/if}}
+						{{text}}
+						<br />
+						{{#each answer}}
+							<p>&#160;&#160;&#160;&#160;&#160;</p>
+							{{#if posterGreaterThanZero}}
+								{{#if emailGreaterThanZero}}
+									<b><a href="mailto:{{email}}">{{poster}}</a>: </b>
+								{{/if}}
+								{{#if emailIsZero}}
+									<b>{{poster}}: </b>
+								{{/if}}
+							{{/if}}
+							{{text}}
+						{{/each}}
+						<br />
+						<span style="float: right; text-align: right; width: 25em">
+							{{f_time}}
+							:: <a href="{{answerlink}}">Reply</a>
+							{{#if admin}}
+								:: <a href="{{disablelink}}">Hide</a>
+								:: <a href="{{modifylink}}">Modify</a>
+							{{/if}}
+						</span>
+					</div>
+				{{/if}}
+			{{/each}}
 		</div>
-	</div>
-</div>
+		<div id="recent">
+			<div class="columnhead">Most Recently Submitted Questions</div>
+			<div class="subcolumn">
+				{{#each recent}}
+					{{#if indexOne}}
+						<div class="question {{shade}} {{age_marker}}">
+							<div class="votes v{{shade}}">
+								<a href="{{votelink}}">{{votes}}<br />votes</a>
+							</div>
+							{{#if posterGreaterThanZero}}
+								{{#if emailGreaterThanZero}}
+									<b><a href="mailto:{{email}}">{{poster}}</a>: </b>
+								{{/if}}
+								{{#if emailIsZero}}
+									<b>{{poster}}: </b>
+								{{/if}}
+							{{/if}}
+							{{text}}
+							<br />
+							{{#each answer}}
+								<p>&#160;&#160;&#160;&#160;&#160;</p>
+								{{#if posterGreaterThanZero}}
+									{{#if emailGreaterThanZero}}
+										<b><a href="mailto:{{email}}">{{poster}}</a>: </b>
+									{{/if}}
+									{{#if emailIsZero}}
+										<b>{{poster}}: </b>
+									{{/if}}
+								{{/if}}
+								{{text}}
+							{{/each}}
+							<br />
+							<span style="float: right; text-align: right; width: 25em">
+								{{f_time}}
+								:: <a href="{{answerlink}}">Reply</a>
+								{{#if admin}}
+									:: <a href="{{disablelink}}">Hide</a>
+									:: <a href="{{modifylink}}">Modify</a>
+								{{/if}}
+							</span>
+						</div>
+					{{/if}}
+				{{/each}}
+			</div>
+			<div class="subcolumn">
+				{{#each recent}}
+					{{#if indexTwo}}
+						<div class="question {{shade}} {{age_marker}}">
+							<div class="votes v{{shade}}">
+								<a href="{{votelink}}">{{votes}}<br />votes</a>
+							</div>
+							{{#if posterGreaterThanZero}}
+								{{#if emailGreaterThanZero}}
+									<b><a href="mailto:{{email}}">{{poster}}</a>: </b>
+								{{/if}}
+								{{#if emailIsZero}}
+									<b>{{poster}}: </b>
+								{{/if}}
+							{{/if}}
+							{{text}}
+							<br />
+							{{#each answer}}
+								<p>&#160;&#160;&#160;&#160;&#160;</p>
+								{{#if posterGreaterThanZero}}
+									{{#if emailGreaterThanZero}}
+										<b><a href="mailto:{{email}}">{{poster}}</a>: </b>
+									{{/if}}
+									{{#if emailIsZero}}
+										<b>{{poster}}: </b>
+									{{/if}}
+								{{/if}}
+								{{text}}
+							{{/each}}
+							<br />
+							<span style="float: right; text-align: right; width: 25em">
+								{{f_time}}
+								:: <a href="{{answerlink}}">Reply</a>
+								{{#if admin}}
+									:: <a href="{{disablelink}}">Hide</a>
+									:: <a href="{{modifylink}}">Modify</a>
+								{{/if}}
+							</span>
+						</div>
+					{{/if}}
+				{{/each}}
+			</div>
+		</div>
+		<p style="text-align: center;">
+			{{#if notAdmin}}
+				<a href="login.php">Login to Admin Interface</a> ::
+			{{/if}}
+			<a href="create.php">Create a new instance</a> ::
+			<a href="/credits">Question Tool Credits</a>
+		</p>
 	</body>
 </template>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
