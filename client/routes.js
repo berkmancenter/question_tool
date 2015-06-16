@@ -13,3 +13,8 @@ Router.route('/credits', function () {
 Router.route('/create', function () {
   this.render('create');
 });
+
+Router.route('/propose', function () {
+  this.render('propose');
+});
+
