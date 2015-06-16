@@ -11,7 +11,7 @@ if (Meteor.isClient) {
 			var instances = document.getElementsByTagName("select")[0];
 			var selectedInstance = instances.options[instances.selectedIndex].text;
 			Cookie.set('tablename', selectedInstance);
-			window.location.href = 'http://localhost:3000/list';
+			window.location.href = '/list';
 		}
 	})
 }
