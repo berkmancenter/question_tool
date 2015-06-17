@@ -27,5 +27,9 @@ Router.route('answer', {
 	}
 });
 
+Router.route('/report', function () {
+  this.render('report');
+});
+
 
 
