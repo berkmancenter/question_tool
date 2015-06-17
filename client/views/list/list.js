@@ -43,7 +43,8 @@ Template.list.helpers({
 			var d = new Date(popQuestions[p].lasttouch);
 			popular[p].f_time = d.toTimeString().substring(0,5) + " " + d.toTimeString().substring(19,22) + " " + d.toDateString().substring(4, 10);
 			var avg = (Math.max.apply(Math, voteArray) + Math.min.apply(Math, voteArray)) / 2;
-			var stddev = (Math.max.apply(Math, voteArray)-Math.min.apply(Math, voteArray))/6;
+			var stddev = (Math.max.apply(Math, voteArray) - Math.min.apply(Math, voteArray))/6;
+			stddev += .001; //Avoides dividing by zero
 			popular[p].shade = "c" + Math.round(3+((popQuestions[p].votes - avg) / stddev));
 			popular[p].age_marker = "stale";
 			var answers = Answers.find({ qid: popQuestions[p]._id });
@@ -100,6 +101,7 @@ Template.list.helpers({
 			questions[i].f_time = time12 + " " + d.toTimeString().substring(19,22) + " " + d.toDateString().substring(4, 10);
 			var avg = (Math.max.apply(Math, voteArray) + Math.min.apply(Math, voteArray)) / 2;
 			var stddev = (Math.max.apply(Math, voteArray)-Math.min.apply(Math, voteArray))/6;
+			stddev += .001;
 			questions[i].shade = "c" + Math.round(3+((questions[i].votes - avg) / stddev));
 			questions[i].age_marker = "stale";
 			var answers = Answers.find({ qid: questions[i]._id });
