@@ -7,30 +7,28 @@
 		<br/>
 		<br/>
 		<div id="wrapper">
-			<form action= "login.php" method="post">	
-				<center>							
-					<div class="center">
-						<div class="columnhead">Admin login</div>
-						<br/>
-						<center>
-							<b><!-- ERROR MESSAGE GOES HERE IF ONE EXISTS --></b>
-						</center>
-						<br/>
-						<table width="100%">
-							<tr>
-								<td>
-									<b>Enter the password for access to the admin interface of {{tablename}}:</b>
-								</td>
-								<td>
-									<input type="password" maxlength="10" name="pword">
-								</td>
-							</tr>
-						</table>
-						<p align="center"><input type="submit" name="login" /></p>
-						<p align="center"><a href="/list">Return to the list</a></p>
-					</div>
-				</center>
-			</form>
+			<center>							
+				<div class="center">
+					<div class="columnhead">Admin login</div>
+					<br/>
+					<center>
+						<b><!-- ERROR MESSAGE GOES HERE IF ONE EXISTS --></b>
+					</center>
+					<br/>
+					<table width="100%">
+						<tr>
+							<td>
+								<b>Enter the password for access to the admin interface of {{tablename}}:</b>
+							</td>
+							<td>
+								<input type="password" maxlength="10" name="pword">
+							</td>
+						</tr>
+					</table>
+					<p align="center"><input type="submit" name="login" /></p>
+					<p align="center"><a href="/list">Return to the list</a></p>
+				</div>
+			</center>
 		</div>
 	</body>
 </template>
