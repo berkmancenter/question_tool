@@ -33,11 +33,10 @@
 								<div class="votes v{{shade}}">
 									<a class="voteClick" id="{{_id}}"  href="{{votelink}}">{{votes}}<br>votes</a>
 								</div>
-								{{#if posterGreaterThanZero}}
-									{{#if emailGreaterThanZero}}
+								{{#if poster}}
+									{{#if email}}
 										<b><a href="mailto:{{email}}">{{poster}}</a>: </b>
-									{{/if}}
-									{{#if emailIsZero}}
+									{{else}}
 										<b>{{poster}}: </b>
 									{{/if}}
 								{{/if}}
@@ -67,9 +66,6 @@
 						{{/if}}
 					{{/each}}
 				</div>
-			</div>
-		</div>
-
 		<div class="subcolumn">
 			{{#each popular}}
 				{{#if indexTwo}}
@@ -77,11 +73,10 @@
 						<div class="votes v{{shade}}">
 							<a class="voteClick" id="{{_id}}" href="{{votelink}}">{{votes}}<br />votes</a>
 						</div>
-						{{#if posterGreaterThanZero}}
-							{{#if emailGreaterThanZero}}
+						{{#if poster}}
+							{{#if email}}
 								<b><a href="mailto:{{email}}">{{poster}}</a>: </b>
-							{{/if}}
-							{{#if emailIsZero}}
+							{{else}}
 								<b>{{poster}}: </b>
 							{{/if}}
 						{{/if}}
@@ -111,6 +106,8 @@
 				{{/if}}
 			{{/each}}
 		</div>
+	</div>
+	</div>
 		<div id="recent">
 			<div class="columnhead">Most Recently Submitted Questions</div>
 			<div class="subcolumn">
@@ -120,11 +117,10 @@
 							<div class="votes v{{shade}}">
 								<a class="voteClick" id="{{_id}}" href="{{votelink}}">{{votes}}<br />votes</a>
 							</div>
-							{{#if posterGreaterThanZero}}
-								{{#if emailGreaterThanZero}}
+							{{#if poster}}
+								{{#if email}}
 									<b><a href="mailto:{{email}}">{{poster}}</a>: </b>
-								{{/if}}
-								{{#if emailIsZero}}
+								{{else}}
 									<b>{{poster}}: </b>
 								{{/if}}
 							{{/if}}
@@ -161,11 +157,10 @@
 							<div class="votes v{{shade}}">
 								<a class="voteClick" id="{{_id}}" href="{{votelink}}">{{votes}}<br />votes</a>
 							</div>
-							{{#if posterGreaterThanZero}}
-								{{#if emailGreaterThanZero}}
+							{{#if poster}}
+								{{#if email}}
 									<b><a href="mailto:{{email}}">{{poster}}</a>: </b>
-								{{/if}}
-								{{#if emailIsZero}}
+								{{else}}
 									<b>{{poster}}: </b>
 								{{/if}}
 							{{/if}}
