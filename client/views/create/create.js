@@ -38,7 +38,7 @@ if (Meteor.isClient) {
 					votes: 0,
 				}, function(error, id) {
 					Cookie.set('tablename', tableName);
-					window.location.href = 'http://localhost:3000/list';
+					window.location.href = '/list';
 				});
 			});
 		}

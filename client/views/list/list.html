@@ -31,7 +31,7 @@
 						{{#if indexOne}}
 							<div class="question {{shade}} {{age_marker}}">
 								<div class="votes v{{shade}}">
-									<a href="{{votelink}}">{{votes}}<br>votes</a>
+									<a class="voteClick" id="{{_id}}"  href="{{votelink}}">{{votes}}<br>votes</a>
 								</div>
 								{{#if posterGreaterThanZero}}
 									{{#if emailGreaterThanZero}}
@@ -75,7 +75,7 @@
 				{{#if indexTwo}}
 					<div class="question {{shade}} {{age_marker}}">
 						<div class="votes v{{shade}}">
-							<a href="{{votelink}}">{{votes}}<br />votes</a>
+							<a class="voteClick" id="{{_id}}" href="{{votelink}}">{{votes}}<br />votes</a>
 						</div>
 						{{#if posterGreaterThanZero}}
 							{{#if emailGreaterThanZero}}
@@ -118,7 +118,7 @@
 					{{#if indexOne}}
 						<div class="question {{shade}} {{age_marker}}">
 							<div class="votes v{{shade}}">
-								<a href="{{votelink}}">{{votes}}<br />votes</a>
+								<a class="voteClick" id="{{_id}}" href="{{votelink}}">{{votes}}<br />votes</a>
 							</div>
 							{{#if posterGreaterThanZero}}
 								{{#if emailGreaterThanZero}}
@@ -159,7 +159,7 @@
 					{{#if indexTwo}}
 						<div class="question {{shade}} {{age_marker}}">
 							<div class="votes v{{shade}}">
-								<a href="{{votelink}}">{{votes}}<br />votes</a>
+								<a class="voteClick" id="{{_id}}" href="{{votelink}}">{{votes}}<br />votes</a>
 							</div>
 							{{#if posterGreaterThanZero}}
 								{{#if emailGreaterThanZero}}
