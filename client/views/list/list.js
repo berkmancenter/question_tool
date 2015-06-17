@@ -82,7 +82,22 @@ Template.list.helpers({
 			}
 			questions[i].answerlink = "/answer/" + questions[i]._id;
 			var d = new Date(questions[i].lasttouch);
-			questions[i].f_time = d.toTimeString().substring(0,5) + " " + d.toTimeString().substring(19,22) + " " + d.toDateString().substring(4, 10);
+			var time24 = d.toTimeString().substring(0,5);
+			var tmpArr = time24.split(':'), time12;
+			if(+tmpArr[0] == 12) {
+				time12 = tmpArr[0] + ':' + tmpArr[1] + ' pm';
+			} else {
+				if(+tmpArr[0] == 00) {
+					time12 = '12:' + tmpArr[1] + ' am';
+				} else {
+					if(+tmpArr[0] > 12) {
+						time12 = (+tmpArr[0]-12) + ':' + tmpArr[1] + ' pm';
+					} else {
+						time12 = (+tmpArr[0]) + ':' + tmpArr[1] + ' am';
+					}
+				}
+			}
+			questions[i].f_time = time12 + " " + d.toTimeString().substring(19,22) + " " + d.toDateString().substring(4, 10);
 			var avg = (Math.max.apply(Math, voteArray) + Math.min.apply(Math, voteArray)) / 2;
 			var stddev = (Math.max.apply(Math, voteArray)-Math.min.apply(Math, voteArray))/6;
 			questions[i].shade = "c" + Math.round(3+((questions[i].votes - avg) / stddev));
@@ -107,7 +122,7 @@ Template.list.events({
 					qid: event.currentTarget.id,
 					ip: ip
 				});
-				if(votes.fetch().length != 0) {
+				if(votes.fetch().length == 0) {
 					Questions.update({
 						_id: event.currentTarget.id
 					}, {
