@@ -192,7 +192,8 @@
 			</div>
 		</div>
 		<p style="text-align: center;">
-			{{#if notAdmin}}
+			{{#if admin}}
+			{{else}}
 				<a href="/login">Login to Admin Interface</a> ::
 			{{/if}}
 			<a href="/create">Create a new instance</a> ::

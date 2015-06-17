@@ -31,5 +31,8 @@ Router.route('/report', function () {
   this.render('report');
 });
 
+Router.route('/login', function () {
+  this.render('login');
+});
 
 

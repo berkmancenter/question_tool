@@ -2,7 +2,10 @@ Template.list.helpers({
 	tablename: function() {
 		return Cookie.get("tablename");
 	},
-	description: "Here's a test description",
+	description: function() {
+		var table = Instances.findOne({ tablename: Cookie.get("tablename")});
+		return table.description;
+	},
 	popular: function() {
 		var table = Instances.findOne({ tablename: Cookie.get("tablename")});
 		var threshhold = table.threshhold;
