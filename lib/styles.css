@@ -176,3 +176,6 @@ div#popular {
 .stale {
     color: #999999;
 }
+.voteClick {
+	cursor:pointer;
+}
