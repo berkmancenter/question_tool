@@ -18,3 +18,15 @@ Router.route('/propose', function () {
   this.render('propose');
 });
 
+Router.route('answer', {
+	path: '/answer/:_id',
+	template: 'answer',
+	data: function() {
+		var question = Questions.findOne({_id: this.params._id});
+		console.log(question);
+		return question;
+	}
+});
+
+
+

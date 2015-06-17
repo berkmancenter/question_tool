@@ -19,6 +19,7 @@ if (Meteor.isClient) {
   				questions[i].indexOne = true;
   				questions[i].posterGreaterThanZero = true;
   				questions[i].emailGreaterThanZero = true;
+				questions[i].answerlink = "/answer/" + questions[i]._id;
 				var d = new Date(questions[i].lasttouch);
   				questions[i].f_time = d.toTimeString().substring(0,5) + " " + d.toTimeString().substring(19,22) + " " + d.toDateString().substring(4, 10);
   				questions[i].shade = "c" + Math.round(3+(Math.max.apply(Math, voteArray)-Math.min.apply(Math, voteArray))/6);
