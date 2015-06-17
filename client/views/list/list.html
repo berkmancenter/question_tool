@@ -45,11 +45,10 @@
 								<br />
 								{{#each answer}}
 									<p>&#160;&#160;&#160;&#160;&#160;</p>
-									{{#if posterGreaterThanZero}}
-										{{#if emailGreaterThanZero}}
+									{{#if poster}}
+										{{#if email}}
 											<b><a href="mailto:{{email}}">{{poster}}</a>: </b>
-										{{/if}}
-										{{#if emailIsZero}}
+										{{else}}
 											<b>{{poster}}: </b>
 										{{/if}}
 									{{/if}}
@@ -90,11 +89,10 @@
 						<br />
 						{{#each answer}}
 							<p>&#160;&#160;&#160;&#160;&#160;</p>
-							{{#if posterGreaterThanZero}}
-								{{#if emailGreaterThanZero}}
+							{{#if poster}}
+								{{#if email}}
 									<b><a href="mailto:{{email}}">{{poster}}</a>: </b>
-								{{/if}}
-								{{#if emailIsZero}}
+								{{else}}}
 									<b>{{poster}}: </b>
 								{{/if}}
 							{{/if}}
@@ -134,11 +132,10 @@
 							<br />
 							{{#each answer}}
 								<p>&#160;&#160;&#160;&#160;&#160;</p>
-								{{#if posterGreaterThanZero}}
-									{{#if emailGreaterThanZero}}
+								{{#if poster}}
+									{{#if email}}
 										<b><a href="mailto:{{email}}">{{poster}}</a>: </b>
-									{{/if}}
-									{{#if emailIsZero}}
+									{{else}}
 										<b>{{poster}}: </b>
 									{{/if}}
 								{{/if}}
@@ -176,11 +173,10 @@
 							<br />
 							{{#each answer}}
 								<p>&#160;&#160;&#160;&#160;&#160;</p>
-								{{#if posterGreaterThanZero}}
-									{{#if emailGreaterThanZero}}
+								{{#if poster}}
+									{{#if email}}
 										<b><a href="mailto:{{email}}">{{poster}}</a>: </b>
-									{{/if}}
-									{{#if emailIsZero}}
+									{{else}}
 										<b>{{poster}}: </b>
 									{{/if}}
 								{{/if}}
