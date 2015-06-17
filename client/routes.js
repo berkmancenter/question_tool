@@ -23,7 +23,6 @@ Router.route('answer', {
 	template: 'answer',
 	data: function() {
 		var question = Questions.findOne({_id: this.params._id});
-		console.log(question);
 		return question;
 	}
 });
