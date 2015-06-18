@@ -1,8 +1,18 @@
+@font-face {
+	font-family:regular;
+	src:url('/Montserrat-Regular.ttf');
+}
+
+@font-face {
+	font-family:bold;
+	src:url('/Montserrat-Bold.ttf');
+}
+
 body {
 	background:#FFF;
 	color:#000;
 	font:80% Verdana, Geneva, Helvetica, Arial, sans-serif;
-	}
+}
 
 a {
 	color:#070;
