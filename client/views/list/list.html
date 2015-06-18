@@ -13,9 +13,9 @@
 			<div style="text-align: center;">
 				{{#if admin}}
 					<h2>Admin Interface</h2>
-					<a href="unhide_all.php">Unhide all questions</a> :: 
-					<a href="close.php">Delete this instance</a> ::
-					<a href="logout.php">Logout</a><br/>
+					<a id="unhidebutton">Unhide all questions</a> :: 
+					<a href="/delete">Delete this instance</a> ::
+					<a id="logoutbutton">Logout</a><br/>
 					<hr width="70%"/>
 				{{/if}}
 				<p>{{ description }}</p>

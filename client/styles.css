@@ -207,7 +207,7 @@ div#recent,div#popular {
 	cursor:pointer;
 }
 
-.hideQuestion {
+.hideQuestion, #unhidebutton, #logoutbutton {
 	text-decoration:underline;
 	cursor:pointer;
 }

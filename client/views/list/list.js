@@ -6,6 +6,16 @@ Template.list.helpers({
 		var table = Instances.findOne({ tablename: Cookie.get("tablename")});
 		return table.description;
 	},
+	admin: function() {
+		var table = Instances.findOne({ tablename: Cookie.get("tablename")});
+		var password = table.password;
+		if((Cookie.get("admin_pw") == password)) {
+			if(Cookie.get("admin_pw") != null && password != null) {
+				return true;
+			}
+		}
+		return false;
+	},
 	question: function() {
 		var table = Instances.findOne({ tablename: Cookie.get("tablename")});
 		var threshhold = table.threshhold;
@@ -133,7 +143,18 @@ Template.list.events({
 		}, function(error, count, status) {
 			if(error) {
 				console.log(error);
+			} 
+		});
+	},
+	"click #unhidebutton": function(event, template) {	
+		Meteor.call('unhide', Cookie.get("tablename"), function (error, result) {
+			if(error) {
+				alert(error);
 			}
 		});
+	},
+	"click #logoutbutton": function(event, template) {	
+		Cookie.set("admin_pw", "");
+		window.location.reload();
 	}
 })
