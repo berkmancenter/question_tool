@@ -15,5 +15,13 @@ Template.modify.events({
 				window.location.href = "/list";
 			}				
 		});
+	},
+	"keypress #modifybox": function(e, template) {
+		e.which = e.which || e.keyCode;
+		console.log(e.which);
+		if(e.which == 13) {
+			e.preventDefault();
+			document.getElementById("submitbutton").click();
+		}
 	}
 });

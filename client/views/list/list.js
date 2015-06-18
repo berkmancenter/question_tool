@@ -97,8 +97,12 @@ Template.list.events({
 					Questions.update({
 						_id: event.currentTarget.id
 					}, {
-						$set: {lasttouch: new Date().getTime()},
-						$inc: {votes: 1}
+						$set: {
+							lasttouch: new Date().getTime()
+						},
+						$inc: {
+							votes: 1
+						}
 					}, function(error, count, status) {
 						if(error) {
 							console.log(error);

@@ -20,5 +20,13 @@ Template.login.events({
 			alert("Password was incorrect");
 			window.location.reload();
 		}
+	},
+	"keypress #passwordbox": function(e, template) {
+		e.which = e.which || e.keyCode;
+		console.log(e.which);
+		if(e.which == 13) {
+			e.preventDefault();
+			document.getElementById("submitbutton").click();
+		}
 	}
 });
