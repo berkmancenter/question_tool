@@ -11,8 +11,6 @@ Template.list.helpers({
 		var threshhold = table.threshhold;
 		var password = table.password;
 		var isAdmin = false;
-		console.log(Cookie.get("admin_pw"));
-		console.log(password);
 		if((Cookie.get("admin_pw") == password)) {
 			if(Cookie.get("admin_pw") != null && password != null) {
 				isAdmin = true;
@@ -46,7 +44,6 @@ Template.list.helpers({
 					questions[i].indexTwo = true;
 				}
 				questions[i].answerlink = "/answer/" + questions[i]._id;
-				questions[i].disablelink = "/disable/" + questions[i]._id;
 				questions[i].modifylink = "/modify/" + questions[i]._id;
 				var d = new Date(questions[i].lasttouch);
 				var time24 = d.toTimeString().substring(0,5);

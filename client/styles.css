@@ -196,3 +196,8 @@ div#recent,div#popular {
 .voteClick {
 	cursor:pointer;
 }
+
+.hideQuestion {
+	text-decoration:underline;
+	cursor:pointer;
+}
