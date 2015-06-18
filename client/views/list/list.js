@@ -9,6 +9,15 @@ Template.list.helpers({
 	question: function() {
 		var table = Instances.findOne({ tablename: Cookie.get("tablename")});
 		var threshhold = table.threshhold;
+		var password = table.password;
+		var isAdmin = false;
+		console.log(Cookie.get("admin_pw"));
+		console.log(password);
+		if((Cookie.get("admin_pw") == password)) {
+			if(Cookie.get("admin_pw") != null && password != null) {
+				isAdmin = true;
+			}
+		}
 		var questions = Questions.find({ tablename: Cookie.get("tablename") }).fetch();
 		var voteAverage = 0;
 		var voteArray = [];
@@ -27,7 +36,7 @@ Template.list.helpers({
 			}
 		});
 		for(var i = 0; i < questions.length; i++) {
-			questions[i].admin = false;
+			questions[i].admin = isAdmin;
 			if(i%2 == 0) {
 				questions[i].indexOne = true;
 				questions[i].indexTwo = false;

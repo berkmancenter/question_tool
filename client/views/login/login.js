@@ -5,3 +5,20 @@ Template.login.helpers({
 		return table.description;
 	}
 });
+
+Template.login.events({
+	"click #submitbutton": function(event, template) {
+		var password = document.getElementsByName("pword")[0].value;
+		var instance = Instances.findOne({
+			tablename: Cookie.get("tablename")
+		});
+		if(password == instance.password) {
+			Cookie.set("admin_pw", password);
+			window.location.href = "/list";
+		} else {
+			// Incorrect password. Do something here.
+			alert("Password was incorrect");
+			window.location.reload();
+		}
+	}
+});
