@@ -45,6 +45,8 @@ Template.list.helpers({
 				questions[i].indexTwo = true;
 			}
 			questions[i].answerlink = "/answer/" + questions[i]._id;
+			questions[i].disablelink = "/disable/" + questions[i]._id;
+			questions[i].modifylink = "/modify/" + questions[i]._id;
 			var d = new Date(questions[i].lasttouch);
 			var time24 = d.toTimeString().substring(0,5);
 			var tmpArr = time24.split(':'), time12;
