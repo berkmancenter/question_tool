@@ -36,47 +36,49 @@ Template.list.helpers({
 			}
 		});
 		for(var i = 0; i < questions.length; i++) {
-			questions[i].admin = isAdmin;
-			if(i%2 == 0) {
-				questions[i].indexOne = true;
-				questions[i].indexTwo = false;
-			} else {
-				questions[i].indexOne = false;
-				questions[i].indexTwo = true;
-			}
-			questions[i].answerlink = "/answer/" + questions[i]._id;
-			questions[i].disablelink = "/disable/" + questions[i]._id;
-			questions[i].modifylink = "/modify/" + questions[i]._id;
-			var d = new Date(questions[i].lasttouch);
-			var time24 = d.toTimeString().substring(0,5);
-			var tmpArr = time24.split(':'), time12;
-			if(+tmpArr[0] == 12) {
-				time12 = tmpArr[0] + ':' + tmpArr[1] + ' pm';
-			} else {
-				if(+tmpArr[0] == 00) {
-					time12 = '12:' + tmpArr[1] + ' am';
+			if(questions[i].state != "disabled") {
+				questions[i].admin = isAdmin;
+				if(i%2 == 0) {
+					questions[i].indexOne = true;
+					questions[i].indexTwo = false;
 				} else {
-					if(+tmpArr[0] > 12) {
-						time12 = (+tmpArr[0]-12) + ':' + tmpArr[1] + ' pm';
+					questions[i].indexOne = false;
+					questions[i].indexTwo = true;
+				}
+				questions[i].answerlink = "/answer/" + questions[i]._id;
+				questions[i].disablelink = "/disable/" + questions[i]._id;
+				questions[i].modifylink = "/modify/" + questions[i]._id;
+				var d = new Date(questions[i].lasttouch);
+				var time24 = d.toTimeString().substring(0,5);
+				var tmpArr = time24.split(':'), time12;
+				if(+tmpArr[0] == 12) {
+					time12 = tmpArr[0] + ':' + tmpArr[1] + ' pm';
+				} else {
+					if(+tmpArr[0] == 00) {
+						time12 = '12:' + tmpArr[1] + ' am';
 					} else {
-						time12 = (+tmpArr[0]) + ':' + tmpArr[1] + ' am';
+						if(+tmpArr[0] > 12) {
+							time12 = (+tmpArr[0]-12) + ':' + tmpArr[1] + ' pm';
+						} else {
+							time12 = (+tmpArr[0]) + ':' + tmpArr[1] + ' am';
+						}
 					}
 				}
-			}
-			questions[i].f_time = time12 + " " + d.toTimeString().substring(19,22) + " " + d.toDateString().substring(4, 10);
-			var avg = (Math.max.apply(Math, voteArray) + Math.min.apply(Math, voteArray)) / 2;
-			var stddev = (Math.max.apply(Math, voteArray)-Math.min.apply(Math, voteArray))/6;
-			stddev += .001;
-			questions[i].shade = "c" + Math.round(3+((questions[i].votes - avg) / stddev));
-			questions[i].age_marker = "stale";
-			var answers = Answers.find({ qid: questions[i]._id });
-			if(answers.fetch().length > 0) {
-				questions[i].answer = answers.fetch();
-			}
-			if(i < threshhold) {
-				questions[i].popular = true;
-			} else {
-				questions[i].popular = false;
+				questions[i].f_time = time12 + " " + d.toTimeString().substring(19,22) + " " + d.toDateString().substring(4, 10);
+				var avg = (Math.max.apply(Math, voteArray) + Math.min.apply(Math, voteArray)) / 2;
+				var stddev = (Math.max.apply(Math, voteArray)-Math.min.apply(Math, voteArray))/6;
+				stddev += .001;
+				questions[i].shade = "c" + Math.round(3+((questions[i].votes - avg) / stddev));
+				questions[i].age_marker = "stale";
+				var answers = Answers.find({ qid: questions[i]._id });
+				if(answers.fetch().length > 0) {
+					questions[i].answer = answers.fetch();
+				}
+				if(i < threshhold) {
+					questions[i].popular = true;
+				} else {
+					questions[i].popular = false;
+				}
 			}
 		}
 		return questions;
@@ -117,6 +119,19 @@ Template.list.events({
 						}				
 					});
 				}
+			}
+		});
+	},
+	"click .hideQuestion": function(event, template) {	
+		Questions.update({
+			_id: event.currentTarget.id
+		}, {
+			$set: {
+				state: "disabled"
+			}
+		}, function(error, count, status) {
+			if(error) {
+				console.log(error);
 			}
 		});
 	}

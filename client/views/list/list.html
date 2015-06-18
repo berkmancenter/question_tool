@@ -59,7 +59,7 @@
 										{{f_time}}
 										:: <a href="{{answerlink}}">Reply</a>
 										{{#if admin}}
-											:: <a href="{{disablelink}}">Hide</a>
+											:: <a class="hideQuestion" id="{{_id}}">Hide</a>
 											:: <a href="{{modifylink}}">Modify</a>
 										{{/if}}
 									</span>
@@ -101,7 +101,7 @@
 								{{f_time}}
 								:: <a href="{{answerlink}}">Reply</a>
 								{{#if admin}}
-									:: <a href="{{disablelink}}">Hide</a>
+									:: <a class="hideQuestion" id="{{_id}}">Hide</a>
 									:: <a href="{{modifylink}}">Modify</a>
 								{{/if}}
 							</span>
@@ -144,11 +144,11 @@
 									{{text}}
 								{{/each}}
 								<br />
-								<span style="float: right; text-align: right; width: 25em">
+								<span style="float: right; text-align: right; width:25em">
 									{{f_time}}
 									:: <a href="{{answerlink}}">Reply</a>
 									{{#if admin}}
-										:: <a href="{{disablelink}}">Hide</a>
+										:: <a class="hideQuestion" id="{{_id}}">Hide</a>
 										:: <a href="{{modifylink}}">Modify</a>
 									{{/if}}
 								</span>
@@ -191,7 +191,7 @@
 									{{f_time}}
 									:: <a href="{{answerlink}}">Reply</a>
 									{{#if admin}}
-										:: <a href="{{disablelink}}">Hide</a>
+										:: <a class="hideQuestion" id="{{_id}}">Hide</a>
 										:: <a href="{{modifylink}}">Modify</a>
 									{{/if}}
 								</span>
