@@ -112,7 +112,7 @@ Template.list.events({
 					qid: event.currentTarget.id,
 					ip: ip
 				});
-				if(votes.fetch().length == 1) {
+				if(votes.fetch().length == 0) {
 					Questions.update({
 						_id: event.currentTarget.id
 					}, {

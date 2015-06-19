@@ -3,8 +3,6 @@ Template.create.events({
 		var tablename = document.getElementsByName("tablename")[0].value;
 		var password = document.getElementsByName("pword1")[0].value;
 		var passwordConfirm = document.getElementsByName("pword2")[0].value;
-		var refreshSelect = document.getElementsByName("refresh_time")[0];
-		var refresh = refreshSelect[refreshSelect.selectedIndex].value;
 		var threshholdSelect = document.getElementsByName("threshold")[0];
 		var threshhold = threshholdSelect[threshholdSelect.selectedIndex].value;
 		var lengthSelect = document.getElementsByName("new_length")[0];
@@ -12,7 +10,7 @@ Template.create.events({
 		var staleSelect = document.getElementsByName("stale_length")[0];
 		var stale = staleSelect[staleSelect.selectedIndex].value;
 		var description = document.getElementsByName("description")[0].value;
-		Meteor.call('create', tablename, refresh, threshhold, redLength, stale, description, passwordConfirm, function (error, result) {
+		Meteor.call('create', tablename, threshhold, redLength, stale, description, passwordConfirm, function (error, result) {
 			if(!error) {
 				Cookie.set('tablename', result);
 				window.location.href = '/list';
