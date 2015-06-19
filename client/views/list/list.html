@@ -3,7 +3,7 @@
 		<link rel="stylesheet" type="text/css" media="screen" href="liststyle.css" />
 		<meta http-equiv="PRAGMA" content="NO-CACHE" />
 		<meta content="text/html; charset=iso-8859-1" />
-		<link rel="alternate" type="application/rss+xml" href="http://localhost/QATool/rss.php?tablename={$tablename}"/>
+		<link rel="alternate" type="application/rss+xml" href="/rss/{{tablename}}"/>
 		<title>Live Question Tool</title>
 	</head>
 	<body>
@@ -22,7 +22,7 @@
 				<a href="/propose">Post a question</a> :: 
 				<a href="/">Choose a different instance</a> ::
 				<a href="/report">Archived questions</a> :: 
-				<a href="rss.php?tablename={$tablename}"><img src="/rss.gif" alt="xml icon" /></a>
+				<a href="/rss/{{tablename}}"><img src="/rss.gif" alt="xml icon" /></a>
 			</div>
 			<div id="popular">
 				<div class="columnhead">Active Questions</div>
@@ -44,10 +44,10 @@
 									{{text}}
 									<br />
 									{{#each answer}}
-										<p>&#160;&#160;&#160;&#160;&#160;</p>
 										{{#if poster}}
 											{{#if email}}
-												<b><a href="mailto:{{email}}">{{poster}}</a>: </b>
+											<br>
+												<b>&#160;&#160;&#160;&#160;&#160;<a href="mailto:{{email}}">{{poster}}</a>: </b>
 											{{else}}
 												<b>{{poster}}: </b>
 											{{/if}}
@@ -87,10 +87,10 @@
 							{{text}}
 							<br />
 							{{#each answer}}
-								<p>&#160;&#160;&#160;&#160;&#160;</p>
 								{{#if poster}}
 									{{#if email}}
-										<b><a href="mailto:{{email}}">{{poster}}</a>: </b>
+									<br>
+										<b>&#160;&#160;&#160;&#160;&#160;<a href="mailto:{{email}}">{{poster}}</a>: </b>
 									{{else}}}
 										<b>{{poster}}: </b>
 									{{/if}}
@@ -134,10 +134,10 @@
 								{{text}}
 								<br />
 								{{#each answer}}
-									<p>&#160;&#160;&#160;&#160;&#160;</p>
 									{{#if poster}}
 										{{#if email}}
-											<b><a href="mailto:{{email}}">{{poster}}</a>: </b>
+										<br>
+											<b>&#160;&#160;&#160;&#160;&#160;<a href="mailto:{{email}}">{{poster}}</a>: </b>
 										{{else}}
 											<b>{{poster}}: </b>
 										{{/if}}
@@ -178,10 +178,10 @@
 								{{text}}
 								<br />
 								{{#each answer}}
-									<p>&#160;&#160;&#160;&#160;&#160;</p>
 									{{#if poster}}
 										{{#if email}}
-											<b><a href="mailto:{{email}}">{{poster}}</a>: </b>
+										<br>
+											<b>&#160;&#160;&#160;&#160;&#160;<a href="mailto:{{email}}">{{poster}}</a>: </b>
 										{{else}}
 											<b>{{poster}}: </b>
 										{{/if}}

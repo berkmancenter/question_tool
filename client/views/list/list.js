@@ -1,3 +1,8 @@
+Meteor.setInterval( function () {
+        Session.set("timeval", new Date().getTime());
+}, 1000 );
+
+
 Template.list.onCreated(function () {
 	Meteor.call('listCookieCheck', Cookie.get("tablename"), function (error, result) {
 		if(!result) {
@@ -79,7 +84,12 @@ Template.list.helpers({
 				var stddev = standardDeviation(voteArray);
 				stddev += .001;
 				questions[i].shade = "c" + Math.round(3+((questions[i].votes - avg) / stddev));
-				questions[i].age_marker = "stale";
+				var diff = (Session.get("timeval") - questions[i].lasttouch)/1000;
+				if(diff > table.stale_length) {
+					questions[i].age_marker = "stale";
+				} else if(diff < table.new_length){
+					questions[i].age_marker = "new";
+				}
 				var answers = Answers.find({ qid: questions[i]._id });
 				if(answers.fetch().length > 0) {
 					questions[i].answer = answers.fetch();
