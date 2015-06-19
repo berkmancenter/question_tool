@@ -1,6 +1,6 @@
 Template.create.events({
 	"click #submitbutton": function(event, template) {
-		var tableName = document.getElementsByName("tablename")[0].value;
+		var tablename = document.getElementsByName("tablename")[0].value;
 		var password = document.getElementsByName("pword1")[0].value;
 		var passwordConfirm = document.getElementsByName("pword2")[0].value;
 		var refreshSelect = document.getElementsByName("refresh_time")[0];
@@ -12,27 +12,11 @@ Template.create.events({
 		var staleSelect = document.getElementsByName("stale_length")[0];
 		var stale = staleSelect[staleSelect.selectedIndex].value;
 		var description = document.getElementsByName("description")[0].value;
-		Instances.insert({
-			tablename: tableName,
-			refresh_time: refresh,
-			threshhold: threshhold,
-			new_length: redLength,
-			state_length: stale, 
-			description: description,
-			password: passwordConfirm,
-		}, function(error, id) {
-			Questions.insert({
-				tablename: tableName,
-				text: "Welcome to the live question tool. Feel free to post questions. Vote by clicking on the votes box.",
-				poster: "the system",
-				timeorder: new Date().getTime(),
-				lasttouch: new Date().getTime(),
-				state: "normal",
-				votes: 0,
-			}, function(error, id) {
-				Cookie.set('tablename', tableName);
+		Meteor.call('create', tablename, refresh, threshhold, redLength, stale, description, passwordConfirm, function (error, result) {
+			if(!error) {
+				Cookie.set('tablename', result);
 				window.location.href = '/list';
-			});
+			}
 		});
 	}
 });

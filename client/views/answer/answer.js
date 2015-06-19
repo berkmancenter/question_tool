@@ -18,15 +18,10 @@ Template.answer.events({
 			if(error) {
 				console.log(error);
 			} else {
-				Answers.insert({
-					text: answer,
-					poster: posterName,
-					email: email,
-					ip: result,
-					tablename: Cookie.get('tablename'),
-					qid: currentURL
-				}, function(error, id) {
-					window.location.href = '/list';
+				Meteor.call('answer', Cookie.get("tablename"), answer, posterName, email, result, currentURL, function (error, result) {
+					if(!error) {
+						window.location.href = '/list';
+					}
 				});
 			}
 		});
