@@ -1,3 +1,11 @@
+Template.answer.onCreated(function () {
+	Meteor.call('cookieCheck', Cookie.get("tablename"), function (error, result) {
+		if(!result) {
+			window.location.href = "/";
+		}
+	});
+});
+
 Template.answer.events({
 	"click #submitbutton": function(event, template) {
 		var answer = document.getElementsByName("comment")[0].value;

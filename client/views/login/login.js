@@ -1,3 +1,11 @@
+Template.login.onCreated(function () {
+	Meteor.call('cookieCheck', Cookie.get("tablename"), function (error, result) {
+		if(!result) {
+			window.location.href = "/";
+		}
+	});
+});
+
 Template.login.helpers({
 	tablename: Cookie.get("tablename"),
 	description: function() {

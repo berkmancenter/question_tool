@@ -1,8 +1,3 @@
-Template.create.helpers({
-	message: "Instances are deleted after 30 days",
-	description: "Here's the default description"
-});
-
 Template.create.events({
 	"click #submitbutton": function(event, template) {
 		var tableName = document.getElementsByName("tablename")[0].value;

@@ -1,3 +1,11 @@
+Template.propose.onCreated(function () {
+	Meteor.call('cookieCheck', Cookie.get("tablename"), function (error, result) {
+		if(!result) {
+			window.location.href = "/";
+		}
+	});
+});
+
 Template.propose.events({
 	"click #submitbutton": function(event, template) {
 		var question = document.getElementsByName("comment")[0].value;
@@ -7,18 +15,10 @@ Template.propose.events({
 			if (error) {
 				console.log(error);
 			} else {
-				Questions.insert({
-					tablename: Cookie.get('tablename'),
-					text: question,
-					poster: posterName,
-					email: posterEmail,
-					ip: result,
-					timeorder: new Date().getTime(),
-					lasttouch: new Date().getTime(),
-					state: "normal",
-					votes: 0
-				}, function(error, id) {
-					window.location.href = '/list';
+				Meteor.call('propose', Cookie.get("tablename"), question, posterName, posterEmail, result, function (error, result) {
+					if(!result) {
+						window.location.href = "/list";
+					}
 				});
 			}
 		});

@@ -1,3 +1,11 @@
+Template.list.onCreated(function () {
+	Meteor.call('listCookieCheck', Cookie.get("tablename"), function (error, result) {
+		if(!result) {
+			window.location.href = "/";
+		}
+	});
+});
+
 Template.list.helpers({
 	tablename: function() {
 		return Cookie.get("tablename");

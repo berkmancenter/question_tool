@@ -1,19 +1,24 @@
+Template.modify.onCreated(function () {
+	Meteor.call('cookieCheck', Cookie.get("tablename"), function (error, result) {
+		if(!result) {
+			window.location.href = "/";
+		} else {
+			Meteor.call('adminCheck', Cookie.get("admin_pw"), Cookie.get("tablename"), function (error, result) {
+				if(!result) {
+					window.location.href = "/list";
+				}
+			});
+		}
+	});
+});
+
 Template.modify.events({
 	"click #submitbutton": function(event, template) {
 		var question = document.getElementsByName("comment")[0].value;
-		Questions.update({
-			_id: template.data._id
-		}, {
-			$set: {
-				lasttouch: new Date().getTime(),
-				text: question
-			}
-		}, function(error, count, status) {
-			if(error) {
-				console.log(error);
-			} else {
+		Meteor.call('modify', question, template.data._id, Cookie.get("admin_pw"), Cookie.get("tablename"), function (error, result) { 
+			if(!result) {
 				window.location.href = "/list";
-			}				
+			}
 		});
 	},
 	"keypress #modifybox": function(e, template) {
