@@ -81,7 +81,8 @@ Template.list.helpers({
 				}
 				questions[i].f_time = time12 + " " + d.toTimeString().substring(19,22) + " " + d.toDateString().substring(4, 10);
 				var avg = (Math.max.apply(Math, voteArray) + Math.min.apply(Math, voteArray)) / 2;
-				var stddev = (Math.max.apply(Math, voteArray)-Math.min.apply(Math, voteArray))/6;
+				//var stddev = (Math.max.apply(Math, voteArray)-Math.min.apply(Math, voteArray))/6;
+				var stddev = standardDeviation(voteArray);
 				stddev += .001;
 				questions[i].shade = "c" + Math.round(3+((questions[i].votes - avg) / stddev));
 				questions[i].age_marker = "stale";
@@ -111,7 +112,7 @@ Template.list.events({
 					qid: event.currentTarget.id,
 					ip: ip
 				});
-				if(votes.fetch().length == 0) {
+				if(votes.fetch().length == 1) {
 					Questions.update({
 						_id: event.currentTarget.id
 					}, {
@@ -165,4 +166,28 @@ Template.list.events({
 		Cookie.set("admin_pw", "");
 		window.location.reload();
 	}
-})
+});
+
+function standardDeviation(values){
+  var avg = average(values);
+  
+  var squareDiffs = values.map(function(value){
+    var diff = value - avg;
+    var sqrDiff = diff * diff;
+    return sqrDiff;
+  });
+  
+  var avgSquareDiff = average(squareDiffs);
+ 
+  var stdDev = Math.sqrt(avgSquareDiff);
+  return stdDev;
+}
+ 
+function average(data){
+  var sum = data.reduce(function(sum, value){
+    return sum + value;
+  }, 0);
+ 
+  var avg = sum / data.length;
+  return avg;
+}
