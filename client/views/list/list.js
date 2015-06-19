@@ -54,13 +54,7 @@ Template.list.helpers({
 		for(var i = 0; i < questions.length; i++) {
 			if(questions[i].state != "disabled") {
 				questions[i].admin = isAdmin;
-				if(i%2 == 0) {
-					questions[i].indexOne = true;
-					questions[i].indexTwo = false;
-				} else {
-					questions[i].indexOne = false;
-					questions[i].indexTwo = true;
-				}
+				questions[i].indexOne = (i%2 == 0);
 				questions[i].answerlink = "/answer/" + questions[i]._id;
 				questions[i].modifylink = "/modify/" + questions[i]._id;
 				var d = new Date(questions[i].lasttouch);

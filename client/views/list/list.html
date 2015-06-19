@@ -71,7 +71,8 @@
 		<div class="subcolumn">
 			{{#each question}}
 				{{#if popular}}
-					{{#if indexTwo}}
+					{{#if indexOne}}
+					{{else}}
 						<div class="question {{shade}} {{age_marker}}">
 							<div class="votes v{{shade}}">
 								<a class="voteClick" id="{{_id}}" href="{{votelink}}">{{votes}}<br />votes</a>
@@ -161,7 +162,8 @@
 				{{#each question}}
 					{{#if popular}}
 					{{else}}
-						{{#if indexTwo}}
+						{{#if indexOne}}
+						{{else}}
 							<div class="question {{shade}} {{age_marker}}">
 								<div class="votes v{{shade}}">
 									<a class="voteClick" id="{{_id}}" href="{{votelink}}">{{votes}}<br />votes</a>
