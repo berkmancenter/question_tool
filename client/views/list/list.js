@@ -1,8 +1,9 @@
 Meteor.setInterval( function () {
-        Session.set("timeval", new Date().getTime());
-}, 1000);
+	Session.set("timeval", new Date().getTime());
+}, 5000);
 
 Template.list.onCreated(function () {
+	Session.set("timeval", new Date().getTime());
 	Meteor.call('listCookieCheck', Cookie.get("tablename"), function (error, result) {
 		if(!result) {
 			window.location.href = "/";
@@ -64,7 +65,11 @@ Template.list.helpers({
 				var avg = (Math.max.apply(Math, voteArray) + Math.min.apply(Math, voteArray)) / 2;
 				var stddev = standardDeviation(voteArray) + .001;
 				questions[i].shade = "c" + Math.round(3+((questions[i].votes - avg) / stddev));
+				//console.log(Session.get("timeval"));
 				var diff = (Session.get("timeval") - questions[i].lasttouch)/1000;
+				//console.log(diff);
+				console.log(Session.get("stale_length"));
+				console.log(Session.get("new_length"));
 				if(diff > Session.get("stale_length")) {
 					questions[i].age_marker = "stale";
 				} else if(diff < Session.get("new_length")){
@@ -77,6 +82,8 @@ Template.list.helpers({
 					questions[i].answer = answers.fetch();
 				}
 				questions[i].popular = (i < threshhold);
+			} else if(questions[i].state == "disabled"){
+				questions[i].disabled = true;
 			}
 		}
 		return questions;
@@ -90,7 +97,7 @@ Template.list.events({
 			if (error) {
 				console.log(error);
 			} else {
-				Meteor.call('vote', event.currentTarget.id, ip, Cookie.get("tablename"), function(error, result) {
+				Meteor.call('vote', event.currentTarget.id, ip, Session.get("tablename"), function(error, result) {
 					if(error) {
 						alert(error);
 					}
@@ -106,7 +113,7 @@ Template.list.events({
 		});
 	},
 	"click #unhidebutton": function(event, template) {	
-		Meteor.call('unhide', Cookie.get("tablename"), function (error, result) {
+		Meteor.call('unhide', Session.get("tablename"), function (error, result) {
 			if(error) {
 				alert(error);
 			}

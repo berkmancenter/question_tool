@@ -185,7 +185,7 @@ Meteor.methods({
 			qid: id,
 			ip: ip
 		});
-		if(votes.fetch().length == 1) {
+		if(votes.fetch().length == 0) {
 			Questions.update({
 				_id: id
 			}, {
