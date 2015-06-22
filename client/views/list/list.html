@@ -28,54 +28,140 @@
 				<div class="columnhead">Active Questions</div>
 				<div class="subcolumn">
 					{{#each question}}
-						{{#if disabled}}
-						{{else}}
-							{{#if popular}}
-								{{#if indexOne}}
-									<div class="question {{shade}} {{age_marker}}">
-										<div class="votes v{{shade}}">
-											<a class="voteClick" id="{{_id}}"  href="{{votelink}}">{{votes}}<br>votes</a>
-										</div>
+						{{#if popular}}
+							{{#if indexOne}}
+								<div class="question {{shade}} {{age_marker}}">
+									<div class="votes v{{shade}}">
+										<a class="voteClick" id="{{_id}}"  href="{{votelink}}">{{votes}}<br>votes</a>
+									</div>
+									{{#if poster}}
+										{{#if email}}
+											<b><a href="mailto:{{email}}">{{poster}}</a>: </b>
+										{{else}}
+											<b>{{poster}}: </b>
+										{{/if}}
+									{{/if}}
+									{{text}}
+									<br />
+									{{#each answer}}
 										{{#if poster}}
 											{{#if email}}
-												<b><a href="mailto:{{email}}">{{poster}}</a>: </b>
+											<br>
+												<b>&#160;&#160;&#160;&#160;&#160;<a href="mailto:{{email}}">{{poster}}</a>: </b>
 											{{else}}
 												<b>{{poster}}: </b>
 											{{/if}}
 										{{/if}}
 										{{text}}
-										<br />
-										{{#each answer}}
-											{{#if poster}}
-												{{#if email}}
-												<br>
-													<b>&#160;&#160;&#160;&#160;&#160;<a href="mailto:{{email}}">{{poster}}</a>: </b>
-												{{else}}
-													<b>{{poster}}: </b>
-												{{/if}}
-											{{/if}}
-											{{text}}
-										{{/each}}
-										<br />
-										<span style="float:right;text-align:right;width:25em">
-											{{f_time}}
-											:: <a href="{{answerlink}}">Reply</a>
-											{{#if admin}}
-												:: <a class="hideQuestion" id="{{_id}}">Hide</a>
-												:: <a href="{{modifylink}}">Modify</a>
-											{{/if}}
-										</span>
-									</div>
-								{{/if}}
+									{{/each}}
+									<br />
+									<span style="float:right;text-align:right;width:25em">
+										{{f_time}}
+										:: <a href="{{answerlink}}">Reply</a>
+										{{#if admin}}
+											:: <a class="hideQuestion" id="{{_id}}">Hide</a>
+											:: <a href="{{modifylink}}">Modify</a>
+										{{/if}}
+									</span>
+								</div>
 							{{/if}}
 						{{/if}}
 					{{/each}}
 				</div>
 		<div class="subcolumn">
 			{{#each question}}
-				{{#if disabled}}
-				{{else}}
+				{{#if popular}}
+					{{#if indexOne}}
+					{{else}}
+						<div class="question {{shade}} {{age_marker}}">
+							<div class="votes v{{shade}}">
+								<a class="voteClick" id="{{_id}}" href="{{votelink}}">{{votes}}<br />votes</a>
+							</div>
+							{{#if poster}}
+								{{#if email}}
+									<b><a href="mailto:{{email}}">{{poster}}</a>: </b>
+								{{else}}
+									<b>{{poster}}: </b>
+								{{/if}}
+							{{/if}}
+							{{text}}
+							<br />
+							{{#each answer}}
+								{{#if poster}}
+									{{#if email}}
+									<br>
+										<b>&#160;&#160;&#160;&#160;&#160;<a href="mailto:{{email}}">{{poster}}</a>: </b>
+									{{else}}}
+										<b>{{poster}}: </b>
+									{{/if}}
+								{{/if}}
+								{{text}}
+							{{/each}}
+							<br />
+							<span style="float: right; text-align: right; width: 25em">
+								{{f_time}}
+								:: <a href="{{answerlink}}">Reply</a>
+								{{#if admin}}
+									:: <a class="hideQuestion" id="{{_id}}">Hide</a>
+									:: <a href="{{modifylink}}">Modify</a>
+								{{/if}}
+							</span>
+						</div>
+					{{/if}}
+				{{/if}}
+			{{/each}}
+		</div>
+	</div>
+	</div>
+		<div id="recent">
+			<div class="columnhead">Most Recently Submitted Questions</div>
+			<div class="subcolumn">
+				{{#each question}}
 					{{#if popular}}
+					{{else}}
+						{{#if indexOne}}
+							<div class="question {{shade}} {{age_marker}}">
+								<div class="votes v{{shade}}">
+									<a class="voteClick" id="{{_id}}" href="{{votelink}}">{{votes}}<br />votes</a>
+								</div>
+								{{#if poster}}
+									{{#if email}}
+										<b><a href="mailto:{{email}}">{{poster}}</a>: </b>
+									{{else}}
+										<b>{{poster}}: </b>
+									{{/if}}
+								{{/if}}
+								{{text}}
+								<br />
+								{{#each answer}}
+									{{#if poster}}
+										{{#if email}}
+										<br>
+											<b>&#160;&#160;&#160;&#160;&#160;<a href="mailto:{{email}}">{{poster}}</a>: </b>
+										{{else}}
+											<b>{{poster}}: </b>
+										{{/if}}
+									{{/if}}
+									{{text}}
+								{{/each}}
+								<br />
+								<span style="float: right; text-align: right; width:25em">
+									{{f_time}}
+									:: <a href="{{answerlink}}">Reply</a>
+									{{#if admin}}
+										:: <a class="hideQuestion" id="{{_id}}">Hide</a>
+										:: <a href="{{modifylink}}">Modify</a>
+									{{/if}}
+								</span>
+							</div>
+						{{/if}}
+					{{/if}}
+				{{/each}}
+			</div>
+			<div class="subcolumn">
+				{{#each question}}
+					{{#if popular}}
+					{{else}}
 						{{#if indexOne}}
 						{{else}}
 							<div class="question {{shade}} {{age_marker}}">
@@ -96,7 +182,7 @@
 										{{#if email}}
 										<br>
 											<b>&#160;&#160;&#160;&#160;&#160;<a href="mailto:{{email}}">{{poster}}</a>: </b>
-										{{else}}}
+										{{else}}
 											<b>{{poster}}: </b>
 										{{/if}}
 									{{/if}}
@@ -112,104 +198,6 @@
 									{{/if}}
 								</span>
 							</div>
-						{{/if}}
-					{{/if}}
-				{{/if}}
-			{{/each}}
-		</div>
-	</div>
-	</div>
-		<div id="recent">
-			<div class="columnhead">Most Recently Submitted Questions</div>
-			<div class="subcolumn">
-				{{#each question}}
-					{{#if disabled}}
-					{{else}}
-						{{#if popular}}
-						{{else}}
-							{{#if indexOne}}
-								<div class="question {{shade}} {{age_marker}}">
-									<div class="votes v{{shade}}">
-										<a class="voteClick" id="{{_id}}" href="{{votelink}}">{{votes}}<br />votes</a>
-									</div>
-									{{#if poster}}
-										{{#if email}}
-											<b><a href="mailto:{{email}}">{{poster}}</a>: </b>
-										{{else}}
-											<b>{{poster}}: </b>
-										{{/if}}
-									{{/if}}
-									{{text}}
-									<br />
-									{{#each answer}}
-										{{#if poster}}
-											{{#if email}}
-											<br>
-												<b>&#160;&#160;&#160;&#160;&#160;<a href="mailto:{{email}}">{{poster}}</a>: </b>
-											{{else}}
-												<b>{{poster}}: </b>
-											{{/if}}
-										{{/if}}
-										{{text}}
-									{{/each}}
-									<br />
-									<span style="float: right; text-align: right; width:25em">
-										{{f_time}}
-										:: <a href="{{answerlink}}">Reply</a>
-										{{#if admin}}
-											:: <a class="hideQuestion" id="{{_id}}">Hide</a>
-											:: <a href="{{modifylink}}">Modify</a>
-										{{/if}}
-									</span>
-								</div>
-							{{/if}}
-						{{/if}}
-					{{/if}}
-				{{/each}}
-			</div>
-			<div class="subcolumn">
-				{{#each question}}
-					{{#if disabled}}
-					{{else}}
-						{{#if popular}}
-						{{else}}
-							{{#if indexOne}}
-							{{else}}
-								<div class="question {{shade}} {{age_marker}}">
-									<div class="votes v{{shade}}">
-										<a class="voteClick" id="{{_id}}" href="{{votelink}}">{{votes}}<br />votes</a>
-									</div>
-									{{#if poster}}
-										{{#if email}}
-											<b><a href="mailto:{{email}}">{{poster}}</a>: </b>
-										{{else}}
-											<b>{{poster}}: </b>
-										{{/if}}
-									{{/if}}
-									{{text}}
-									<br />
-									{{#each answer}}
-										{{#if poster}}
-											{{#if email}}
-											<br>
-												<b>&#160;&#160;&#160;&#160;&#160;<a href="mailto:{{email}}">{{poster}}</a>: </b>
-											{{else}}
-												<b>{{poster}}: </b>
-											{{/if}}
-										{{/if}}
-										{{text}}
-									{{/each}}
-									<br />
-									<span style="float: right; text-align: right; width: 25em">
-										{{f_time}}
-										:: <a href="{{answerlink}}">Reply</a>
-										{{#if admin}}
-											:: <a class="hideQuestion" id="{{_id}}">Hide</a>
-											:: <a href="{{modifylink}}">Modify</a>
-										{{/if}}
-									</span>
-								</div>
-							{{/if}}
 						{{/if}}
 					{{/if}}
 				{{/each}}
