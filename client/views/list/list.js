@@ -1,38 +1,23 @@
 Meteor.setInterval( function () {
         Session.set("timeval", new Date().getTime());
-}, 1000 );
-
-Tracker.autorun(function() {
-	var table = Instances.findOne({ 
-		tablename: Cookie.get("tablename")
-	});
-	if(table) {
-		Session.set("tablename", table.tablename);
-		Session.set("description", table.description);
-		Session.set("threshhold", table.threshhold);
-		Session.set("password", table.password);
-		Session.set("stale_length", table.stale_length);
-		Session.set("new_length", table.new_length);
-		Session.set("admin", function() {
-			var password = table.password;
-			if((Cookie.get("admin_pw") == password)) {
-				if(Cookie.get("admin_pw") != null && password != null) {
-					return true;
-				} else {
-					return false;
-				}
-			}
-		});
-	}
-});
+}, 1000);
 
 Template.list.onCreated(function () {
 	Meteor.call('listCookieCheck', Cookie.get("tablename"), function (error, result) {
 		if(!result) {
 			window.location.href = "/";
-		} else {
-			var table = Instances.findOne({ tablename: Cookie.get("tablename")});
-			Session.set("currentable", table);
+		}
+	});
+	Meteor.call('getTable', Cookie.get("tablename"), function(error, result) {
+		if(result) {
+			Session.set("tablename", result.tablename);
+			Session.set("description", result.description);
+			Session.set("threshhold", result.threshhold);
+			Meteor.call('adminCheck', Cookie.get("admin_pw"), result.tablename, function(error, result) {
+				Session.set("admin", result);
+			});
+			Session.set("stale_length", result.stale_length);
+			Session.set("new_length", result.new_length);
 		}
 	});
 });
@@ -48,9 +33,10 @@ Template.list.helpers({
 		return Session.get("admin");
 	},
 	question: function() {
+		var questions = Questions.find({
+			tablename: Session.get("tablename")
+		}).fetch();
 		var threshhold = Session.get("threshhold");
-		var password = Session.get("password");
-		var questions = Questions.find({ tablename: Cookie.get("tablename") }).fetch();
 		var voteAverage = 0;
 		var voteArray = [];
 		for(var i = 0; i < questions.length; i++) {
@@ -70,7 +56,7 @@ Template.list.helpers({
 		for(var i = 0; i < questions.length; i++) {
 			if(questions[i].state != "disabled") {
 				questions[i].admin = Session.get("admin");
-				questions[i].indexOne = (i%2 == 0);
+				questions[i].indexOne = (i % 2 == 0);
 				questions[i].answerlink = "/answer/" + questions[i]._id;
 				questions[i].modifylink = "/modify/" + questions[i]._id;
 				var d = new Date(questions[i].lasttouch);
@@ -84,7 +70,9 @@ Template.list.helpers({
 				} else if(diff < Session.get("new_length")){
 					questions[i].age_marker = "new";
 				}
-				var answers = Answers.find({ qid: questions[i]._id });
+				var answers = Answers.find({ 
+					qid: questions[i]._id
+				});
 				if(answers.fetch().length > 0) {
 					questions[i].answer = answers.fetch();
 				}
@@ -102,51 +90,19 @@ Template.list.events({
 			if (error) {
 				console.log(error);
 			} else {
-				var votes = Votes.find({
-					qid: event.currentTarget.id,
-					ip: ip
+				Meteor.call('vote', event.currentTarget.id, ip, Cookie.get("tablename"), function(error, result) {
+					if(error) {
+						alert(error);
+					}
 				});
-				if(votes.fetch().length == 0) {
-					Questions.update({
-						_id: event.currentTarget.id
-					}, {
-						$set: {
-							lasttouch: new Date().getTime()
-						},
-						$inc: {
-							votes: 1
-						}
-					}, function(error, count, status) {
-						if(error) {
-							console.log(error);
-						} else {
-							Votes.insert({
-								qid: event.currentTarget.id, 
-								ip: ip, 
-								tablename: Cookie.get('tablename'),
-							}, function(error, id) {
-								if(error) {
-									console.log(error);
-								} else {
-								}
-							});
-						}				
-					});
-				}
 			}
 		});
 	},
 	"click .hideQuestion": function(event, template) {	
-		Questions.update({
-			_id: event.currentTarget.id
-		}, {
-			$set: {
-				state: "disabled"
-			}
-		}, function(error, count, status) {
+		Meteor.call('hide', event.currentTarget.id, function(error, result) {
 			if(error) {
-				console.log(error);
-			} 
+				alert(error);
+			}
 		});
 	},
 	"click #unhidebutton": function(event, template) {	

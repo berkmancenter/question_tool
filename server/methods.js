@@ -9,6 +9,11 @@ Meteor.methods({
 			return true;
 		}
 	},
+	getTable: function(tablename) {
+		return Instances.findOne({ 
+			tablename: tablename
+		});
+	},
 	listCookieCheck: function(table) {
 		var table = Instances.findOne({
 			tablename: table
@@ -173,6 +178,51 @@ Meteor.methods({
 					}
 				});
 			}
+		});
+	},
+	vote: function(id, ip, tablename) {
+		var votes = Votes.find({
+			qid: id,
+			ip: ip
+		});
+		if(votes.fetch().length == 1) {
+			Questions.update({
+				_id: id
+			}, {
+				$set: {
+					lasttouch: new Date().getTime()
+				},
+				$inc: {
+					votes: 1
+				}
+			}, function(error, count, status) {
+				if(error) {
+					console.log(error);
+				} else {
+					Votes.insert({
+						qid: id, 
+						ip: ip, 
+						tablename: tablename,
+					}, function(error, id) {
+						if(error) {
+							return false;
+						}
+					});
+				}				
+			});
+		}
+	},
+	hide: function(id) {
+		Questions.update({
+			_id: id
+		}, {
+			$set: {
+				state: "disabled"
+			}
+		}, function(error, count, status) {
+			if(error) {
+				return false;
+			} 
 		});
 	}
 });
