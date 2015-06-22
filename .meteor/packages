@@ -6,6 +6,5 @@
 
 meteor-platform
 autopublish
-insecure
 chuangbo:cookie
 iron:router

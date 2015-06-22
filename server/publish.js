@@ -4,7 +4,10 @@ Meteor.publish('instances', function(table) {
 
 Meteor.publish('questions', function(table) {
   return Questions.find({
-	  tablename: table
+	  tablename: table,
+	  state: { 
+		  $ne : 'disabled' 
+	  }
 	});
 });
 

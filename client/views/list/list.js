@@ -65,14 +65,11 @@ Template.list.helpers({
 				var avg = (Math.max.apply(Math, voteArray) + Math.min.apply(Math, voteArray)) / 2;
 				var stddev = standardDeviation(voteArray) + .001;
 				questions[i].shade = "c" + Math.round(3+((questions[i].votes - avg) / stddev));
-				//console.log(Session.get("timeval"));
-				var diff = (Session.get("timeval") - questions[i].lasttouch)/1000;
-				//console.log(diff);
-				console.log(Session.get("stale_length"));
-				console.log(Session.get("new_length"));
-				if(diff > Session.get("stale_length")) {
+				var staleDiff = (Session.get("timeval") - questions[i].lasttouch)/1000;
+				var newDiff = (Session.get("timeval") - questions[i].timeorder)/1000;
+				if(staleDiff > Session.get("stale_length")) {
 					questions[i].age_marker = "stale";
-				} else if(diff < Session.get("new_length")){
+				} else if(newDiff < Session.get("new_length")){
 					questions[i].age_marker = "new";
 				}
 				var answers = Answers.find({ 
