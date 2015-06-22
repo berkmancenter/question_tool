@@ -2,43 +2,54 @@ Meteor.setInterval( function () {
         Session.set("timeval", new Date().getTime());
 }, 1000 );
 
+Tracker.autorun(function() {
+	var table = Instances.findOne({ 
+		tablename: Cookie.get("tablename")
+	});
+	if(table) {
+		Session.set("tablename", table.tablename);
+		Session.set("description", table.description);
+		Session.set("threshhold", table.threshhold);
+		Session.set("password", table.password);
+		Session.set("stale_length", table.stale_length);
+		Session.set("new_length", table.new_length);
+		Session.set("admin", function() {
+			var password = table.password;
+			if((Cookie.get("admin_pw") == password)) {
+				if(Cookie.get("admin_pw") != null && password != null) {
+					return true;
+				} else {
+					return false;
+				}
+			}
+		});
+	}
+});
 
 Template.list.onCreated(function () {
 	Meteor.call('listCookieCheck', Cookie.get("tablename"), function (error, result) {
 		if(!result) {
 			window.location.href = "/";
+		} else {
+			var table = Instances.findOne({ tablename: Cookie.get("tablename")});
+			Session.set("currentable", table);
 		}
 	});
 });
 
 Template.list.helpers({
 	tablename: function() {
-		return Cookie.get("tablename");
+		return Session.get("tablename");
 	},
 	description: function() {
-		var table = Instances.findOne({ tablename: Cookie.get("tablename")});
-		return table.description;
+		return Session.get("description");
 	},
 	admin: function() {
-		var table = Instances.findOne({ tablename: Cookie.get("tablename")});
-		var password = table.password;
-		if((Cookie.get("admin_pw") == password)) {
-			if(Cookie.get("admin_pw") != null && password != null) {
-				return true;
-			}
-		}
-		return false;
+		return Session.get("admin");
 	},
 	question: function() {
-		var table = Instances.findOne({ tablename: Cookie.get("tablename")});
-		var threshhold = table.threshhold;
-		var password = table.password;
-		var isAdmin = false;
-		if((Cookie.get("admin_pw") == password)) {
-			if(Cookie.get("admin_pw") != null && password != null) {
-				isAdmin = true;
-			}
-		}
+		var threshhold = Session.get("threshhold");
+		var password = Session.get("password");
 		var questions = Questions.find({ tablename: Cookie.get("tablename") }).fetch();
 		var voteAverage = 0;
 		var voteArray = [];
@@ -58,47 +69,26 @@ Template.list.helpers({
 		});
 		for(var i = 0; i < questions.length; i++) {
 			if(questions[i].state != "disabled") {
-				questions[i].admin = isAdmin;
+				questions[i].admin = Session.get("admin");
 				questions[i].indexOne = (i%2 == 0);
 				questions[i].answerlink = "/answer/" + questions[i]._id;
 				questions[i].modifylink = "/modify/" + questions[i]._id;
 				var d = new Date(questions[i].lasttouch);
-				var time24 = d.toTimeString().substring(0,5);
-				var tmpArr = time24.split(':'), time12;
-				if(+tmpArr[0] == 12) {
-					time12 = tmpArr[0] + ':' + tmpArr[1] + 'pm';
-				} else {
-					if(+tmpArr[0] == 00) {
-						time12 = '12:' + tmpArr[1] + 'am';
-					} else {
-						if(+tmpArr[0] > 12) {
-							time12 = (+tmpArr[0]-12) + ':' + tmpArr[1] + 'pm';
-						} else {
-							time12 = (+tmpArr[0]) + ':' + tmpArr[1] + 'am';
-						}
-					}
-				}
-				questions[i].f_time = time12 + " " + d.toDateString().substring(4, 10);
+				questions[i].f_time = getTime(d.toTimeString().substring(0,5)) + " " + d.toDateString().substring(4, 10);
 				var avg = (Math.max.apply(Math, voteArray) + Math.min.apply(Math, voteArray)) / 2;
-				//var stddev = (Math.max.apply(Math, voteArray)-Math.min.apply(Math, voteArray))/6;
-				var stddev = standardDeviation(voteArray);
-				stddev += .001;
+				var stddev = standardDeviation(voteArray) + .001;
 				questions[i].shade = "c" + Math.round(3+((questions[i].votes - avg) / stddev));
 				var diff = (Session.get("timeval") - questions[i].lasttouch)/1000;
-				if(diff > table.stale_length) {
+				if(diff > Session.get("stale_length")) {
 					questions[i].age_marker = "stale";
-				} else if(diff < table.new_length){
+				} else if(diff < Session.get("new_length")){
 					questions[i].age_marker = "new";
 				}
 				var answers = Answers.find({ qid: questions[i]._id });
 				if(answers.fetch().length > 0) {
 					questions[i].answer = answers.fetch();
 				}
-				if(i < threshhold) {
-					questions[i].popular = true;
-				} else {
-					questions[i].popular = false;
-				}
+				questions[i].popular = (i < threshhold);
 			}
 		}
 		return questions;
@@ -194,4 +184,22 @@ function average(data){
  
   var avg = sum / data.length;
   return avg;
+}
+
+function getTime(time) {
+	var tmpArr = time.split(':'), time12;
+	if(+tmpArr[0] == 12) {
+		time12 = tmpArr[0] + ':' + tmpArr[1] + 'pm';
+	} else {
+		if(+tmpArr[0] == 00) {
+			time12 = '12:' + tmpArr[1] + 'am';
+		} else {
+			if(+tmpArr[0] > 12) {
+				time12 = (+tmpArr[0]-12) + ':' + tmpArr[1] + 'pm';
+			} else {
+				time12 = (+tmpArr[0]) + ':' + tmpArr[1] + 'am';
+			}
+		}
+	}
+	return time12;
 }
