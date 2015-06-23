@@ -9,17 +9,44 @@
 		<div align="center">
 			{{description}}
 		</div>
+		<br />
 		<a href="/list">[ Return to live Question Tool ]</a>
+		<br />
+		<br />
 		Enter a date range:
+		<br />
+		<br />
 		<input type="hidden" value="1" name="submit">
 		<b>Start date</b> Year:
 		<input type="text" name="b_year" value="2007" size="5">
 			Month:<input type="text" name="b_mo" value="01" size="3">
 			Day:<input type="text" name="b_day" value="02" size="3">
-
+			<br />
+			<br />
 		<b>End date</b> Year:<input type="text" name="e_year" value="2007" size="5">
 			Month:<input type="text" name="e_mo" value="01" size="3">
 			Day:<input type="text" name="e_day" value="22" size="3">
+			<br />
+			<br />
 		<button id="submitbutton">View Archive</button>
+		<br />
+		{{#each questions}}
+			<br />
+			<div class='question c3'>
+				<div class='votes vc3'>
+					{{votes}} votes
+				</div> 
+				<b>{{poster}}:</b> 
+				{{text}} 
+				({{timeorder}})
+				<br />
+				<br />
+				{{#each answer}}
+					<b>{{poster}}:</b> {{text}}
+					<br />
+				{{/each}}
+			</div>
+			&nbsp;
+		{{/each}}
 	</body>
 </template>
