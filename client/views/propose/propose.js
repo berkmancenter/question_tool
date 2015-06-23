@@ -6,6 +6,10 @@ Template.propose.onCreated(function () {
 	});
 });
 
+Template.propose.onRendered(function() {
+	document.title = "Live Question Tool Proposal Form";
+});
+
 Template.propose.events({
 	"click #submitbutton": function(event, template) {
 		var question = document.getElementsByName("comment")[0].value;

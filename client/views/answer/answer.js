@@ -6,6 +6,10 @@ Template.answer.onCreated(function () {
 	});
 });
 
+Template.answer.onRendered(function() {
+	document.title = "Live Question Tool Answer Form";
+});
+
 Template.answer.events({
 	"click #submitbutton": function(event, template) {
 		var answer = document.getElementsByName("comment")[0].value;

@@ -12,6 +12,10 @@ Template.modify.onCreated(function () {
 	});
 });
 
+Template.modify.onRendered(function() {
+	document.title = "Live Question Tool Modification Form";
+});
+
 Template.modify.events({
 	"click #submitbutton": function(event, template) {
 		var question = document.getElementsByName("comment")[0].value;

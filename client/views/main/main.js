@@ -13,6 +13,10 @@ Template.submitbutton.events({
 		});
 		window.location.href = '/list';
 	}
-})
+});
+
+Template.home.onRendered(function() {
+	document.title = "Live Question Tool Chooser";
+});
 
 

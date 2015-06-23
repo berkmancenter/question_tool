@@ -14,6 +14,10 @@ Template.login.helpers({
 	}
 });
 
+Template.login.onRendered(function() {
+	document.title = "Live Question Tool Admin Login Area";
+});
+
 Template.login.events({
 	"click #submitbutton": function(event, template) {
 		var password = document.getElementsByName("pword")[0].value;

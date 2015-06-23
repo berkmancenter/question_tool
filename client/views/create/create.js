@@ -18,3 +18,7 @@ Template.create.events({
 		});
 	}
 });
+
+Template.create.onRendered(function() {
+	document.title = "Live Question Tool Creation Area";
+});

@@ -16,6 +16,10 @@ Template.delete.helpers({
 	tablename: Cookie.get("tablename")
 });
 
+Template.delete.onRendered(function() {
+	document.title = "Live Question Tool Instance Delete";
+});
+
 Template.delete.events({
 	"click #submitbutton": function(event, template) {
 		Meteor.call('remove', Cookie.get("admin_pw"), Cookie.get("tablename"), function (error, result) {

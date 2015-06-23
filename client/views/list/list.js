@@ -23,6 +23,10 @@ Template.list.onCreated(function () {
 	});
 });
 
+Template.list.onRendered(function() {
+	document.title = "Live Question Tool";
+});
+
 Template.list.helpers({
 	tablename: function() {
 		return Session.get("tablename");

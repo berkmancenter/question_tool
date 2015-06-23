@@ -1,4 +1,5 @@
 Template.report.onRendered(function() {
+	document.title = "Question Tool: Archive";
 	var d = new Date();
 	document.getElementsByName("e_year")[0].value = d.getYear() + 1900;
 	document.getElementsByName("e_mo")[0].value = d.getMonth()+1;
