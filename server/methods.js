@@ -64,19 +64,23 @@ Meteor.methods({
 			description: description,
 			password: passwordConfirm,
 		}, function(error, id) {
-			Questions.insert({
-				tablename: tablename,
-				text: "Welcome to the live question tool. Feel free to post questions. Vote by clicking on the votes box.",
-				poster: "the system",
-				timeorder: new Date().getTime(),
-				lasttouch: new Date().getTime(),
-				state: "normal",
-				votes: 0,
-			}, function(error, id) {
-				if(error) {
-					return false;
-				}
-			});
+			if(error) {
+				return false;
+			} else {
+				Questions.insert({
+					tablename: tablename,
+					text: "Welcome to the live question tool. Feel free to post questions. Vote by clicking on the votes box.",
+					poster: "the system",
+					timeorder: new Date().getTime(),
+					lasttouch: new Date().getTime(),
+					state: "normal",
+					votes: 0,
+				}, function(error, id) {
+					if(error) {
+						return false;
+					}
+				});
+			}
 		});
 		return tablename;
 	},

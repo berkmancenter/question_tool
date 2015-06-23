@@ -14,6 +14,8 @@ Template.create.events({
 			if(!error) {
 				Cookie.set('tablename', result);
 				window.location.href = '/list';
+			} else {
+				alert(error);
 			}
 		});
 	}
