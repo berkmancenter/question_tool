@@ -1,6 +1,6 @@
 Meteor.setInterval( function () {
 	Session.set("timeval", new Date().getTime());
-}, 5000);
+}, 2000);
 
 Template.list.onCreated(function () {
 	Session.set("timeval", new Date().getTime());
@@ -123,27 +123,23 @@ Template.list.events({
 });
 
 function standardDeviation(values){
-  var avg = average(values);
-  
-  var squareDiffs = values.map(function(value){
-    var diff = value - avg;
-    var sqrDiff = diff * diff;
-    return sqrDiff;
-  });
-  
-  var avgSquareDiff = average(squareDiffs);
- 
-  var stdDev = Math.sqrt(avgSquareDiff);
-  return stdDev;
+	var avg = average(values);
+	var squareDiffs = values.map(function(value){
+		var diff = value - avg;
+		var sqrDiff = diff * diff;
+		return sqrDiff;
+	});
+	var avgSquareDiff = average(squareDiffs);
+	var stdDev = Math.sqrt(avgSquareDiff);
+	return stdDev;
 }
  
 function average(data){
-  var sum = data.reduce(function(sum, value){
-    return sum + value;
-  }, 0);
- 
-  var avg = sum / data.length;
-  return avg;
+	var sum = data.reduce(function(sum, value){
+		return sum + value;
+	}, 0);
+	var avg = sum / data.length;
+	return avg;
 }
 
 function getTime(time) {

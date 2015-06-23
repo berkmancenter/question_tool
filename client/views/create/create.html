@@ -1,24 +1,24 @@
 <template name="create">
-
     <head>
         <title>Live Question Tool Creation Area</title>
     </head>
-
     <body>
         <div id="banner">Question Tool Creation Area</div>
-        <br/>
-        <br/>
+        <br />
+        <br />
         <div id="wrapper">
             <center>
                 <div class="center">
                     <div class="columnhead">Create a new instance</div>
-                    <br/>
-                    <center><b>{{message}}</b>
+                    <br />
+                    <center>
+						<b>{{message}}</b>
                     </center>
                     <br/>
                     <table width="100%">
                         <tr>
-                            <td><b>Name your project (4-30 characters, numbers and letters only):</b>
+                            <td>
+								<b>Name your project (4-30 characters, numbers and letters only):</b>
                             </td>
                             <td>
                                 <input type="text" name="tablename" maxlength="30" />
@@ -29,14 +29,16 @@
                             <td>&nbsp;</td>
                         </tr>
                         <tr>
-                            <td><b>Enter a password for admin access to your instance of the question tool (4-10 characters, numbers and letters only):</b>
+                            <td>
+								<b>Enter a password for admin access to your instance of the question tool (4-10 characters, numbers and letters only):</b>
                             </td>
                             <td>
                                 <input type="password" maxlength="10" name="pword1">
                             </td>
                         </tr>
                         <tr>
-                            <td><b>Enter your password again to confirm it.</b>
+                            <td>
+								<b>Enter your password again to confirm it.</b>
                             </td>
                             <td>
                                 <input type="password" maxlength="10" name="pword2" />
@@ -47,7 +49,8 @@
                             <td>&nbsp;</td>
                         </tr>
                         <tr>
-                            <td><b>Number of "featured" questions:</b>
+                            <td>
+								<b>Number of "featured" questions:</b>
                             </td>
                             <td>
                                 <select name="threshold" size="1">
@@ -59,7 +62,8 @@
                             </td>
                         </tr>
                         <tr>
-                            <td><b>New questions appear in red text for</b>
+                            <td>
+								<b>New questions appear in red text for</b>
                             </td>
                             <td>
                                 <select name="new_length" size="1">
@@ -73,7 +77,8 @@
                             </td>
                         </tr>
                         <tr>
-                            <td><b>Old questions appear in grey text after</b>
+                            <td>
+								<b>Old questions appear in grey text after</b>
                             </td>
                             <td>
                                 <select name="stale_length" size="1">
@@ -92,7 +97,9 @@
                             <td>&nbsp;</td>
                         </tr>
                         <tr>
-                            <td><i>(Optional)</i> <b>Write a description of this instance to appear at the top of the list page. Please keep it under 255 characters.</b>
+                            <td>
+								<i>(Optional)</i> 
+								<b>Write a description of this instance to appear at the top of the list page. Please keep it under 255 characters.</b>
                             </td>
                             <td>
                                 <textarea name="description" rows="4" cols="30">{{description}}</textarea>

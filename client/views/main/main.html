@@ -1,45 +1,55 @@
 <template name="home">
 	<head>
-	   <meta content="text/html; charset=iso-8859-1" />
-	   <META HTTP-EQUIV="PRAGMA" CONTENT="NO-CACHE" />
-	   <title>Live Question Tool Chooser</title>
+		<title>Live Question Tool Chooser</title>
 	</head>
 	<body>
-	   <div id="banner">Question Tool Instance Chooser</div>
-	   <br/><br/>
-	   <div id="wrapper" style="text-align: center;">
-	      <center>
-	         <div class="center">
-	            <div class="columnhead">Choose an instance</div>
-	            <br/>					
-	               <table width="100%">
-	                  <tr>
-	                     <td><b>Choose which instance of the question tool you would like to see:</b></td>
-	                     <td>
-	                        {{> instanceoptions}}
-	                     </td>
-	                  </tr>
-	               </table>
-	               <p align="center">
-	               	{{> submitbutton}}
-	               </p>
-	               <input type="hidden" name="submit_check" value="1" />
-	            <div class="columnhead">OR</div>
-	            <br/>
-	            <p style="text-align:center;"><a href="/create">Create a new instance</a></p>
-	            <p align="center"><a href="/list">Return to the list</a></p>
-	         </div>
-	      </center>
-	   </div>
+		<div id="banner">Question Tool Instance Chooser</div>
+		<br/><br/>
+		<div id="wrapper" style="text-align: center;">
+			<center>
+				<div class="center">
+					<div class="columnhead">
+						Choose an instance
+					</div>
+					<br/>					
+					<table width="100%">
+						<tr>
+							<td>
+								<b>Choose which instance of the question tool you would like to see:</b>
+							</td>
+							<td>
+								{{> instanceoptions}}
+							</td>
+						</tr>
+					</table>
+					<p align="center">
+						{{> submitbutton}}
+					</p>
+					<input type="hidden" name="submit_check" value="1" />
+					<div class="columnhead">
+						OR
+					</div>
+					<br />
+					<p style="text-align:center;">
+						<a href="/create">Create a new instance</a>
+					</p>
+					<p align="center">
+						<a href="/list">Return to the list</a>
+					</p>
+				</div>
+			</center>
+		</div>
 	</body>
 </template>
+
 <template name="instanceoptions">
-   <select name="tablename" size="1">
-      {{#each instances}}
-      <option value="{{name}}">{{tablename}}</option>
-      {{/each}}
-   </select>
+	<select name="tablename" size="1">
+		{{#each instances}}
+		<option value="{{name}}">{{tablename}}</option>
+		{{/each}}
+	</select>
 </template>
+
 <template name="submitbutton">
 	<button id="submitbutton">Submit</button>
 </template>

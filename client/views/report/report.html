@@ -3,23 +3,23 @@
 		<title>Question Tool: Archive</title>
 	</head>
 	<body>
-		<div id="banner">Question Archive: {{tablename}}</div>
-		<div align="center">{{description}}</div>
+		<div id="banner">
+			Question Archive: {{tablename}}
+		</div>
+		<div align="center">
+			{{description}}
+		</div>
 		<a href="/list">[ Return to live Question Tool ]</a>
 		Enter a date range:
-		<form method="POST" action='' name="dateForm">
-
 		<input type="hidden" value="1" name="submit">
-
-		<b>Start date</b> Year:<input type="text" name="b_year" value="2007" size="5">
+		<b>Start date</b> Year:
+		<input type="text" name="b_year" value="2007" size="5">
 			Month:<input type="text" name="b_mo" value="01" size="3">
 			Day:<input type="text" name="b_day" value="02" size="3">
 
 		<b>End date</b> Year:<input type="text" name="e_year" value="2007" size="5">
 			Month:<input type="text" name="e_mo" value="01" size="3">
 			Day:<input type="text" name="e_day" value="22" size="3">
-
-		<input type="submit" value="View Archive">
-		</form>
+		<button id="submitbutton">View Archive</button>
 	</body>
 </template>

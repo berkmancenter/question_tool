@@ -1,8 +1,5 @@
 <template name="list">
 	<head>
-		<link rel="stylesheet" type="text/css" media="screen" href="liststyle.css" />
-		<meta http-equiv="PRAGMA" content="NO-CACHE" />
-		<meta content="text/html; charset=iso-8859-1" />
 		<link rel="alternate" type="application/rss+xml" href="/rss/{{tablename}}"/>
 		<title>Live Question Tool</title>
 	</head>
@@ -15,7 +12,8 @@
 					<h2>Admin Interface</h2>
 					<a id="unhidebutton">Unhide all questions</a> :: 
 					<a href="/delete">Delete this instance</a> ::
-					<a id="logoutbutton">Logout</a><br/>
+					<a id="logoutbutton">Logout</a>
+					<br />
 					<hr width="70%"/>
 				{{/if}}
 				<p>{{ description }}</p>
@@ -25,7 +23,9 @@
 				<a href="/rss/{{tablename}}"><img src="/rss.gif" alt="xml icon" /></a>
 			</div>
 			<div id="popular">
-				<div class="columnhead">Active Questions</div>
+				<div class="columnhead">
+					Active Questions
+				</div>
 				<div class="subcolumn">
 					{{#each question}}
 						{{#if popular}}
@@ -114,7 +114,9 @@
 	</div>
 	</div>
 		<div id="recent">
-			<div class="columnhead">Most Recently Submitted Questions</div>
+			<div class="columnhead">
+				Most Recently Submitted Questions
+			</div>
 			<div class="subcolumn">
 				{{#each question}}
 					{{#if popular}}
