@@ -56,6 +56,7 @@ Meteor.methods({
 		}
 	},
 	create: function(tablename, threshhold, redLength, stale, description, passwordConfirm) {
+		var keys;
 		Instances.insert({
 			tablename: tablename,
 			threshhold: threshhold,
@@ -65,7 +66,7 @@ Meteor.methods({
 			password: passwordConfirm,
 		}, function(error, id) {
 			if(error) {
-				return false;
+				keys = error.invalidKeys;
 			} else {
 				Questions.insert({
 					tablename: tablename,
@@ -77,12 +78,16 @@ Meteor.methods({
 					votes: 0,
 				}, function(error, id) {
 					if(error) {
-						return false;
+						keys = error.invalidKeys;
 					}
 				});
 			}
 		});
-		return tablename;
+		if(keys) {
+			return keys;
+		} else {
+			return tablename;
+		}
 	},
 	unhide: function(table) {
 		Questions.update({

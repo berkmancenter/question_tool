@@ -11,11 +11,16 @@ Template.create.events({
 		var stale = staleSelect[staleSelect.selectedIndex].value;
 		var description = document.getElementsByName("description")[0].value;
 		Meteor.call('create', tablename, threshhold, redLength, stale, description, passwordConfirm, function (error, result) {
-			if(!error) {
+			console.log(result);
+			if(typeof result === 'object') {
+				var errorString = "";
+				for(var e = 0; e < result.length; e++) {
+					errorString += "Error #" + (e + 1) + " : " + result[e].name + "\n";
+				}
+				alert(errorString);
+			} else {
 				Cookie.set('tablename', result);
 				window.location.href = '/list';
-			} else {
-				alert(error);
 			}
 		});
 	}
