@@ -1,4 +1,4 @@
-Template.modify.onCreated(function () {
+Template.combine.onCreated(function () {
 	Meteor.call('cookieCheck', Cookie.get("tablename"), function (error, result) {
 		if(!result) {
 			window.location.href = "/";
@@ -12,11 +12,11 @@ Template.modify.onCreated(function () {
 	});
 });
 
-Template.modify.onRendered(function() {
-	document.title = "Live Question Tool Modification Form";
+Template.combine.onRendered(function() {
+	document.title = "Live Question Tool Combination Form";
 });
 
-Template.modify.events({
+Template.combine.events({
 	"click #submitbutton": function(event, template) {
 		var question = document.getElementsByName("comment")[0].value;
 		Meteor.call('modify', question, template.data._id, Cookie.get("admin_pw"), Cookie.get("tablename"), function (error, result) { 

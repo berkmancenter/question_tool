@@ -1,7 +1,7 @@
 <template name="combine">
 	<body>
 		<div id="banner">
-			Question Tool Modification Form
+			Question Tool Combination Form
 		</div>
 		<br />
 		<br />
@@ -9,16 +9,17 @@
 			<center>
 				<div class="center">
 					<div class="columnhead">
-						Modify a question
+						Combine two questions
 					</div>
 					<br />
 					<table width="100%">
 						<tr>
 							<td>
-								<b>Please modify the question. There is a limit of 255 characters.</b>
+								<b>Please craft a new, combined question. There is a limit of 255 characters.</b>
 							</td>
 							<td>
-								<textarea id="modifybox" name="comment" rows = "4" cols="40">{{this.text}}</textarea>
+								<textarea id="modifybox" name="comment" rows = "4" cols="40">{{this.first.text}}
+									{{this.second.text}}</textarea>
 							</td>
 						</tr>
 					</table>
