@@ -18,10 +18,15 @@ Template.combine.onRendered(function() {
 
 Template.combine.events({
 	"click #submitbutton": function(event, template) {
+		console.log(template);
 		var question = document.getElementsByName("comment")[0].value;
-		Meteor.call('modify', question, template.data._id, Cookie.get("admin_pw"), Cookie.get("tablename"), function (error, result) { 
-			if(!result) {
-				window.location.href = "/list";
+		Meteor.call('modify', question, template.data.first._id, Cookie.get("admin_pw"), Cookie.get("tablename"), function (error, result) { 
+			if(!error) {
+				Meteor.call('hide', template.data.second._id, function (error, result) { 
+					if(!error) {
+						window.location.href = "/list";
+					}
+				});
 			}
 		});
 	},
