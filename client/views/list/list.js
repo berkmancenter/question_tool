@@ -25,38 +25,50 @@ Template.list.onCreated(function () {
 
 Template.list.onRendered(function() {
 	document.title = "Live Question Tool";
-	/*interact('.question')
+	interact('.question')
 	.draggable({
 		inertia: true,
 		restrict: {
 			restriction: "parent",
 			endOnly: true,
-			elementRect: { top: 0, left: 0, bottom: 1, right: 1 }
+			elementRect: { top: 0, left: 0, bottom: 0, right: 0 }
 		},
-
 		onmove: dragMoveListener,
 		onend: function (event) {
-			var textEl = event.target.querySelector('p');
+			console.log(event);
+			event.target.style.cssText = "-webkit-transform: translate(0px, 0px);";
+  			event.target.setAttribute('data-x', 0);
+			event.target.setAttribute('data-y', 0);
+		}
+	});
 
-			textEl && (textEl.textContent =
-				'moved a distance of '
-				+ (Math.sqrt(event.dx * event.dx +
-					event.dy * event.dy)|0) + 'px');
-				}
-			});
+	function dragMoveListener(event) {
+		var target = event.target,
+		x = (parseFloat(target.getAttribute('data-x')) || 0) + event.dx,
+		y = (parseFloat(target.getAttribute('data-y')) || 0) + event.dy;
 
-			function dragMoveListener (event) {
-				var target = event.target,
-				x = (parseFloat(target.getAttribute('data-x')) || 0) + event.dx,
-				y = (parseFloat(target.getAttribute('data-y')) || 0) + event.dy;
+		target.style.webkitTransform = target.style.transform = 'translate(' + x + 'px, ' + y + 'px)';
 
-				target.style.webkitTransform =
-				target.style.transform =
-				'translate(' + x + 'px, ' + y + 'px)';
-
-				target.setAttribute('data-x', x);
-				target.setAttribute('data-y', y);
-			}*/
+		target.setAttribute('data-x', x);
+		target.setAttribute('data-y', y);
+	}
+	interact('.question').dropzone({
+	  accept: '.question',
+	  overlap: 0.75,
+	  ondropactivate: function (event) {
+	  },
+	  ondragenter: function (event) {
+	  },
+	  ondragleave: function (event) {
+	  },
+	  ondrop: function (event) {
+		  console.log(event.relatedTarget.innerText);
+		  console.log(event.target.innerText);
+		  console.log("Dropped");
+	  },
+	  ondropdeactivate: function (event) {
+	  }
+	});
 });
 
 Template.list.helpers({
