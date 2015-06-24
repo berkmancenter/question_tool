@@ -35,6 +35,7 @@ Meteor.methods({
 		}
 	},
 	answer: function(tablename, answer, posterName, email, result, currentURL) {
+		var keys = "";
 		var quesiton = Questions.findOne({
 			_id: currentURL
 		});
@@ -50,10 +51,11 @@ Meteor.methods({
 				qid: currentURL
 			}, function(error, id) {
 				if(error) {
-					return false;
+					keys = error.invalidKeys;
 				}
 			});
 		}
+		return keys;
 	},
 	create: function(tablename, threshhold, redLength, stale, description, passwordConfirm) {
 		var keys;
@@ -125,6 +127,7 @@ Meteor.methods({
 		});
 	},
 	propose: function(tablename, question, posterName, posterEmail, ip) {
+		var keys = "";
 		var table = Instances.findOne({
 			tablename: tablename
 		});
@@ -143,10 +146,11 @@ Meteor.methods({
 				votes: 0
 			}, function(error, id) {
 				if(error) {
-					return false;
+					keys = error.invalidKeys;
 				}
 			});
 		}
+		return keys;
 	},
 	remove: function(password, table) {
 		var instance = Instances.findOne({
@@ -190,6 +194,7 @@ Meteor.methods({
 		});
 	},
 	vote: function(id, ip, tablename) {
+		var keys = "";
 		var votes = Votes.find({
 			qid: id,
 			ip: ip
@@ -206,7 +211,7 @@ Meteor.methods({
 				}
 			}, function(error, count, status) {
 				if(error) {
-					console.log(error);
+					keys = error;
 				} else {
 					Votes.insert({
 						qid: id, 
@@ -214,12 +219,13 @@ Meteor.methods({
 						tablename: tablename,
 					}, function(error, id) {
 						if(error) {
-							return false;
+							keys = error;
 						}
 					});
 				}				
 			});
 		}
+		return keys;
 	},
 	hide: function(id) {
 		Questions.update({
