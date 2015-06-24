@@ -25,49 +25,54 @@ Template.list.onCreated(function () {
 
 Template.list.onRendered(function() {
 	document.title = "Live Question Tool";
-	interact('.question')
-	.draggable({
-		inertia: true,
-		restrict: {
-			restriction: "parent",
-			endOnly: true,
-			elementRect: { top: 0, left: 0, bottom: 0, right: 0 }
-		},
-		onmove: dragMoveListener,
-		onend: function (event) {
-			console.log(event);
-			event.target.style.cssText = "-webkit-transform: translate(0px, 0px);";
-  			event.target.setAttribute('data-x', 0);
-			event.target.setAttribute('data-y', 0);
+	Meteor.call('adminCheck', Cookie.get("admin_pw"), Cookie.get("tablename"), function(error, result) {
+		alert(result);
+		if(result) {
+			interact('.question')
+			.draggable({
+				inertia: true,
+				restrict: {
+					restriction: "parent",
+					endOnly: true,
+					elementRect: { top: 0, left: 0, bottom: 0, right: 0 }
+				},
+				onmove: dragMoveListener,
+				onend: function (event) {
+					console.log(event);
+					event.target.style.cssText = "-webkit-transform: translate(0px, 0px);";
+		  			event.target.setAttribute('data-x', 0);
+					event.target.setAttribute('data-y', 0);
+				}
+			});
+
+			function dragMoveListener(event) {
+				var target = event.target,
+				x = (parseFloat(target.getAttribute('data-x')) || 0) + event.dx,
+				y = (parseFloat(target.getAttribute('data-y')) || 0) + event.dy;
+
+				target.style.webkitTransform = target.style.transform = 'translate(' + x + 'px, ' + y + 'px)';
+
+				target.setAttribute('data-x', x);
+				target.setAttribute('data-y', y);
+			}
+			interact('.question').dropzone({
+			  accept: '.question',
+			  overlap: 0.75,
+			  ondropactivate: function (event) {
+			  },
+			  ondragenter: function (event) {
+			  },
+			  ondragleave: function (event) {
+			  },
+			  ondrop: function (event) {
+				  var id1 = event.relatedTarget.id;
+				  var id2 = event.target.id;
+				  window.location.href="/combine/" + id1 + "/" + id2;
+			  },
+			  ondropdeactivate: function (event) {
+			  }
+			});
 		}
-	});
-
-	function dragMoveListener(event) {
-		var target = event.target,
-		x = (parseFloat(target.getAttribute('data-x')) || 0) + event.dx,
-		y = (parseFloat(target.getAttribute('data-y')) || 0) + event.dy;
-
-		target.style.webkitTransform = target.style.transform = 'translate(' + x + 'px, ' + y + 'px)';
-
-		target.setAttribute('data-x', x);
-		target.setAttribute('data-y', y);
-	}
-	interact('.question').dropzone({
-	  accept: '.question',
-	  overlap: 0.75,
-	  ondropactivate: function (event) {
-	  },
-	  ondragenter: function (event) {
-	  },
-	  ondragleave: function (event) {
-	  },
-	  ondrop: function (event) {
-		  var id1 = event.relatedTarget.id;
-		  var id2 = event.target.id;
-		  window.location.href="/combine/" + id1 + "/" + id2;
-	  },
-	  ondropdeactivate: function (event) {
-	  }
 	});
 });
 
