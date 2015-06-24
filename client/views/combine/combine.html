@@ -1,0 +1,36 @@
+<template name="combine">
+	<body>
+		<div id="banner">
+			Question Tool Modification Form
+		</div>
+		<br />
+		<br />
+		<div id="wrapper">  								
+			<center>
+				<div class="center">
+					<div class="columnhead">
+						Modify a question
+					</div>
+					<br />
+					<table width="100%">
+						<tr>
+							<td>
+								<b>Please modify the question. There is a limit of 255 characters.</b>
+							</td>
+							<td>
+								<textarea id="modifybox" name="comment" rows = "4" cols="40">{{this.text}}</textarea>
+							</td>
+						</tr>
+					</table>
+					<p align="center">
+						<button id="submitbutton">Submit</button>
+						<input type="hidden" name="submit_check" value="1" />
+					</p>
+					<p align="center">
+						<a href="/list">Return to the list</a>
+					</p>
+				</div>
+			</center>
+		</div>
+	</body>
+</template>
