@@ -62,9 +62,9 @@ Template.list.onRendered(function() {
 	  ondragleave: function (event) {
 	  },
 	  ondrop: function (event) {
-		  console.log(event.relatedTarget.innerText);
-		  console.log(event.target.innerText);
-		  console.log("Dropped");
+		  var id1 = event.relatedTarget.id;
+		  var id2 = event.target.id;
+		  window.location.href="/combine/" + id1 + "/" + id2;
 	  },
 	  ondropdeactivate: function (event) {
 	  }
