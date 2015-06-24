@@ -26,7 +26,6 @@ Template.list.onCreated(function () {
 Template.list.onRendered(function() {
 	document.title = "Live Question Tool";
 	Meteor.call('adminCheck', Cookie.get("admin_pw"), Cookie.get("tablename"), function(error, result) {
-		alert(result);
 		if(result) {
 			interact('.question')
 			.draggable({
