@@ -236,7 +236,7 @@ Template.list.events({
 });
 
 // Helper function that caluclates a standard deviation given an array
-// Source: 
+// Source: http://derickbailey.com/
 function standardDeviation(values){
 	var avg = average(values);
 	var squareDiffs = values.map(function(value){
@@ -250,7 +250,6 @@ function standardDeviation(values){
 }
  
 // Helper function that calculates the average given an array
-// Source: 
 function average(data){
 	var sum = data.reduce(function(sum, value){
 		return sum + value;
@@ -260,7 +259,6 @@ function average(data){
 }
 
 // Helper functiont that converts 24-hour time to 12-hour time with am/pm
-// Source
 function getTime(time) {
 	var tmpArr = time.split(':'), time12;
 	if(+tmpArr[0] == 12) {
