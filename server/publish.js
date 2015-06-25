@@ -1,5 +1,6 @@
 Meteor.publish('instances', function(table) {
   return Instances.find({
+	  // UNCOMMENT THIS WHEN PRODUCTION READY
 	  /*lasttouch: {
 		  $gt: (new Date().getTime() - 2592000000)
 	  }*/

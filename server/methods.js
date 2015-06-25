@@ -65,8 +65,8 @@ Meteor.methods({
 			new_length: redLength,
 			stale_length: stale, 
 			description: description,
-			password: passwordConfirm
-			//lasttouch: new Date().getTime()
+			password: passwordConfirm,
+			lasttouch: new Date().getTime()
 		}, function(error, id) {
 			if(error) {
 				keys = error.invalidKeys;
@@ -135,23 +135,8 @@ Meteor.methods({
 		if(table == null) {
 			return false;
 		} else {
-			Questions.insert({
-				tablename: tablename,
-				text: question,
-				poster: posterName,
-				email: posterEmail,
-				ip: ip,
-				timeorder: new Date().getTime(),
-				lasttouch: new Date().getTime(),
-				state: "normal",
-				votes: 0
-			}, function(error, id) {
-				if(error) {
-					keys = error.invalidKeys;
-				}
-			});
-			/*Instances.update({
-				tablename: tablename
+			Instances.update({
+				_id: table._id
 			}, {
 				$set: {
 					lasttouch: new Date().getTime()
@@ -176,7 +161,7 @@ Meteor.methods({
 						}
 					});
 				}		
-			});*/
+			});
 		}
 		return keys;
 	},
