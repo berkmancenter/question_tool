@@ -17,7 +17,7 @@ Template.propose.events({
 		var posterEmail = document.getElementsByName("email")[0].value;
 		Meteor.call('getIP', function (error, result) {
 			if (error) {
-				console.log(error);
+				alert(error);
 			} else {
 				Meteor.call('propose', Cookie.get("tablename"), question, posterName, 
 					posterEmail, result, function (error, result) {
