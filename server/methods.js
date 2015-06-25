@@ -1,7 +1,9 @@
 Meteor.methods({
+	// A method that returns the current connection's IP address
 	getIP: function () {
 		return this.connection.clientAddress;
 	},
+	// A method that checks whether the user has a valid cookie
 	cookieCheck: function(cookie) {
 		if(cookie == null) {
 			return false;
@@ -9,11 +11,13 @@ Meteor.methods({
 			return true;
 		}
 	},
+	// A method that returns a table given a tablename
 	getTable: function(tablename) {
 		return Instances.findOne({ 
 			tablename: tablename
 		});
 	},
+	// A method that checks whether a table exists with parameter tablename
 	listCookieCheck: function(table) {
 		var table = Instances.findOne({
 			tablename: table
@@ -24,6 +28,7 @@ Meteor.methods({
 			return true;
 		}
 	},
+	// A method that checks whether the password matches the password of the supplied tablename
 	adminCheck: function(password, tablename) {
 		var table = Instances.findOne({
 			tablename: tablename
@@ -34,14 +39,17 @@ Meteor.methods({
 			return false;
 		}
 	},
+	// A method that adds an answer to the databases
 	answer: function(tablename, answer, posterName, email, result, currentURL) {
 		var keys = "";
+		// Retrieves the current quesetion from the DB (if one exists)
 		var quesiton = Questions.findOne({
 			_id: currentURL
 		});
 		if(quesiton == null) {
 			return false;
 		} else {
+			// Inserts the answer into the answer databse
 			Answers.insert({
 				text: answer,
 				poster: posterName,
@@ -50,9 +58,11 @@ Meteor.methods({
 				tablename: tablename,
 				qid: currentURL
 			}, function(error, id) {
+				// If error, set keys to the error object
 				if(error) {
 					keys = error.invalidKeys;
 				} else {
+					// If successful, update lasttouch of the question
 					Questions.update({
 						_id: currentURL
 					}, {
@@ -67,10 +77,13 @@ Meteor.methods({
 				}
 			});
 		}
+		// Return keys (will be error.invalidKeys object if error exists)
 		return keys;
 	},
+	// A method that adds an instance to the databases
 	create: function(tablename, threshhold, redLength, stale, description, passwordConfirm) {
 		var keys;
+		// Inserts the instance into the instances database
 		Instances.insert({
 			tablename: tablename,
 			threshhold: threshhold,
@@ -80,9 +93,11 @@ Meteor.methods({
 			password: passwordConfirm,
 			lasttouch: new Date().getTime()
 		}, function(error, id) {
+			// If error, set keys to the error object
 			if(error) {
 				keys = error.invalidKeys;
 			} else {
+				// If successful, add the "starter" question to the questions database
 				Questions.insert({
 					tablename: tablename,
 					text: "Welcome to the live question tool. Feel free to post questions. Vote by clicking on the votes box.",
@@ -92,19 +107,24 @@ Meteor.methods({
 					state: "normal",
 					votes: 0,
 				}, function(error, id) {
+					// If error, set keys to the error object
 					if(error) {
 						keys = error.invalidKeys;
 					}
 				});
 			}
 		});
+		// If error (keys is defined), return the keys (error.invalidKeys) object
 		if(keys) {
 			return keys;
 		} else {
+			// If successful, return the name of the newly created table
 			return tablename;
 		}
 	},
+	// Method that unhides every question in a given table
 	unhide: function(table) {
+		// Sets state to normal for every question with tablename table
 		Questions.update({
 			tablename: table
 		}, {
@@ -119,13 +139,16 @@ Meteor.methods({
 			}
 		});
 	},
+	// Method that modifies a question
 	modify: function(question, id, password, table) {
+		// Checks whether the user has the proper admin privileges
 		var instance = Instances.findOne({
 			tablename: table
 		});
 		if((password != instance.password) || (!password || !instance.password)) {
 			return false;
 		}
+		// Updates the question with the proper ID to the new question text
 		Questions.update({
 			_id: id
 		}, {
@@ -139,13 +162,16 @@ Meteor.methods({
 			}	
 		});
 	},
+	// Method that combines two questions and answers
 	combine: function(question, id1, id2, password, table) {
+		// Checks whether the user has proper admin privileges
 		var instance = Instances.findOne({
 			tablename: table
 		});
 		if((password != instance.password) || (!password || !instance.password)) {
 			return false;
 		}
+		// Updates the text of the FIRST question
 		Questions.update({
 			_id: id1
 		}, {
@@ -157,6 +183,7 @@ Meteor.methods({
 			if(error) {
 				return false;
 			} else {
+				// Sets the QID of the answers to the second question to the first QID of the first question (combining them)
 				Answers.update({
 					qid: id2
 				}, {
@@ -171,14 +198,17 @@ Meteor.methods({
 			}		
 		});
 	},
+	// Method that adds a new question to the database
 	propose: function(tablename, question, posterName, posterEmail, ip) {
 		var keys;
+		// Gets the current table
 		var table = Instances.findOne({
 			tablename: tablename
 		});
 		if(table == null) {
 			return false;
 		} else {
+			// Update the lasttouch of the Instance
 			Instances.update({
 				_id: table._id
 			}, {
@@ -187,8 +217,10 @@ Meteor.methods({
 				}
 			}, function(error, count, status) {
 				if(error) {
+					// If error, store object in keys variable
 					keys = error.invalidKeys;
 				} else {
+					// If successful, insert question into quesitons DB
 					Questions.insert({
 						tablename: tablename,
 						text: question,
@@ -201,6 +233,7 @@ Meteor.methods({
 						votes: 0
 					}, function(error, id) {
 						if(error) {
+							// If error, store object in keys variable
 							keys = error.invalidKeys;
 						}
 					});
@@ -209,31 +242,37 @@ Meteor.methods({
 		}
 		return keys;
 	},
+	// Method that removes a table from the database
 	remove: function(password, table) {
+		// Ensures that the user has proper admin privileges
 		var instance = Instances.findOne({
 			tablename: table
 		});
 		if((password != instance.password) || (!password || !instance.password)) {
 			return false;
 		}
+		// Removes all questions with the given tablename
 		Questions.remove({
 			tablename: table
 		}, function(error) {
 			if(error) {
 				alert(error);
 			} else {
+				// If successful, removes all answers with the given tablename
 				Answers.remove({
 					tablename: table
 				}, function(error) {
 					if(error) {
 						alert(error);
 					} else {
+						// If successful, remove the instance with the given tablename
 						Instances.remove({
 							tablename: table
 						}, function(error) {
 							if(error) {
 								alert(error);
 							} else {
+								// If successful, remove all votes with the given tablename
 								Votes.remove({
 									tablename: table
 								}, function(error) {
@@ -250,13 +289,16 @@ Meteor.methods({
 			}
 		});
 	},
+	// Method that registers a vote on a question
 	vote: function(id, ip, tablename) {
 		var keys = "";
+		// Ensures that the user hasn't already voted from their IP address
 		var votes = Votes.find({
 			qid: id,
 			ip: ip
 		});
 		if(votes.fetch().length == 0) {
+			// If they haven't voted, increment the given quesiton's vote # by 1 and update the lasttouch
 			Questions.update({
 				_id: id
 			}, {
@@ -268,14 +310,17 @@ Meteor.methods({
 				}
 			}, function(error, count, status) {
 				if(error) {
+					// If error, set keys to the error object
 					keys = error;
 				} else {
+					// If successful, insert vote into the votes DB
 					Votes.insert({
 						qid: id, 
 						ip: ip, 
 						tablename: tablename,
 					}, function(error, id) {
 						if(error) {
+							// If error, set keys to the error object
 							keys = error;
 						}
 					});
@@ -284,6 +329,7 @@ Meteor.methods({
 		}
 		return keys;
 	},
+	// Method that hides (sets state to disabled) a question with given ID
 	hide: function(id) {
 		Questions.update({
 			_id: id

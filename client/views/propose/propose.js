@@ -1,28 +1,39 @@
 Template.propose.onCreated(function () {
+	// Checks whether the user has a valid table cookie
 	Meteor.call('cookieCheck', Cookie.get("tablename"), function (error, result) {
 		if(!result) {
+			// If not, redirect back to the chooser page
 			window.location.href = "/";
 		}
 	});
 });
 
 Template.propose.onRendered(function() {
+	// When the template is rendered, sets the document title
 	document.title = "Live Question Tool Proposal Form";
 });
 
 Template.propose.events({
+	// When the submit button is clicked...
 	"click #submitbutton": function(event, template) {
+		// Retrieves data from the form
 		var question = document.getElementsByName("comment")[0].value;
 		var posterName = document.getElementsByName("poster")[0].value;
 		var posterEmail = document.getElementsByName("email")[0].value;
+		// Calls server-side method to get the user's IP address
 		Meteor.call('getIP', function (error, result) {
 			if (error) {
+				// If there's an error, alert the user
 				alert(error);
+				return false;
 			} else {
+				// Calls server-side "propose" method to add question to DB
 				Meteor.call('propose', Cookie.get("tablename"), question, posterName, 
 					posterEmail, result, function (error, result) {
+						// If returns an object, there was an error
 						if(typeof result === 'object') {
 							var errorString = "";
+							// Retrieve error descriptions
 							for(var e = 0; e < result.length; e++) {
 								if(result[e].name == "tablename") {
 									errorString += "Error #" + (e + 1) + " : Table name is invalid. Please return to the list and try again.\n\n";
@@ -44,8 +55,11 @@ Template.propose.events({
 									errorString += "Error #" + (e + 1) + " : Please enter a valid email address using less than 70 characters.\n\n";
 								}
 							}
+							// Alert the error message
 							alert(errorString);
+							return false;
 						} else {
+							// If successful, redirect back to the list page
 							window.location.href = '/list';
 						}
 				});
