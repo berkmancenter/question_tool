@@ -20,7 +20,7 @@ Template.combine.events({
 	"click #submitbutton": function(event, template) {
 		console.log(template);
 		var question = document.getElementsByName("comment")[0].value;
-		Meteor.call('modify', question, template.data.first._id, Cookie.get("admin_pw"), Cookie.get("tablename"), function (error, result) { 
+		Meteor.call('combine', question, template.data.first._id, template.data.second._id, Cookie.get("admin_pw"), Cookie.get("tablename"), function (error, result) { 
 			if(!error) {
 				Meteor.call('hide', template.data.second._id, function (error, result) { 
 					if(!error) {

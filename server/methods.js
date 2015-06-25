@@ -124,7 +124,39 @@ Meteor.methods({
 		}, function(error, count, status) {
 			if(error) {
 				return false;
-			}			
+			}	
+		});
+	},
+	combine: function(question, id1, id2, password, table) {
+		var instance = Instances.findOne({
+			tablename: table
+		});
+		if((password != instance.password) || (!password || !instance.password)) {
+			return false;
+		}
+		Questions.update({
+			_id: id1
+		}, {
+			$set: {
+				lasttouch: new Date().getTime(),
+				text: question
+			}
+		}, function(error, count, status) {
+			if(error) {
+				return false;
+			} else {
+				Answers.update({
+					qid: id2
+				}, {
+					$set: {
+						qid: id1
+					}
+				}, function(error, count, status) {
+					if(error) {
+						return false;
+					}
+				});
+			}		
 		});
 	},
 	propose: function(tablename, question, posterName, posterEmail, ip) {
