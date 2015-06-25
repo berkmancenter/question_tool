@@ -22,6 +22,9 @@ Template.answer.events({
 			if(error) {
 				console.log(error);
 			} else {
+				if(!posterName) {
+					posterName = "Anonymous";
+				}
 				Meteor.call('answer', Cookie.get("tablename"), answer, posterName, email, result, currentURL, function (error, result) {
 					if(typeof result === 'object') {
 						var errorString = "";
