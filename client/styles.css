@@ -42,7 +42,6 @@ div#wrapper {
 .subcolumn {
 	float:left;
 	width:49%;
-	overflow:hidden;
 	border-right:1px solid #ccc;
 	margin:.5% 0 .5% .5%;
 }
@@ -54,6 +53,7 @@ div#wrapper {
 	overflow:auto;
 	margin:.5% 2% .5% 0;
 	padding:1%;
+	position:relative;
 }
 
 .answer {

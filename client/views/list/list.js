@@ -37,8 +37,7 @@ Template.list.onRendered(function() {
 				},
 				onmove: dragMoveListener,
 				onend: function (event) {
-					console.log(event);
-					event.target.style.cssText = "-webkit-transform: translate(0px, 0px);";
+					event.target.style.cssText = "-webkit-transform: translate(0px, 0px);z-index:0!important;";
 		  			event.target.setAttribute('data-x', 0);
 					event.target.setAttribute('data-y', 0);
 				}
@@ -50,7 +49,7 @@ Template.list.onRendered(function() {
 				y = (parseFloat(target.getAttribute('data-y')) || 0) + event.dy;
 
 				target.style.webkitTransform = target.style.transform = 'translate(' + x + 'px, ' + y + 'px)';
-
+				target.style.cssText += "z-index:99999!important;"
 				target.setAttribute('data-x', x);
 				target.setAttribute('data-y', y);
 			}
