@@ -65,7 +65,8 @@ Meteor.methods({
 			new_length: redLength,
 			stale_length: stale, 
 			description: description,
-			password: passwordConfirm,
+			password: passwordConfirm
+			//lasttouch: new Date().getTime()
 		}, function(error, id) {
 			if(error) {
 				keys = error.invalidKeys;
@@ -127,7 +128,7 @@ Meteor.methods({
 		});
 	},
 	propose: function(tablename, question, posterName, posterEmail, ip) {
-		var keys = "";
+		var keys;
 		var table = Instances.findOne({
 			tablename: tablename
 		});
@@ -149,6 +150,33 @@ Meteor.methods({
 					keys = error.invalidKeys;
 				}
 			});
+			/*Instances.update({
+				tablename: tablename
+			}, {
+				$set: {
+					lasttouch: new Date().getTime()
+				}
+			}, function(error, count, status) {
+				if(error) {
+					keys = error.invalidKeys;
+				} else {
+					Questions.insert({
+						tablename: tablename,
+						text: question,
+						poster: posterName,
+						email: posterEmail,
+						ip: ip,
+						timeorder: new Date().getTime(),
+						lasttouch: new Date().getTime(),
+						state: "normal",
+						votes: 0
+					}, function(error, id) {
+						if(error) {
+							keys = error.invalidKeys;
+						}
+					});
+				}		
+			});*/
 		}
 		return keys;
 	},

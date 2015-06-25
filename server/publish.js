@@ -1,5 +1,9 @@
 Meteor.publish('instances', function(table) {
-  return Instances.find();
+  return Instances.find({
+	  /*lasttouch: {
+		  $gt: (new Date().getTime() - 2592000000)
+	  }*/
+  });
 });
 
 Meteor.publish('questions', function(table) {
