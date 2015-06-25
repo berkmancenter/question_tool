@@ -52,6 +52,18 @@ Meteor.methods({
 			}, function(error, id) {
 				if(error) {
 					keys = error.invalidKeys;
+				} else {
+					Questions.update({
+						_id: currentURL
+					}, {
+						$set: {
+							lasttouch: new Date().getTime()
+						}
+					}, function(error, count, status) {
+						if(error) {
+							return false;
+						}
+					});
 				}
 			});
 		}
