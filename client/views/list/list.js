@@ -70,7 +70,7 @@ Template.list.onRendered(function() {
 				// Active when one .quesiton div is dropped on another
 			  accept: '.question',
 				// The two divs need over 75% overlapping for the drop to be registered
-			  overlap: 0.75,
+			  overlap: 0.4,
 			  ondropactivate: function (event) {
 			  },
 			  ondragenter: function (event) {
