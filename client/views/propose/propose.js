@@ -35,6 +35,8 @@ Template.propose.events({
 				console.log("something: " + result);
 				Meteor.call('propose', Cookie.get("tablename"), question, posterName, posterEmail, result, function (error, result) {
 					// If returns an object, there was an error
+					console.log(error);
+					console.log(result);
 					if(typeof result === 'object') {
 						var errorString = "";
 						// Store an object of the error names and codes
@@ -56,8 +58,6 @@ Template.propose.events({
 						// Alert the error message
 						alert(errorString);
 					} else {
-						console.log(error);
-						console.log(result);
 						// If successful, redirect back to the list page
 						window.location.href = '/list';
 					}

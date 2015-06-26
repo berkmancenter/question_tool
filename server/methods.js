@@ -209,13 +209,32 @@ Meteor.methods({
 			return false;
 		} else {
 			// Update the lasttouch of the Instance
-			Instances.update({
+			Questions.insert({
+				tablename: tablename,
+				text: question,
+				poster: posterName,
+				email: posterEmail,
+				ip: ip,
+				timeorder: new Date().getTime(),
+				lasttouch: new Date().getTime(),
+				state: "normal",
+				votes: 0
+			}, function(error, id) {
+				if(error) {
+					// If error, store object in keys variable
+					keys = error.invalidKeys;
+				}
+			});
+			/*Instances.update({
 				_id: table._id
 			}, {
 				$set: {
 					lasttouch: new Date().getTime()
 				}
 			}, function(error, count, status) {
+				return {
+					error: error
+				}
 				if(error) {
 					// If error, store object in keys variable
 					keys = error.invalidKeys;
@@ -238,7 +257,7 @@ Meteor.methods({
 						}
 					});
 				}		
-			});
+			});*/
 		}
 		return keys;
 	},
