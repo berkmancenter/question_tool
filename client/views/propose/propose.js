@@ -28,15 +28,8 @@ Template.propose.events({
 				return false;
 			} else {
 				// Calls server-side "propose" method to add question to DB
-				console.log("tablename: " + Cookie.get("tablename"));
-				console.log("question: " + question);
-				console.log("name: " + posterName);
-				console.log("email: " + posterEmail);
-				console.log("something: " + result);
 				Meteor.call('propose', Cookie.get("tablename"), question, posterName, posterEmail, result, function (error, result) {
 					// If returns an object, there was an error
-					console.log(error);
-					console.log(result);
 					if(typeof result === 'object') {
 						var errorString = "";
 						// Store an object of the error names and codes
