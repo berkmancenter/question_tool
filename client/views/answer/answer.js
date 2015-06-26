@@ -38,21 +38,17 @@ Template.answer.events({
 					// If the result is an object, there was an error
 					if(typeof result === 'object') {
 						var errorString = "";
-						// Retrieve the error codes
+						// Store an object of the error names and codes
+						var errorCodes = {
+							"text": "Please enter a valid answer using less than 255 characters.",
+							"poster": "Please enter a valid name using less than 30 characters",
+							"email": "Please enter a valid email address.",
+							"ip": "There was an error with your IP address. Try again.",
+							"tablename": "There was an error with the table name. Try again.",
+							"qid": "There was an error with the question ID."
+						}
 						for(var e = 0; e < result.length; e++) {
-							if(result[e].name == "text") {
-								errorString += "Error #" + (e + 1) + " : Please enter a valid answer using less than 255 characters.\n\n";
-							} else if(result[e].name == "poster") {
-								errorString += "Error #" + (e + 1) + " : Please enter a valid name using less than 30 characters.\n\n";
-							} else if(result[e].name == "email") {
-								errorString += "Error #" + (e + 1) + " : Please enter a valid email address.\n\n";
-							} else if(result[e].name == "ip") {
-								errorString += "Error #" + (e + 1) + " : There was an error with your IP address.\n\n";
-							} else if(result[e].name == "tablename") {
-								errorString += "Error #" + (e + 1) + " : There was an error with the table name.\n\n";
-							} else if(result[e].name == "qid") {
-								errorString += "Error #" + (e + 1) + " : There was an error with the QID.\n\n";
-							}
+							errorString += "Error #" + (e + 1) + ": " + errorCodes[result[e].name] + "\n\n";
 						}
 						// Alert the error
 						alert(errorString);

@@ -22,21 +22,18 @@ Template.create.events({
 			// If the result is an object, there was an error
 			if(typeof result === 'object') {
 				var errorString = "";
+				// Store an object of the error names and codes
+				var errorCodes = {
+					"tablename": "Please enter a valid table name using only letters and numbers.",
+					"threshhold": "Please enter a valid # of 'featured' questions using the drop down menu.",
+					"new_length": "Please enter a valid value using the 'new questions' drop down menu.",
+					"stale_length": "Please enter a valid value using the 'old questions' drop down menu.",
+					"description": "Please enter a valid description under 255 characters.",
+					"password": "Please enter a valid password using letters and numbers and between 4 and 10 characters."
+				}
 				// Retrieve all of the errors
 				for(var e = 0; e < result.length; e++) {
-					if(result[e].name == "tablename") {
-						errorString += "Error #" + (e + 1) + " : Please enter a valid table name using only letters and numbers.\n\n";
-					} else if(result[e].name == "threshhold") {
-						errorString += "Error #" + (e + 1) + " : Please enter a valid # of 'featured' questions using the drop down menu.\n\n";
-					} else if(result[e].name == "new_length") {
-						errorString += "Error #" + (e + 1) + " : Please enter a valid value using the 'new questions' drop down menu.\n\n";
-					} else if(result[e].name == "stale_length") {
-						errorString += "Error #" + (e + 1) + " : Please enter a valid value using the 'old questions' drop down menu.\n\n";
-					} else if(result[e].name == "description") {
-						errorString += "Error #" + (e + 1) + " : Please enter a valid description under 255 characters.\n\n";
-					} else if(result[e].name == "password") {
-						errorString += "Error #" + (e + 1) + " : Please enter a valid password using letters and numbers and between 4 and 10 characters.\n\n";
-					}
+					errorString += "Error #" + (e + 1) + ": " + errorCodes[result[e].name] + "\n\n";
 				}
 				// Alert the error
 				alert(errorString);

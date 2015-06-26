@@ -28,40 +28,39 @@ Template.propose.events({
 				return false;
 			} else {
 				// Calls server-side "propose" method to add question to DB
-				Meteor.call('propose', Cookie.get("tablename"), question, posterName, 
-					posterEmail, result, function (error, result) {
-						// If returns an object, there was an error
-						if(typeof result === 'object') {
-							var errorString = "";
-							// Retrieve error descriptions
-							for(var e = 0; e < result.length; e++) {
-								if(result[e].name == "tablename") {
-									errorString += "Error #" + (e + 1) + " : Table name is invalid. Please return to the list and try again.\n\n";
-								} else if(result[e].name == "text") {
-									errorString += "Error #" + (e + 1) + " : Please enter a valid question using less than 255 characters.\n\n";
-								} else if(result[e].name == "poster") {
-									errorString += "Error #" + (e + 1) + " : Please enter a valid name using less than 30 characters.\n\n";
-								} else if(result[e].name == "ip") {
-									errorString += "Error #" + (e + 1) + " : There was an error with your IP address.\n\n";
-								} else if(result[e].name == "timeorder") {
-									errorString += "Error #" + (e + 1) + " : There was an error retrieving the current time.\n\n";
-								} else if(result[e].name == "lasttouch") {
-									errorString += "Error #" + (e + 1) + " : There was an error retrieving the current time.\n\n";
-								} else if(result[e].name == "state") {
-									errorString += "Error #" + (e + 1) + " : Question state is invalid. Pleae return to the list and try again.\n\n";
-								} else if(result[e].name == "votes") {
-									errorString += "Error #" + (e + 1) + " : # of votes is invalid. Please return to the list and try again.\n\n";
-								} else if(result[e].name == "email") {
-									errorString += "Error #" + (e + 1) + " : Please enter a valid email address using less than 70 characters.\n\n";
-								}
-							}
-							// Alert the error message
-							alert(errorString);
-							return false;
-						} else {
-							// If successful, redirect back to the list page
-							window.location.href = '/list';
+				console.log("tablename: " + Cookie.get("tablename"));
+				console.log("question: " + question);
+				console.log("name: " + posterName);
+				console.log("email: " + posterEmail);
+				console.log("something: " + result);
+				Meteor.call('propose', Cookie.get("tablename"), question, posterName, posterEmail, result, function (error, result) {
+					// If returns an object, there was an error
+					if(typeof result === 'object') {
+						var errorString = "";
+						// Store an object of the error names and codes
+						var errorCodes = {
+							"tablename": "Table name is invalid. Please return to the list and try again.",
+							"text": "Please enter a valid question using less than 255 characters.",
+							"poster": "Please enter a valid name using less than 30 characters.",
+							"ip": "There was an error with your IP address. Please try again.",
+							"timeorder": "There was an error retrieving the current time. Please try again.",
+							"lasttouch": "There was an error retrieving the current time. Please try again.",
+							"state": "Question state is invalid. Please return to the list and try again.",
+							"votes": "# of votes is invalid. Please return to the list and try again.",
+							"email": "Please enter a valid email address using less than 70 characters."
 						}
+						// Retrieve error descriptions
+						for(var e = 0; e < result.length; e++) {
+							errorString += "Error #" + (e + 1) + ": " + errorCodes[result[e].name] + "\n\n";
+						}
+						// Alert the error message
+						alert(errorString);
+					} else {
+						console.log(error);
+						console.log(result);
+						// If successful, redirect back to the list page
+						window.location.href = '/list';
+					}
 				});
 			}
 		});

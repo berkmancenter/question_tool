@@ -186,19 +186,17 @@ Template.list.events({
 					// If the result is an object, there was an error
 					if(typeof result === 'object') {
 						var errorString = "";
+						// Store an object of the error names and codes
+						var errorCodes = {
+							"lasttouch": "There was an error retrieving the time. Please return to the list and try again.",
+							"votes": "There was an error incrementing the votes. Please return to the list and try again.",
+							"qid": "There was an error with the question ID. Please return to the list and try again.",
+							"ip": "There was an error with your IP address. Please return to the list and try again.",
+							"tablename": "There was an error with the table name. Please return to the list and try again."
+						}
 						// Retrieves the different error messages
 						for(var e = 0; e < result.length; e++) {
-							if(result[e].name == "lasttouch") {
-								errorString += "Error #" + (e + 1) + " : There was an error retrieving the time. Please return to the list and try again.\n\n";
-							} else if(result[e].name == "votes") {
-								errorString += "Error #" + (e + 1) + " : There was an error incrementing the votes. Please return to the list and try again.\n\n";
-							} else if(result[e].name == "qid") {
-								errorString += "Error #" + (e + 1) + " : There was an error with the question ID. Please return to the list and try again.\n\n";
-							} else if(result[e].name == "ip") {
-								errorString += "Error #" + (e + 1) + " : There was an error with your IP address. Please return to the list and try again.\n\n";
-							} else if(result[e].name == "tablename") {
-								errorString += "Error #" + (e + 1) + " : There was an error with the table name. Please return to the list and try again.\n\n";
-							}
+							errorString += "Error #" + (e + 1) + ": " + errorCodes[result[e].name] + "\n\n";
 						}
 						// Alerts the error if one exists
 						alert(errorString);
