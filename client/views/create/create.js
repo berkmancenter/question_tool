@@ -29,7 +29,7 @@ Template.create.events({
 					"new_length": "Please enter a valid value using the 'new questions' drop down menu.",
 					"stale_length": "Please enter a valid value using the 'old questions' drop down menu.",
 					"description": "Please enter a valid description under 255 characters.",
-					"password": "Please enter a valid password using letters and numbers and between 4 and 10 characters."
+					"password": "Please enter a valid password using letters, numbers, *, #, @, and between 4 and 10 characters."
 				}
 				// Retrieve all of the errors
 				for(var e = 0; e < result.length; e++) {

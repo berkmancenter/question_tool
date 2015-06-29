@@ -32,5 +32,12 @@ Template.dashboard.events({
 			});
 			event.currentTarget.children[0].id = "rename";
 		}
+	},
+	"keypress input": function(event, template) {
+		event.which = event.which || event.keyCode;
+		if(event.which == 13) {
+			event.preventDefault();
+			event.currentTarget.parentNode.parentNode.children[1].children[0].click();
+		}
 	}
 })

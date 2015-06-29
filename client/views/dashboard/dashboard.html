@@ -1,6 +1,8 @@
 <template name="dashboard">
 	<body>
-		<div id="banner">Question Tool Admin Dashboard</div>
+		<a href="/">
+			<div id="banner">Question Tool Admin Dashboard</div>
+		</a>
 		<br/><br/>
 		<div id="wrapper" style="text-align: center;">
 			<center>
@@ -19,14 +21,14 @@
 								</a>
 								<input class="hiddeninput" type="text" value="{{tablename}}">
 							</td>
-							<td>
-								<a class="deletebutton" id="{{_id}}">
-									<p align="right" style="margin-right:15px;">Delete</p>
-								</a>
-							</td>
 							<td style="padding-right:15px;">
 								<a class="renamebutton" id="{{_id}}">
 									<p align="right" id="rename">Rename</p>
+								</a>
+							</td>
+							<td style="padding-right:10px;">
+								<a class="deletebutton" id="{{_id}}">
+									<p align="right" style="margin-right:15px;">Delete</p>
 								</a>
 							</td>
 						</tr>
