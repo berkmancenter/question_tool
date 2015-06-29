@@ -28,7 +28,15 @@ Template.home.onCreated(function() {
 		});
 	}
 	if(Cookie.get("tablename")) {
-		Session.set("hasCookie", true);
+		Meteor.call('listCookieCheck', Cookie.get("tablename"), function(error, result) {
+			if(result) {
+				Session.set("hasCookie", true);
+			} else {
+				Session.set("hasCookie", false);
+			}
+		});
+	} else {
+		Session.set("hasCookie", false);
 	}
 });
 
