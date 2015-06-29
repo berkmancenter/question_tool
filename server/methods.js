@@ -324,6 +324,74 @@ Meteor.methods({
 			}
 		});
 	},
+	adminRemove: function(password, id) {
+		// Ensures that the user has proper admin privileges
+		var result;
+		if(password === "QuestionTool2015") {
+			var table = Instances.findOne({
+				_id: id
+			});
+			//Removes all of the questions with the given table ID
+			Questions.remove({
+				q: table.tablename
+			}, function(error) {
+				if(error) {
+					alert(error);
+				} else {
+					// If successful, removes all answers with the given tablename
+					Answers.remove({
+						tablename: table.tablename
+					}, function(error) {
+						if(error) {
+							alert(error);
+						} else {
+							// If successful, remove the instance with the given tablename
+							Instances.remove({
+								tablename: table.tablename
+							}, function(error) {
+								if(error) {
+									alert(error);
+								} else {
+									// If successful, remove all votes with the given tablename
+									Votes.remove({
+										tablename: table.tablename
+									}, function(error) {
+										if(error) {
+											alert(error);
+										} else {
+											result = true;
+										}
+									});
+								}
+							});
+						}
+					});
+				}
+			});
+		} else {
+			result = false;
+		}
+		return result;
+	},
+	rename: function(id, name, password) {
+		var result;
+		if(password === "QuestionTool2015") {
+			Instances.update({
+				_id: id
+			}, {
+				$set: {
+					tablename: name
+				}
+			}, function(error, count, status) {
+				if(!error) {
+					result = true;
+				}
+			})
+		} else {
+			result = false;;
+		}
+		return result;
+	},
 	// Method that registers a vote on a question
 	vote: function(id, ip, tablename) {
 		var keys = "";

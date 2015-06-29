@@ -202,3 +202,16 @@ div#recent, div#popular {
 	text-decoration:underline;
 	cursor:pointer;
 }
+
+.deletebutton, .renamebutton {
+	text-decoration:underline;
+	cursor:pointer;
+}
+
+.hiddeninput {
+	display:none;
+}
+
+.visibleinput {
+	display:inline-block;
+}

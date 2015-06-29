@@ -1,0 +1,46 @@
+<template name="dashboard">
+	<body>
+		<div id="banner">Question Tool Admin Dashboard</div>
+		<br/><br/>
+		<div id="wrapper" style="text-align: center;">
+			<center>
+				<div class="center">
+					<div class="columnhead">
+						Instance options
+					</div>
+					<table id="admintable">
+					{{#each instances}}
+						<tr>
+							<td>
+								<a href="/list/{{tablename}}">
+									<p align="left">{{tablename}}</p>
+								</a>
+								<input class="hiddeninput" type="text" value="{{tablename}}">
+							</td>
+							<td>
+								<a class="deletebutton" id="{{_id}}">
+									<p align="right" style="margin-right:15px;">Delete</p>
+								</a>
+								<input class="hiddeninput" type="text" value="{{tablename}}">
+							</td>
+							<td>
+								<a class="renamebutton" id="{{_id}}">
+									<p align="right" id="rename">Rename</p>
+								</a>
+								<input class="hiddeninput" type="text" value="{{tablename}}">
+							</td>
+						</tr>
+					{{/each}}
+					</table>
+					<br />
+					<p style="text-align:center;">
+						<a href="/create">Create a new instance</a>
+					</p>
+					<p align="center">
+						<a href="/list">Return to the list</a>
+					</p>
+				</div>
+			</center>
+		</div>
+	</body>
+</template>
