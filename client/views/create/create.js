@@ -3,6 +3,8 @@ Template.create.events({
 	"click #submitbutton": function(event, template) {
 		// Retrieve data from the form
 		var tablename = document.getElementsByName("tablename")[0].value;
+		// Ensures that the table name is capitalzied
+		tablename = tablename.charAt(0).toUpperCase() + tablename.slice(1);
 		var password = document.getElementsByName("pword1")[0].value;
 		var passwordConfirm = document.getElementsByName("pword2")[0].value;
 		var threshholdSelect = document.getElementsByName("threshold")[0];
@@ -12,6 +14,8 @@ Template.create.events({
 		var staleSelect = document.getElementsByName("stale_length")[0];
 		var stale = staleSelect[staleSelect.selectedIndex].value;
 		var description = document.getElementsByName("description")[0].value;
+		// Ensures that the table description is capitalized
+		description = description.charAt(0).toUpperCase() + description.slice(1);
 		// If the passwords don't match, alert the user
 		if(password != passwordConfirm) {
 			alert("Passwords do not match. Please try again.");
