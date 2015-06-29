@@ -171,6 +171,9 @@ Meteor.methods({
 		if((password != instance.password) || (!password || !instance.password)) {
 			return false;
 		}
+		var question2 = Questions.findOne({
+			_id: id2
+		});
 		// Updates the text of the FIRST question
 		Questions.update({
 			_id: id1
@@ -178,6 +181,9 @@ Meteor.methods({
 			$set: {
 				lasttouch: new Date().getTime(),
 				text: question
+			}, 
+			$inc: {
+				votes: question2.votes
 			}
 		}, function(error, count, status) {
 			if(error) {
@@ -193,6 +199,8 @@ Meteor.methods({
 				}, function(error, count, status) {
 					if(error) {
 						return false;
+					} else {
+						
 					}
 				});
 			}		
