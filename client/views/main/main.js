@@ -19,9 +19,33 @@ Template.submitbutton.events({
 	}
 });
 
+Template.home.onCreated(function() {
+	if(Cookie.get("tooladmin_pw")) {
+		Meteor.call('admin', Cookie.get("tooladmin_pw"), function(error, result) {
+			if(result) {
+				Session.set("toolAdmin", true);
+			}
+		});
+	}
+});
+
 Template.home.onRendered(function() {
 	// When the template is rendered, set the document title
 	document.title = "Live Question Tool Chooser";
 });
+
+Template.home.helpers({
+	toolAdmin: function() {
+		//alert("var should be... " + Session.get("toolAdmin"));
+		return Session.get("toolAdmin")
+	}
+});
+
+Template.home.events({
+	"click #logoutbutton": function(event, template) {
+		Cookie.set("tooladmin_pw", "");
+		Session.set("toolAdmin", false);
+	}
+})
 
 

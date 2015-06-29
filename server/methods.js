@@ -1,4 +1,12 @@
 Meteor.methods({
+	// A method that checks whether the Question Tool admin password is correct
+	admin: function(password) {
+		if(password === "QuestionTool2015") {
+			return password;
+		} else {
+			return false;
+		}
+	},
 	// A method that returns the current connection's IP address
 	getIP: function () {
 		return this.connection.clientAddress;

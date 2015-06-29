@@ -33,6 +33,18 @@
 					<p align="center">
 						<a href="/list">Return to the list</a>
 					</p>
+					{{#if toolAdmin}}
+						<p align="center">
+							<a href="/dashboard">Admin dashboard</a>
+						</p>
+						<p align="center">
+							<a id="logoutbutton">Logout as admin</a>
+						</p>
+					{{else}}
+						<p align="center">
+							<a href="/admin">Login as admin</a>
+						</p>
+					{{/if}}
 				</div>
 			</center>
 		</div>
