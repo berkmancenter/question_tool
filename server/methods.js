@@ -385,6 +385,10 @@ Meteor.methods({
 	},
 	rename: function(id, name, password) {
 		var result;
+		var originalInstance = Instances.findOne({
+			_id: id
+		});
+		var originalName = originalInstance.tablename;
 		if(password === "QuestionTool2015") {
 			Instances.update({
 				_id: id
@@ -394,9 +398,45 @@ Meteor.methods({
 				}
 			}, function(error, count, status) {
 				if(!error) {
-					result = true;
+					Questions.update({
+						tablename: originalName
+					}, {
+						$set: {
+							tablename: name
+						}
+					}, {
+						multi: true
+					}, function(error, count, status) {
+						if(!error) {
+							Answers.update({
+								tablename: originalName
+							}, {
+								$set: {
+									tablename: name
+								}
+							}, {
+								multi: true
+							}, function(error, count, status) {
+								if(!error) {
+									Votes.update({
+										tablename: originalName
+									}, {
+										$set: {
+											tablename: name
+										}
+									}, {
+										multi: true
+									},function(error, count, status) {
+										if(!error) {
+											result = true;
+										}
+									});
+								}
+							});
+						}
+					});
 				}
-			})
+			});
 		} else {
 			result = false;;
 		}
