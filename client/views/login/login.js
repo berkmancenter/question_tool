@@ -28,17 +28,14 @@ Template.login.events({
 	"click #submitbutton": function(event, template) {
 		// Checks whether the proper password was submitted
 		var password = document.getElementsByName("pword")[0].value;
-		var instance = Instances.findOne({
-			tablename: Cookie.get("tablename")
+		Meteor.call('login', Cookie.get("tablename"), password, function(error, result) {
+			if(result) {
+				Cookie.set("admin_pw", result);
+				window.location.href = "/list";
+			} else {
+				alert("Password was incorrect. Try again.");
+			}
 		});
-		if(password == instance.password) {
-			Cookie.set("admin_pw", password);
-			window.location.href = "/list";
-		} else {
-			// If the password is incorrect, notfiy the user
-			alert("Password was incorrect");
-			return false;
-		}
 	},
 	// If the enter key is pressed, submit the form
 	"keypress #passwordbox": function(event, template) {

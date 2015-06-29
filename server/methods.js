@@ -147,6 +147,16 @@ Meteor.methods({
 			}
 		});
 	},
+	login: function(tablename, password) {
+		var instance = Instances.findOne({
+			tablename: tablename
+		});
+		if(password == instance.password) {
+			return instance.password;
+		} else {
+			return false;
+		}
+	},
 	// Method that modifies a question
 	modify: function(question, id, password, table) {
 		// Checks whether the user has the proper admin privileges
