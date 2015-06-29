@@ -30,9 +30,11 @@
 					<p style="text-align:center;">
 						<a href="/create">Create a new instance</a>
 					</p>
-					<p align="center">
-						<a href="/list">Return to the list</a>
-					</p>
+					{{#if hasCookie}}
+						<p align="center">
+							<a href="/list">Return to the list</a>
+						</p>
+					{{/if}}
 					{{#if toolAdmin}}
 						<p align="center">
 							<a href="/dashboard">Admin dashboard</a>

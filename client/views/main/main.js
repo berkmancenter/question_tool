@@ -27,6 +27,9 @@ Template.home.onCreated(function() {
 			}
 		});
 	}
+	if(Cookie.get("tablename")) {
+		Session.set("hasCookie", true);
+	}
 });
 
 Template.home.onRendered(function() {
@@ -36,9 +39,12 @@ Template.home.onRendered(function() {
 
 Template.home.helpers({
 	toolAdmin: function() {
-		//alert("var should be... " + Session.get("toolAdmin"));
-		return Session.get("toolAdmin")
+		return Session.get("toolAdmin");
+	},
+	hasCookie: function() {
+		return Session.get("hasCookie");
 	}
+	
 });
 
 Template.home.events({
