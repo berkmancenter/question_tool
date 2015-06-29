@@ -4,6 +4,10 @@ Template.dashboard.helpers({
 	}
 });
 
+Template.dashboard.onRendered(function() {
+	document.title = "Quesiton Tool Admin Dashboard";
+});
+
 Template.dashboard.events({
 	"click .deletebutton": function(event, template) {
 		var check = confirm("Are you sure you would like to delete the instance?");
