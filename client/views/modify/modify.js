@@ -35,10 +35,10 @@ Template.modify.events({
 		});
 	},
 	// If the enter key is pressed, submit the form
-	"keypress #modifybox": function(e, template) {
-		e.which = e.which || e.keyCode;
-		if(e.which == 13) {
-			e.preventDefault();
+	"keypress #modifybox": function(event, template) {
+		event.which = event.which || event.keyCode;
+		if(event.which == 13) {
+			event.preventDefault();
 			document.getElementById("submitbutton").click();
 		}
 	}

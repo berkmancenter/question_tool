@@ -58,10 +58,10 @@ Template.propose.events({
 			}
 		});
 	},
-	"keypress #emailbox": function(e, template) {
-		e.which = e.which || e.keyCode;
-		if(e.which == 13) {
-			e.preventDefault();
+	"keypress #emailbox": function(event, template) {
+		event.which = event.which || event.keyCode;
+		if(event.which == 13) {
+			event.preventDefault();
 			document.getElementById("submitbutton").click();
 		}
 	}
