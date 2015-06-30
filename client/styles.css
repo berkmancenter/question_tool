@@ -242,3 +242,12 @@ div#recent, div#popular {
 .visibleinput {
 	display:inline-block;
 }
+
+#rightInfo {
+	float:right;
+	margin-right:20px;
+}
+
+#navLogout, #navLogin {
+	cursor:pointer;
+}

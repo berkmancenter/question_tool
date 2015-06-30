@@ -2,6 +2,7 @@
 	<body>
 	    <div id="banner">
 	        Question Tool Proposal Form
+			{{> userInfo}}
 	    </div>
 		<br />
 	    <br />
@@ -102,4 +103,21 @@
 			<input id="emailbox" maxlength="50" name="email" type="text" value="{{currentUser.emails.[0].address}}" readonly>
 		</td>
     </tr>
+</template>
+
+<template name="userInfo">
+	<div id="rightInfo">
+		{{#if currentUser}}
+			<span id="navProfile">
+				({{currentUser.profile.name}})
+			</span>
+			<span id="navLogout">
+				Logout
+			</span>
+		{{else}}
+			<span id="navLogin">
+				Login
+			</span>
+		{{/if}}
+	</div>
 </template>
