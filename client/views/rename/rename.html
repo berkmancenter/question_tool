@@ -1,0 +1,37 @@
+<template name="rename">
+	<body>
+		<div id="banner">Rename Your Instance</div>
+		<br />
+		<br />
+		<div id="wrapper">
+			<center>							
+				<div class="center">
+					<div class="columnhead">
+						Rename instance
+					</div>
+					<br/>
+					<center>
+						<b><!-- ERROR MESSAGE GOES HERE IF ONE EXISTS --></b>
+					</center>
+					<br />
+					<table width="100%">
+						<tr>
+							<td>
+								<b>Enter a new name for {{this.tablename}}:</b>
+							</td>
+							<td>
+								<input type="text" id="namebox" maxlength="40" name="tname">
+							</td>
+						</tr>
+					</table>
+					<p align="center">
+						<button id="submitbutton">Submit</button>
+					</p>
+					<p align="center">
+						<a href="/">Return to the chooser</a>
+					</p>
+				</div>
+			</center>
+		</div>
+	</body>
+</template>

@@ -383,13 +383,18 @@ Meteor.methods({
 		}
 		return result;
 	},
-	rename: function(id, name, password) {
+	rename: function(id, name, password, admin) {
 		var result;
 		var originalInstance = Instances.findOne({
 			_id: id
 		});
 		var originalName = originalInstance.tablename;
-		if(password === "QuestionTool2015") {
+		if(admin) {
+			var check = "QuestionTool2015";
+		} else {
+			var check = originalInstance.password;
+		}
+		if(password === check) {
 			Instances.update({
 				_id: id
 			}, {
@@ -440,7 +445,7 @@ Meteor.methods({
 		} else {
 			result = false;;
 		}
-		return result;
+		return name;
 	},
 	// Method that registers a vote on a question
 	vote: function(id, ip, tablename) {

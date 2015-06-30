@@ -17,6 +17,7 @@ Template.list.onCreated(function () {
 	Meteor.call('getTable', Cookie.get("tablename"), function(error, result) {
 		// If successful, store table data in Session variables
 		if(result) {
+			Session.set("id", result._id);
 			Session.set("tablename", result.tablename);
 			Session.set("description", result.description);
 			Session.set("threshhold", result.threshhold);
@@ -94,6 +95,10 @@ Template.list.helpers({
 	// Sets the template tablename to the Session tablename variable
 	tablename: function() {
 		return Session.get("tablename");
+	},
+	// Sets the template id to the Session id variable
+	id: function() {
+		return Session.get("id");
 	},
 	// Sets the template description to the Session description variable
 	description: function() {
