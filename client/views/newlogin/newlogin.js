@@ -2,6 +2,13 @@ Template.newlogin.events({
 	"click #submitbutton": function() {
 		var email = document.getElementById("loginemail").value;
 		var password = document.getElementById("passwordbox").value;
+		if(!email) {
+			alert("Please enter a valid email address.");
+			return false;
+		} else if(!password) {
+			alert("Please enter a valid password.");
+			return false
+		}
 		Meteor.loginWithPassword(email, password, function(error) {
 			if(!error) {
 				window.location.href = "/";
