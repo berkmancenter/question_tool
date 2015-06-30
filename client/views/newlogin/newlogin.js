@@ -4,7 +4,7 @@ Template.newlogin.events({
 		var password = document.getElementById("passwordbox").value;
 		Meteor.loginWithPassword(email, password, function(error) {
 			if(!error) {
-				window.location.href = "/list";
+				window.location.href = "/";
 			} else {
 				alert(error);
 			}

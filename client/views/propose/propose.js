@@ -8,10 +8,6 @@ Template.propose.onCreated(function () {
 	});
 });
 
-Tracker.autorun(function() {
-	console.log(Meteor.user());
-});
-
 Template.propose.onRendered(function() {
 	// When the template is rendered, sets the document title
 	document.title = "Live Question Tool Proposal Form";
@@ -21,11 +17,20 @@ Template.propose.events({
 	// When the submit button is clicked...
 	"click #submitbutton": function(event, template) {
 		// Retrieves data from the form
+		var anonymous = document.getElementById("anonbox").checked;
 		var question = document.getElementsByName("comment")[0].value;
 		var posterName = document.getElementsByName("poster")[0].value;
 		var posterEmail = document.getElementsByName("email")[0].value;
-		var password1 = document.getElementById("passwordbox").value;
-		var password2 = document.getElementById("passwordconfirm").value;
+		var password1 = document.getElementById("passwordbox");
+		var password2 = document.getElementById("passwordconfirm");
+		if(password1 && password2) {
+			password1 = password1.value;
+			password2 = password2.vaue
+		}
+		if(anonymous) {
+			posterName = "Anonymous";
+			posterEmail = "";
+		}
 		// Checks whether the question input is blank
 		if(!question) {
 			alert("Question cannot be left blank. Please try again.");
@@ -52,8 +57,6 @@ Template.propose.events({
 				}, function(error) {
 					if(error) {
 						alert("Account creation failed. Please try again.");
-					} else {
-						console.log(Meteor.user());
 					}
 				})
 				//Both passwords and input are a-okay
@@ -118,6 +121,9 @@ Template.userInfo.events({
 	},
 	"click #navLogin": function(event, template) {
 		window.location.href = "/newlogin";
+	},
+	"click #navRegister": function(event, template) {
+		window.location.href = "/register";
 	}
 })
 

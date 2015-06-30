@@ -103,6 +103,14 @@
 			<input id="emailbox" maxlength="50" name="email" type="text" value="{{currentUser.emails.[0].address}}" readonly>
 		</td>
     </tr>
+    <tr>
+        <td style="font-weight: bold">
+			Post as anonymous?
+		</td>
+        <td>
+			<input id="anonbox" type="checkbox">
+		</td>
+    </tr>
 </template>
 
 <template name="userInfo">
@@ -117,6 +125,9 @@
 		{{else}}
 			<span id="navLogin">
 				Login
+			</span>
+			<span id="navRegister">
+				Register
 			</span>
 		{{/if}}
 	</div>
