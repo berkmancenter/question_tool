@@ -20,6 +20,28 @@ Template.propose.events({
 		var question = document.getElementsByName("comment")[0].value;
 		var posterName = document.getElementsByName("poster")[0].value;
 		var posterEmail = document.getElementsByName("email")[0].value;
+		var password1 = document.getElementById("passwordbox").value;
+		var password2 = document.getElementById("passwordconfirm").value;
+		// Checks whether the question input is blank
+		if(!question) {
+			alert("Question cannot be left blank. Please try again.");
+			return false;
+		}
+		// If the user entered a password, check the input
+		if(password1 || password2) {
+			if(password1 != password2) {
+				alert("Your passwords don't match. Please try again");
+				return false;
+			} else if(!posterName) {
+				alert("If you're creating an account, the name can't be left blank. Please try again.");
+				return false;
+			} else if(!posterEmail) {
+				alert("If you're creating an account, the email can't be left blank. Please try again.");
+				return false;
+			} else {
+				//Both passwords and input are a-okay
+			}
+		}
 		// Calls server-side method to get the user's IP address
 		Meteor.call('getIP', function (error, result) {
 			if (error) {
@@ -63,6 +85,12 @@ Template.propose.events({
 		if(event.which == 13) {
 			event.preventDefault();
 			document.getElementById("submitbutton").click();
+		}
+	},
+	"keypress #passwordbox": function(event, template) {
+		var passwordConfirm = document.getElementById("confirmcontainer");
+		if(passwordConfirm.className == "hiddeninput") {
+			passwordConfirm.className = "";
 		}
 	}
 });
