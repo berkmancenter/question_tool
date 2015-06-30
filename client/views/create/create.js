@@ -47,6 +47,26 @@ Template.create.events({
 				window.location.href = '/list';
 			}
 		});
+	},
+	"click .plusbutton": function(event, template) {
+		var row = event.currentTarget.parentElement.parentElement;
+		var buttons = row.getElementsByClassName("plusbutton");
+		for(var i = 0; i < buttons.length; i++) {
+			buttons[i].style.display = "none";
+		}
+		var line = document.createElement("div");
+		line.className = "modline";
+		var input = document.createElement("input");
+		input.type = "text";
+		input.style.clear = "both";
+		input.maxLength = "45";
+		input.className = "modbox";
+		var plus = document.createElement("div");
+		plus.className = "plusbutton";
+		plus.innerHTML = "+";
+		line.appendChild(input);
+		line.appendChild(plus);
+		event.currentTarget.parentElement.appendChild(line);
 	}
 });
 

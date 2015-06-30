@@ -251,3 +251,27 @@ div#recent, div#popular {
 #navLogout, #navLogin, #navRegister {
 	cursor:pointer;
 }
+
+.plusbutton {
+	display:inline-block;
+	width:18px;
+	height:18px;
+	border-radius:2px;
+	cursor:pointer;
+	background-color:#33a136;
+	margin-top:3px;
+	color:white;
+	font-size:14px;
+	padding-top:0px;
+	text-align:center;
+	margin-left:5px;
+}
+
+.modline {
+	width:100%;
+	display:inline-block;
+}
+
+.plusbutton:hover {
+	background-color: #55c95855c958;
+}
