@@ -117,7 +117,7 @@ Template.userInfo.events({
 		Meteor.logout();
 	},
 	"click #navLogin": function(event, template) {
-		window.location.href = "/login";
+		window.location.href = "/newlogin";
 	}
 })
 
