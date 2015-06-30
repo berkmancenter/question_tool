@@ -3,9 +3,9 @@ Template.userInfo.events({
 		Meteor.logout();
 	},
 	"click #navLogin": function(event, template) {
-		window.location.href = "/newlogin";
+		window.location.href = "/newlogin/" + encodeURIComponent(window.location.href);
 	},
 	"click #navRegister": function(event, template) {
 		window.location.href = "/register";
 	}
-})
+});

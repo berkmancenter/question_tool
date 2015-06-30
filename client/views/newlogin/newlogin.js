@@ -1,9 +1,10 @@
 Template.newlogin.onRendered(function() {
 	document.title = "Question Tool Login";
+	console.log(Template.data());
 });
 
 Template.newlogin.events({
-	"click #submitbutton": function() {
+	"click #submitbutton": function(event, template) {
 		var email = document.getElementById("loginemail").value;
 		var password = document.getElementById("passwordbox").value;
 		if(!email) {
@@ -15,7 +16,7 @@ Template.newlogin.events({
 		}
 		Meteor.loginWithPassword(email, password, function(error) {
 			if(!error) {
-				window.location.href = "/";
+				window.location.href = template.data;
 			} else {
 				alert(error);
 			}
