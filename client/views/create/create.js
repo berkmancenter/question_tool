@@ -1,6 +1,15 @@
 Template.create.events({
 	// When the submit button is pressed...
 	"click #submitbutton": function(event, template) {
+		/*var modsInput = document.getElementsByClassName("modbox");
+		var mods = [];
+		for(var m = 0; m < modsInput.length; m++) {
+			if(modsInput[m].value) {
+				mods.push(modsInput[m].value);
+			}
+		}
+		console.log(mods);
+		return false;*/
 		// Retrieve data from the form
 		var tablename = document.getElementsByName("tablename")[0].value;
 		// Ensures that the table name is capitalzied
