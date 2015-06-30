@@ -7,7 +7,7 @@ Template.newlogin.events({
 			return false;
 		} else if(!password) {
 			alert("Please enter a valid password.");
-			return false
+			return false;
 		}
 		Meteor.loginWithPassword(email, password, function(error) {
 			if(!error) {
