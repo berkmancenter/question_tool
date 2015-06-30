@@ -8,6 +8,10 @@ Template.propose.onCreated(function () {
 	});
 });
 
+Tracker.autorun(function() {
+	console.log(Meteor.user());
+});
+
 Template.propose.onRendered(function() {
 	// When the template is rendered, sets the document title
 	document.title = "Live Question Tool Proposal Form";
@@ -39,6 +43,19 @@ Template.propose.events({
 				alert("If you're creating an account, the email can't be left blank. Please try again.");
 				return false;
 			} else {
+				Accounts.createUser({
+					email: posterEmail,
+					password: password2,
+					profile: {
+						name: posterName
+					}
+				}, function(error) {
+					if(error) {
+						alert("Account creation failed. Please try again.");
+					} else {
+						console.log(Meteor.user());
+					}
+				})
 				//Both passwords and input are a-okay
 			}
 		}

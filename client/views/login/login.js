@@ -28,7 +28,7 @@ Template.login.events({
 	"click #submitbutton": function(event, template) {
 		// Checks whether the proper password was submitted
 		var password = document.getElementsByName("pword")[0].value;
-		Meteor.call('login', Cookie.get("tablename"), password, function(error, result) {
+		Meteor.call('adminLogin', Cookie.get("tablename"), password, function(error, result) {
 			if(result) {
 				Cookie.set("admin_pw", result);
 				window.location.href = "/list";

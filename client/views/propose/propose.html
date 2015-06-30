@@ -20,47 +20,31 @@
                         	<textarea cols="40" name="comment" rows="4"></textarea>
 						</td>
                     </tr>
-                    <tr>
-                        <td style="font-weight: bold">
-							Your name (optional):
-						</td>
-                        <td>
-							<input maxlength="30" name="poster" type="text">
-						</td>
-                    </tr>
-                    <tr>
-                        <td style="font-weight: bold">
-							Your email address (optional):
-						</td>
-                        <td>
-							<input id="emailbox" maxlength="50" name="email" type="text">
-						</td>
-                    </tr>
+					{{#if currentUser}}
+						{{> filledInput}}
+					{{else}}
+	                    <tr>
+	                        <td style="font-weight: bold">
+								Your name (optional):
+							</td>
+	                        <td>
+								<input maxlength="30" name="poster" type="text">
+							</td>
+	                    </tr>
+	                    <tr>
+	                        <td style="font-weight: bold">
+								Your email address (optional):
+							</td>
+	                        <td>
+								<input id="emailbox" maxlength="50" name="email" type="text">
+							</td>
+	                    </tr>
+					{{/if}}
 				</table>
-				<br />
-				<br />
-				<span style="text-align:center;display:block;margin:0px auto;">
-					Want to save your information? Enter a password to create an account.
-				</span>
-				<br />
-				<table width="100%">
-                    <tr>
-                        <td style="font-weight: bold">
-							Your password (optional):
-						</td>
-                        <td>
-							<input id="passwordbox" maxlength="50" type="password">
-						</td>
-                    </tr>
-                    <tr id="confirmcontainer" class="hiddeninput">
-                        <td style="font-weight: bold">
-							Confirm your password (optional):
-						</td>
-                        <td>
-							<input id="passwordconfirm" maxlength="50" type="password">
-						</td>
-                    </tr>
-                </table>
+				{{#if currentUser}}
+				{{else}}
+					{{> passwordArea}}
+				{{/if}}
                 <p style="text-align: center">
 					<button id="submitbutton">Submit</button>
 					<input name="submit_check" type="hidden" value="1">
@@ -72,4 +56,50 @@
 			<br />
 	    </div>
 	</body>
+</template>
+
+<template name="passwordArea">
+	<br />
+	<br />
+	<span style="text-align:center;display:block;margin:0px auto;">
+		Want to save your information? Enter a password to create an account.
+	</span>
+	<br />
+	<table width="100%">
+        <tr>
+            <td style="font-weight: bold">
+				Your password (optional):
+			</td>
+            <td>
+				<input id="passwordbox" maxlength="50" type="password">
+			</td>
+        </tr>
+        <tr id="confirmcontainer" class="hiddeninput">
+            <td style="font-weight: bold">
+				Confirm your password (optional):
+			</td>
+            <td>
+				<input id="passwordconfirm" maxlength="50" type="password">
+			</td>
+        </tr>
+    </table>
+</template>
+
+<template name="filledInput">
+    <tr>
+        <td style="font-weight: bold">
+			Your name (optional):
+		</td>
+        <td>
+			<input maxlength="30" name="poster" type="text" value="{{currentUser.profile.name}}" readonly>
+		</td>
+    </tr>
+    <tr>
+        <td style="font-weight: bold">
+			Your email address (optional):
+		</td>
+        <td>
+			<input id="emailbox" maxlength="50" name="email" type="text" value="{{currentUser.emails.[0].address}}" readonly>
+		</td>
+    </tr>
 </template>

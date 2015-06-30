@@ -147,7 +147,7 @@ Meteor.methods({
 			}
 		});
 	},
-	login: function(tablename, password) {
+	adminLogin: function(tablename, password) {
 		var instance = Instances.findOne({
 			tablename: tablename
 		});
