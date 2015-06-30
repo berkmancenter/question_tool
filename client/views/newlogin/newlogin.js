@@ -1,3 +1,7 @@
+Template.newlogin.onRendered(function() {
+	document.title = "Question Tool Login";
+});
+
 Template.newlogin.events({
 	"click #submitbutton": function() {
 		var email = document.getElementById("loginemail").value;
@@ -24,4 +28,4 @@ Template.newlogin.events({
 			document.getElementById("submitbutton").click();
 		}
 	}
-})
+});

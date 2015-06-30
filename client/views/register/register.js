@@ -36,4 +36,8 @@ Template.register.events({
 			document.getElementById("submitbutton").click();
 		}
 	}
-})
+});
+
+Template.register.onRendered(function() {
+	document.title = "Question Tool Registration";
+});
