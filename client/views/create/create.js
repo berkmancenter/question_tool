@@ -79,6 +79,12 @@ Template.create.events({
 	}
 });
 
+/*Template.create.onCreated(function() {
+	if(!Meteor.user()) {
+		window.location.href = "/newlogin/test";
+	}
+});*/
+
 Template.create.onRendered(function() {
 	// Sets the document title when the template is rendered
 	document.title = "Live Question Tool Creation Area";
