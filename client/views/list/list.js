@@ -62,7 +62,8 @@ Template.list.onRendered(function() {
 				// Translates the question div to the current mouse position
 				target.style.webkitTransform = target.style.transform = 'translate(' + x + 'px, ' + y + 'px)';
 				// Sets the z-index to 99999 so the question div floats above others
-				target.style.cssText += "z-index:99999!important;"
+				target.style.cssText += "z-index:99999!important;";
+				target.style.backgroundColor = "#e3e3e3";
 				target.setAttribute('data-x', x);
 				target.setAttribute('data-y', y);
 			}
@@ -75,8 +76,10 @@ Template.list.onRendered(function() {
 			  ondropactivate: function (event) {
 			  },
 			  ondragenter: function (event) {
+				  event.target.style.backgroundColor = "#e3e3e3";
 			  },
 			  ondragleave: function (event) {
+				  event.target.style.backgroundColor = "white";
 			  },
 			  // When dropped on top of another div, redirect to the /combine page
 			  ondrop: function (event) {
