@@ -1,6 +1,5 @@
 Template.newlogin.onRendered(function() {
 	document.title = "Question Tool Login";
-	console.log(Template.data());
 });
 
 Template.newlogin.events({
@@ -15,7 +14,6 @@ Template.newlogin.events({
 			return false;
 		}
 		Meteor.loginWithPassword(email, password, function(error) {
-			alert(template.data);
 			if(!error) {
 				if(template.data) {
 					window.location.href = "/" + template.data;
@@ -38,7 +36,6 @@ Template.newlogin.events({
 		if(template.data) {
 			window.location.href = "/" + template.data;
 		} else {
-			alert();
 			window.location.href = "/";
 		}
 	}
