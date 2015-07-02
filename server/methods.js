@@ -130,6 +130,25 @@ Meteor.methods({
 			return tablename;
 		}
 	},
+	rearrange: function(arrangement, password) {
+		if(password === "QuestionTool2015") {
+			for(var i = 0; i < arrangement.length; i++) {
+				Instances.update({
+					_id: arrangement[i]
+				}, {
+					$set: {
+						order: i
+					}
+				}, function(error, count, status) {
+					if(error) {
+						return false;
+					}
+				});
+			}
+		} else {
+			return false;
+		}
+	},
 	// Method that unhides every question in a given table
 	unhide: function(table) {
 		// Sets state to normal for every question with tablename table

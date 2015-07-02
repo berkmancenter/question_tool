@@ -1,11 +1,27 @@
 Template.dashboard.helpers({
 	instances: function() {
-		return Instances.find().fetch();
+		var instances = Instances.find().fetch();
+		instances.sort(function(a, b) {
+		    return a.order - b.order;
+		});
+		return instances
 	}
 });
 
 Template.dashboard.onRendered(function() {
 	document.title = "Quesiton Tool Admin Dashboard";
+	$( "#admintable tbody" ).sortable({
+	    placeholder: "ui-state-highlight",
+		update: function(event, ui) {
+			var arrangement = $("#admintable tbody").sortable("toArray");
+			Meteor.call('rearrange', arrangement, Cookie.get("tooladmin_pw"), function(error, result) {
+				if(error) {
+					alert(error);
+				}
+			});
+		}
+	});
+	$( "#admintable tbody" ).disableSelection();
 	/*interact('#admintable tr')
 	.draggable({
 		// Divs have inertia and continue moving when mouse is released

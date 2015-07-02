@@ -194,6 +194,15 @@ div.votes a, div#nav a {
 	color:#FFF;
 }
 
+.tablerow {
+	width:100%;
+	cursor:move;
+}
+
+.ui-state-highlight {
+	border-color:green!important;
+}
+
 div#recent, div#popular {
 	background-color:#f5f5f0;
 	width:100%;
