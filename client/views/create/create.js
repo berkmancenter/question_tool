@@ -23,6 +23,8 @@ Template.create.events({
 		var staleSelect = document.getElementsByName("stale_length")[0];
 		var stale = staleSelect[staleSelect.selectedIndex].value;
 		var description = document.getElementsByName("description")[0].value;
+		var admin = Meteor.user().emails[0].address;
+		alert(admin);
 		// Ensures that the table description is capitalized
 		description = description.charAt(0).toUpperCase() + description.slice(1);
 		// If the passwords don't match, alert the user
@@ -31,7 +33,7 @@ Template.create.events({
 			return false;
 		}
 		// Calls the 'create' function on the server to add Instance to the DB
-		Meteor.call('create', tablename, threshhold, redLength, stale, description, passwordConfirm, function (error, result) {
+		Meteor.call('create', tablename, threshhold, redLength, stale, description, passwordConfirm, admin, function (error, result) {
 			// If the result is an object, there was an error
 			if(typeof result === 'object') {
 				var errorString = "";
