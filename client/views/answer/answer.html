@@ -29,22 +29,26 @@
 								<textarea name="comment" rows = "4" cols="40">{{answer}}</textarea>
 							</td>
                         </tr>
-						<tr>
-	                        <td>
-								<b>Your name (optional): </b>
-							</td>
-	                        <td>
-								<input type="text" name="poster" maxlength="30">
-							</td>
-                        </tr>
-						<tr>
-	                        <td>
-								<b>Your email address (optional): </b>
-							</td>
-	                        <td>
-								<input id="emailbox" type="text" name="email" maxlength = "50">
-							</td>
-                        </tr>
+						{{#if currentUser}}
+							{{> filledInput}}
+						{{else}}
+							<tr>
+		                        <td>
+									<b>Your name (optional): </b>
+								</td>
+		                        <td>
+									<input type="text" name="poster" maxlength="30">
+								</td>
+	                        </tr>
+							<tr>
+		                        <td>
+									<b>Your email address (optional): </b>
+								</td>
+		                        <td>
+									<input id="emailbox" type="text" name="email" maxlength = "50">
+								</td>
+	                        </tr>
+						{{/if}}
                     </table>
                     <p align="center">
                         <button id="submitbutton">Submit</button>

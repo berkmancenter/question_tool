@@ -17,9 +17,14 @@ Template.answer.events({
 	// When the submit button is clicked...
 	"click #submitbutton": function(event, template) {
 		// Retrieves data from form
+		var anonymous = document.getElementById("anonbox").checked;
 		var answer = document.getElementsByName("comment")[0].value;
 		var posterName = document.getElementsByName("poster")[0].value;
 		var email = document.getElementsByName("email")[0].value;
+		if(anonymous) {
+			posterName = "Anonymous";
+			email = "";
+		}
 		// Gets the question ID from the current URL
 		var currentURL = window.location.href;
 		currentURL = currentURL.split('/');
