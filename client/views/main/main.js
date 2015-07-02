@@ -60,6 +60,7 @@ Template.home.helpers({
 });
 
 Template.home.events({
+	// When the logout button is clicked
 	"click #logoutbutton": function(event, template) {
 		Cookie.set("tooladmin_pw", "");
 		Session.set("toolAdmin", false);

@@ -203,6 +203,10 @@ div.votes a, div#nav a {
 	border-color:green!important;
 }
 
+#returnbutton {
+	cursor:pointer;
+}
+
 div#recent, div#popular {
 	background-color:#f5f5f0;
 	width:100%;

@@ -3,7 +3,10 @@ Template.userInfo.events({
 		Meteor.logout();
 	},
 	"click #navLogin": function(event, template) {
-		window.location.href = "/newlogin/" + encodeURIComponent(window.location.href);
+		var URL = window.location.href;
+		var split = URL.split("/");
+		var page = split[split.length-1];
+		window.location.href = "/newlogin/" + page;
 	},
 	"click #navRegister": function(event, template) {
 		window.location.href = "/register";

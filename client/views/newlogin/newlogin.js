@@ -15,8 +15,13 @@ Template.newlogin.events({
 			return false;
 		}
 		Meteor.loginWithPassword(email, password, function(error) {
+			alert(template.data);
 			if(!error) {
-				window.location.href = template.data;
+				if(template.data) {
+					window.location.href = "/" + template.data;
+				} else {
+					window.location.href = "/";
+				}
 			} else {
 				alert(error);
 			}
@@ -27,6 +32,14 @@ Template.newlogin.events({
 		if(event.which == 13) {
 			event.preventDefault();
 			document.getElementById("submitbutton").click();
+		}
+	},
+	"click #returnbutton": function(event, template) {
+		if(template.data) {
+			window.location.href = "/" + template.data;
+		} else {
+			alert();
+			window.location.href = "/";
 		}
 	}
 });
