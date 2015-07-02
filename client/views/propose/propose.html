@@ -85,30 +85,3 @@
         </tr>
     </table>
 </template>
-
-<template name="filledInput">
-    <tr>
-        <td style="font-weight: bold">
-			Your name (optional):
-		</td>
-        <td>
-			<input maxlength="30" name="poster" type="text" value="{{currentUser.profile.name}}" readonly>
-		</td>
-    </tr>
-    <tr>
-        <td style="font-weight: bold">
-			Your email address (optional):
-		</td>
-        <td>
-			<input id="emailbox" maxlength="50" name="email" type="text" value="{{currentUser.emails.[0].address}}" readonly>
-		</td>
-    </tr>
-    <tr>
-        <td style="font-weight: bold">
-			Post as anonymous?
-		</td>
-        <td>
-			<input id="anonbox" type="checkbox">
-		</td>
-    </tr>
-</template>

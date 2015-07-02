@@ -1,7 +1,7 @@
-Meteor.setInterval( function () {
+/*Meteor.setInterval( function () {
 	// Sets Session variable "timeval" to current time in ms every 2 seconds
 	Session.set("timeval", new Date().getTime());
-}, 2000);
+}, 2000);*/
 
 Template.list.onCreated(function () {
 	// Initially sets the "timeval" Session variable to the current time
