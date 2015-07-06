@@ -2,7 +2,6 @@ Template.instanceoptions.helpers({
 	// Return all of the instances into the option chooser
 	instances: function() {
 		var instances = Instances.find().fetch();
-		console.log(instances);
 		instances.sort(function(a, b) {
 		    return a.order - b.order;
 		});
