@@ -24,7 +24,6 @@ Template.create.events({
 		var stale = staleSelect[staleSelect.selectedIndex].value;
 		var description = document.getElementsByName("description")[0].value;
 		var admin = Meteor.user().emails[0].address;
-		alert(admin);
 		// Ensures that the table description is capitalized
 		description = description.charAt(0).toUpperCase() + description.slice(1);
 		// If the passwords don't match, alert the user
@@ -61,6 +60,10 @@ Template.create.events({
 	},
 	"click .plusbutton": function(event, template) {
 		var row = event.currentTarget.parentElement.parentElement;
+		if(row.children.length >= 8) {
+			alert("You have reached the maximum number of moderators. (8)");
+			return false;
+		}
 		var buttons = row.getElementsByClassName("plusbutton");
 		for(var i = 0; i < buttons.length; i++) {
 			buttons[i].style.display = "none";
@@ -77,7 +80,7 @@ Template.create.events({
 		plus.innerHTML = "+";
 		line.appendChild(input);
 		line.appendChild(plus);
-		event.currentTarget.parentElement.appendChild(line);
+		row.appendChild(line);
 	}
 });
 
