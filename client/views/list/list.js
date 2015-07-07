@@ -21,6 +21,8 @@ Template.list.onCreated(function () {
 			Session.set("tablename", result.tablename);
 			Session.set("description", result.description);
 			Session.set("threshhold", result.threshhold);
+			Session.set("admin", false);
+			Session.set("mod", false);
 			if(result.admin == Meteor.user().emails[0].address) {
 				Session.set("admin", true);
 				enableDragging();
@@ -180,6 +182,18 @@ Template.list.events({
 				alert(error);
 			}
 		});
+	},
+	"click .deletebutton": function(event, template) {
+		var check = confirm("Are you sure you would like to delete the instance?");
+		if(check) {
+			Meteor.call('adminRemove', false, event.currentTarget.id, Meteor.user().emails[0].address, function(error, result) {
+				if(error) {
+					alert(error);
+				} else {
+					Router.go('/');
+				}
+			});
+		}
 	}
 });
 
