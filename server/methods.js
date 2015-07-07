@@ -152,21 +152,26 @@ Meteor.methods({
 		}
 	},
 	// Method that unhides every question in a given table
-	unhide: function(table) {
-		// Sets state to normal for every question with tablename table
-		Questions.update({
+	unhide: function(email, table) {
+		var instance = Instances.findOne({
 			tablename: table
-		}, {
-			$set: {
-				state: "normal"
-			},
-		}, {
-			multi: true
-		}, function(error, count, status) {
-			if(!error) {
-				return true;
-			}
 		});
+		if(email === instance.admin) {
+			// Sets state to normal for every question with tablename table
+			Questions.update({
+				tablename: table
+			}, {
+				$set: {
+					state: "normal"
+				},
+			}, {
+				multi: true
+			}, function(error, count, status) {
+				if(!error) {
+					return true;
+				}
+			});
+		}
 	},
 	adminLogin: function(tablename, password) {
 		var instance = Instances.findOne({

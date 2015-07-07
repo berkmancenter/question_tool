@@ -11,7 +11,7 @@ Template.rename.events({
 		console.log(template.data._id);
 		console.log(newName);
 		console.log(Cookie.get("admin_pw"));
-		Meteor.call('rename', template.data._id, newName, Cookie.get("admin_pw"), 1, function (error, result) { 
+		Meteor.call('rename', template.data._id, newName, Meteor.user().emails[0].address, 2, function (error, result) { 
 			if(result) {
 				Cookie.set("tablename", result);
 				window.location.href = "/list";

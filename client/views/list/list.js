@@ -21,7 +21,6 @@ Template.list.onCreated(function () {
 			Session.set("tablename", result.tablename);
 			Session.set("description", result.description);
 			Session.set("threshhold", result.threshhold);
-			Session.set("admin", false);
 			Session.set("mod", false);
 			if(result.admin == Meteor.user().emails[0].address) {
 				Session.set("admin", true);
@@ -89,7 +88,7 @@ Template.list.helpers({
 		// Loops through the retrieved questions and sets properties
 		for(var i = 0; i < questions.length; i++) {
 			if(questions[i].state != "disabled") {
-				questions[i].admin = Session.get("admin");
+				questions[i].adminButtons = true;
 				// Every other question goes in column #2
 				questions[i].indexOne = (i % 2 == 0);
 				// Sets the answer and modify links
@@ -176,7 +175,7 @@ Template.list.events({
 	// When the admin unhide button is clicked...
 	"click #unhidebutton": function(event, template) {	
 		// Call the server-side unhide method to unhide all questions
-		Meteor.call('unhide', Session.get("tablename"), function (error, result) {
+		Meteor.call('unhide', Meteor.user().emails[0].address, Session.get("tablename"), function (error, result) {
 			if(error) {
 				// If an error exists, alert it
 				alert(error);
