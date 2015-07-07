@@ -1,21 +1,12 @@
 Template.create.events({
 	// When the submit button is pressed...
 	"click #submitbutton": function(event, template) {
-		/*var modsInput = document.getElementsByClassName("modbox");
-		var mods = [];
-		for(var m = 0; m < modsInput.length; m++) {
-			if(modsInput[m].value) {
-				mods.push(modsInput[m].value);
-			}
-		}
-		console.log(mods);
-		return false;*/
 		// Retrieve data from the form
 		var tablename = document.getElementsByName("tablename")[0].value;
 		// Ensures that the table name is capitalzied
 		tablename = tablename.charAt(0).toUpperCase() + tablename.slice(1);
-		var password = document.getElementsByName("pword1")[0].value;
-		var passwordConfirm = document.getElementsByName("pword2")[0].value;
+		//var password = document.getElementsByName("pword1")[0].value;
+		//var passwordConfirm = document.getElementsByName("pword2")[0].value;
 		var threshholdSelect = document.getElementsByName("threshold")[0];
 		var threshhold = threshholdSelect[threshholdSelect.selectedIndex].value;
 		var lengthSelect = document.getElementsByName("new_length")[0];
@@ -27,12 +18,20 @@ Template.create.events({
 		// Ensures that the table description is capitalized
 		description = description.charAt(0).toUpperCase() + description.slice(1);
 		// If the passwords don't match, alert the user
-		if(password != passwordConfirm) {
+		/*if(password != passwordConfirm) {
 			alert("Passwords do not match. Please try again.");
 			return false;
+		}*/
+		var modsInput = document.getElementsByClassName("modbox");
+		var mods = [];
+		for(var m = 0; m < modsInput.length; m++) {
+			if(modsInput[m].value) {
+				mods.push(modsInput[m].value);
+			}
 		}
+		//console.log(mods);
 		// Calls the 'create' function on the server to add Instance to the DB
-		Meteor.call('create', tablename, threshhold, redLength, stale, description, passwordConfirm, admin, function (error, result) {
+		Meteor.call('create', tablename, threshhold, redLength, stale, description, mods,/*passwordConfirm,*/ admin, function (error, result) {
 			// If the result is an object, there was an error
 			if(typeof result === 'object') {
 				var errorString = "";
@@ -42,8 +41,8 @@ Template.create.events({
 					"threshhold": "Please enter a valid # of 'featured' questions using the drop down menu.",
 					"new_length": "Please enter a valid value using the 'new questions' drop down menu.",
 					"stale_length": "Please enter a valid value using the 'old questions' drop down menu.",
-					"description": "Please enter a valid description under 255 characters.",
-					"password": "Please enter a valid password using letters, numbers, *, #, @, and between 4 and 10 characters."
+					"description": "Please enter a valid description under 255 characters."/*,
+					"password": "Please enter a valid password using letters, numbers, *, #, @, and between 4 and 10 characters."*/
 				}
 				// Retrieve all of the errors
 				for(var e = 0; e < result.length; e++) {

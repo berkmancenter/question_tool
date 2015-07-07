@@ -55,6 +55,22 @@ Template.home.helpers({
 	},
 	hasCookie: function() {
 		return Session.get("hasCookie");
+	},
+	instances: function() {
+		var instances = Instances.find({
+			admin: Meteor.user().emails[0].address
+		}).fetch();
+		for(var i = 0; i < instances.length; i++) {
+			instances[i].userAdmin = true;
+		}
+		var moderators = Instances.find({
+			moderators: Meteor.user().emails[0].address
+		}).fetch();
+		for(var m = 0; m < moderators.length; m++) {
+			moderators[m].userModerator = true;
+		}
+		var final = instances.concat(moderators);
+		return final;
 	}
 	
 });
