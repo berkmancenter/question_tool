@@ -37,11 +37,11 @@ Meteor.methods({
 		}
 	},
 	// A method that checks whether the password matches the password of the supplied tablename
-	adminCheck: function(password, tablename) {
+	adminCheck: function(user, tablename) {
 		var table = Instances.findOne({
 			tablename: tablename
 		});
-		if((password == table.password) && (password && table.password)) {
+		if((user == table.admin) && (user && table.admin)) {
 			return true;
 		} else {
 			return false;

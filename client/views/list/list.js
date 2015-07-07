@@ -21,9 +21,13 @@ Template.list.onCreated(function () {
 			Session.set("tablename", result.tablename);
 			Session.set("description", result.description);
 			Session.set("threshhold", result.threshhold);
-			Meteor.call('adminCheck', Cookie.get("admin_pw"), result.tablename, function(error, result) {
-				Session.set("admin", result);
-			});
+			if(result.admin == Meteor.user().emails[0].address) {
+				Session.set("admin", true);
+				enableDragging();
+			} else if(result.moderators.indexOf(Meteor.user().emails[0].address) > -1) {
+				Session.set("mod", true);
+				enableDragging();
+			}
 			Session.set("stale_length", result.stale_length);
 			Session.set("new_length", result.new_length);
 		}
@@ -33,65 +37,6 @@ Template.list.onCreated(function () {
 Template.list.onRendered(function() {
 	// Sets the document title when the template is rendered
 	document.title = "Live Question Tool";
-	// Checks whether the current user has admin privileges
-	Meteor.call('adminCheck', Cookie.get("admin_pw"), Cookie.get("tablename"), function(error, result) {
-		// If yes, enable draggable question divs
-		if(result) {
-			interact('.question')
-			.draggable({
-				// Divs have inertia and continue moving when mouse is released
-				inertia: true,
-				restrict: {
-					restriction: "parent",
-					endOnly: true,
-					elementRect: { top: 0, left: 0, bottom: 0, right: 0 }
-				},
-				onmove: dragMoveListener,
-				onend: function (event) {
-					// When the question div is dropped, return to original position
-					event.target.style.cssText = "-webkit-transform: translate(0px, 0px);z-index:0!important;";
-		  			event.target.setAttribute('data-x', 0);
-					event.target.setAttribute('data-y', 0);
-				}
-			});
-
-			function dragMoveListener(event) {
-				var target = event.target,
-				x = (parseFloat(target.getAttribute('data-x')) || 0) + event.dx,
-				y = (parseFloat(target.getAttribute('data-y')) || 0) + event.dy;
-				// Translates the question div to the current mouse position
-				target.style.webkitTransform = target.style.transform = 'translate(' + x + 'px, ' + y + 'px)';
-				// Sets the z-index to 99999 so the question div floats above others
-				target.style.cssText += "z-index:99999!important;";
-				target.style.backgroundColor = "#e3e3e3";
-				target.setAttribute('data-x', x);
-				target.setAttribute('data-y', y);
-			}
-			// Sets options for drop interaction
-			interact('.question').dropzone({
-				// Active when one .quesiton div is dropped on another
-			  accept: '.question',
-				// The two divs need over 75% overlapping for the drop to be registered
-			  overlap: 0.4,
-			  ondropactivate: function (event) {
-			  },
-			  ondragenter: function (event) {
-				  event.target.style.backgroundColor = "#e3e3e3";
-			  },
-			  ondragleave: function (event) {
-				  event.target.style.backgroundColor = "white";
-			  },
-			  // When dropped on top of another div, redirect to the /combine page
-			  ondrop: function (event) {
-				  var id1 = event.relatedTarget.id;
-				  var id2 = event.target.id;
-				  window.location.href="/combine/" + id1 + "/" + id2;
-			  },
-			  ondropdeactivate: function (event) {
-			  }
-			});
-		}
-	});
 });
 
 Template.list.helpers({
@@ -110,6 +55,9 @@ Template.list.helpers({
 	// Sets the template admin boolean to the Session admin variable
 	admin: function() {
 		return Session.get("admin");
+	},
+	moderator: function() {
+		return Session.get("mod");
 	},
 	// Retrieves, orders, and modifies the questions for the chosen table
 	question: function() {
@@ -232,12 +180,6 @@ Template.list.events({
 				alert(error);
 			}
 		});
-	},
-	// When the admin logout button is clicked...
-	"click #logoutbutton": function(event, template) {	
-		// Removes the admin_pw cookie and refreshes the page
-		Cookie.set("admin_pw", "");
-		window.location.reload();
 	}
 });
 
@@ -281,4 +223,65 @@ function getTime(time) {
 		}
 	}
 	return time12;
+}
+
+function enableDragging() {
+	Meteor.call('adminCheck', Meteor.user().emails[0].address, Cookie.get("tablename"), function(error, result) {
+		// If yes, enable draggable question divs
+		if(result) {
+			interact('.question')
+			.draggable({
+				// Divs have inertia and continue moving when mouse is released
+				inertia: true,
+				restrict: {
+					restriction: "parent",
+					endOnly: true,
+					elementRect: { top: 0, left: 0, bottom: 0, right: 0 }
+				},
+				onmove: dragMoveListener,
+				onend: function (event) {
+					// When the question div is dropped, return to original position
+					event.target.style.cssText = "-webkit-transform: translate(0px, 0px);z-index:0!important;";
+		  			event.target.setAttribute('data-x', 0);
+					event.target.setAttribute('data-y', 0);
+				}
+			});
+
+			function dragMoveListener(event) {
+				var target = event.target,
+				x = (parseFloat(target.getAttribute('data-x')) || 0) + event.dx,
+				y = (parseFloat(target.getAttribute('data-y')) || 0) + event.dy;
+				// Translates the question div to the current mouse position
+				target.style.webkitTransform = target.style.transform = 'translate(' + x + 'px, ' + y + 'px)';
+				// Sets the z-index to 99999 so the question div floats above others
+				target.style.cssText += "z-index:99999!important;";
+				target.style.backgroundColor = "#e3e3e3";
+				target.setAttribute('data-x', x);
+				target.setAttribute('data-y', y);
+			}
+			// Sets options for drop interaction
+			interact('.question').dropzone({
+				// Active when one .quesiton div is dropped on another
+			  accept: '.question',
+				// The two divs need over 75% overlapping for the drop to be registered
+			  overlap: 0.4,
+			  ondropactivate: function (event) {
+			  },
+			  ondragenter: function (event) {
+				  event.target.style.backgroundColor = "#e3e3e3";
+			  },
+			  ondragleave: function (event) {
+				  event.target.style.backgroundColor = "white";
+			  },
+			  // When dropped on top of another div, redirect to the /combine page
+			  ondrop: function (event) {
+				  var id1 = event.relatedTarget.id;
+				  var id2 = event.target.id;
+				  window.location.href="/combine/" + id1 + "/" + id2;
+			  },
+			  ondropdeactivate: function (event) {
+			  }
+			});
+		}
+	});
 }

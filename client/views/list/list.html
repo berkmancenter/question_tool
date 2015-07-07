@@ -20,6 +20,16 @@
 					<br />
 					<hr width="70%"/>
 				{{/if}}
+				{{#if moderator}}
+					<h2>Moderator Interface</h2>
+					<p>Click and drag two questions together to combine.</p>
+					<a id="unhidebutton">Unhide all questions</a> :: 
+					<a href="/delete">Delete this instance</a> ::
+					<a href="/rename/{{id}}">Rename this instance</a> ::
+					<a id="logoutbutton">Logout</a>
+					<br />
+					<hr width="70%"/>
+				{{/if}}
 				<p>{{description}}</p>
 				<a href="/propose">Post a question</a> :: 
 				<a href="/">Choose a different instance</a> ::
@@ -206,10 +216,6 @@
 			</div>
 		</div>
 		<p style="text-align:center;margin-bottom:40px;">
-			{{#if admin}}
-			{{else}}
-				<a href="/login">Login to Admin Interface</a> ::
-			{{/if}}
 			<a href="/create">Create a new instance</a> ::
 			<a href="/credits">Question Tool Credits</a>
 		</p>
