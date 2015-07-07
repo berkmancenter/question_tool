@@ -36,12 +36,12 @@ Meteor.methods({
 			return true;
 		}
 	},
-	// A method that checks whether the password matches the password of the supplied tablename
+	// A method that checks whether the email matches the admin of the supplied tablename
 	adminCheck: function(user, tablename) {
 		var table = Instances.findOne({
 			tablename: tablename
 		});
-		if((user == table.admin) && (user && table.admin)) {
+		if(((user == table.admin) || (table.moderators.indexOf(user) != -1)) && (user && table.admin)) {
 			return true;
 		} else {
 			return false;
@@ -184,12 +184,18 @@ Meteor.methods({
 		}
 	},
 	// Method that modifies a question
-	modify: function(question, id, password, table) {
+	modify: function(question, id, email, table) {
 		// Checks whether the user has the proper admin privileges
 		var instance = Instances.findOne({
 			tablename: table
 		});
-		if((password != instance.password) || (!password || !instance.password)) {
+		if(email || instance.admin) {
+			if(email != instance.admin) {
+				if(instance.moderators.indexOf(email) == -1) {
+					return false;
+				}
+			}
+		} else {
 			return false;
 		}
 		// Updates the question with the proper ID to the new question text
@@ -203,8 +209,9 @@ Meteor.methods({
 		}, function(error, count, status) {
 			if(error) {
 				return false;
-			}	
+			}
 		});
+		return true;
 	},
 	// Method that combines two questions and answers
 	combine: function(question, id1, id2, password, table) {
@@ -527,7 +534,20 @@ Meteor.methods({
 		return keys;
 	},
 	// Method that hides (sets state to disabled) a question with given ID
-	hide: function(id) {
+	hide: function(email, id) {
+		var question = Questions.findOne({
+			_id: id
+		});
+		var table = Instances.findOne({
+			tablename: question.tablename
+		});
+		if(email !== table.admin) {
+			if(table.moderators) {
+				if(table.moderators.indexOf(email) == -1) {
+					return false;
+				}
+			}
+		}
 		Questions.update({
 			_id: id
 		}, {

@@ -165,7 +165,7 @@ Template.list.events({
 	// When the admin hide button is clicked...
 	"click .hideQuestion": function(event, template) {	
 		// Call the server-side hide method to hide the question
-		Meteor.call('hide', event.currentTarget.id, function(error, result) {
+		Meteor.call('hide', Meteor.user().emails[0].address, event.currentTarget.id, function(error, result) {
 			if(error) {
 				// If an error exists, alert it
 				alert(error);

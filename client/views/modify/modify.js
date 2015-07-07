@@ -6,7 +6,7 @@ Template.modify.onCreated(function () {
 			window.location.href = "/";
 		} else {
 			// Checks whether the user has proper admin privileges
-			Meteor.call('adminCheck', Cookie.get("admin_pw"), Cookie.get("tablename"), function (error, result) {
+			Meteor.call('adminCheck', Meteor.user().emails[0].address, Cookie.get("tablename"), function (error, result) {
 				if(!result) {
 					// If not, redirects back to the list page
 					window.location.href = "/list";
@@ -27,8 +27,8 @@ Template.modify.events({
 		// Retrieves data from the form
 		var question = document.getElementsByName("comment")[0].value;
 		// Calls the server-side "modify" method to update the DBs
-		Meteor.call('modify', question, template.data._id, Cookie.get("admin_pw"), Cookie.get("tablename"), function (error, result) { 
-			if(!result) {
+		Meteor.call('modify', question, template.data._id, Meteor.user().emails[0].address, Cookie.get("tablename"), function (error, result) { 
+			if(result) {
 				// If successful, redirect back to the list page
 				window.location.href = "/list";
 			}
