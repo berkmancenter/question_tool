@@ -94,7 +94,7 @@ Template.propose.events({
 						alert(errorString);
 					} else {
 						// If successful, redirect back to the list page
-						window.location.href = '/list';
+						Router.go("/list");
 					}
 				});
 			}

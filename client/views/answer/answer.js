@@ -59,7 +59,7 @@ Template.answer.events({
 						alert(errorString);
 					} else {
 						// If successful, return to the list
-						window.location.href = '/list';
+						Router.go("/list");
 					}
 				});
 			}
