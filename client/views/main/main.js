@@ -19,7 +19,7 @@ Template.submitbutton.events({
 			path: '/'
 		});
 		// Redirects to the list
-		window.location.href = '/list';
+		Router.go('/list');
 	}
 });
 
