@@ -25,21 +25,14 @@ Template.submitbutton.events({
 });
 
 Template.home.onCreated(function() {
-	if(Cookie.get("tooladmin_pw")) {
-		Meteor.call('admin', Cookie.get("tooladmin_pw"), function(error, result) {
-			if(result) {
-				Session.set("toolAdmin", true);
-			}
-		});
-	}
 	if(Cookie.get("tablename")) {
-		Meteor.call('listCookieCheck', Cookie.get("tablename"), function(error, result) {
-			if(result) {
-				Session.set("hasCookie", true);
-			} else {
-				Session.set("hasCookie", false);
-			}
-		});
+	Meteor.call('listCookieCheck', Cookie.get("tablename"), function(error, result) {
+		if(result) {
+			Session.set("hasCookie", true);
+		} else {
+			Session.set("hasCookie", false);
+		}
+	});
 	} else {
 		Session.set("hasCookie", false);
 	}
@@ -52,6 +45,11 @@ Template.home.onRendered(function() {
 
 Template.home.helpers({
 	toolAdmin: function() {
+		Meteor.call('admin', Meteor.user().emails[0].address, function(error, result) {
+			if(result) {
+				Session.set("toolAdmin", true);
+			}
+		});
 		return Session.get("toolAdmin");
 	},
 	hasCookie: function() {
@@ -77,11 +75,6 @@ Template.home.helpers({
 });
 
 Template.home.events({
-	// When the logout button is clicked
-	"click #logoutbutton": function(event, template) {
-		Cookie.set("tooladmin_pw", "");
-		Session.set("toolAdmin", false);
-	},
 	"click .deletebutton": function(event, template) {
 		var check = confirm("Are you sure you would like to delete the instance?");
 		if(check) {

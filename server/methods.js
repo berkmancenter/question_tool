@@ -1,8 +1,8 @@
 Meteor.methods({
 	// A method that checks whether the Question Tool admin password is correct
-	admin: function(password) {
-		if(password === "QuestionTool2015") {
-			return password;
+	admin: function(email) {
+		if(email === "nrubin999@gmail.com") {
+			return true;
 		} else {
 			return false;
 		}
