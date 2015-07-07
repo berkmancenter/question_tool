@@ -54,23 +54,26 @@
 						<table id="admintable">
 							<tbody>
 								{{#each instances}}
-								<div class="tablerow" id="{{_id}}">
-									<div id="tablespacer"></div>
+									<div class="tablerow" id="{{_id}}">
+										<div id="tablespacer"></div>
 										<tr>
 											<td style="padding-left:15px;">
 												<a href="/list/{{tablename}}">
-													<p align="left">{{tablename}}</p>
+													<p align="left">
+														{{tablename}}
+														{{#if userAdmin}}
+															(Admin)
+														{{/if}}
+														{{#if userModerator}}
+															(Moderator)
+														{{/if}}
+													</p>
 												</a>
 												<input class="hiddeninput" type="text" value="{{tablename}}">
 											</td>
 											<td style="padding-right:15px;">
 												<a class="renamebutton" id="{{_id}}">
-													{{#if userAdmin}}
-														<p align="right" id="rename">Admin</p>
-													{{/if}}
-													{{#if userModerator}}
-														<p align="right" id="rename">Moderator</p>
-													{{/if}}
+													<p align="right" id="rename">Rename</p>
 												</a>
 											</td>
 											<td style="padding-right:10px;">
@@ -81,6 +84,8 @@
 										</tr>
 									</div>
 								{{/each}}
+								<br />
+								<br />
 							</tbody>
 						</table>
 					{{/if}}

@@ -56,7 +56,7 @@ Template.dashboard.events({
 	"click .deletebutton": function(event, template) {
 		var check = confirm("Are you sure you would like to delete the instance?");
 		if(check) {
-			Meteor.call('adminRemove', Cookie.get("tooladmin_pw"), event.currentTarget.id, function(error, result) {
+			Meteor.call('adminRemove', Cookie.get("tooladmin_pw"), event.currentTarget.id, false, function(error, result) {
 				if(error) {
 					alert(error);
 				}
@@ -75,7 +75,7 @@ Template.dashboard.events({
 			var tableNode = event.currentTarget.parentNode.parentNode.children[0];
 			tableNode.children[0].style.display = "inline";
 			tableNode.children[1].className = "hiddeninput";
-			Meteor.call('rename', event.currentTarget.id, tableNode.children[1].value, Cookie.get("tooladmin_pw"), true, function(error, result) {
+			Meteor.call('rename', event.currentTarget.id, tableNode.children[1].value, Cookie.get("tooladmin_pw"), 0, function(error, result) {
 				event.currentTarget.children[0].innerHTML = "Rename";
 			});
 			event.currentTarget.children[0].id = "rename";

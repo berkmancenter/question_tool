@@ -355,13 +355,23 @@ Meteor.methods({
 			}
 		});
 	},
-	adminRemove: function(password, id) {
+	adminRemove: function(password, id, email) {
 		// Ensures that the user has proper admin privileges
 		var result;
-		if(password === "QuestionTool2015") {
-			var table = Instances.findOne({
-				_id: id
-			});
+		var hasAccess = false;
+		var table = Instances.findOne({
+			_id: id
+		});
+		if(email) {
+			if(email == table.admin) {
+				hasAccess = true;
+			}
+		} else {
+			if(password === "QuestionTool2015") {
+				hasAccess = true;
+			}
+		}
+		if(hasAccess) {
 			//Removes all of the questions with the given table ID
 			Questions.remove({
 				q: table.tablename
@@ -404,18 +414,21 @@ Meteor.methods({
 		}
 		return result;
 	},
-	rename: function(id, name, password, admin) {
+	rename: function(id, name, check, type) {
 		var result;
 		var originalInstance = Instances.findOne({
 			_id: id
 		});
+		var hasAccess = false;
 		var originalName = originalInstance.tablename;
-		if(admin) {
-			var check = "QuestionTool2015";
-		} else {
-			var check = originalInstance.password;
+		if(type == 0) {
+			hasAccess = (check == "QuestionTool2015");
+		} else if(type == 1) {
+			hasAccess = (check == originalInstance.password);
+		} else if(type == 2) {
+			hasAccess = (check == originalInstance.admin);
 		}
-		if(password === check) {
+		if(hasAccess) {
 			Instances.update({
 				_id: id
 			}, {

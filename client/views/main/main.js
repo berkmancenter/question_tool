@@ -19,7 +19,8 @@ Template.submitbutton.events({
 			path: '/'
 		});
 		// Redirects to the list
-		Router.go('/list');
+		window.location.href = "/list";
+		//Router.go('/list');
 	}
 });
 
@@ -80,6 +81,41 @@ Template.home.events({
 	"click #logoutbutton": function(event, template) {
 		Cookie.set("tooladmin_pw", "");
 		Session.set("toolAdmin", false);
+	},
+	"click .deletebutton": function(event, template) {
+		var check = confirm("Are you sure you would like to delete the instance?");
+		if(check) {
+			Meteor.call('adminRemove', false, event.currentTarget.id, Meteor.user().emails[0].address, function(error, result) {
+				if(error) {
+					alert(error);
+				}
+			});
+		}
+	},
+	"click .renamebutton": function(event, template) {
+		if(event.currentTarget.children[0].id == "rename") {
+			event.currentTarget.children[0].innerHTML = "Done";
+			event.currentTarget.children[0].id = "done";
+			var tableNode = event.currentTarget.parentNode.parentNode.children[0];
+			var tableName = tableNode.children[0].children[0].innerHTML;
+			tableNode.children[0].style.display = "none";
+			tableNode.children[1].className = "visibleinput";
+		} else if(event.currentTarget.children[0].id == "done") {
+			var tableNode = event.currentTarget.parentNode.parentNode.children[0];
+			tableNode.children[0].style.display = "inline";
+			tableNode.children[1].className = "hiddeninput";
+			Meteor.call('rename', event.currentTarget.id, tableNode.children[1].value, Meteor.user().emails[0].address, 2, function(error, result) {
+				event.currentTarget.children[0].innerHTML = "Rename";
+			});
+			event.currentTarget.children[0].id = "rename";
+		}
+	},
+	"keypress input": function(event, template) {
+		event.which = event.which || event.keyCode;
+		if(event.which == 13) {
+			event.preventDefault();
+			event.currentTarget.parentNode.parentNode.children[1].children[0].click();
+		}
 	}
 })
 
