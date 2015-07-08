@@ -18,12 +18,16 @@
 								<b>Choose which instance of the question tool you would like to see:</b>
 							</td>
 							<td>
-								{{> instanceoptions}}
+								<select name="tablename" size="1">
+									{{#each instanceList}}
+										<option value="{{name}}">{{tablename}}</option>
+									{{/each}}
+								</select>
 							</td>
 						</tr>
 					</table>
 					<p align="center">
-						{{> submitbutton}}
+						<button id="submitbutton">Submit</button>
 					</p>
 					<input type="hidden" name="submit_check" value="1" />
 					<div class="columnhead">
@@ -86,16 +90,4 @@
 			</center>
 		</div>
 	</body>
-</template>
-
-<template name="instanceoptions">
-	<select name="tablename" size="1">
-		{{#each instances}}
-			<option value="{{name}}">{{tablename}}</option>
-		{{/each}}
-	</select>
-</template>
-
-<template name="submitbutton">
-	<button id="submitbutton">Submit</button>
 </template>

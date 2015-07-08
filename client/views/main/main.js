@@ -1,30 +1,3 @@
-Template.instanceoptions.helpers({
-	// Return all of the instances into the option chooser
-	instances: function() {
-		var instances = Instances.find().fetch();
-		instances.sort(function(a, b) {
-		    return a.order - b.order;
-		});
-		console.log(instances);
-		return instances;
-	}
-});
-
-Template.submitbutton.events({
-	// When the submit button is clicked
-	"click #submitbutton": function(event, template) {
-		// Sets the tablename cookie to the chosen table
-		var instances = document.getElementsByTagName("select")[0];
-		var selectedInstance = instances.options[instances.selectedIndex].text;
-		Cookie.set('tablename', selectedInstance, {
-			path: '/'
-		});
-		// Redirects to the list
-		window.location.href = "/list";
-		//Router.go('/list');
-	}
-});
-
 Template.home.onCreated(function() {
 	if(Cookie.get("tablename")) {
 	Meteor.call('listCookieCheck', Cookie.get("tablename"), function(error, result) {
@@ -71,8 +44,14 @@ Template.home.helpers({
 		}
 		var final = instances.concat(moderators);
 		return final;
+	},
+	instanceList: function() {
+		var instances = Instances.find().fetch();
+		instances.sort(function(a, b) {
+		    return a.order - b.order;
+		});
+		return instances;
 	}
-	
 });
 
 Template.home.events({
@@ -110,6 +89,18 @@ Template.home.events({
 			event.preventDefault();
 			event.currentTarget.parentNode.parentNode.children[1].children[0].click();
 		}
+	},
+	// When the submit button is clicked
+	"click #submitbutton": function(event, template) {
+		// Sets the tablename cookie to the chosen table
+		var instances = document.getElementsByTagName("select")[0];
+		var selectedInstance = instances.options[instances.selectedIndex].text;
+		Cookie.set('tablename', selectedInstance, {
+			path: '/'
+		});
+		// Redirects to the list
+		window.location.href = "/list";
+		//Router.go('/list');
 	}
 })
 
