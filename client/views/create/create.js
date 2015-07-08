@@ -80,6 +80,16 @@ Template.create.events({
 		line.appendChild(input);
 		line.appendChild(plus);
 		row.appendChild(line);
+	},
+	// If the enter key is pressed, submit the form
+	"keypress .modbox": function(event, template) {
+		event.which = event.which || event.keyCode;
+		if(event.which == 13) {
+			event.preventDefault();
+			document.getElementsByClassName("plusbutton")[0].click();
+			var fields = document.getElementsByClassName("modbox");
+			fields[fields.length - 1].focus();
+		}
 	}
 });
 
