@@ -1,6 +1,7 @@
 Template.userInfo.events({
 	"click #navLogout": function(event, template) {
 		Meteor.logout();
+		window.location.reload();
 	},
 	"click #navLogin": function(event, template) {
 		var URL = window.location.href;
