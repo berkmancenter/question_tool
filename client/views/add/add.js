@@ -4,6 +4,13 @@ Template.add.onCreated(function () {
 		if(!result) {
 			// If not, return the user to the chooser page
 			window.location.href = "/";
+		} else {
+			Meteor.call('adminCheck', Meteor.user().emails[0].address, Cookie.get("tablename"), function (error, result) {
+				if(!result) {
+					// If not, return the user to the chooser page
+					window.location.href = "/";
+				}
+			});
 		}
 	});
 });
