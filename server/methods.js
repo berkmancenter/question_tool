@@ -174,6 +174,7 @@ Meteor.methods({
 		}
 	},
 	addMods: function(mods, table, email) {
+		var keys;
 		var instance = Instances.findOne({
 			tablename: table
 		});
@@ -187,13 +188,17 @@ Meteor.methods({
 					}
 				}
 			}, function(error, count, status) {
-				if(!error) {
-					return true;
+				if(error) {
+					keys = error.invalidKeys;
 				}
 			});
-			return true;
 		} else {
 			return false;
+		}
+		if(keys) {
+			return keys;
+		} else {
+			return true;
 		}
 	},
 	removeMods: function(mod, table, email) {
