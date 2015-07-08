@@ -6,9 +6,9 @@ Template.userInfo.events({
 		var URL = window.location.href;
 		var split = URL.split("/");
 		var page = split[split.length-1];
-		window.location.href = "/newlogin/" + page;
+		Router.go('/newlogin/' + page);
 	},
 	"click #navRegister": function(event, template) {
-		window.location.href = "/register";
+		Router.go('/register');
 	}
 });

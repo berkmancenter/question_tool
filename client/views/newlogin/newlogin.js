@@ -34,9 +34,10 @@ Template.newlogin.events({
 	},
 	"click #returnbutton": function(event, template) {
 		if(template.data) {
-			window.location.href = "/" + template.data;
+			Router.go('/' + template.data);
+			//window.location.href = "/" + template.data;
 		} else {
-			window.location.href = "/";
+			Router.go('/');
 		}
 	}
 });
