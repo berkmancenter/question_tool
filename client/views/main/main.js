@@ -5,7 +5,8 @@ Template.instanceoptions.helpers({
 		instances.sort(function(a, b) {
 		    return a.order - b.order;
 		});
-		return instances
+		console.log(instances);
+		return instances;
 	}
 });
 

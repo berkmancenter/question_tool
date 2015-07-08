@@ -280,6 +280,21 @@ div#recent, div#popular {
 	margin-left:5px;
 }
 
+.removebutton {
+	display:inline-block;
+	width:18px;
+	height:18px;
+	border-radius:2px;
+	cursor:pointer;
+	background-color:red;
+	margin-top:3px;
+	color:white;
+	font-size:14px;
+	padding-top:0px;
+	text-align:center;
+	margin-left:5px;
+}
+
 .modline {
 	width:100%;
 	display:inline-block;

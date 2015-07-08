@@ -173,15 +173,49 @@ Meteor.methods({
 			});
 		}
 	},
-	adminLogin: function(tablename, password) {
+	addMods: function(mods, table, email) {
 		var instance = Instances.findOne({
-			tablename: tablename
+			tablename: table
 		});
-		if(password == instance.password) {
-			return instance.password;
+		if(email === instance.admin) {
+			Instances.update({
+				tablename: table
+			}, {
+				$push: {
+					moderators: {
+						$each: mods
+					}
+				}
+			}, function(error, count, status) {
+				if(!error) {
+					return true;
+				}
+			});
+			return true;
 		} else {
 			return false;
 		}
+	},
+	removeMods: function(mod, table, email) {
+		var instance = Instances.findOne({
+			tablename: table
+		});
+		if(email === instance.admin) {
+			Instances.update({
+				tablename: table
+			}, {
+				$pull: {
+					moderators: mod
+				}
+			}, function(error, count, status) {
+				if(!error) {
+					return true;
+				}
+			});
+		} else {
+			return false;
+		}
+		return true;
 	},
 	// Method that modifies a question
 	modify: function(question, id, email, table) {
