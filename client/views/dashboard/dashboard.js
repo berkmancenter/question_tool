@@ -14,7 +14,7 @@ Template.dashboard.onRendered(function() {
 	    placeholder: "ui-state-highlight",
 		update: function(event, ui) {
 			var arrangement = $("#admintable tbody").sortable("toArray");
-			Meteor.call('rearrange', arrangement, Cookie.get("tooladmin_pw"), function(error, result) {
+			Meteor.call('rearrange', arrangement, Meteor.user().emails[0].address, function(error, result) {
 				if(error) {
 					alert(error);
 				}

@@ -132,8 +132,8 @@ Meteor.methods({
 			return tablename;
 		}
 	},
-	rearrange: function(arrangement, password) {
-		if(password === "QuestionTool2015") {
+	rearrange: function(arrangement, email) {
+		if(email === "nrubin999@gmail.com") {
 			for(var i = 0; i < arrangement.length; i++) {
 				Instances.update({
 					_id: arrangement[i]
