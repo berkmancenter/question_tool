@@ -88,19 +88,26 @@ Template.list.helpers({
 		// Loops through the retrieved questions and sets properties
 		for(var i = 0; i < questions.length; i++) {
 			if(questions[i].state != "disabled") {
-				questions[i].adminButtons = true;
+				questions[i].adminButtons = (Session.get("admin") || Session.get("mod"));
 				// Every other question goes in column #2
-				questions[i].indexOne = (i % 2 == 0);
+				if(i % 3 == 0) {
+					questions[i].indexOne = true;
+				} else if(i % 3 == 1) {
+					questions[i].indexTwo = true;
+				} else if(i % 3 == 2) {
+					questions[i].indexThree = true;
+				}
 				// Sets the answer and modify links
 				questions[i].answerlink = "/answer/" + questions[i]._id;
 				questions[i].modifylink = "/modify/" + questions[i]._id;
 				// Gets and formats the question date
-				var d = new Date(questions[i].lasttouch);
-				questions[i].f_time = getTime(d.toTimeString().substring(0,5)) + " " + d.toDateString().substring(4, 10);
+				//var d = new Date(questions[i].lasttouch);
+				//questions[i].f_time = getTime(d.toTimeString().substring(0,5)) + " " + d.toDateString().substring(4, 10);
+				questions[i].f_time = timeSince(questions[i].lasttouch) + " Ago";
 				var avg = (Math.max.apply(Math, voteArray) + Math.min.apply(Math, voteArray)) / 2;
 				// Uses standard deviation to set the shade of the vote box
 				var stddev = standardDeviation(voteArray) + .001;
-				questions[i].shade = "c" + Math.round(3+((questions[i].votes - avg) / stddev));
+				questions[i].shade = "vc" + Math.round(3+((questions[i].votes - avg) / stddev));
 				// Sets the age marker depending on how long since question last modified
 				var staleDiff = (Session.get("timeval") - questions[i].lasttouch)/1000;
 				var newDiff = (Session.get("timeval") - questions[i].timeorder)/1000;
@@ -117,7 +124,7 @@ Template.list.helpers({
 					questions[i].answer = answers.fetch();
 				}
 				// If question is one of the first [threshhold] questions, it's "active"
-				questions[i].popular = (i < threshhold);
+				questions[i].popular = false;
 			} else if(questions[i].state == "disabled"){
 				// If the question is disabled, don't display
 				questions[i].disabled = true;
@@ -219,24 +226,49 @@ function average(data){
 	return avg;
 }
 
-// Helper functiont that converts 24-hour time to 12-hour time with am/pm
-function getTime(time) {
-	var tmpArr = time.split(':'), time12;
-	if(+tmpArr[0] == 12) {
-		time12 = tmpArr[0] + ':' + tmpArr[1] + 'pm';
-	} else {
-		if(+tmpArr[0] == 00) {
-			time12 = '12:' + tmpArr[1] + 'am';
-		} else {
-			if(+tmpArr[0] > 12) {
-				time12 = (+tmpArr[0]-12) + ':' + tmpArr[1] + 'pm';
-			} else {
-				time12 = (+tmpArr[0]) + ':' + tmpArr[1] + 'am';
-			}
-		}
-	}
-	return time12;
-}
+// Helper function that gets the time since a date
+function timeSince(date) {
+    if (typeof date !== 'object') {
+        date = new Date(date);
+    }
+
+    var seconds = Math.floor((new Date() - date) / 1000);
+    var intervalType;
+
+    var interval = Math.floor(seconds / 31536000);
+    if (interval >= 1) {
+        intervalType = 'Year';
+    } else {
+        interval = Math.floor(seconds / 2592000);
+        if (interval >= 1) {
+            intervalType = 'Month';
+        } else {
+            interval = Math.floor(seconds / 86400);
+            if (interval >= 1) {
+                intervalType = 'Day';
+            } else {
+                interval = Math.floor(seconds / 3600);
+                if (interval >= 1) {
+                    intervalType = "Hour";
+                } else {
+                    interval = Math.floor(seconds / 60);
+                    if (interval >= 1) {
+                        intervalType = "Minute";
+                    } else {
+                        interval = seconds;
+                        intervalType = "Second";
+                    }
+                }
+            }
+        }
+    }
+
+    if (interval > 1 || interval === 0) {
+        intervalType += 's';
+    }
+
+    return interval + ' ' + intervalType;
+};
 
 function enableDragging() {
 	Meteor.call('adminCheck', Meteor.user().emails[0].address, Cookie.get("tablename"), function(error, result) {

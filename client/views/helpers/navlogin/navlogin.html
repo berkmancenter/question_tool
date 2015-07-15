@@ -1,19 +1,32 @@
 <template name="userInfo">
+	<input id="searchbar" type="text" placeholder="Search...">
 	<div id="rightInfo">
+		<ul id="navbuttons">
+			<a href="/">
+				<li>Home</li>
+			</a>
+			<a href="/propose">
+				<li>Ask</li>
+			</a>
+			<a href="/rss/{{tablename}}">
+				<li>RSS</li>
+			</a>
+			<a href="/report">
+				<li>Archive</li>
+			</a>
+		</ul>
 		{{#if currentUser}}
-			<span id="navProfile">
-				({{currentUser.profile.name}})
-			</span>
-			<span id="navLogout">
-				Logout
-			</span>
+			<div id="navProfile">
+				Hi, {{currentUser.profile.name}}!
+			</div>
+			<div id="navLogout">Log out</div>
 		{{else}}
-			<span id="navLogin">
-				Login
-			</span>
-			<span id="navRegister">
-				Register
-			</span>
+			<div id="navLogin">
+				Sign in
+			</div>
+			<div id="navRegister">
+				Sign up
+			</div>
 		{{/if}}
 	</div>
 </template>

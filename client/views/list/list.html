@@ -5,11 +5,12 @@
 	<body>
 		<div id="wrapper">
 			<div id="banner">
-				Live Question Tool: {{tablename}}
+				<h1 id="tablename">
+					{{tablename}}
+				</h1>
 				{{> userInfo}}
 			</div>
-			<br />
-			<div style="text-align: center;">
+			<div id="toparea" style="text-align: center;">
 				{{#if admin}}
 					<h2>Admin Interface</h2>
 					<p>Click and drag two questions together to combine.</p>
@@ -26,189 +27,218 @@
 					<br />
 					<hr width="70%"/>
 				{{/if}}
-				<p>{{description}}</p>
-				<a href="/propose">Post a question</a> :: 
+				<p id="tabledescription">{{description}}</p>
+				<div id="questiondiv">
+					<textarea id="questioninput" placeholder="Type your question here..."></textarea>
+					<input id="questionnameinput" type="text" placeholder="Name...">
+					<input id="questionemailinput" type="text" placeholder="Email...">
+					<div id="bottomquestionarea">
+					</div>
+				</div>
+				<!--<a href="/propose">Post a question</a> :: 
 				<a href="/">Choose a different instance</a> ::
 				<a href="/report">Archived questions</a> :: 
-				<a href="/rss/{{tablename}}"><img src="/rss.gif" alt="xml icon" /></a>
+				<a href="/rss/{{tablename}}"><img src="/rss.gif" alt="xml icon" /></a>-->
 			</div>
-			<div id="popular">
-				<div class="columnhead">
-					Active Questions
-				</div>
+	</div>
+		<div id="recent">
+			<div id="questionscontainer">
 				<div class="subcolumn">
 					{{#each question}}
 						{{#if popular}}
+						{{else}}
 							{{#if indexOne}}
-								<div id="{{_id}}" class="question {{shade}} {{age_marker}}">
-									<div class="votes v{{shade}}">
-										<a class="voteClick" id="{{_id}}"  href="{{votelink}}">{{votes}}<br>votes</a>
-									</div>
-									{{#if poster}}
-										{{#if email}}
-											<b><a href="mailto:{{email}}">{{poster}}</a>: </b>
-										{{else}}
-											<b>{{poster}}: </b>
-										{{/if}}
-									{{/if}}
-									{{text}}
-									<br />
-									{{#each answer}}
-										{{#if poster}}
-											{{#if email}}
-												<b>&#160;&#160;&#160;&#160;&#160;<a href="mailto:{{email}}">{{poster}}</a>: </b>
-											{{else}}
-												<b>&#160;&#160;&#160;&#160;&#160;{{poster}}: </b>
-											{{/if}}
-										{{/if}}
-										{{text}}
+								<div id="{{_id}}" class="question {{age_marker}}">
+									<!--<div class="votes v{{shade}}">
+										<a class="voteClick" id="{{_id}}" href="{{votelink}}">{{votes}}<br />votes</a>
+									</div>-->
+									<div id="votearea">
+										<a class="voteClick {{shade}}" id="{{_id}}" href="{{votelink}}">{{votes}}</a> votes
 										<br />
+									</div>
+									<p class="questiontext">
+										{{text}}
+									</p>
+									{{#each answer}}
+										<div class="answercontainer">
+											{{#if poster}}
+												{{#if email}}
+													<a href="mailto:{{email}}" class="answerposter">{{poster}}:</a> 
+												{{else}}
+													<span class="answerposter">{{poster}}: </span>
+												{{/if}}
+											{{/if}}
+											<span class="answertext">
+												{{text}}
+											</span>
+										</div>
 									{{/each}}
-									<span style="float:right;text-align:right;width:25em">
-										{{f_time}}
-										:: <a href="{{answerlink}}">Reply</a>
-										{{#if adminButtons}}
-											:: <a class="hideQuestion" id="{{_id}}">Hide</a>
-											:: <a href="{{modifylink}}">Modify</a>
-										{{/if}}
-									</span>
+									<div class="quesitonbottom">
+										<div class="bottomleft">
+											{{#if poster}}
+												{{#if email}}
+													<a href="mailto:{{email}}">
+														<p class="postername">
+															{{poster}}
+														</p>
+													</a> 
+												{{else}}
+													<p class="postername">
+														{{poster}}
+													</p>
+												{{/if}}
+											{{/if}}
+											<span class="time">{{f_time}}</span>
+										</div>
+										<div class="bottomright">
+											<a href="{{answerlink}}">
+												<div class="replybutton">
+													Reply
+												</div>
+											</a>
+										</div>
+									</div>
+									{{#if adminButtons}}
+										<div class="adminbottom">
+											<a class="hideQuestion" id="{{_id}}">Hide</a>
+											<a href="{{modifylink}}">Modify</a>
+										</div>
+									{{/if}}
 								</div>
 							{{/if}}
 						{{/if}}
 					{{/each}}
 				</div>
-		<div class="subcolumn">
-			{{#each question}}
-				{{#if popular}}
-					{{#if indexOne}}
-					{{else}}
-						<div id="{{_id}}" class="question {{shade}} {{age_marker}}">
-							<div class="votes v{{shade}}">
-								<a class="voteClick" id="{{_id}}" href="{{votelink}}">{{votes}}<br />votes</a>
-							</div>
-							{{#if poster}}
-								{{#if email}}
-									<b><a href="mailto:{{email}}">{{poster}}</a>: </b>
-								{{else}}
-									<b>{{poster}}: </b>
-								{{/if}}
-							{{/if}}
-							{{text}}
-							<br />
-							{{#each answer}}
-								{{#if poster}}
-									{{#if email}}
-										<b>&#160;&#160;&#160;&#160;&#160;<a href="mailto:{{email}}">{{poster}}</a>: </b>
-									{{else}}}
-										<b>&#160;&#160;&#160;&#160;&#160;{{poster}}: </b>
-									{{/if}}
-								{{/if}}
-								{{text}}
-								<br />
-							{{/each}}
-							<span style="float: right; text-align: right; width: 25em">
-								{{f_time}}
-								:: <a href="{{answerlink}}">Reply</a>
-								{{#if adminButtons}}
-									:: <a class="hideQuestion" id="{{_id}}">Hide</a>
-									:: <a href="{{modifylink}}">Modify</a>
-								{{/if}}
-							</span>
-						</div>
-					{{/if}}
-				{{/if}}
-			{{/each}}
-		</div>
-	</div>
-	</div>
-		<div id="recent">
-			<div class="columnhead">
-				Most Recently Submitted Questions
-			</div>
-			<div class="subcolumn">
-				{{#each question}}
-					{{#if popular}}
-					{{else}}
-						{{#if indexOne}}
-							<div id="{{_id}}" class="question {{shade}} {{age_marker}}">
-								<div class="votes v{{shade}}">
-									<a class="voteClick" id="{{_id}}" href="{{votelink}}">{{votes}}<br />votes</a>
-								</div>
-								{{#if poster}}
-									{{#if email}}
-										<b><a href="mailto:{{email}}">{{poster}}</a>: </b>
-									{{else}}
-										<b>{{poster}}: </b>
-									{{/if}}
-								{{/if}}
-								{{text}}
-								<br />
-								{{#each answer}}
-									{{#if poster}}
-										{{#if email}}
-											<b>&#160;&#160;&#160;&#160;&#160;<a href="mailto:{{email}}">{{poster}}</a>: </b>
-										{{else}}
-											<b>&#160;&#160;&#160;&#160;&#160;{{poster}}: </b>
-										{{/if}}
-									{{/if}}
-									{{text}}
-									<br />
-								{{/each}}
-								<span style="float: right; text-align: right; width:25em">
-									{{f_time}}
-									:: <a href="{{answerlink}}">Reply</a>
-									{{#if adminButtons}}
-										:: <a class="hideQuestion" id="{{_id}}">Hide</a>
-										:: <a href="{{modifylink}}">Modify</a>
-									{{/if}}
-								</span>
-							</div>
-						{{/if}}
-					{{/if}}
-				{{/each}}
-			</div>
-			<div class="subcolumn">
-				{{#each question}}
-					{{#if popular}}
-					{{else}}
-						{{#if indexOne}}
+				<div class="subcolumn">
+					{{#each question}}
+						{{#if popular}}
 						{{else}}
-							<div id="{{_id}}" class="question {{shade}} {{age_marker}}">
-								<div class="votes v{{shade}}">
-									<a class="voteClick" id="{{_id}}" href="{{votelink}}">{{votes}}<br />votes</a>
-								</div>
-								{{#if poster}}
-									{{#if email}}
-										<b><a href="mailto:{{email}}">{{poster}}</a>: </b>
-									{{else}}
-										<b>{{poster}}: </b>
-									{{/if}}
-								{{/if}}
-								{{text}}
-								<br />
-								{{#each answer}}
-									{{#if poster}}
-										{{#if email}}
-											<b>&#160;&#160;&#160;&#160;&#160;<a href="mailto:{{email}}">{{poster}}</a>: </b>
-										{{else}}
-											<b>&#160;&#160;&#160;&#160;&#160;{{poster}}: </b>
-										{{/if}}
-									{{/if}}
-									{{text}}
-									<br />
-								{{/each}}
-								<span style="float: right; text-align: right; width: 25em">
-									{{f_time}}
-									:: <a href="{{answerlink}}">Reply</a>
+							{{#if indexTwo}}
+								<div id="{{_id}}" class="question {{age_marker}}">
+									<!--<div class="votes v{{shade}}">
+										<a class="voteClick" id="{{_id}}" href="{{votelink}}">{{votes}}<br />votes</a>-->
+									<div id="votearea">
+										<a class="voteClick {{shade}}" id="{{_id}}" href="{{votelink}}">{{votes}}</a> votes
+										<br />
+									</div>
+									<p class="questiontext">
+										{{text}}
+									</p>
+									{{#each answer}}
+										<div class="answercontainer">
+											{{#if poster}}
+												{{#if email}}
+													<a href="mailto:{{email}}" class="answerposter">{{poster}}:</a> 
+												{{else}}
+													<span class="answerposter">{{poster}}: </span>
+												{{/if}}
+											{{/if}}
+											<span class="answertext">
+												{{text}}
+											</span>
+										</div>
+									{{/each}}
+									<div class="quesitonbottom">
+										<div class="bottomleft">
+											{{#if poster}}
+												{{#if email}}
+													<a href="mailto:{{email}}">
+														<p class="postername">
+															{{poster}}
+														</p>
+													</a> 
+												{{else}}
+													<p class="postername">
+														{{poster}}
+													</p>
+												{{/if}}
+											{{/if}}
+											<span class="time">{{f_time}}</span>
+										</div>
+										<div class="bottomright">
+											<a href="{{answerlink}}">
+												<div class="replybutton">
+													Reply
+												</div>
+											</a>
+										</div>
+									</div>
 									{{#if adminButtons}}
-										:: <a class="hideQuestion" id="{{_id}}">Hide</a>
-										:: <a href="{{modifylink}}">Modify</a>
+										<div class="adminbottom">
+											<a class="hideQuestion" id="{{_id}}">Hide</a>
+											<a href="{{modifylink}}">Modify</a>
+										</div>
 									{{/if}}
-								</span>
-							</div>
+								</div>
+							{{/if}}
 						{{/if}}
-					{{/if}}
-				{{/each}}
+					{{/each}}
+				</div>
+				<div class="lastcolumn">
+					{{#each question}}
+						{{#if popular}}
+						{{else}}
+							{{#if indexThree}}
+								<div id="{{_id}}" class="question {{age_marker}}">
+									<!--<div class="votes v{{shade}}">
+										<a class="voteClick" id="{{_id}}" href="{{votelink}}">{{votes}}<br />votes</a>-->
+									<div id="votearea">
+										<a class="voteClick {{shade}}" id="{{_id}}" href="{{votelink}}">{{votes}}</a> votes
+										<br />
+									</div>
+									<p class="questiontext">
+										{{text}}
+									</p>
+									{{#each answer}}
+										<div class="answercontainer">
+											{{#if poster}}
+												{{#if email}}
+													<a href="mailto:{{email}}" class="answerposter">{{poster}}:</a>
+												{{else}}
+													<span class="answerposter">{{poster}}: </span>
+												{{/if}}
+											{{/if}}
+											<span class="answertext">
+												{{text}}
+											</span>
+										</div>
+									{{/each}}
+									<div class="quesitonbottom">
+										<div class="bottomleft">
+											{{#if poster}}
+												{{#if email}}
+													<a href="mailto:{{email}}">
+														<p class="postername">
+															{{poster}}
+														</p>
+													</a> 
+												{{else}}
+													<p class="postername">
+														{{poster}}
+													</p>
+												{{/if}}
+											{{/if}}
+											<span class="time">{{f_time}}</span>
+										</div>
+										<div class="bottomright">
+											<a href="{{answerlink}}">
+												<div class="replybutton">
+													Reply
+												</div>
+											</a>
+										</div>
+									</div>
+									{{#if adminButtons}}
+										<div class="adminbottom">
+											<a class="hideQuestion" id="{{_id}}">Hide</a>
+											<a href="{{modifylink}}">Modify</a>
+										</div>
+									{{/if}}
+								</div>
+							{{/if}}
+						{{/if}}
+					{{/each}}
+				</div>
 			</div>
 		</div>
 		<p style="text-align:center;margin-bottom:40px;">
