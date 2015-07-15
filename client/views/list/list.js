@@ -1,7 +1,7 @@
 Meteor.setInterval( function () {
 	// Sets Session variable "timeval" to current time in ms every 2 seconds
 	Session.set("timeval", new Date().getTime());
-}, 2000);
+}, 1000);
 
 Template.list.onCreated(function () {
 	// Initially sets the "timeval" Session variable to the current time
@@ -199,6 +199,14 @@ Template.list.events({
 					Router.go('/');
 				}
 			});
+		}
+	},
+	"click #navAsk": function(event, template) {
+		var questionDiv = document.getElementById("toparea");
+		if(questionDiv.style.display == "none" || !questionDiv.style.display) { 
+			$("#toparea").slideDown();
+		} else {
+			$("#toparea").slideUp();
 		}
 	}
 });

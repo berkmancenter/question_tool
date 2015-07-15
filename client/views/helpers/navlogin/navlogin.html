@@ -5,9 +5,9 @@
 			<a href="/">
 				<li>Home</li>
 			</a>
-			<a href="/propose">
+			<!--<a href="/propose">
 				<li>Ask</li>
-			</a>
+			</a>-->
 			<a href="/rss/{{tablename}}">
 				<li>RSS</li>
 			</a>
@@ -19,13 +19,21 @@
 			<div id="navProfile">
 				Hi, {{currentUser.profile.name}}!
 			</div>
-			<div id="navLogout">Log out</div>
+			<div id="navLogout">
+				Log out
+			</div>
+			<div id="navAsk">
+				+ Ask
+			</div>
 		{{else}}
 			<div id="navLogin">
 				Sign in
 			</div>
 			<div id="navRegister">
 				Sign up
+			</div>
+			<div id="navAsk">
+				+ Ask
 			</div>
 		{{/if}}
 	</div>
