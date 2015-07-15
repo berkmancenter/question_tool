@@ -208,7 +208,17 @@ Template.list.events({
 		} else {
 			$("#toparea").slideUp();
 		}
+	},
+	"click .replybutton": function(event, template) {
+		var theID = event.target.id;
+		var theArea = document.getElementById("down" + theID);
+		if(theArea.style.display == "none" || !theArea.style.display) {
+			$("#down" + theID).slideDown(); 
+		} else {
+			$("#down" + theID).slideUp();
+		}
 	}
+	
 });
 
 // Helper function that caluclates a standard deviation given an array
