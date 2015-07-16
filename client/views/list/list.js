@@ -6,6 +6,7 @@
 Template.list.onCreated(function () {
 	// Initially sets the "timeval" Session variable to the current time
 	Session.set("timeval", new Date().getTime());
+	Session.set("search", "all");
 	// Checks whether the user has a valid table cookie
 	Meteor.call('listCookieCheck', Cookie.get("tablename"), function (error, result) {
 		if(!result) {
@@ -63,9 +64,25 @@ Template.list.helpers({
 	// Retrieves, orders, and modifies the questions for the chosen table
 	question: function() {
 		// Finds the questions from the Questions DB
-		var questions = Questions.find({
-			tablename: Session.get("tablename")
-		}).fetch();
+		if(Session.get("search") == "all") {
+			var questions = Questions.find({
+				tablename: Session.get("tablename")
+			}).fetch();
+		} else {
+			var re = new RegExp(Session.get("search"), "i");
+			var questions = Questions.find({
+				tablename: Session.get("tablename"),
+				"$or": [{
+					text: {
+						$regex: re
+					}
+				}, {
+					poster: {
+						$regex: re
+					}
+				}]
+			}).fetch();
+		}
 		var threshhold = Session.get("threshhold");
 		var voteAverage = 0;
 		var voteArray = [];
@@ -403,6 +420,14 @@ Template.list.events({
 				});
 			}
 		});
+	},
+	"keyup #searchbar": function(event, template) {
+		if(event.target.value) {
+			Session.set("search", event.target.value);
+		} else {
+			Session.set("search", "all");
+		}
+		//return Users.find({name: {$regex: re}});
 	}
 });
 

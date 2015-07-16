@@ -10,11 +10,11 @@ Meteor.publish('instances', function(table) {
 
 // Only publishes to the user the questions that are associated with the selected table and are not disabled
 Meteor.publish('questions', function(table) {
-  return Questions.find({
-	  tablename: table,
-	  state: { 
-		  $ne : 'disabled' 
-	  }
+	return Questions.find({
+		tablename: table,
+		state: { 
+			$ne : 'disabled' 
+		}
 	});
 });
 
