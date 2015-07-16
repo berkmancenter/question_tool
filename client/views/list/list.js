@@ -1,7 +1,7 @@
-Meteor.setInterval( function () {
+/*Meteor.setInterval( function () {
 	// Sets Session variable "timeval" to current time in ms every 2 seconds
 	Session.set("timeval", new Date().getTime());
-}, 1000);
+}, 1000);*/
 
 Template.list.onCreated(function () {
 	// Initially sets the "timeval" Session variable to the current time
@@ -204,21 +204,206 @@ Template.list.events({
 	"click #navAsk": function(event, template) {
 		var questionDiv = document.getElementById("toparea");
 		if(questionDiv.style.display == "none" || !questionDiv.style.display) { 
+			$("#navAsk").html("Close");
+			document.getElementById("navAsk").style.backgroundColor = "#ec4f4f";
 			$("#toparea").slideDown();
 		} else {
+			$("#navAsk").html("+ Ask");
+			document.getElementById("navAsk").style.backgroundColor = "#27ae60";
 			$("#toparea").slideUp();
 		}
 	},
 	"click .replybutton": function(event, template) {
-		var theID = event.target.id;
+		var theID = event.target.id.substring(5);
 		var theArea = document.getElementById("down" + theID);
+		//slideToggle("#down" + theID);
 		if(theArea.style.display == "none" || !theArea.style.display) {
+			//alert("reply" + theID);
+			document.getElementById("reply" + theID).innerHTML = "Close";
 			$("#down" + theID).slideDown(); 
 		} else {
+			document.getElementById("reply" + theID).innerHTML = "Reply";
 			$("#down" + theID).slideUp();
 		}
+	},
+	"click .replybottombutton": function(event, template) {
+		// Retrieves data from form
+		var theID = event.target.id;
+		//var anonymous = document.getElementById("anonbox").checked;
+		var answer = document.getElementById("text" + theID).value;
+		var posterName = document.getElementById("name" + theID).value;
+		var email = document.getElementById("email" + theID).value;
+		/*if(anonymous) {
+			posterName = "Anonymous";
+			email = "";
+		}*/
+		// Gets the user's IP address from the server
+		Meteor.call('getIP', function (error, result) {
+			if(error) {
+				console.log(error);
+			} else {
+				// If a name isn't specified, call them "Anonymous"
+				if(!posterName) {
+					posterName = "Anonymous";
+				}
+				// Calls a server-side method to answer a question and update DBs
+				Meteor.call('answer', Cookie.get("tablename"), answer, posterName, email, result, theID, function (error, result) {
+					// If the result is an object, there was an error
+					if(typeof result === 'object') {
+						var errorString = "";
+						// Store an object of the error names and codes
+						var errorCodes = {
+							"text": "Please enter a valid answer using less than 255 characters.",
+							"poster": "Please enter a valid name using less than 30 characters",
+							"email": "Please enter a valid email address.",
+							"ip": "There was an error with your IP address. Try again.",
+							"tablename": "There was an error with the table name. Try again.",
+							"qid": "There was an error with the question ID."
+						}
+						for(var e = 0; e < result.length; e++) {
+							errorString += "Error #" + (e + 1) + ": " + errorCodes[result[e].name] + "\n\n";
+						}
+						// Alert the error
+						alert(errorString);
+					} else {
+						document.getElementById("reply" + theID).innerHTML = "Reply";
+						$("#down" + theID).slideUp();
+					}
+				});
+			}
+		});
+	},
+	"keypress .replyemail": function(event, template) {
+		event.which = event.which || event.keyCode;
+		if(event.which == 13) {
+			event.preventDefault();
+			var theID = event.target.id.substring(5);
+			var buttons = document.getElementsByClassName("replybottombutton");
+			for(var b = 0; b < buttons.length; b++ ){
+				if(buttons[b].id == theID) {
+					buttons[b].click();
+				}
+			}
+		}
+	},
+	"click .checkbox": function(event, template) {
+		//console.log(event);
+		//return false;
+		var checked = event.target.firstElementChild;
+		if(checked.style.display == "none" || !checked.style.display) {
+			if(event.target.id == "savebox") {
+				$("#bottominputcontainer").slideDown();
+			}
+			checked.style.display = "block";
+		} else {
+			checked.style.display = "none";
+			if(event.target.id == "savebox") {
+				$("#bottominputcontainer").slideUp();
+			}
+		}
+	},
+	"click .checked": function(event, template) {
+		//console.log(event);
+		//return false;
+		var checked = event.target;
+		if(checked.style.display == "none" || !checked.style.display) {
+			if(event.target.id == "savecheck") {
+				$("#bottominputcontainer").slideDown();
+			}
+			checked.style.display = "block";
+		} else {
+			if(event.target.id == "savecheck") {
+				$("#bottominputcontainer").slideUp();
+			}
+			checked.style.display = "none";
+		}
+	},
+	"click #buttonarea": function(event, template) {
+		// Retrieves data from the form
+		var anonymous = (document.getElementById("anoncheck").style.display != "none");
+		var question = document.getElementById("questioninput").value;
+		var posterName = document.getElementById("questionnameinput").value;
+		var posterEmail = document.getElementById("questionemailinput").value;
+		var password1 = document.getElementById("questionpasswordinput");
+		var password2 = document.getElementById("questionconfirminput");
+		if(password1 && password2) {
+			password1 = password1.value;
+			password2 = password2.vaue
+		}
+		if(anonymous) {
+			posterName = "Anonymous";
+			posterEmail = "";
+		}
+		// Checks whether the question input is blank
+		if(!question) {
+			alert("Question cannot be left blank. Please try again.");
+			return false;
+		}
+		// If the user entered a password, check the input
+		if(password1 || password2) {
+			if(password1 != password2) {
+				alert("Your passwords don't match. Please try again");
+				return false;
+			} else if(!posterName) {
+				alert("If you're creating an account, the name can't be left blank. Please try again.");
+				return false;
+			} else if(!posterEmail) {
+				alert("If you're creating an account, the email can't be left blank. Please try again.");
+				return false;
+			} else {
+				Accounts.createUser({
+					email: posterEmail,
+					password: password2,
+					profile: {
+						name: posterName
+					}
+				}, function(error) {
+					if(error) {
+						alert("Account creation failed. Please try again.");
+					}
+				})
+				//Both passwords and input are a-okay
+			}
+		}
+		// Calls server-side method to get the user's IP address
+		Meteor.call('getIP', function (error, result) {
+			if (error) {
+				// If there's an error, alert the user
+				alert(error);
+				return false;
+			} else {
+				// Calls server-side "propose" method to add question to DB
+				Meteor.call('propose', Cookie.get("tablename"), question, posterName, posterEmail, result, function (error, result) {
+					// If returns an object, there was an error
+					if(typeof result === 'object') {
+						var errorString = "";
+						// Store an object of the error names and codes
+						var errorCodes = {
+							"tablename": "Table name is invalid. Please return to the list and try again.",
+							"text": "Please enter a valid question using less than 255 characters.",
+							"poster": "Please enter a valid name using less than 30 characters.",
+							"ip": "There was an error with your IP address. Please try again.",
+							"timeorder": "There was an error retrieving the current time. Please try again.",
+							"lasttouch": "There was an error retrieving the current time. Please try again.",
+							"state": "Question state is invalid. Please return to the list and try again.",
+							"votes": "# of votes is invalid. Please return to the list and try again.",
+							"email": "Please enter a valid email address using less than 70 characters."
+						}
+						// Retrieve error descriptions
+						for(var e = 0; e < result.length; e++) {
+							errorString += "Error #" + (e + 1) + ": " + errorCodes[result[e].name] + "\n\n";
+						}
+						// Alert the error message
+						alert(errorString);
+					} else {
+						// If successful, redirect back to the list page
+						// Router.go("/list");
+						$("#toparea").slideUp();
+					}
+				});
+			}
+		});
 	}
-	
 });
 
 // Helper function that caluclates a standard deviation given an array
@@ -287,6 +472,37 @@ function timeSince(date) {
 
     return interval + ' ' + intervalType;
 };
+
+// this is a fix for the jQuery slide effects
+function slideToggle(el, bShow){
+  var $el = $(el), height = $el.data("originalHeight"), visible = $el.is(":visible");
+  
+  // if the bShow isn't present, get the current visibility and reverse it
+  if( arguments.length == 1 ) bShow = !visible;
+  
+  // if the current visiblilty is the same as the requested state, cancel
+  if( bShow == visible ) return false;
+  
+  // get the original height
+  if( !height ){
+    // get original height
+    height = $el.show().height();
+    // update the height
+    $el.data("originalHeight", height);
+    // if the element was hidden, hide it again
+    if( !visible ) $el.hide().css({height: 0});
+  }
+
+  // expand the knowledge (instead of slideDown/Up, use custom animation which applies fix)
+  if( bShow ){
+    $el.show().animate({height: height}, {duration: 250});
+  } else {
+    $el.animate({height: 0}, {duration: 250, complete:function (){
+        $el.hide();
+      }
+    });
+  }
+}
 
 function enableDragging() {
 	Meteor.call('adminCheck', Meteor.user().emails[0].address, Cookie.get("tablename"), function(error, result) {

@@ -27,12 +27,45 @@
 					<br />
 					<hr width="70%"/>
 				{{/if}}
-				<p id="tabledescription">{{description}}</p>
+				<p id="tabledescription"><!--{{description}}--></p>
 				<div id="questiondiv">
 					<textarea id="questioninput" placeholder="Type your question here..."></textarea>
-					<input id="questionnameinput" type="text" placeholder="Name...">
-					<input id="questionemailinput" type="text" placeholder="Email...">
+					<div id="topinputcontainer">
+						<input id="questionnameinput" type="text" placeholder="Name...">
+						<input id="questionemailinput" type="text" placeholder="Email...">
+					</div>
+					<div id="bottominputcontainer">
+						<input id="questionpasswordinput" type="password" placeholder="Password...">
+						<input id="questionconfirminput" type="password" placeholder="Confirm password...">
+					</div>
 					<div id="bottomquestionarea">
+						<div id="checkareas">
+							<div id="checkarea1">
+								<div class="checkarealeft">
+									<div class="checkbox" id="savebox">
+										<div class="checked" id="savecheck">
+										</div>
+									</div>
+								</div>
+								<div class="checkarearight">
+									<p class="checkboxlabel">Save your information?</p>
+								</div>
+							</div>
+							<div id="checkarea2">
+								<div class="checkarealeft">
+									<div class="checkbox" id="anonbox">
+										<div class="checked" id="anoncheck">
+										</div>
+									</div>
+								</div>
+								<div class="checkarearight">
+									<p class="checkboxlabel">Post as anonymous?</p>
+								</div>
+							</div>
+						</div>
+						<div id="buttonarea">
+							Ask a question!
+						</div>
 					</div>
 				</div>
 				<!--<a href="/propose">Post a question</a> :: 
@@ -92,17 +125,17 @@
 										</div>
 										<div class="bottomright">
 											<!--<a href="{{answerlink}}">-->
-												<div class="replybutton" id="{{_id}}">
+												<div class="replybutton" id="reply{{_id}}">
 													Reply
 												</div>
 											<!--</a>-->
 										</div>
 									</div>
 									<div class="replybottom" id="down{{_id}}">
-										<textarea class="replyarea" placeholder="Type a response..."></textarea>
+										<textarea id="text{{_id}}" class="replyarea" placeholder="Type a response..."></textarea>
 										<div class="replyfields">
-											<input type="text" class="replyname" placeholder="Name...">
-											<input type="text" class="replyemail" placeholder="Email...">
+											<input type="text" class="replyname" id="name{{_id}}" placeholder="Name...">
+											<input type="text" class="replyemail" id="email{{_id}}" placeholder="Email...">
 										</div>
 										<div class="replybottombutton" id="{{_id}}">
 											Reply
@@ -167,17 +200,17 @@
 										</div>
 										<div class="bottomright">
 											<!--<a href="{{answerlink}}">-->
-												<div class="replybutton" id="{{_id}}">
+												<div class="replybutton" id="reply{{_id}}">
 													Reply
 												</div>
 											<!--</a>-->
 										</div>
 									</div>
 									<div class="replybottom" id="down{{_id}}">
-										<textarea class="replyarea" placeholder="Type a response..."></textarea>
+										<textarea id="text{{_id}}" class="replyarea" placeholder="Type a response..."></textarea>
 										<div class="replyfields">
-											<input type="text" class="replyname" placeholder="Name...">
-											<input type="text" class="replyemail" placeholder="Email...">
+											<input type="text" class="replyname" id="name{{_id}}" placeholder="Name...">
+											<input type="text" class="replyemail" id="email{{_id}}" placeholder="Email...">
 										</div>
 										<div class="replybottombutton" id="{{_id}}">
 											Reply
@@ -242,17 +275,17 @@
 										</div>
 										<div class="bottomright">
 											<!--<a href="{{answerlink}}">-->
-												<div class="replybutton" id="{{_id}}">
+												<div class="replybutton" id="reply{{_id}}">
 													Reply
 												</div>
 											<!--</a>-->
 										</div>
 									</div>
 									<div class="replybottom" id="down{{_id}}">
-										<textarea class="replyarea" placeholder="Type a response..."></textarea>
+										<textarea id="text{{_id}}" class="replyarea" placeholder="Type a response..."></textarea>
 										<div class="replyfields">
-											<input type="text" class="replyname" placeholder="Name...">
-											<input type="text" class="replyemail" placeholder="Email...">
+											<input type="text" class="replyname" id="name{{_id}}" placeholder="Name...">
+											<input type="text" class="replyemail" id="email{{_id}}" placeholder="Email...">
 										</div>
 										<div class="replybottombutton" id="{{_id}}">
 											Reply

@@ -94,7 +94,7 @@ div#wrapper {
 	border-radius:5px;
 	float:left;
 	width:96%;
-	overflow:auto;
+	overflow:hidden;;
 	margin:.5% 2% .5% 0;
 	padding:2%!important;
 	padding-bottom:10px!important;
@@ -246,9 +246,8 @@ div#wrapper {
 	display:block;
 	margin:0px auto;
 	width:700px;
-	height:250px;
+	height:auto;
 	background-color:#27b0d8;
-	margin-top:55px;
 }
 
 #questioninput {
@@ -277,6 +276,38 @@ div#wrapper {
 	padding-left:20px!important;
 	font-family:light;
 	font-size:14px;
+	display:block;         
+}
+
+#questionpasswordinput {
+	float:left;
+	width:330px;
+	padding:0px!important;
+	margin:0px!important;
+	border-width:0;
+	height:50px;
+	color:#888888;
+	padding-left:20px!important;
+	font-family:light;
+	font-size:14px;
+	display:block;
+	border-top:1px solid #e3e3e3;
+	border-right:1px solid #e3e3e3;
+}
+
+#questionconfirminput {
+	float:left;
+	width:329px;
+	padding:0px!important;
+	margin:0px!important;
+	border-width:0;
+	height:50px;
+	color:#888888;
+	padding-left:20px!important;
+	font-family:light;
+	font-size:14px;
+	display:block;
+	border-top:1px solid #e3e3e3;
 }
 
 textarea:focus, input:focus{
@@ -292,23 +323,121 @@ textarea:focus, input:focus{
 	height:50px;
 	color:#888888;
 	padding-left:20px!important;
-	border-left:1px solid #f3f7f8;
+	border-left:1px solid #e3e3e3;
 	font-family:light;
 	font-size:14px;
+	display:block;
+}
+
+#topinputcontainer {
+	height:50px;
+	display:block;
+	width:100%;
+}
+
+#bottominputcontainer {
+	height:50px;
+	display:none;
+	width:100%;
 }
 
 #bottomquestionarea {
-	width:100%;
+	width:700px;
 	height:50px;
 	background-color:#f2f4f5;
-	margin-top:50px;
+	display:block;
 	border-radius: 0px 0px 5px 5px;
+	/*padding:14px;*/
+}
+
+.checkbox {
+	height:17px;
+	width:20px;
+	margin-left:6px;
+	background-color:white;
+	border-radius:2px;
+	border:1px solid #999999;
+	cursor:pointer;
+	padding-top:3px;
+	float:left;
+	margin-right:0px;
+	padding-right:0px;
+}
+
+.checked {
+	width:14px;
+	height:14px;
+	margin:0px auto;
+	background-color:#27b0d8;
+	border-radius:2px;
+	display:none;
+}
+
+.checkboxlabel {
+	margin-top:3px;
+	padding:0px;
+	text-align:left;
+	font-family:regular;
+	color:#888888;
+	font-size:12px;
+}
+
+.checkarealeft {
+	width:auto;
+	float:left;
+}
+
+.checkarearight {
+	width:auto;
+	float:left;
+	margin-left:5px;
+}
+
+#checkareas {
+	width:420px;
+	float:left;
+	margin-top:14px;
+	margin-left:8px;
+}
+
+#buttonarea {
+	width:200px;
+	height:25px;
+	margin-right:12px;
+	margin-top:10px;
+	float:right;
+	/*border:2px solid #27ae60;*/
+	/*color:#27ae60;*/
+	background-color:#27ae60;
+	color:white;
+	border-radius:2px;
+	font-size:14px;
+	font-family:semibold;
+	text-align:center;
+	padding-top:5px;
+	cursor:pointer;
+}
+
+#buttonarea:hover {
+	background-color:#2ecc71;
+}
+
+#checkarea1 {
+	width: 180px;
+	float:left;
+}
+
+#checkarea2 {
+	width:240px;
+	float:right;
 }
 
 #toparea {
 	background-color:#27b0d8;
-	height:400px;
+	height:auto;
 	display:none;
+	padding-bottom:65px;
+	padding-top:55px;
 }
 
 #tabledescription {
@@ -491,11 +620,12 @@ div#recent, div#popular {
 	height:158px;
 	display:none;
 	margin:0px auto;
-	margin-top:70px;
+	margin-top:55px;
+	padding-top:20px;
 }
 
 .replyarea {
-	width:330px;
+	width:329px;
 	display:block;
 	margin:0px auto;
 	border:2px solid #e9edf0;
@@ -545,19 +675,25 @@ div#recent, div#popular {
 }
 
 .replybottombutton {
-	width:90px;
-	height:26px;
-	background-color:#27ae60;
-	border-radius:5px;
-	margin-top:8px;
 	float:right;
-	color:white;
+	cursor:pointer;
+	height:25px;
+	width:130px;
+	background-color:white;
+	border:2px solid #27ae60;
+	color:#27ae60;
 	font-size:14px;
 	font-family:semibold;
 	text-align:center;
-	padding-top:4px;
-	margin-right:15px;
-	cursor:pointer;
+	padding-top:5px;
+	margin-top:20px;
+	margin-bottom:6px;
+	border-radius:5px;
+}
+
+.replybottombutton:hover {
+	border:2px solid #2ecc71;
+	color: #2ecc71;
 }
 
 #navLogin {
