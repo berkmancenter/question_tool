@@ -6,22 +6,22 @@ body {
 }
 
 @font-face {
-	src:url('/OpenSans-Bold.ttf');
+	src:url('/Museo/MuseoSans_700.otf');
 	font-family:bold;
 }
 
 @font-face {
-	src:url('/OpenSans-Regular.ttf');
+	src:url('/Museo/MuseoSans-300.otf');
 	font-family:regular;
 }
 
 @font-face {
-	src:url('/OpenSans-Semibold.ttf');
+	src:url('/Museo/MuseoSans_500.otf');
 	font-family:semibold;
 }
 
 @font-face {
-	src:url('/OpenSans-Light.ttf');
+	src:url('/Museo/MuseoSans-100.otf');
 	font-family:light;
 }
 
@@ -88,6 +88,16 @@ div#wrapper {
 	width:32%;
 }
 
+.instancecolumn {
+	float:left;
+	width:32%;
+}
+
+.lastinstancecolumn {
+	float:left;
+	width:32%;
+}
+
 .question {
 	background-color:#FFF;
 	border: 2px solid #e9edf0;
@@ -102,14 +112,37 @@ div#wrapper {
 	position:relative;
 }
 
+.instance {
+	background-color:#FFF;
+	border: 2px solid #e9edf0;
+	border-radius:5px;
+	float:left;
+	width:90%;
+	overflow:hidden;;
+	margin:.5% 2% .5% 0;
+	padding:2%!important;
+	padding-bottom:10px!important;
+	margin-bottom:15px;
+	cursor:pointer;
+	position:relative;
+}
+
+.footer {
+	text-align:center;
+	margin-bottom:40px;
+	margin-top:40px;
+	font-family:semibold;
+}
+
 .postername {
 	margin:0px;
 	padding:0px;
 	padding-left:3px;
 	padding-top:4px;
 	font-family:semibold;
-	color:#333333!important;
+	color:#777777!important;
 	text-decoration:none!important;
+	pointer-events: none;
 }
 
 #votearea {
@@ -127,6 +160,7 @@ div#wrapper {
 .bottomleft {
 	width:50%;
 	float:left;
+	pointer-events: none;
 }
 
 .bottomright {
@@ -139,6 +173,7 @@ div#wrapper {
 	font-family:regular;
 	font-size:12px;
 	padding-left:3px;
+	pointer-events: none;
 }
 
 .replybutton {
@@ -172,6 +207,7 @@ div#wrapper {
 	color:#333333;
 	padding-bottom:10px;
 	margin-bottom:0px;
+	pointer-events: none;
 }
 
 .answer {
@@ -609,7 +645,7 @@ div#recent, div#popular {
 	padding:3px 15px 5px 15px;
 	text-align:center;
 	font-size:15px;
-	font-family:regular;
+	font-family:light;
 	border-radius:10px;
 	margin-top:12px;
 	margin-right:20px;

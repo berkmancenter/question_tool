@@ -1,11 +1,69 @@
 <template name="home">
 	<body>
 		<div id="banner">
-			Question Tool Instance Chooser
+			<h1 id="tablename">
+				Question Tool
+			</h1>
 			{{> userInfo}}
 		</div>
-		<br/><br/>
-		<div id="wrapper" style="text-align: center;">
+		<div id="recent">
+			<div id="questionscontainer">
+				{{#each instanceList}}
+					<div class="instancecolumn">
+						{{#if indexOne}}
+							<div id="{{_id}}" class="instance">
+								<p class="questiontext">
+									{{tablename}}
+								</p>
+								<div class="quesitonbottom">
+									<div class="bottomleft">
+										<p class="postername">
+											Nick Rubin
+										</p>
+										<span class="time">{{lasttouch}}</span>
+									</div>
+								</div>
+							</div>
+						{{/if}}
+					</div>
+					<div class="instancecolumn">
+						{{#if indexTwo}}
+							<div id="{{_id}}" class="instance">
+								<p class="questiontext">
+									{{tablename}}
+								</p>
+								<div class="quesitonbottom">
+									<div class="bottomleft">
+										<p class="postername">
+											Nick Rubin
+										</p>
+										<span class="time">{{lasttouch}}</span>
+									</div>
+								</div>
+							</div>
+						{{/if}}
+					</div>
+					<div class="lastinstancecolumn">
+						{{#if indexThree}}
+							<div id="{{_id}}" class="instance">
+								<p class="questiontext">
+									{{tablename}}
+								</p>
+								<div class="quesitonbottom">
+									<div class="bottomleft">
+										<p class="postername">
+											Nick Rubin
+										</p>
+										<span class="time">{{lasttouch}}</span>
+									</div>
+								</div>
+							</div>
+						{{/if}}
+					</div>
+				{{/each}}
+			</div>
+		</div>
+			<!--<div id="wrapper" style="text-align: center;">
 			<center>
 				<div class="center">
 					<div class="columnhead">
@@ -88,6 +146,6 @@
 					{{/if}}
 				</div>
 			</center>
-		</div>
+		</div>-->
 	</body>
 </template>

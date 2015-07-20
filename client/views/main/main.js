@@ -46,10 +46,35 @@ Template.home.helpers({
 		return final;
 	},
 	instanceList: function() {
-		var instances = Instances.find().fetch();
+		var re = new RegExp(Session.get("search"), "i");
+		if(Session.get("search") == "all") {
+			var instances = Instances.find().fetch();
+		} else {
+			var instances = Instances.find({
+				"$or": [{
+					tablename: {
+						$regex: re
+					}
+				}/*, {
+					poster: {
+						$regex: re
+					}
+				}*/]
+			}).fetch();
+		}
 		instances.sort(function(a, b) {
 		    return a.order - b.order;
 		});
+		for(var i = 0; i < instances.length; i++) {
+			instances[i].lasttouch = timeSince(instances[i].lasttouch);
+			if(i % 3 == 0) {
+				instances[i].indexOne = true;
+			} else if(i % 3 == 1) {
+				instances[i].indexTwo = true;
+			} else if(i % 3 == 2) {
+				instances[i].indexThree = true;
+			}
+		}
 		return instances;
 	}
 });
@@ -91,17 +116,71 @@ Template.home.events({
 		}
 	},
 	// When the submit button is clicked
-	"click #submitbutton": function(event, template) {
+	"click .instance": function(event, template) {
 		// Sets the tablename cookie to the chosen table
-		var instances = document.getElementsByTagName("select")[0];
-		var selectedInstance = instances.options[instances.selectedIndex].text;
-		Cookie.set('tablename', selectedInstance, {
+		var theID = event.target.id;
+		var theInstance = Instances.findOne({
+			_id: theID
+		});
+		//var instances = document.getElementsByTagName("select")[0];
+		//var selectedInstance = instances.options[instances.selectedIndex].text;
+		Cookie.set('tablename', theInstance.tablename, {
 			path: '/'
 		});
 		// Redirects to the list
 		window.location.href = "/list";
 		//Router.go('/list');
+	},
+	"keyup #searchbar": function(event, template) {
+		if(event.target.value) {
+			Session.set("search", event.target.value);
+		} else {
+			Session.set("search", "all");
+		}
+		//return Users.find({name: {$regex: re}});
 	}
-})
+});
 
+// Helper function that gets the time since a date
+function timeSince(date) {
+    if (typeof date !== 'object') {
+        date = new Date(date);
+    }
 
+    var seconds = Math.floor((new Date() - date) / 1000);
+    var intervalType;
+
+    var interval = Math.floor(seconds / 31536000);
+    if (interval >= 1) {
+        intervalType = 'Year';
+    } else {
+        interval = Math.floor(seconds / 2592000);
+        if (interval >= 1) {
+            intervalType = 'Month';
+        } else {
+            interval = Math.floor(seconds / 86400);
+            if (interval >= 1) {
+                intervalType = 'Day';
+            } else {
+                interval = Math.floor(seconds / 3600);
+                if (interval >= 1) {
+                    intervalType = "Hour";
+                } else {
+                    interval = Math.floor(seconds / 60);
+                    if (interval >= 1) {
+                        intervalType = "Minute";
+                    } else {
+                        interval = seconds;
+                        intervalType = "Second";
+                    }
+                }
+            }
+        }
+    }
+
+    if (interval > 1 || interval === 0) {
+        intervalType += 's';
+    }
+
+    return interval + ' ' + intervalType;
+};
