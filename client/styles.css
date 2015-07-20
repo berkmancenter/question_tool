@@ -127,6 +127,67 @@ div#wrapper {
 	position:relative;
 }
 
+.formcontainer {
+	background-color:#FFF;
+	border: 2px solid #e9edf0;
+	border-radius:5px;
+	height:auto;
+	display:block;
+	margin:0px auto;
+	width:30%;
+	margin-top:45px;
+	margin-bottom:100px;
+}
+
+#submitbutton {
+	width:40%;
+	display:block;
+	height:30px;
+	margin:0px auto;
+	background-color:#2ecc71;
+	margin-top:35px;
+	margin-bottom:35px;
+	border-radius:5px;
+	cursor:pointer;
+	text-align:center;
+	font-family:semibold;
+	color:white;
+	padding-top:10px;
+}
+
+.formtitle {
+	font-family:semibold;
+	color:#333333;
+	text-align:center;
+	font-size:24px;
+	font-weight:normal;
+	margin-bottom:35px;
+}
+
+.instance:hover {
+	background-color:#F7F7F7;
+}
+
+.inputcontainer {
+	width:80%;
+	display:block;
+	margin:0px auto;
+}
+
+.input {
+	display:block;
+	width:100%;
+	padding-left:2%;
+	margin:0px auto;
+	border: 2px solid #e9edf0;
+	border-radius:5px;
+	outline:0;
+	height:35px;
+	margin-bottom:25px;
+	font-family:regular;
+	font-size:16px;
+}
+
 .footer {
 	text-align:center;
 	margin-bottom:40px;
@@ -204,6 +265,18 @@ div#wrapper {
 	margin-top:0px;
 	font-family:semibold;
 	font-size:16px;
+	color:#333333;
+	padding-bottom:10px;
+	margin-bottom:0px;
+	pointer-events: none;
+}
+
+.instancename {
+	padding-left:8px;
+	padding-top:4px;
+	margin-top:0px;
+	font-family:semibold;
+	font-size:20px;
 	color:#333333;
 	padding-bottom:10px;
 	margin-bottom:0px;

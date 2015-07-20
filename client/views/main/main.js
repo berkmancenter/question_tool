@@ -55,11 +55,11 @@ Template.home.helpers({
 					tablename: {
 						$regex: re
 					}
-				}/*, {
-					poster: {
+				}, {
+					description: {
 						$regex: re
 					}
-				}*/]
+				}]
 			}).fetch();
 		}
 		instances.sort(function(a, b) {
