@@ -25,8 +25,13 @@
 				<div id="questiondiv">
 					<textarea id="questioninput" placeholder="Type your question here..."></textarea>
 					<div id="topinputcontainer">
-						<input id="questionnameinput" type="text" placeholder="Name...">
-						<input id="questionemailinput" type="text" placeholder="Email...">
+						{{#if currentUser}}
+							<input id="questionnameinput" type="text" placeholder="Name..." value="{{currentUser.profile.name}}" readonly>
+							<input id="questionemailinput" type="text" placeholder="Email..." value="{{currentUser.emails.[0].address}}" readonly>
+						{{else}}
+							<input id="questionnameinput" type="text" placeholder="Name...">
+							<input id="questionemailinput" type="text" placeholder="Email...">
+						{{/if}}
 					</div>
 					<div id="bottominputcontainer">
 						<input id="questionpasswordinput" type="password" placeholder="Password...">

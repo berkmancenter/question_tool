@@ -581,6 +581,11 @@ textarea:focus, input:focus{
 	font-family:regular;
 	color:#444444;
 	font-size:16px;
+	background-image:url('/search.png');
+	background-repeat:no-repeat;
+	background-position:335px center;
+	background-size: 16px 16px;
+	outline:0;
 }
 
 #navbuttons {
