@@ -1,11 +1,6 @@
 <template name="home">
 	<body>
-		<div id="banner">
-			<h1 id="tablename">
-				Question Tool
-			</h1>
-			{{> userInfo}}
-		</div>
+		{{> userInfo title="Question Tool" list=false}}
 		<div id="recent">
 			<div id="questionscontainer">
 				{{#each instanceList}}

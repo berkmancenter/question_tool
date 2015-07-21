@@ -4,12 +4,6 @@
 	</head>
 	<body>
 		<div id="wrapper">
-			<div id="banner">
-				<h1 id="tablename">
-					{{tablename}}
-				</h1>
-				{{> userInfo}}
-			</div>
 			<div id="toparea" style="text-align: center;">
 				{{#if admin}}
 					<h2>Admin Interface</h2>
@@ -40,28 +34,42 @@
 					</div>
 					<div id="bottomquestionarea">
 						<div id="checkareas">
-							<div id="checkarea1">
-								<div class="checkarealeft">
-									<div class="checkbox" id="savebox">
-										<div class="checked" id="savecheck">
+							{{#if currentUser}}
+								<div id="checkarea1">
+									<div class="checkarealeft">
+										<div class="checkbox" id="anonbox">
+											<div class="checked" id="anoncheck">
+											</div>
 										</div>
 									</div>
-								</div>
-								<div class="checkarearight">
-									<p class="checkboxlabel">Save your information?</p>
-								</div>
-							</div>
-							<div id="checkarea2">
-								<div class="checkarealeft">
-									<div class="checkbox" id="anonbox">
-										<div class="checked" id="anoncheck">
-										</div>
+									<div class="checkarearight">
+										<p class="checkboxlabel">Post as anonymous?</p>
 									</div>
 								</div>
-								<div class="checkarearight">
-									<p class="checkboxlabel">Post as anonymous?</p>
+							{{else}}
+								<div id="checkarea1">
+									<div class="checkarealeft">
+										<div class="checkbox" id="savebox">
+											<div class="checked" id="savecheck">
+											</div>
+										</div>
+									</div>
+									<div class="checkarearight">
+										<p class="checkboxlabel">Save your information?</p>
+									</div>
 								</div>
-							</div>
+								<div id="checkarea2">
+									<div class="checkarealeft">
+										<div class="checkbox" id="anonbox">
+											<div class="checked" id="anoncheck">
+											</div>
+										</div>
+									</div>
+									<div class="checkarearight">
+										<p class="checkboxlabel">Post as anonymous?</p>
+									</div>
+								</div>
+							{{/if}}
 						</div>
 						<div id="buttonarea">
 							Ask a question!
@@ -86,7 +94,7 @@
 										<a class="voteClick" id="{{_id}}" href="{{votelink}}">{{votes}}<br />votes</a>
 									</div>-->
 									<div id="votearea">
-										<a class="voteClick {{shade}}" id="{{_id}}" href="{{votelink}}">{{votes}}</a> votes
+										<a class="voteClick {{shade}}" id="{{_id}}" href="{{votelink}}">{{votes}}</a>
 										<br />
 									</div>
 									<p class="questiontext">
@@ -136,6 +144,17 @@
 										<div class="replyfields">
 											<input type="text" class="replyname" id="name{{_id}}" placeholder="Name...">
 											<input type="text" class="replyemail" id="email{{_id}}" placeholder="Email...">
+										</div>
+										<div class="replybottomcheck">
+											<div class="checkarealeft">
+												<div class="checkbox" id="replyanonbox">
+													<div class="checked anonchecked" id="{{_id}}">
+													</div>
+												</div>
+											</div>
+											<div class="checkarearight">
+												<p class="replychecklabel">Anonymous?</p>
+											</div>
 										</div>
 										<div class="replybottombutton" id="{{_id}}">
 											Reply
@@ -161,7 +180,7 @@
 									<!--<div class="votes v{{shade}}">
 										<a class="voteClick" id="{{_id}}" href="{{votelink}}">{{votes}}<br />votes</a>-->
 									<div id="votearea">
-										<a class="voteClick {{shade}}" id="{{_id}}" href="{{votelink}}">{{votes}}</a> votes
+										<a class="voteClick {{shade}}" id="{{_id}}" href="{{votelink}}">{{votes}}</a>
 										<br />
 									</div>
 									<p class="questiontext">
@@ -212,6 +231,17 @@
 											<input type="text" class="replyname" id="name{{_id}}" placeholder="Name...">
 											<input type="text" class="replyemail" id="email{{_id}}" placeholder="Email...">
 										</div>
+										<div class="replybottomcheck">
+											<div class="checkarealeft">
+												<div class="checkbox" id="replyanonbox">
+													<div class="checked anonchecked" id="{{_id}}">
+													</div>
+												</div>
+											</div>
+											<div class="checkarearight">
+												<p class="replychecklabel">Anonymous?</p>
+											</div>
+										</div>
 										<div class="replybottombutton" id="{{_id}}">
 											Reply
 										</div>
@@ -236,7 +266,7 @@
 									<!--<div class="votes v{{shade}}">
 										<a class="voteClick" id="{{_id}}" href="{{votelink}}">{{votes}}<br />votes</a>-->
 									<div id="votearea">
-										<a class="voteClick {{shade}}" id="{{_id}}" href="{{votelink}}">{{votes}}</a> votes
+										<a class="voteClick {{shade}}" id="{{_id}}" href="{{votelink}}">{{votes}}</a>
 										<br />
 									</div>
 									<p class="questiontext">
@@ -286,6 +316,17 @@
 										<div class="replyfields">
 											<input type="text" class="replyname" id="name{{_id}}" placeholder="Name...">
 											<input type="text" class="replyemail" id="email{{_id}}" placeholder="Email...">
+										</div>
+										<div class="replybottomcheck">
+											<div class="checkarealeft">
+												<div class="checkbox" id="replyanonbox">
+													<div class="checked anonchecked" id="{{_id}}">
+													</div>
+												</div>
+											</div>
+											<div class="checkarearight">
+												<p class="replychecklabel">Anonymous?</p>
+											</div>
 										</div>
 										<div class="replybottombutton" id="{{_id}}">
 											Reply

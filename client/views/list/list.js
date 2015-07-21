@@ -37,6 +37,12 @@ Template.list.onCreated(function () {
 });
 
 Template.list.onRendered(function() {
+	var tablename = Session.get("tablename");
+	var parentNode = document.getElementById("wrapper");
+	Blaze.renderWithData(Template.userInfo, {
+		title: tablename,
+		list: true
+	}, parentNode);
 	// Sets the document title when the template is rendered
 	document.title = "Live Question Tool";
 });
@@ -142,6 +148,11 @@ Template.list.helpers({
 				}
 				// If question is one of the first [threshhold] questions, it's "active"
 				questions[i].popular = false;
+				if(questions[i].votes == 1) {
+					questions[i].votes = "1 vote";
+				} else {
+					questions[i].votes = questions[i].votes + " votes";
+				}
 			} else if(questions[i].state == "disabled"){
 				// If the question is disabled, don't display
 				questions[i].disabled = true;
@@ -250,10 +261,21 @@ Template.list.events({
 		var answer = document.getElementById("text" + theID).value;
 		var posterName = document.getElementById("name" + theID).value;
 		var email = document.getElementById("email" + theID).value;
-		/*if(anonymous) {
+		var anonChecks = document.getElementsByClassName("anonchecked");
+		for(var a = 0; a < anonChecks.length; a++) {
+			if(anonChecks[a].id == theID) {
+				var anonElement = anonChecks[a];
+			}
+		}
+		if(anonElement.style.display) {
+			var anonymous = (anonElement.style.display != "none");
+		} else {
+			var anonymous = false;
+		}
+		if(anonymous) {
 			posterName = "Anonymous";
 			email = "";
-		}*/
+		}
 		// Gets the user's IP address from the server
 		Meteor.call('getIP', function (error, result) {
 			if(error) {
@@ -303,6 +325,13 @@ Template.list.events({
 			}
 		}
 	},
+	"keypress #questionemailinput": function(event, template) {
+		event.which = event.which || event.keyCode;
+		if(event.which == 13) {
+			event.preventDefault();
+			$("#buttonarea").click();
+		}
+	},
 	"click .checkbox": function(event, template) {
 		//console.log(event);
 		//return false;
@@ -345,7 +374,7 @@ Template.list.events({
 		var password2 = document.getElementById("questionconfirminput");
 		if(password1 && password2) {
 			password1 = password1.value;
-			password2 = password2.vaue
+			password2 = password2.value;
 		}
 		if(anonymous) {
 			posterName = "Anonymous";
@@ -397,7 +426,7 @@ Template.list.events({
 						// Store an object of the error names and codes
 						var errorCodes = {
 							"tablename": "Table name is invalid. Please return to the list and try again.",
-							"text": "Please enter a valid question using less than 255 characters.",
+							"text": "Please enter a valid question using less than 500 characters.",
 							"poster": "Please enter a valid name using less than 30 characters.",
 							"ip": "There was an error with your IP address. Please try again.",
 							"timeorder": "There was an error retrieving the current time. Please try again.",
