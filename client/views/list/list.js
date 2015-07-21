@@ -366,7 +366,12 @@ Template.list.events({
 	},
 	"click #buttonarea": function(event, template) {
 		// Retrieves data from the form
-		var anonymous = (document.getElementById("anoncheck").style.display != "none");
+		var anonElement = document.getElementById("anoncheck");
+		if(anonElement.style.display) {
+			var anonymous = (anonElement.style.display != "none");
+		} else {
+			var anonymous = false;
+		}
 		var question = document.getElementById("questioninput").value;
 		var posterName = document.getElementById("questionnameinput").value;
 		var posterEmail = document.getElementById("questionemailinput").value;

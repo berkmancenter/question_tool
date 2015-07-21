@@ -204,7 +204,6 @@ div#wrapper {
 	font-family:semibold;
 	color:#777777!important;
 	text-decoration:none!important;
-	pointer-events: none;
 }
 
 #votearea {
@@ -222,7 +221,6 @@ div#wrapper {
 .bottomleft {
 	width:50%;
 	float:left;
-	pointer-events: none;
 }
 
 .bottomright {
