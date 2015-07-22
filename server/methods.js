@@ -598,5 +598,33 @@ Meteor.methods({
 				return false;
 			} 
 		});
+	},
+	addFavorite: function(id) {
+		if(Meteor.user()) {
+			Meteor.users.update({
+				_id: Meteor.user()._id
+			}, { 
+				$push: {
+					"profile.favorites": id
+				}
+			});
+		} else {
+			return false;
+		}
+		return true;
+	},
+	removeFavorite: function(id) {
+		if(Meteor.user()) {
+			Meteor.users.update({
+				_id: Meteor.user()._id
+			}, { 
+				$pull: {
+					"profile.favorites": id
+				}
+			});
+		} else {
+			return false;
+		}
+		return true;
 	}
 });

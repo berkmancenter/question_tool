@@ -6,10 +6,14 @@
 				{{#each instanceList}}
 					<div class="instancecolumn">
 						{{#if indexOne}}
-							<div id="{{_id}}" class="instance">
+							<div id="{{_id}}" class="instance {{#if isFavorite}}favoriteInstance{{/if}}">
 								<p class="instancename">
 									{{tablename}}
 								</p>
+								{{#if currentUser}}
+									<div class="favoritebutton {{#if isFavorite}}buttonFavorite{{/if}}" id="{{_id}}">
+									</div>
+								{{/if}}
 								<div class="answercontainer">
 									<span class="answertext">
 										{{description}}
@@ -28,10 +32,14 @@
 					</div>
 					<div class="instancecolumn">
 						{{#if indexTwo}}
-							<div id="{{_id}}" class="instance">
+							<div id="{{_id}}" class="instance {{#if isFavorite}}favoriteInstance{{/if}}">
 								<p class="instancename">
 									{{tablename}}
 								</p>
+								{{#if currentUser}}
+									<div class="favoritebutton {{#if isFavorite}}buttonFavorite{{/if}}" id="{{_id}}">
+									</div>
+								{{/if}}
 								<div class="answercontainer">
 									<span class="answertext">
 										{{description}}
@@ -50,10 +58,14 @@
 					</div>
 					<div class="lastinstancecolumn">
 						{{#if indexThree}}
-							<div id="{{_id}}" class="instance">
+							<div id="{{_id}}" class="instance {{#if isFavorite}}favoriteInstance{{/if}}">
 								<p class="instancename">
 									{{tablename}}
 								</p>
+								{{#if currentUser}}
+									<div class="favoritebutton {{#if isFavorite}}buttonFavorite{{/if}}" id="{{_id}}">
+									</div>
+								{{/if}}
 								<div class="answercontainer">
 									<span class="answertext">
 										{{description}}

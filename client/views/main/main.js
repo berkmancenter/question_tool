@@ -74,6 +74,14 @@ Template.home.helpers({
 			} else if(i % 3 == 2) {
 				instances[i].indexThree = true;
 			}
+			if(Meteor.user()) {
+				if(Meteor.user().profile.favorites.indexOf(instances[i]._id) != -1) {
+					instances[i].isFavorite = true;
+					var tempInstance = instances[i];
+					instances.splice(i, 1);
+					instances.unshift(tempInstance);
+				}
+			}
 		}
 		return instances;
 	}
@@ -138,6 +146,28 @@ Template.home.events({
 			Session.set("search", "all");
 		}
 		//return Users.find({name: {$regex: re}});
+	},
+	"click .favoritebutton": function(event, template) {
+		var style = event.target.currentStyle || window.getComputedStyle(event.target, false),
+		bi = style.backgroundImage.slice(4, -1);
+		event.stopPropagation();
+		if(bi == (event.target.baseURI + "heart_empty.png")) {
+			event.target.style.backgroundImage = "url('" + event.target.baseURI + "heart_filled.png')";
+			event.target.parentElement.style.border = "2px solid #ec4f4f";
+			Meteor.call('addFavorite', event.target.id, function(error, result) {
+				if(error) {
+					alert(error);
+				}
+			});
+		} else {
+			event.target.style.backgroundImage = "url('" + event.target.baseURI + "heart_empty.png')";
+			event.target.parentElement.style.border = "2px solid #e9edf0";
+			Meteor.call('removeFavorite', event.target.id, function(error, result) {
+				if(error) {
+					alert(error);
+				}
+			});
+		}
 	}
 });
 
