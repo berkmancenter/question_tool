@@ -4,6 +4,7 @@
 	</head>
 	<body>
 		<div id="wrapper">
+			{{> userInfo list=true}}
 			<div id="toparea" style="text-align: center;">
 				{{#if admin}}
 					<h2>Admin Interface</h2>
@@ -21,16 +22,15 @@
 					<br />
 					<hr width="70%"/>
 				{{/if}}
-				<p id="tabledescription"><!--{{description}}--></p>
 				<div id="questiondiv">
 					<textarea id="questioninput" maxlength="{{questionLength}}" placeholder="Type your question here..."></textarea>
 					<div id="topinputcontainer">
 						{{#if currentUser}}
-							<input id="questionnameinput" type="text" placeholder="Name..." value="{{currentUser.profile.name}}" readonly>
-							<input id="questionemailinput" type="text" placeholder="Email..." value="{{currentUser.emails.[0].address}}" readonly>
+							<input id="questionnameinput" spellcheck="false" type="text" placeholder="Name..." value="{{currentUser.profile.name}}" readonly>
+							<input id="questionemailinput" spellcheck="false" type="text" placeholder="Email..." value="{{currentUser.emails.[0].address}}" readonly>
 						{{else}}
-							<input id="questionnameinput" type="text" placeholder="Name...">
-							<input id="questionemailinput" type="text" placeholder="Email...">
+							<input id="questionnameinput" spellcheck="false" type="text" placeholder="Name...">
+							<input id="questionemailinput" spellcheck="false" type="text" placeholder="Email...">
 						{{/if}}
 					</div>
 					<div id="bottominputcontainer">
@@ -90,6 +90,8 @@
 				<a href="/rss/{{tablename}}"><img src="/rss.gif" alt="xml icon" /></a>-->
 			</div>
 	</div>
+		<p class="instancetitle">{{tablename}}</p>
+		<p class="description">{{description}}</p>
 		<div id="recent">
 			<div id="questionscontainer">
 				<div class="subcolumn">
@@ -104,6 +106,10 @@
 									<div id="votearea">
 										<a class="voteClick {{shade}}" id="{{_id}}" href="{{votelink}}">{{votes}}</a>
 										<br />
+										<div class="facebookbutton">
+										</div>
+										<div class="twitterbutton">
+										</div>
 									</div>
 									<p class="questiontext">
 										{{{text}}}
@@ -190,6 +196,10 @@
 									<div id="votearea">
 										<a class="voteClick {{shade}}" id="{{_id}}" href="{{votelink}}">{{votes}}</a>
 										<br />
+										<div class="facebookbutton">
+										</div>
+										<div class="twitterbutton">
+										</div>
 									</div>
 									<p class="questiontext">
 										{{{text}}}
@@ -276,6 +286,10 @@
 									<div id="votearea">
 										<a class="voteClick {{shade}}" id="{{_id}}" href="{{votelink}}">{{votes}}</a>
 										<br />
+										<div class="facebookbutton">
+										</div>
+										<div class="twitterbutton">
+										</div>
 									</div>
 									<p class="questiontext">
 										{{{text}}}

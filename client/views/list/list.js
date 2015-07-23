@@ -42,12 +42,6 @@ Template.list.onCreated(function () {
 });
 
 Template.list.onRendered(function() {
-	var tablename = Session.get("tablename");
-	var parentNode = document.getElementById("wrapper");
-	Blaze.renderWithData(Template.userInfo, {
-		title: tablename,
-		list: true
-	}, parentNode);
 	// Sets the document title when the template is rendered
 	document.title = "Live Question Tool";
 });
