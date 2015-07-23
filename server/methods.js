@@ -299,6 +299,7 @@ Meteor.methods({
 	// Method that adds a new question to the database
 	propose: function(tablename, question, posterName, posterEmail, ip) {
 		var keys;
+		question.replace(/<(?:.|\n)*?>/gm, '');
 		// Gets the current table
 		var table = Instances.findOne({
 			tablename: tablename

@@ -11,8 +11,5 @@ Template.userInfo.events({
 	},
 	"click #navRegister": function(event, template) {
 		Router.go('/register');
-	},
-	"click #navCreate": function(event, template) {
-		Router.go('/create');
 	}
 });

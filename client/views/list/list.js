@@ -6,6 +6,8 @@
 Template.list.onCreated(function () {
 	// Initially sets the "timeval" Session variable to the current time
 	Session.set("timeval", new Date().getTime());
+	Session.set("questionCount", 0);
+	Session.set("questionLimit", 250);
 	Session.set("search", "all");
 	// Checks whether the user has a valid table cookie
 	Meteor.call('listCookieCheck', Cookie.get("tablename"), function (error, result) {
@@ -21,6 +23,9 @@ Template.list.onCreated(function () {
 			Session.set("id", result._id);
 			Session.set("tablename", result.tablename);
 			Session.set("description", result.description);
+			if(result.questionLength) {
+				Session.set("questionLength", result.questionLength);
+			}
 			Session.set("threshhold", result.threshhold);
 			Session.set("mod", false);
 			if(result.admin == Meteor.user().emails[0].address) {
@@ -111,6 +116,23 @@ Template.list.helpers({
 		// Loops through the retrieved questions and sets properties
 		for(var i = 0; i < questions.length; i++) {
 			if(questions[i].state != "disabled") {
+				var urlRegex = /(https?:\/\/(?:www\.|(?!www))[^\s\.]+\.[^\s]{2,}|www\.[^\s]+\.[^\s]{2,})/g;
+				questions[i].text = questions[i].text.replace(urlRegex, function(url) {
+					if(url.charAt(url.length-1) == ")") {
+						url = url.substring(0, url.length-1);
+						var hasPeren = true;
+					}
+					if(url.indexOf("http://") == -1) {
+						var fullURL = "http://" + url;
+					} else {
+						fullURL = url;
+					}
+					if(!hasPeren) {
+						return '<a target="_blank" class="questionLink" href="' + fullURL + '">' + url + '</a>';
+					} else {
+						return '<a target="_blank" class="questionLink" href="' + fullURL + '">' + url + '</a>)';
+					}
+				});
 				questions[i].adminButtons = (Session.get("admin") || Session.get("mod"));
 				// Every other question goes in column #2
 				if(i % 3 == 0) {
@@ -160,6 +182,16 @@ Template.list.helpers({
 		}
 		// Return the questions object to be displayed in the template
 		return questions;
+	},
+	count: function() {
+		return Session.get("questionCount");
+	},
+	questionLength: function() {
+		if(Session.get("questionLength")) {
+			return Session.get("questionLength");
+		} else {
+			return 250;
+		}
 	}
 });
 
@@ -366,13 +398,14 @@ Template.list.events({
 	},
 	"click #buttonarea": function(event, template) {
 		// Retrieves data from the form
+		var question = document.getElementById("questioninput").value;
+		question = $("<p>").html(question).text();
 		var anonElement = document.getElementById("anoncheck");
 		if(anonElement.style.display) {
 			var anonymous = (anonElement.style.display != "none");
 		} else {
 			var anonymous = false;
 		}
-		var question = document.getElementById("questioninput").value;
 		var posterName = document.getElementById("questionnameinput").value;
 		var posterEmail = document.getElementById("questionemailinput").value;
 		var password1 = document.getElementById("questionpasswordinput");
@@ -462,6 +495,21 @@ Template.list.events({
 			Session.set("search", "all");
 		}
 		//return Users.find({name: {$regex: re}});
+	},
+	"keyup #questioninput": function(event, template) {
+		var urlRegex = /(https?:\/\/(?:www\.|(?!www))[^\s\.]+\.[^\s]{2,}|www\.[^\s]+\.[^\s]{2,})/g;
+		var found = event.target.value.match(urlRegex);
+		if(found) {
+			var totalURL = 0;
+			for(var f = 0; f < found.length; f++) {
+				totalURL += found[f].length;
+			}
+			var total = (event.target.value.length - totalURL) + found.length;
+			$("#questioninput").attr('maxlength', Number(250 + totalURL - found.length));
+		} else {
+			var total = event.target.value.length;
+		}
+		Session.set("questionCount", total);
 	}
 });
 

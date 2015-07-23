@@ -1,6 +1,56 @@
 <template name="home">
 	<body>
 		{{> userInfo title="Question Tool" list=false}}
+		<div id="toparea" style="text-align: center;">
+			<div id="questiondiv">
+				<textarea id="questioninput" maxlength="{{questionLength}}" placeholder="Type your question here..."></textarea>
+				<div id="topinputcontainer">
+					{{#if currentUser}}
+						<input id="questionnameinput" type="text" placeholder="Name..." value="{{currentUser.profile.name}}" readonly>
+						<input id="questionemailinput" type="text" placeholder="Email..." value="{{currentUser.emails.[0].address}}" readonly>
+					{{else}}
+						<input id="questionnameinput" type="text" placeholder="Name...">
+						<input id="questionemailinput" type="text" placeholder="Email...">
+					{{/if}}
+				</div>
+				<div id="bottominputcontainer">
+					<input id="questionpasswordinput" type="password" placeholder="Password...">
+					<input id="questionconfirminput" type="password" placeholder="Confirm password...">
+				</div>
+				<div id="bottomquestionarea">
+					<div id="checkareas">
+						<div id="checkarea1">
+							<div class="checkarealeft">
+								<div class="checkbox" id="savebox">
+									<div class="checked" id="savecheck">
+									</div>
+								</div>
+							</div>
+							<div class="checkarearight">
+								<p class="checkboxlabel">Save your information?</p>
+							</div>
+						</div>
+						<div id="checkarea2">
+							<div class="checkarealeft">
+								<div class="checkbox" id="anonbox">
+									<div class="checked" id="anoncheck">
+									</div>
+								</div>
+							</div>
+							<div class="checkarearight">
+								<p class="checkboxlabel">Post as anonymous?</p>
+							</div>
+						</div>
+					</div>
+					<div class="countarea">
+							<span id="darkcounter">{{count}}</span>/250
+					</div>
+					<div id="buttonarea">
+						Ask a question!
+					</div>
+				</div>
+			</div>
+		</div>
 		<div id="recent">
 			<div id="questionscontainer">
 				{{#each instanceList}}

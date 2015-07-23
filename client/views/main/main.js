@@ -132,9 +132,7 @@ Template.home.events({
 		});
 		//var instances = document.getElementsByTagName("select")[0];
 		//var selectedInstance = instances.options[instances.selectedIndex].text;
-		Cookie.set('tablename', theInstance.tablename, {
-			path: '/'
-		});
+		Cookie.set('tablename', theInstance.tablename);
 		// Redirects to the list
 		window.location.href = "/list";
 		//Router.go('/list');
@@ -168,6 +166,19 @@ Template.home.events({
 				}
 			});
 		}
+	},
+	"click #navCreate": function(event, template) {
+		var questionDiv = document.getElementById("toparea");
+		if(questionDiv.style.display == "none" || !questionDiv.style.display) { 
+			$("#navCreate").html("Close");
+			document.getElementById("navCreate").style.backgroundColor = "#ec4f4f";
+			$("#toparea").slideDown();
+		} else {
+			$("#navCreate").html("+ Create");
+			document.getElementById("navCreate").style.backgroundColor = "#27ae60";
+			$("#toparea").slideUp();
+		}
+		//Router.go('/create');
 	}
 });
 

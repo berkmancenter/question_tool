@@ -23,7 +23,7 @@
 				{{/if}}
 				<p id="tabledescription"><!--{{description}}--></p>
 				<div id="questiondiv">
-					<textarea id="questioninput" placeholder="Type your question here..."></textarea>
+					<textarea id="questioninput" maxlength="{{questionLength}}" placeholder="Type your question here..."></textarea>
 					<div id="topinputcontainer">
 						{{#if currentUser}}
 							<input id="questionnameinput" type="text" placeholder="Name..." value="{{currentUser.profile.name}}" readonly>
@@ -76,6 +76,9 @@
 								</div>
 							{{/if}}
 						</div>
+						<div class="countarea">
+								<span id="darkcounter">{{count}}</span>/250
+						</div>
 						<div id="buttonarea">
 							Ask a question!
 						</div>
@@ -103,7 +106,7 @@
 										<br />
 									</div>
 									<p class="questiontext">
-										{{text}}
+										{{{text}}}
 									</p>
 									{{#each answer}}
 										<div class="answercontainer">
@@ -189,7 +192,7 @@
 										<br />
 									</div>
 									<p class="questiontext">
-										{{text}}
+										{{{text}}}
 									</p>
 									{{#each answer}}
 										<div class="answercontainer">
@@ -275,7 +278,7 @@
 										<br />
 									</div>
 									<p class="questiontext">
-										{{text}}
+										{{{text}}}
 									</p>
 									{{#each answer}}
 										<div class="answercontainer">
