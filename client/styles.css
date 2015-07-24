@@ -778,13 +778,13 @@ textarea:focus, input:focus{
 	border-radius: 5px;
 	border:0px;
 	outline:0px;
-	padding-left:10px;
+	padding-left:35px;
 	font-family:regular;
 	color:#444444;
 	font-size:16px;
 	background-image:url('/search.png');
 	background-repeat:no-repeat;
-	background-position:335px center;
+	background-position:10px center;
 	background-size: 16px 16px;
 	outline:0;
 }
