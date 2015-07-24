@@ -162,17 +162,21 @@ Template.home.events({
 		}
 	},
 	"click #navCreate": function(event, template) {
-		var questionDiv = document.getElementById("toparea");
-		if(questionDiv.style.display == "none" || !questionDiv.style.display) { 
-			$("#navCreate").html("Close");
-			document.getElementById("navCreate").style.backgroundColor = "#ec4f4f";
-			$("#toparea").slideDown();
+		if(Meteor.user()) {
+			var questionDiv = document.getElementById("toparea");
+			if(questionDiv.style.display == "none" || !questionDiv.style.display) { 
+				$("#navCreate").html("Close");
+				document.getElementById("navCreate").style.backgroundColor = "#ec4f4f";
+				$("#toparea").slideDown();
+			} else {
+				$("#navCreate").html("+ Create");
+				document.getElementById("navCreate").style.backgroundColor = "#27ae60";
+				$("#toparea").slideUp();
+			}
+			//Router.go('/create');
 		} else {
-			$("#navCreate").html("+ Create");
-			document.getElementById("navCreate").style.backgroundColor = "#27ae60";
-			$("#toparea").slideUp();
+			Router.go('/newlogin');
 		}
-		//Router.go('/create');
 	},
 	"click .checkbox": function(event, template) {
 		//console.log(event);
@@ -208,15 +212,19 @@ Template.home.events({
 	},
 	"click .instancemodsplus": function(event, template) {
 		var spacers = document.getElementsByClassName("emptyinputspacer");
-		var lastDiv = spacers[spacers.length-1];
-		$(".instancemodsinput").removeClass("lastmodinput");
-		$(".plusbuttoncontainer").removeClass("lastmodinput");
-		$(".instancemodsplus").remove();
-		$('<input class="instancemodsinput lastmodinput" type="text" placeholder="Moderator email..."><div class="emptyinputspacer lastinputspacer"><div class="plusbuttoncontainer"><div class="instancemodsplus">+</div></div></div>').insertAfter(".lastinputspacer").last();
-		$(".lastinputspacer").first().removeClass("lastinputspacer");
-		$('#instancebottominputcontainer').height(function (index, height) {
-		    return (height + 50);
-		});
+		if(spacers.length <= 8) {
+			var lastDiv = spacers[spacers.length-1];
+			$(".instancemodsinput").removeClass("lastmodinput");
+			$(".plusbuttoncontainer").removeClass("lastmodinput");
+			$(".instancemodsplus").remove();
+			$('<input class="instancemodsinput lastmodinput" type="text" placeholder="Moderator email..."><div class="emptyinputspacer lastinputspacer"><div class="plusbuttoncontainer"><div class="instancemodsplus">+</div></div></div>').insertAfter(".lastinputspacer").last();
+			$(".lastinputspacer").first().removeClass("lastinputspacer");
+			$('#instancebottominputcontainer').height(function (index, height) {
+			    return (height + 50);
+			});
+		} else {
+			alert("You've reached the maximum # of moderators (8)");
+		}
 	},
 	"click #buttonarea": function(event, template) {
 		// Retrieve data from the form
