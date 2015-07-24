@@ -1023,6 +1023,13 @@ div#recent, div#popular {
 	border-radius:5px;
 }
 
+.instancedescription {
+	font-family:light!important;
+	text-decoration:none!important;
+	color:#999999!important;
+	font-size:14px;
+}
+
 .replycounter {
 	margin:0px;
 	padding:0px;

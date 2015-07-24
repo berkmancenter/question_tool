@@ -5,6 +5,8 @@
 
 Template.list.onCreated(function () {
 	// Initially sets the "timeval" Session variable to the current time
+	Session.set("responseName", "");
+	Session.set("responseEmail", "");
 	Session.set("timeval", new Date().getTime());
 	Session.set("questionCount", 0);
 	Session.set("replyCount", 0);
@@ -216,6 +218,12 @@ Template.list.helpers({
 		} else {
 			return 150;
 		}
+	},
+	responseName: function() {
+		return Session.get("responseName");
+	},
+	responseEmail: function() {
+		return Session.get("responseEmail");
 	}
 });
 
@@ -380,6 +388,12 @@ Template.list.events({
 				}
 			}
 		}
+	},
+	"keyup .replyname": function(event, template) {
+		Session.set("responseName", event.target.value);
+	},
+	"keyup .replyemail": function(event, template) {
+		Session.set("responseEmail", event.target.value);
 	},
 	"keypress #questionemailinput": function(event, template) {
 		event.which = event.which || event.keyCode;
