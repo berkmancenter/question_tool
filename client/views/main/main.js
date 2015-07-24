@@ -117,13 +117,6 @@ Template.home.events({
 			event.currentTarget.children[0].id = "rename";
 		}
 	},
-	"keypress input": function(event, template) {
-		event.which = event.which || event.keyCode;
-		if(event.which == 13) {
-			event.preventDefault();
-			event.currentTarget.parentNode.parentNode.children[1].children[0].click();
-		}
-	},
 	// When the submit button is clicked
 	"click .instance": function(event, template) {
 		// Sets the tablename cookie to the chosen table
@@ -285,6 +278,24 @@ Template.home.events({
 				window.location.href = '/list';
 			}
 		});
+	},
+	"keypress #instancedescriptioninput": function(event, template) {
+		event.which = event.which || event.keyCode;
+		if(event.which == 13) {
+			event.preventDefault();
+			document.getElementById("buttonarea").click();
+		}
+	},
+	"keypress .instancemodsinput": function(event, template) {
+		event.which = event.which || event.keyCode;
+		if(event.which == 13) {
+			event.preventDefault();
+			var last = document.getElementsByClassName("lastinputspacer")[0];
+			var lastPlus = last.children[0].children[0];
+			lastPlus.click();
+			last = document.getElementsByClassName("lastinputspacer")[0];
+			last.previousSibling.focus();
+		}
 	}
 });
 

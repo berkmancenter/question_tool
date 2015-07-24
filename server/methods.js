@@ -50,6 +50,7 @@ Meteor.methods({
 	// A method that adds an answer to the databases
 	answer: function(tablename, answer, posterName, email, result, currentURL) {
 		var keys = "";
+		answer.replace(/<(?:.|\n)*?>/gm, '');
 		// Retrieves the current quesetion from the DB (if one exists)
 		var quesiton = Questions.findOne({
 			_id: currentURL

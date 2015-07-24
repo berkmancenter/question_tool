@@ -162,6 +162,25 @@ Template.list.helpers({
 				});
 				if(answers.fetch().length > 0) {
 					questions[i].answer = answers.fetch();
+					for(var a = 0; a < questions[i].answer.length; a++) {
+						var urlRegex = /(https?:\/\/(?:www\.|(?!www))[^\s\.]+\.[^\s]{2,}|www\.[^\s]+\.[^\s]{2,})/g;
+						questions[i].answer[a].text = questions[i].answer[a].text.replace(urlRegex, function(url) {
+							if(url.charAt(url.length-1) == ")") {
+								url = url.substring(0, url.length-1);
+								var hasPeren = true;
+							}
+							if(url.indexOf("http://") == -1) {
+								var fullURL = "http://" + url;
+							} else {
+								fullURL = url;
+							}
+							if(!hasPeren) {
+								return '<a target="_blank" class="questionLink" href="' + fullURL + '">' + url + '</a>';
+							} else {
+								return '<a target="_blank" class="questionLink" href="' + fullURL + '">' + url + '</a>)';
+							}
+						});
+					}
 				}
 				// If question is one of the first [threshhold] questions, it's "active"
 				questions[i].popular = false;
