@@ -238,6 +238,10 @@ Template.home.events({
 		var redLength = lengthSelect[lengthSelect.selectedIndex].value;
 		var staleSelect = document.getElementsByName("stale_length")[0];
 		var stale = staleSelect[staleSelect.selectedIndex].value;
+		var questionSelect = document.getElementsByName("max_question")[0];
+		var maxQuestion = questionSelect[questionSelect.selectedIndex].value;
+		var responseSelect = document.getElementsByName("max_response")[0];
+		var maxResponse = responseSelect[responseSelect.selectedIndex].value;
 		var description = document.getElementById("instancedescriptioninput").value;
 		var admin = Meteor.user().emails[0].address;
 		// Ensures that the table description is capitalized
@@ -256,7 +260,7 @@ Template.home.events({
 		}
 		//console.log(mods);
 		// Calls the 'create' function on the server to add Instance to the DB
-		Meteor.call('create', tablename, threshhold, redLength, stale, description, mods,/*passwordConfirm,*/ admin, function (error, result) {
+		Meteor.call('create', tablename, threshhold, redLength, stale, description, mods,/*passwordConfirm,*/ admin, maxQuestion, maxResponse, function (error, result) {
 			// If the result is an object, there was an error
 			if(typeof result === 'object') {
 				var errorString = "";

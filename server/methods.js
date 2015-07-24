@@ -89,7 +89,7 @@ Meteor.methods({
 		return keys;
 	},
 	// A method that adds an instance to the databases
-	create: function(tablename, threshhold, redLength, stale, description, mods, admin) {
+	create: function(tablename, threshhold, redLength, stale, description, mods, admin, maxQuestion, maxResponse) {
 		var keys;
 		// Inserts the instance into the instances database
 		Instances.insert({
@@ -101,7 +101,9 @@ Meteor.methods({
 			moderators: mods,
 			/*password: passwordConfirm,*/
 			lasttouch: new Date().getTime(),
-			admin: admin
+			admin: admin,
+			max_question: maxQuestion,
+			max_response: maxResponse
 		}, function(error, id) {
 			// If error, set keys to the error object
 			if(error) {

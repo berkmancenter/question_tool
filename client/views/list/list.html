@@ -77,7 +77,7 @@
 							{{/if}}
 						</div>
 						<div class="countarea">
-								<span id="darkcounter">{{count}}</span>/250
+							<span id="darkcounter">{{count}}</span>/{{questionLength}}
 						</div>
 						<div id="buttonarea">
 							Ask a question!
@@ -154,7 +154,7 @@
 										</div>
 									</div>
 									<div class="replybottom" id="down{{_id}}">
-										<textarea id="text{{_id}}" class="replyarea" placeholder="Type a response..."></textarea>
+										<textarea id="text{{_id}}" class="replyarea" placeholder="Type a response..." maxlength="{{responseLength}}"></textarea>
 										<div class="replyfields">
 											<input type="text" class="replyname" id="name{{_id}}" placeholder="Name...">
 											<input type="text" class="replyemail" id="email{{_id}}" placeholder="Email...">
@@ -169,6 +169,9 @@
 											<div class="checkarearight">
 												<p class="replychecklabel">Anonymous?</p>
 											</div>
+										</div>
+										<div class="replycounter">
+											<span id="darkcounter">{{replyCount}}</span>/{{responseLength}}
 										</div>
 										<div class="replybottombutton" id="{{_id}}">
 											Reply
@@ -244,7 +247,7 @@
 										</div>
 									</div>
 									<div class="replybottom" id="down{{_id}}">
-										<textarea id="text{{_id}}" class="replyarea" placeholder="Type a response..."></textarea>
+										<textarea id="text{{_id}}" class="replyarea" placeholder="Type a response..." maxlength="{{responseLength}}"></textarea>
 										<div class="replyfields">
 											<input type="text" class="replyname" id="name{{_id}}" placeholder="Name...">
 											<input type="text" class="replyemail" id="email{{_id}}" placeholder="Email...">
@@ -259,6 +262,9 @@
 											<div class="checkarearight">
 												<p class="replychecklabel">Anonymous?</p>
 											</div>
+										</div>
+										<div class="replycounter">
+											<span id="darkcounter">{{replyCount}}</span>/{{responseLength}}
 										</div>
 										<div class="replybottombutton" id="{{_id}}">
 											Reply
@@ -334,7 +340,7 @@
 										</div>
 									</div>
 									<div class="replybottom" id="down{{_id}}">
-										<textarea id="text{{_id}}" class="replyarea" placeholder="Type a response..."></textarea>
+										<textarea id="text{{_id}}" class="replyarea" placeholder="Type a response..." maxlength="{{responseLength}}"></textarea>
 										<div class="replyfields">
 											<input type="text" class="replyname" id="name{{_id}}" placeholder="Name...">
 											<input type="text" class="replyemail" id="email{{_id}}" placeholder="Email...">
@@ -349,6 +355,9 @@
 											<div class="checkarearight">
 												<p class="replychecklabel">Anonymous?</p>
 											</div>
+										</div>
+										<div class="replycounter">
+											<span id="darkcounter">{{replyCount}}</span>/{{responseLength}}
 										</div>
 										<div class="replybottombutton" id="{{_id}}">
 											Reply

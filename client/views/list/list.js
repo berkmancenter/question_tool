@@ -7,6 +7,7 @@ Template.list.onCreated(function () {
 	// Initially sets the "timeval" Session variable to the current time
 	Session.set("timeval", new Date().getTime());
 	Session.set("questionCount", 0);
+	Session.set("replyCount", 0);
 	Session.set("questionLimit", 250);
 	Session.set("search", "all");
 	// Checks whether the user has a valid table cookie
@@ -19,13 +20,13 @@ Template.list.onCreated(function () {
 	// Calls server-side method to retrieve the current table
 	Meteor.call('getTable', Cookie.get("tablename"), function(error, result) {
 		// If successful, store table data in Session variables
+		console.log(result);
 		if(result) {
 			Session.set("id", result._id);
 			Session.set("tablename", result.tablename);
 			Session.set("description", result.description);
-			if(result.questionLength) {
-				Session.set("questionLength", result.questionLength);
-			}
+			Session.set("questionLength", result.max_question);
+			Session.set("responseLength", result.max_response);
 			Session.set("threshhold", result.threshhold);
 			Session.set("mod", false);
 			if(result.admin == Meteor.user().emails[0].address) {
@@ -180,11 +181,21 @@ Template.list.helpers({
 	count: function() {
 		return Session.get("questionCount");
 	},
+	replyCount: function() {
+		return Session.get("replyCount");
+	},
 	questionLength: function() {
 		if(Session.get("questionLength")) {
 			return Session.get("questionLength");
 		} else {
-			return 250;
+			return 350;
+		}
+	},
+	responseLength: function() {
+		if(Session.get("responseLength")) {
+			return Session.get("responseLength");
+		} else {
+			return 150;
 		}
 	}
 });
@@ -499,11 +510,26 @@ Template.list.events({
 				totalURL += found[f].length;
 			}
 			var total = (event.target.value.length - totalURL) + found.length;
-			$("#questioninput").attr('maxlength', Number(250 + totalURL - found.length));
+			$("#questioninput").attr('maxlength', Number(Session.get("questionLength") + totalURL - found.length));
 		} else {
 			var total = event.target.value.length;
 		}
 		Session.set("questionCount", total);
+	},
+	"keyup .replyarea": function(event, template) {
+		var urlRegex = /(https?:\/\/(?:www\.|(?!www))[^\s\.]+\.[^\s]{2,}|www\.[^\s]+\.[^\s]{2,})/g;
+		var found = event.target.value.match(urlRegex);
+		if(found) {
+			var totalURL = 0;
+			for(var f = 0; f < found.length; f++) {
+				totalURL += found[f].length;
+			}
+			var total = (event.target.value.length - totalURL) + found.length;
+			$(event.target).attr('maxlength', Number(Session.get("responseLength") + totalURL - found.length));
+		} else {
+			var total = event.target.value.length;
+		}
+		Session.set("replyCount", total);
 	}
 });
 

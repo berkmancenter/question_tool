@@ -592,6 +592,12 @@ textarea:focus, input:focus{
 }
 
 #topinputcontainer {
+	height:50px;
+	display:block;
+	width:100%;
+}
+
+#instancetopinputcontainer {
 	height:100px;
 	display:block;
 	width:100%;
@@ -604,7 +610,7 @@ textarea:focus, input:focus{
 }
 
 #instancebottominputcontainer {
-	height:195px;
+	height:285px;
 	display:none;
 	width:100%;
 	background-color:#f9f9f9;
@@ -1015,6 +1021,19 @@ div#recent, div#popular {
 	margin-top:20px;
 	margin-bottom:6px;
 	border-radius:5px;
+}
+
+.replycounter {
+	margin:0px;
+	padding:0px;
+	width:auto;
+	height:auto;
+	float:left;
+	margin-left:35px;
+	margin-top:28px;
+	font-family:light;
+	color:#999999;
+	font-size:14px;
 }
 
 .favoriteInstance {
