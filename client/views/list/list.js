@@ -543,6 +543,8 @@ Template.list.events({
 						// If successful, redirect back to the list page
 						// Router.go("/list");
 						$("#toparea").slideUp();
+						$("#navAsk").html("+ Ask");
+						document.getElementById("navAsk").style.backgroundColor = "#27ae60";
 					}
 				});
 			}
@@ -585,8 +587,22 @@ Template.list.events({
 			var total = event.target.value.length;
 		}
 		Session.set("replyCount", total);
+	},
+	"click .facebookbutton": function(event, template) {
+		popupwindow("https://www.facebook.com/sharer/sharer.php?u=http://questiontool.com/" + encodeURIComponent(Session.get("tablename")), "Share Question Tool!", 600, 400);
+	},
+	"click .twitterbutton": function(event, template) {
+		var questionDiv = event.target.parentElement.parentElement;
+		var questionText = questionDiv.getElementsByClassName("questiontext")[0].innerHTML.trim();
+		popupwindow("https://twitter.com/intent/tweet?text=" + encodeURIComponent(questionText), "Share Question Tool!", 600, 400);
 	}
 });
+
+function popupwindow(url, title, w, h) {
+  var left = (screen.width/2)-(w/2);
+  var top = (screen.height/2)-(h/2);
+  return window.open(url, title, 'toolbar=no, location=no, directories=no, status=no, menubar=no, scrollbars=no, resizable=no, copyhistory=no, width='+w+', height='+h+', top='+top+', left='+left);
+} 
 
 // Helper function that caluclates a standard deviation given an array
 // Source: http://derickbailey.com/
