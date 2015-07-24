@@ -1,8 +1,8 @@
-Template.newlogin.onRendered(function() {
+Template.login.onRendered(function() {
 	document.title = "Question Tool Login";
 });
 
-Template.newlogin.events({
+Template.login.events({
 	"click #submitbutton": function(event, template) {
 		var email = document.getElementById("loginemail").value;
 		var password = document.getElementById("passwordbox").value;

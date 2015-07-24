@@ -175,7 +175,7 @@ Template.home.events({
 			}
 			//Router.go('/create');
 		} else {
-			Router.go('/newlogin');
+			Router.go('/login');
 		}
 	},
 	"click .checkbox": function(event, template) {
