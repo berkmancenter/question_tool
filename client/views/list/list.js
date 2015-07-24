@@ -27,6 +27,11 @@ Template.list.onCreated(function () {
 			Session.set("id", result._id);
 			Session.set("tablename", result.tablename);
 			Session.set("description", result.description);
+			if(typeof result.anonymous !== 'undefined') {
+				Session.set("anonymous", result.anonymous);
+			} else {
+				Session.set("anonymous", true);
+			}
 			Session.set("questionLength", result.max_question);
 			Session.set("responseLength", result.max_response);
 			Session.set("threshhold", result.threshhold);
@@ -224,6 +229,9 @@ Template.list.helpers({
 	},
 	responseEmail: function() {
 		return Session.get("responseEmail");
+	},
+	anonymous: function() {
+		return Session.get("anonymous");
 	}
 });
 
@@ -336,9 +344,16 @@ Template.list.events({
 		} else {
 			var anonymous = false;
 		}
-		if(anonymous) {
-			posterName = "Anonymous";
-			email = "";
+		if(Session.get("anonymous")) {
+			if(anonymous) {
+				posterName = "Anonymous";
+				email = "";
+			}
+		} else {
+			if(!posterName || !email) {
+				alert("The admin of this instance has disabled anonymous posting. Please enter your name and email address.");
+				return false;
+			}
 		}
 		// Gets the user's IP address from the server
 		Meteor.call('getIP', function (error, result) {
@@ -452,9 +467,16 @@ Template.list.events({
 			password1 = password1.value;
 			password2 = password2.value;
 		}
-		if(anonymous) {
-			posterName = "Anonymous";
-			posterEmail = "";
+		if(Session.get("anonymous")) {
+			if(anonymous) {
+				posterName = "Anonymous";
+				email = "";
+			}
+		} else {
+			if(!posterName || !posterEmail) {
+				alert("The admin of this instance has disabled anonymous posting. Please enter your name and email address.");
+				return false;
+			}
 		}
 		// Checks whether the question input is blank
 		if(!question) {

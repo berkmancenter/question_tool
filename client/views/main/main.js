@@ -227,6 +227,12 @@ Template.home.events({
 		}
 	},
 	"click #buttonarea": function(event, template) {
+		var anonElement = document.getElementById("allowanoncheck");
+		if(anonElement.style.display) {
+			var anonymous = (anonElement.style.display != "none");
+		} else {
+			var anonymous = false;
+		}
 		// Retrieve data from the form
 		var tablename = document.getElementById("instancenameinput").value;
 		// Ensures that the table name is capitalzied
@@ -261,7 +267,7 @@ Template.home.events({
 		}
 		//console.log(mods);
 		// Calls the 'create' function on the server to add Instance to the DB
-		Meteor.call('create', tablename, threshhold, redLength, stale, description, mods,/*passwordConfirm,*/ admin, maxQuestion, maxResponse, function (error, result) {
+		Meteor.call('create', tablename, threshhold, redLength, stale, description, mods,/*passwordConfirm,*/ admin, maxQuestion, maxResponse, anonymous, function (error, result) {
 			// If the result is an object, there was an error
 			if(typeof result === 'object') {
 				var errorString = "";

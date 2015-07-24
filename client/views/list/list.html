@@ -63,14 +63,14 @@
 										<p class="checkboxlabel">Save your information?</p>
 									</div>
 								</div>
-								<div id="checkarea2">
-									<div class="checkarealeft">
+								<div id="checkarea2" style="{{#if anonymous}}{{else}}visibility:hidden!important{{/if}}">
+									<div class="checkarealeft" style="{{#if anonymous}}{{else}}visibility:hidden!important{{/if}}">
 										<div class="checkbox" id="anonbox">
 											<div class="checked" id="anoncheck">
 											</div>
 										</div>
 									</div>
-									<div class="checkarearight">
+									<div class="checkarearight" style="{{#if anonymous}}{{else}}visibility:hidden!important{{/if}}">
 										<p class="checkboxlabel">Post as anonymous?</p>
 									</div>
 								</div>
@@ -165,13 +165,13 @@
 											{{/if}}
 										</div>
 										<div class="replybottomcheck">
-											<div class="checkarealeft">
-												<div class="checkbox" id="replyanonbox">
+											<div class="checkarealeft" style="{{#if anonymous}}{{else}}visibility=hidden!important{{/if}}">
+												<div class="checkbox" id="replyanonbox" style="{{#if anonymous}}{{else}}visibility:hidden!important{{/if}}">
 													<div class="checked anonchecked" id="{{_id}}">
 													</div>
 												</div>
 											</div>
-											<div class="checkarearight">
+											<div class="checkarearight" style="{{#if anonymous}}{{else}}visibility:hidden!important{{/if}}">
 												<p class="replychecklabel">Anonymous?</p>
 											</div>
 										</div>
@@ -263,13 +263,13 @@
 											{{/if}}
 										</div>
 										<div class="replybottomcheck">
-											<div class="checkarealeft">
-												<div class="checkbox" id="replyanonbox">
+											<div class="checkarealeft" style="{{#if anonymous}}{{else}}visibility:hidden!important{{/if}}">
+												<div class="checkbox" id="replyanonbox" style="{{#if anonymous}}{{else}}visibility:hidden!important{{/if}}">
 													<div class="checked anonchecked" id="{{_id}}">
 													</div>
 												</div>
 											</div>
-											<div class="checkarearight">
+											<div class="checkarearight" style="{{#if anonymous}}{{else}}visibility:hidden!important{{/if}}">
 												<p class="replychecklabel">Anonymous?</p>
 											</div>
 										</div>
@@ -361,13 +361,13 @@
 											{{/if}}
 										</div>
 										<div class="replybottomcheck">
-											<div class="checkarealeft">
-												<div class="checkbox" id="replyanonbox">
+											<div class="checkarealeft" style="{{#if anonymous}}{{else}}visibility:hidden!important{{/if}}">
+												<div class="checkbox" id="replyanonbox" style="{{#if anonymous}}{{else}}visibility:hidden!important{{/if}}">
 													<div class="checked anonchecked" id="{{_id}}">
 													</div>
 												</div>
 											</div>
-											<div class="checkarearight">
+											<div class="checkarearight" style="{{#if anonymous}}{{else}}visibility:hidden!important{{/if}}">
 												<p class="replychecklabel">Anonymous?</p>
 											</div>
 										</div>
