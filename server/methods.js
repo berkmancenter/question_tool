@@ -92,6 +92,14 @@ Meteor.methods({
 	// A method that adds an instance to the databases
 	create: function(tablename, threshhold, redLength, stale, description, mods, admin, maxQuestion, maxResponse) {
 		var keys;
+		if(mods.length > 8) {
+			var errors = [
+				{
+					"name": "modlength"
+				}
+			];
+			return errors;
+		}
 		// Inserts the instance into the instances database
 		Instances.insert({
 			tablename: tablename,

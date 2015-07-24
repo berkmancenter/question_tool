@@ -212,7 +212,7 @@ Template.home.events({
 	},
 	"click .instancemodsplus": function(event, template) {
 		var spacers = document.getElementsByClassName("emptyinputspacer");
-		if(spacers.length <= 8) {
+		if(spacers.length <= 7) {
 			var lastDiv = spacers[spacers.length-1];
 			$(".instancemodsinput").removeClass("lastmodinput");
 			$(".plusbuttoncontainer").removeClass("lastmodinput");
@@ -265,13 +265,15 @@ Template.home.events({
 			// If the result is an object, there was an error
 			if(typeof result === 'object') {
 				var errorString = "";
+				console.log(result);
 				// Store an object of the error names and codes
 				var errorCodes = {
 					"tablename": "Please enter a valid table name using only letters and numbers.",
 					"threshhold": "Please enter a valid # of 'featured' questions using the drop down menu.",
 					"new_length": "Please enter a valid value using the 'new questions' drop down menu.",
 					"stale_length": "Please enter a valid value using the 'old questions' drop down menu.",
-					"description": "Please enter a valid description under 255 characters."/*,
+					"description": "Please enter a valid description under 255 characters.",
+					"modlength": "You have entered too many moderators. Please try again."/*,
 					"password": "Please enter a valid password using letters, numbers, *, #, @, and between 4 and 10 characters."*/
 				}
 				// Retrieve all of the errors
