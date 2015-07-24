@@ -1,52 +1,82 @@
 <template name="home">
 	<body>
-		{{> userInfo title="Question Tool" list=false}}
+		{{> userInfo title=" Question Tool" list=false}}
 		<div id="toparea" style="text-align: center;">
-			<div id="questiondiv">
-				<textarea id="questioninput" maxlength="{{questionLength}}" placeholder="Type your question here..."></textarea>
+			<div id="creatediv">
+				<!--<textarea id="questioninput" maxlength="{{questionLength}}" placeholder="Type your question here..."></textarea>-->
 				<div id="topinputcontainer">
-					{{#if currentUser}}
-						<input id="questionnameinput" type="text" placeholder="Name..." value="{{currentUser.profile.name}}" readonly>
-						<input id="questionemailinput" type="text" placeholder="Email..." value="{{currentUser.emails.[0].address}}" readonly>
-					{{else}}
-						<input id="questionnameinput" type="text" placeholder="Name...">
-						<input id="questionemailinput" type="text" placeholder="Email...">
-					{{/if}}
+					<input id="instancenameinput" type="text" placeholder="Instance name...">
+					<input id="instancedescriptioninput" type="text" placeholder="Description...">
 				</div>
-				<div id="bottominputcontainer">
-					<input id="questionpasswordinput" type="password" placeholder="Password...">
-					<input id="questionconfirminput" type="password" placeholder="Confirm password...">
+				<div id="instancebottominputcontainer">
+					<input class="instancemodsinput firstmodinput" type="text" placeholder="Moderator email...">
+					<div class="emptyinputspacer lastinputspacer">
+						<div class="plusbuttoncontainer firstmodinput">
+							<div class="instancemodsplus">
+								+
+							</div>
+						</div>
+					</div>
+					<div class="dropdowncontainer">
+						<p class="dropdownlabel">Number of "featured" questions:</p>
+	                    <select name="threshold" size="1">
+	                        <option value="2">2</option>
+	                        <option value="4">4</option>
+	                        <option value="6">6</option>
+	                        <option value="8">8</option>
+	                    </select>
+					</div>
+					<div class="dropdowncontainer">
+						<p class="dropdownlabel">New questions appear in red text for:</p>
+	                    <select name="new_length" size="1">
+	                        <option value="30">30 seconds</option>
+	                        <option value="60">1 minute</option>
+	                        <option value="300">5 minutes</option>
+	                        <option value="3600">1 hour</option>
+	                        <option value="86400">1 day</option>
+	                        <option value="604800">1 week</option>
+	                    </select>
+					</div>
+					<div class="dropdowncontainer">
+						<p class="dropdownlabel">Old questions appear in grey text after:</p>
+	                    <select name="stale_length" size="1">
+	                        <option value="900">15 minutes</option>
+	                        <option value="1800">30 minutes</option>
+	                        <option value="3600">1 hour</option>
+	                        <option value="86400">1 day</option>
+	                        <option value="604800">1 week</option>
+	                        <option value="2592000">1 month</option>
+	                        <option value="31557600">1 year</option>
+	                    </select>
+					</div>
 				</div>
 				<div id="bottomquestionarea">
 					<div id="checkareas">
 						<div id="checkarea1">
 							<div class="checkarealeft">
-								<div class="checkbox" id="savebox">
-									<div class="checked" id="savecheck">
+								<div class="checkbox" id="advancedbox">
+									<div class="checked" id="advancedcheck">
 									</div>
 								</div>
 							</div>
 							<div class="checkarearight">
-								<p class="checkboxlabel">Save your information?</p>
+								<p class="checkboxlabel">Advanced options?</p>
 							</div>
 						</div>
 						<div id="checkarea2">
 							<div class="checkarealeft">
-								<div class="checkbox" id="anonbox">
-									<div class="checked" id="anoncheck">
+								<div class="checkbox" id="allowanonbox">
+									<div class="checked" id="allowanoncheck">
 									</div>
 								</div>
 							</div>
 							<div class="checkarearight">
-								<p class="checkboxlabel">Post as anonymous?</p>
+								<p class="checkboxlabel">Allow anonymous?</p>
 							</div>
 						</div>
 					</div>
-					<div class="countarea">
-							<span id="darkcounter">{{count}}</span>/250
-					</div>
 					<div id="buttonarea">
-						Ask a question!
+						Create an instance!
 					</div>
 				</div>
 			</div>

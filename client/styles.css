@@ -437,6 +437,14 @@ div#wrapper {
 	background-color:#27b0d8;
 }
 
+#creatediv {
+	display:block;
+	margin:0px auto;
+	width:700px;
+	height:auto;
+	background-color:#27b0d8;
+}
+
 #questioninput {
 	width:650px;
 	height:110px;
@@ -466,6 +474,37 @@ div#wrapper {
 	display:block;         
 }
 
+#instancenameinput {
+	float:left;
+	width:680px;
+	padding:0px!important;
+	margin:0px!important;
+	border-radius:5px 5px 0px 0px;
+	border-width:0;
+	border-bottom:1px solid #e3e3e3;
+	height:50px;
+	color:#888888;
+	padding-left:20px!important;
+	font-family:light;
+	font-size:14px;
+	display:block;         
+}
+
+#instancedescriptioninput {
+	float:left;
+	width:680px;
+	padding:0px!important;
+	margin:0px!important;
+	border-width:0;
+	height:50px;
+	color:#888888;
+	padding-left:20px!important;
+	font-family:light;
+	font-size:14px;
+	display:block;         
+	border-bottom:1px solid #e3e3e3;
+}
+
 #questionpasswordinput {
 	float:left;
 	width:330px;
@@ -480,6 +519,31 @@ div#wrapper {
 	display:block;
 	border-top:1px solid #e3e3e3;
 	border-right:1px solid #e3e3e3;
+}
+
+.emptyinputspacer {
+	width:280px;
+	float:right;
+	height:50px;
+}
+
+.firstmodinput {
+	border-top:1px solid #e3e3e3!important;
+}
+
+.instancemodsinput {
+	float:left;
+	width:400px;
+	padding:0px!important;
+	margin:0px!important;
+	border-width:0;
+	height:50px;
+	color:#888888;
+	padding-left:20px!important;
+	font-family:light;
+	font-size:14px;
+	display:block;
+	border-bottom:1px solid #e3e3e3;
 }
 
 #questionconfirminput {
@@ -516,8 +580,19 @@ textarea:focus, input:focus{
 	display:block;
 }
 
+.dropdownlabel {
+	float:left;
+	clear:both;
+}
+
 #topinputcontainer {
 	height:50px;
+	display:block;
+	width:100%;
+}
+
+#topinputcontainer {
+	height:100px;
 	display:block;
 	width:100%;
 }
@@ -528,6 +603,15 @@ textarea:focus, input:focus{
 	width:100%;
 }
 
+#instancebottominputcontainer {
+	height:195px;
+	display:none;
+	width:100%;
+	background-color:#f9f9f9;
+	padding-top:30px;
+	padding-bottom:20px;
+}
+
 #bottomquestionarea {
 	width:700px;
 	height:50px;
@@ -535,6 +619,24 @@ textarea:focus, input:focus{
 	display:block;
 	border-radius: 0px 0px 5px 5px;
 	/*padding:14px;*/
+}
+
+.dropdowncontainer {
+	width:452px;
+	padding-left:20px;
+	display:block;
+	float:left;	
+}
+
+.dropdownlabel {
+	color:#666666;
+	font-family:regular;
+	font-size:14px;
+}
+
+.dropdowncontainer select {
+	margin-top:16px;
+	float:right;
 }
 
 .checkbox {
@@ -996,6 +1098,34 @@ div#recent, div#popular {
 	text-align:center;
 	margin-left:5px;
 }
+
+.plusbuttoncontainer {
+	width:51px;
+	height:50px;
+	border-right:1px solid #e3e3e3;
+	border-bottom:1px solid #e3e3e3;
+	background-color:white;
+	border-bottom:1px solid #e3e3e3;
+}
+
+.instancemodsplus {
+	width:31px;
+	float:left;
+	height:30px;
+	margin:10px;
+	background-color:#27b0d8;
+	border-radius:5px;
+	color:white;
+	font-family:bold;
+	text-align:center;
+	font-size:23px;
+	cursor:pointer;
+}
+
+.instancemodsplus:hover {
+	background-color:#51BEDE;
+}
+
 
 .removebutton {
 	display:inline-block;
