@@ -4,7 +4,11 @@
 }, 1000);*/
 
 Template.list.onCreated(function () {
-	// Initially sets the "timeval" Session variable to the current time
+	if(Template.instance().data) {
+		Cookie.set("tablename", Template.instance().data, {
+			path: '/'
+		});
+	}
 	Session.set("responseName", "");
 	Session.set("responseEmail", "");
 	Session.set("timeval", new Date().getTime());
@@ -22,7 +26,7 @@ Template.list.onCreated(function () {
 	// Calls server-side method to retrieve the current table
 	Meteor.call('getTable', Cookie.get("tablename"), function(error, result) {
 		// If successful, store table data in Session variables
-		console.log(result);
+		//console.log(result);
 		if(result) {
 			Session.set("id", result._id);
 			Session.set("tablename", result.tablename);
@@ -36,12 +40,14 @@ Template.list.onCreated(function () {
 			Session.set("responseLength", result.max_response);
 			Session.set("threshhold", result.threshhold);
 			Session.set("mod", false);
-			if(result.admin == Meteor.user().emails[0].address) {
-				Session.set("admin", true);
-				enableDragging();
-			} else if(result.moderators.indexOf(Meteor.user().emails[0].address) > -1) {
-				Session.set("mod", true);
-				enableDragging();
+			if(Meteor.user()) {
+				if(result.admin == Meteor.user().emails[0].address) {
+					Session.set("admin", true);
+					enableDragging();
+				} else if(result.moderators.indexOf(Meteor.user().emails[0].address) > -1) {
+					Session.set("mod", true);
+					enableDragging();
+				}
 			}
 			Session.set("stale_length", result.stale_length);
 			Session.set("new_length", result.new_length);
@@ -78,13 +84,15 @@ Template.list.helpers({
 	question: function() {
 		// Finds the questions from the Questions DB
 		if(Session.get("search") == "all") {
+			console.log(Cookie.get("tablename"));
 			var questions = Questions.find({
-				tablename: Session.get("tablename")
+				tablename: Cookie.get("tablename")
 			}).fetch();
+			console.log(questions);
 		} else {
 			var re = new RegExp(Session.get("search"), "i");
 			var questions = Questions.find({
-				tablename: Session.get("tablename"),
+				tablename: Cookie.get("tablename"),
 				"$or": [{
 					text: {
 						$regex: re
@@ -95,6 +103,7 @@ Template.list.helpers({
 					}
 				}]
 			}).fetch();
+			console.log(questions);
 		}
 		var threshhold = Session.get("threshhold");
 		var voteAverage = 0;
