@@ -129,6 +129,7 @@ div#wrapper {
 }
 
 .formcontainer {
+	display:none;
 	background-color:#FFF;
 	border: 2px solid #e9edf0;
 	border-radius:5px;
@@ -138,9 +139,11 @@ div#wrapper {
 	width:30%;
 	margin-top:45px;
 	margin-bottom:100px;
+	z-index:9999999999999999;
+	position:relative;
 }
 
-#submitbutton {
+#loginsubmitbutton, #registersubmitbutton {
 	width:40%;
 	display:block;
 	height:30px;
@@ -429,6 +432,7 @@ div#wrapper {
 	opacity:.6;
 	overflow:hidden;
 	z-index:999999999999999;
+	cursor:pointer;
 }
 
 #loadingSpinner {
