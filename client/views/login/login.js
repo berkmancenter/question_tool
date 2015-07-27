@@ -8,7 +8,7 @@ Template.login.events({
 		event.which = event.which || event.keyCode;
 		if(event.which == 13) {
 			event.preventDefault();
-			document.getElementById("submitbutton").click();
+			document.getElementById("loginsubmitbutton").click();
 		}
 	}
 });

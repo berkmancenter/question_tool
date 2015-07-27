@@ -175,7 +175,8 @@ Template.home.events({
 			}
 			//Router.go('/create');
 		} else {
-			Router.go('/login');
+			var parentNode = document.getElementById("banner");
+			popoverTemplate = Blaze.render(Template.login, parentNode);
 		}
 	},
 	"click .checkbox": function(event, template) {

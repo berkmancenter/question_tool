@@ -4,12 +4,12 @@ Template.userInfo.events({
 		window.location.reload();
 	},
 	"click #navLogin": function(event, template) {
-		/*var URL = window.location.href;
-		var split = URL.split("/");
-		var page = split[split.length-1];
-		Router.go('/login/' + page);*/
 		var parentNode = document.getElementById("banner");
 		popoverTemplate = Blaze.render(Template.login, parentNode);
+	},
+	"click #navShare": function(event, template) {
+		var parentNode = document.getElementById("banner");
+		popoverTemplate = Blaze.render(Template.share, parentNode);
 	},
 	"click #navRegister": function(event, template) {
 		var parentNode = document.getElementById("banner");
@@ -79,5 +79,11 @@ Template.userInfo.events({
 				});
 			}
 		})
+	},
+	"click #shareclosebutton": function(event, template) {
+		$(".formcontainer").fadeOut(400);
+		$("#darker").fadeOut(400, function() {
+			Blaze.remove(popoverTemplate);
+		});
 	}
 });

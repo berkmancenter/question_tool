@@ -6,15 +6,24 @@
 		<input id="searchbar" type="text" placeholder="Search...">
 		<div id="rightInfo">
 			<ul id="navbuttons">
+				{{#if this.list}}
+					<li>
+						<div id="navShare">
+							Share
+						</div>
+					</li>
+				{{/if}}
 				<a href="/">
 					<li>Home</li>
 				</a>
 				<!--<a href="/propose">
 					<li>Ask</li>
 				</a>-->
-				<a href="/rss/{{tablename}}">
-					<li>RSS</li>
-				</a>
+				{{#if this.list}}
+					<a href="/rss/{{tablename}}">
+						<li>RSS</li>
+					</a>
+				{{/if}}
 				<a href="/report">
 					<li>Archive</li>
 				</a>

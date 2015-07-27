@@ -22,13 +22,17 @@ Meteor.methods({
 	// A method that returns a table given a tablename
 	getTable: function(tablename) {
 		return Instances.findOne({ 
-			tablename: tablename
+			tablename: { 
+				$regex: new RegExp("^" + tablename, "i") 
+			}
 		});
 	},
 	// A method that checks whether a table exists with parameter tablename
 	listCookieCheck: function(table) {
 		var table = Instances.findOne({
-			tablename: table
+			tablename: { 
+				$regex: new RegExp("^" + table, "i") 
+			}
 		});
 		if(table == null) {
 			return false;

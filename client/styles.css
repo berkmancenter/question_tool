@@ -137,13 +137,17 @@ div#wrapper {
 	display:block;
 	margin:0px auto;
 	width:30%;
-	margin-top:45px;
+	margin-top:120px;
 	margin-bottom:100px;
 	z-index:9999999999999999;
-	position:relative;
+	position:fixed;
+	top:50%;
+	left:50%;
+	margin-left:-15%;
+	margin-top:-230px;
 }
 
-#loginsubmitbutton, #registersubmitbutton {
+#loginsubmitbutton, #registersubmitbutton, #shareclosebutton {
 	width:40%;
 	display:block;
 	height:30px;
@@ -156,7 +160,7 @@ div#wrapper {
 	text-align:center;
 	font-family:semibold;
 	color:white;
-	padding-top:10px;
+	padding-top:5px;
 }
 
 .formtitle {
@@ -192,12 +196,35 @@ div#wrapper {
 	font-size:16px;
 }
 
-.footer {
+#shareinput {
+	display:block;
+	width:80%;
+	padding-left:2%;
+	margin:0px auto;
+	border: 2px solid #e9edf0;
+	border-radius:5px;
+	outline:0;
+	height:35px;
+	margin-bottom:25px;
+	font-family:regular;
+	font-size:16px;
+}
+
+#footercontainer {
+	width: 100%;
+	background-color:#293340;
+	height:auto;
+	padding-bottom:25px;
+	padding-top:25px;
 	text-align:center;
-	margin-bottom:40px;
-	margin-top:40px;
+	display:inline-block;
+}
+
+#footercontainer a {
+	color:white;
 	font-family:semibold;
 }
+
 
 .postername {
 	margin:0px;
@@ -903,6 +930,7 @@ div#recent, div#popular {
 	float:left;
 	overflow:hidden;
 	padding-top:30px;
+	padding-bottom:40px;
 }
 
 #questionscontainer { 
@@ -970,6 +998,10 @@ div#recent, div#popular {
 	border-radius:5px;
 	margin-top:12px;
 	margin-right:20px;
+}
+
+#navShare {
+	cursor:pointer;
 }
 
 .replybottom {
@@ -1119,7 +1151,7 @@ div#recent, div#popular {
 	font-family:regular;
 	border-radius:5px;
 	margin-top:12px;
-	margin-right:20px;
+	margin-right:130px;
 }
 
 #navLogout:hover {
@@ -1198,13 +1230,8 @@ div#recent, div#popular {
 	margin-left:5px;
 }
 
-.modline {
-	width:100%;
-	display:inline-block;
-}
-
 .plusbutton:hover {
-	background-color: #55c95855c958;
+	background-color: #55c958;
 }
 
 .buttonFavorite {

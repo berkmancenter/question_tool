@@ -58,6 +58,7 @@ Template.list.onCreated(function () {
 Template.list.onRendered(function() {
 	// Sets the document title when the template is rendered
 	document.title = "Live Question Tool";
+	$('head').append('<link rel="alternate" type="application/rss+xml" href="/rss/{{tablename}}"/>');
 });
 
 Template.list.helpers({
@@ -84,15 +85,15 @@ Template.list.helpers({
 	question: function() {
 		// Finds the questions from the Questions DB
 		if(Session.get("search") == "all") {
-			console.log(Cookie.get("tablename"));
+			//console.log(Session.get("tablename"));
 			var questions = Questions.find({
-				tablename: Cookie.get("tablename")
+				tablename: Session.get("tablename")
 			}).fetch();
-			console.log(questions);
+			//console.log(questions);
 		} else {
 			var re = new RegExp(Session.get("search"), "i");
 			var questions = Questions.find({
-				tablename: Cookie.get("tablename"),
+				tablename: Session.get("tablename"),
 				"$or": [{
 					text: {
 						$regex: re
@@ -374,7 +375,7 @@ Template.list.events({
 					posterName = "Anonymous";
 				}
 				// Calls a server-side method to answer a question and update DBs
-				Meteor.call('answer', Cookie.get("tablename"), answer, posterName, email, result, theID, function (error, result) {
+				Meteor.call('answer', Session.get("tablename"), answer, posterName, email, result, theID, function (error, result) {
 					// If the result is an object, there was an error
 					if(typeof result === 'object') {
 						var errorString = "";
@@ -526,7 +527,7 @@ Template.list.events({
 				return false;
 			} else {
 				// Calls server-side "propose" method to add question to DB
-				Meteor.call('propose', Cookie.get("tablename"), question, posterName, posterEmail, result, function (error, result) {
+				Meteor.call('propose', Session.get("tablename"), question, posterName, posterEmail, result, function (error, result) {
 					// If returns an object, there was an error
 					if(typeof result === 'object') {
 						var errorString = "";
@@ -712,7 +713,7 @@ function slideToggle(el, bShow){
 }
 
 function enableDragging() {
-	Meteor.call('adminCheck', Meteor.user().emails[0].address, Cookie.get("tablename"), function(error, result) {
+	Meteor.call('adminCheck', Meteor.user().emails[0].address, Session.get("tablename"), function(error, result) {
 		// If yes, enable draggable question divs
 		if(result) {
 			interact('.question')
