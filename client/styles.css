@@ -316,8 +316,8 @@ div#wrapper {
 	height:25px;
 	width:65px;
 	background-color:white;
-	border:2px solid #e9edf0;
-	color:#e9edf0;
+	border:2px solid #CCCCCC;
+	color:#CCCCCC;
 	font-size:14px;
 	font-family:semibold;
 	text-align:center;
@@ -325,6 +325,11 @@ div#wrapper {
 	margin-top:8px;
 	border-radius:5px;
 	margin-right:5px;
+}
+
+.question:hover .replybutton {
+	border:2px solid #999999;
+	color:#999999;
 }
 
 .replybutton:hover {
