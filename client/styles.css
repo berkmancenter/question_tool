@@ -901,6 +901,7 @@ textarea:focus, input:focus{
 	margin-right:25px;
 	float:left;
 	padding:0px 5px 0px 5px;
+	border-radius:4px
 }
 
 #navbuttons li:hover {
