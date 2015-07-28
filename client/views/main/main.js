@@ -60,6 +60,10 @@ Template.home.helpers({
 					description: {
 						$regex: re
 					}
+				}, {
+					author: {
+						$regex: re
+					}
 				}]
 			}).fetch();
 		}
