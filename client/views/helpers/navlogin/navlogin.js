@@ -85,5 +85,25 @@ Template.userInfo.events({
 		$("#darker").fadeOut(400, function() {
 			Blaze.remove(popoverTemplate);
 		});
+	},
+	"click #loginemphasis": function(event, template) {
+		$(".formcontainer").fadeOut(400);
+		$("#darker").fadeOut(400, function() {
+			Blaze.remove(popoverTemplate);
+			window.setTimeout(function() {
+				var parentNode = document.getElementById("banner");
+				popoverTemplate = Blaze.render(Template.login, parentNode);
+			}, 10);
+		});
+	},
+	"click #registeremphasis": function(event, template) {
+		$(".formcontainer").fadeOut(400);
+		$("#darker").fadeOut(400, function() {
+			Blaze.remove(popoverTemplate);
+			window.setTimeout(function() {
+				var parentNode = document.getElementById("banner");
+				popoverTemplate = Blaze.render(Template.register, parentNode);
+			}, 10);
+		});
 	}
 });
