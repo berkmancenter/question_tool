@@ -1,10 +1,9 @@
 // Only publishes to the user the instances that have been updated within 30 days
-Meteor.publish('instances', function(table) {
+Meteor.publish('instances', function() {
 	return Instances.find({
-	// UNCOMMENT THIS WHEN PRODUCTION READY
-	/*lasttouch: {
-		$gt: (new Date().getTime() - 2592000000)
-		}*/
+		hidden: {
+			$ne: true
+		} 
 	});
 });
 

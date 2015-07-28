@@ -204,7 +204,7 @@ Template.list.helpers({
 				if(questions[i].votes == 1) {
 					questions[i].votes = "1 vote";
 				} else {
-					questions[i].votes = questions[i].votes + " votes";
+					questions[i].votes = questions[i].votes + " votes"; 
 				}
 			} else if(questions[i].state == "disabled"){
 				// If the question is disabled, don't display

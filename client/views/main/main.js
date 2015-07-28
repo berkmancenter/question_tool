@@ -252,6 +252,8 @@ Template.home.events({
 		var maxResponse = responseSelect[responseSelect.selectedIndex].value;
 		var description = document.getElementById("instancedescriptioninput").value;
 		var admin = Meteor.user().emails[0].address;
+		var hiddenSelector = document.getElementsByName("visibility")[0];
+		var isHidden = (hiddenSelector[hiddenSelector.selectedIndex].value == "hidden");
 		// Ensures that the table description is capitalized
 		description = description.charAt(0).toUpperCase() + description.slice(1);
 		// If the passwords don't match, alert the user
@@ -268,7 +270,7 @@ Template.home.events({
 		}
 		//console.log(mods);
 		// Calls the 'create' function on the server to add Instance to the DB
-		Meteor.call('create', tablename, threshhold, redLength, stale, description, mods,/*passwordConfirm,*/ admin, maxQuestion, maxResponse, anonymous, function (error, result) {
+		Meteor.call('create', tablename, threshhold, redLength, stale, description, mods,/*passwordConfirm,*/ admin, maxQuestion, maxResponse, anonymous, isHidden, function (error, result) {
 			// If the result is an object, there was an error
 			if(typeof result === 'object') {
 				var errorString = "";

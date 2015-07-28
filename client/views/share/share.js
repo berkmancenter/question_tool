@@ -5,6 +5,6 @@ Template.share.onRendered(function() {
 
 Template.share.helpers({
 	shareLink: function() {
-		return "http://cyber.law.harvard.edu/questions/" + Session.get("tablename");
+		return "http://cyber.law.harvard.edu/list/" + Session.get("tablename");
 	}
 });

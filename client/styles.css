@@ -667,7 +667,7 @@ textarea:focus, input:focus{
 }
 
 #instancebottominputcontainer {
-	height:285px;
+	height:320px;
 	display:none;
 	width:100%;
 	background-color:#f9f9f9;
@@ -859,9 +859,15 @@ textarea:focus, input:focus{
 	font-weight:normal;
 	font-size:14px;
 	margin-top:15px;
-	margin-right:35px;
+	margin-right:25px;
 	float:left;
+	padding:0px 5px 0px 5px;
 }
+
+#navbuttons li:hover {
+	background-color:#5d6a7b;
+}
+
 
 td {
 	width:50%;
