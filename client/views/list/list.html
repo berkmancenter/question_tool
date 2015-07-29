@@ -93,16 +93,29 @@
 			<div class="subcolumn">
 				{{#each question}}
 					{{#if indexOne}}
-						<div id="{{_id}}" class="question {{age_marker}} {{#if popular}}popularquestion{{/if}}">
+						<div id="{{_id}}" class="question {{#if popular}}popularquestion{{else}}{{age_marker}}{{/if}}">
 							<!--<div class="votes v{{shade}}">
 								<a class="voteClick" id="{{_id}}" href="{{votelink}}">{{votes}}<br />votes</a>
 							</div>-->
 							<div id="votearea">
 								<a class="voteClick {{shade}}" id="{{_id}}" href="{{votelink}}">{{votes}}</a>
 								{{#if popular}}
-									<div class="popularcontainer">
+									<div class="questionbadgecontainer">
 										<img src="/star.png" class="starimage">
 										<p class="populartext">Popular</p>
+									</div>
+								{{else}}
+									{{#if stale}}
+										<div class="questionbadgecontainer">
+											<img src="/stalequestion.png" class="starimage">
+											<p class="stalequestiontext">Stale</p>
+										</div>
+									{{/if}}
+								{{/if}}
+								{{#if new}}
+									<div class="questionbadgecontainer">
+										<img src="/newquestion.png" class="starimage">
+										<p class="newquestiontext">New</p>
 									</div>
 								{{/if}}
 								<br />
@@ -195,15 +208,28 @@
 			<div class="subcolumn">
 				{{#each question}}
 					{{#if indexTwo}}
-						<div id="{{_id}}" class="question {{age_marker}} {{#if popular}}popularquestion{{/if}}">
+						<div id="{{_id}}" class="question {{#if popular}}popularquestion{{else}}{{age_marker}}{{/if}}">
 							<!--<div class="votes v{{shade}}">
 								<a class="voteClick" id="{{_id}}" href="{{votelink}}">{{votes}}<br />votes</a>-->
 							<div id="votearea">
 								<a class="voteClick {{shade}}" id="{{_id}}" href="{{votelink}}">{{votes}}</a>
 								{{#if popular}}
-									<div class="popularcontainer">
+									<div class="questionbadgecontainer">
 										<img src="/star.png" class="starimage">
 										<p class="populartext">Popular</p>
+									</div>
+								{{else}}
+									{{#if stale}}
+										<div class="questionbadgecontainer">
+											<img src="/stalequestion.png" class="starimage">
+											<p class="stalequestiontext">Stale</p>
+										</div>
+									{{/if}}
+								{{/if}}
+								{{#if new}}
+									<div class="questionbadgecontainer">
+										<img src="/newquestion.png" class="starimage">
+										<p class="newquestiontext">New</p>
 									</div>
 								{{/if}}
 								<br />
@@ -296,15 +322,28 @@
 			<div class="lastcolumn">
 				{{#each question}}
 					{{#if indexThree}}
-						<div id="{{_id}}" class="question {{age_marker}} {{#if popular}}popularquestion{{/if}}">
+						<div id="{{_id}}" class="question {{#if popular}}popularquestion{{else}}{{age_marker}}{{/if}}">
 							<!--<div class="votes v{{shade}}">
 								<a class="voteClick" id="{{_id}}" href="{{votelink}}">{{votes}}<br />votes</a>-->
 							<div id="votearea">
 								<a class="voteClick {{shade}}" id="{{_id}}" href="{{votelink}}">{{votes}}</a>
 								{{#if popular}}
-									<div class="popularcontainer">
+									<div class="questionbadgecontainer">
 										<img src="/star.png" class="starimage">
 										<p class="populartext">Popular</p>
+									</div>
+								{{else}}
+									{{#if stale}}
+										<div class="questionbadgecontainer">
+											<img src="/stalequestion.png" class="starimage">
+											<p class="stalequestiontext">Stale</p>
+										</div>
+									{{/if}}
+								{{/if}}
+								{{#if new}}
+									<div class="questionbadgecontainer">
+										<img src="/newquestion.png" class="starimage">
+										<p class="newquestiontext">New</p>
 									</div>
 								{{/if}}
 								<br />

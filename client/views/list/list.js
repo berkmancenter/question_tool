@@ -169,9 +169,11 @@ Template.list.helpers({
 				var staleDiff = (Session.get("timeval") - questions[i].lasttouch)/1000;
 				var newDiff = (Session.get("timeval") - questions[i].timeorder)/1000;
 				if(staleDiff > Session.get("stale_length")) {
-					questions[i].age_marker = "stale";
-				} else if(newDiff < Session.get("new_length")){
-					questions[i].age_marker = "new";
+					questions[i].stale = true;
+					questions[i].age_marker = "stalequestion";
+				} else if(newDiff < Session.get("new_length")) {
+					questions[i].new = true;
+					questions[i].age_marker = "newquestion";
 				}
 				// Finds the answers for the given question ID
 				var answers = Answers.find({ 
@@ -210,7 +212,7 @@ Template.list.helpers({
 				} else {
 					questions[i].popular = false;
 				}
-			} else if(questions[i].state == "disabled"){
+			} else if(questions[i].state == "disabled") {
 				// If the question is disabled, don't display
 				questions[i].disabled = true;
 			}
@@ -255,10 +257,7 @@ Template.list.events({
 		// Retrieves the user's IP address from the server
 		Meteor.call('getIP', function (error, result) {
 			var ip = result;
-			if (error) {
-				// If there's an error, alert it
-				alert(error);
-			} else {
+			if (!error) {
 				// Calls server-side "vote" method to update the Questions and Vote DBs
 				Meteor.call('vote', event.currentTarget.id, ip, Session.get("tablename"), function(error, result) {
 					// If the result is an object, there was an error
@@ -286,30 +285,18 @@ Template.list.events({
 	// When the admin hide button is clicked...
 	"click .hideQuestion": function(event, template) {	
 		// Call the server-side hide method to hide the question
-		Meteor.call('hide', Meteor.user().emails[0].address, event.currentTarget.id, function(error, result) {
-			if(error) {
-				// If an error exists, alert it
-				alert(error);
-			}
-		});
+		Meteor.call('hide', Meteor.user().emails[0].address, event.currentTarget.id);
 	},
 	// When the admin unhide button is clicked...
 	"click #unhidebutton": function(event, template) {	
 		// Call the server-side unhide method to unhide all questions
-		Meteor.call('unhide', Meteor.user().emails[0].address, Session.get("tablename"), function (error, result) {
-			if(error) {
-				// If an error exists, alert it
-				alert(error);
-			}
-		});
+		Meteor.call('unhide', Meteor.user().emails[0].address, Session.get("tablename"));
 	},
 	"click .deletebutton": function(event, template) {
 		var check = confirm("Are you sure you would like to delete the instance?");
 		if(check) {
 			Meteor.call('adminRemove', false, event.currentTarget.id, Meteor.user().emails[0].address, function(error, result) {
-				if(error) {
-					alert(error);
-				} else {
+				if(!error) {
 					Router.go('/');
 				}
 			});
@@ -330,9 +317,7 @@ Template.list.events({
 	"click .replybutton": function(event, template) {
 		var theID = event.target.id.substring(5);
 		var theArea = document.getElementById("down" + theID);
-		//slideToggle("#down" + theID);
 		if(theArea.style.display == "none" || !theArea.style.display) {
-			//alert("reply" + theID);
 			document.getElementById("reply" + theID).innerHTML = "Close";
 			$("#down" + theID).slideDown(); 
 		} else {
@@ -371,9 +356,7 @@ Template.list.events({
 		}
 		// Gets the user's IP address from the server
 		Meteor.call('getIP', function (error, result) {
-			if(error) {
-				console.log(error);
-			} else {
+			if(!error) {
 				// If a name isn't specified, call them "Anonymous"
 				if(!posterName) {
 					posterName = "Anonymous";
@@ -411,7 +394,7 @@ Template.list.events({
 			event.preventDefault();
 			var theID = event.target.id.substring(5);
 			var buttons = document.getElementsByClassName("replybottombutton");
-			for(var b = 0; b < buttons.length; b++ ){
+			for(var b = 0; b < buttons.length; b++ ) {
 				if(buttons[b].id == theID) {
 					buttons[b].click();
 				}
@@ -519,17 +502,13 @@ Template.list.events({
 					if(error) {
 						alert("Account creation failed. Please try again.");
 					}
-				})
+				});
 				//Both passwords and input are a-okay
 			}
 		}
 		// Calls server-side method to get the user's IP address
 		Meteor.call('getIP', function (error, result) {
-			if (error) {
-				// If there's an error, alert the user
-				alert(error);
-				return false;
-			} else {
+			if (!error) {
 				// Calls server-side "propose" method to add question to DB
 				Meteor.call('propose', Session.get("tablename"), question, posterName, posterEmail, result, function (error, result) {
 					// If returns an object, there was an error
@@ -559,6 +538,7 @@ Template.list.events({
 						$("#toparea").slideUp();
 						$("#navAsk").html("+ Ask");
 						document.getElementById("navAsk").style.backgroundColor = "#27ae60";
+						$("html, body").animate({ scrollTop: $(document).height() }, "slow");
 					}
 				});
 			}
@@ -620,9 +600,9 @@ function popupwindow(url, title, w, h) {
 
 // Helper function that caluclates a standard deviation given an array
 // Source: http://derickbailey.com/
-function standardDeviation(values){
+function standardDeviation(values) {
 	var avg = average(values);
-	var squareDiffs = values.map(function(value){
+	var squareDiffs = values.map(function(value) {
 		var diff = value - avg;
 		var sqrDiff = diff * diff;
 		return sqrDiff;
@@ -633,8 +613,8 @@ function standardDeviation(values){
 }
  
 // Helper function that calculates the average given an array
-function average(data){
-	var sum = data.reduce(function(sum, value){
+function average(data) {
+	var sum = data.reduce(function(sum, value) {
 		return sum + value;
 	}, 0);
 	var avg = sum / data.length;
@@ -686,7 +666,7 @@ function timeSince(date) {
 };
 
 // this is a fix for the jQuery slide effects
-function slideToggle(el, bShow){
+function slideToggle(el, bShow) {
   var $el = $(el), height = $el.data("originalHeight"), visible = $el.is(":visible");
   
   // if the bShow isn't present, get the current visibility and reverse it
@@ -696,7 +676,7 @@ function slideToggle(el, bShow){
   if( bShow == visible ) return false;
   
   // get the original height
-  if( !height ){
+  if( !height ) {
     // get original height
     height = $el.show().height();
     // update the height
@@ -706,7 +686,7 @@ function slideToggle(el, bShow){
   }
 
   // expand the knowledge (instead of slideDown/Up, use custom animation which applies fix)
-  if( bShow ){
+  if( bShow ) {
     $el.show().animate({height: height}, {duration: 250});
   } else {
     $el.animate({height: 0}, {duration: 250, complete:function (){

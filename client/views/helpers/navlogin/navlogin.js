@@ -26,10 +26,10 @@ Template.userInfo.events({
 		var email = document.getElementById("loginemail").value;
 		var password = document.getElementById("passwordbox").value;
 		if(!email) {
-			alert("Please enter a valid email address.");
+			showError("Please enter a valid email address.", "inputcontainer", "loginemail");
 			return false;
 		} else if(!password) {
-			alert("Please enter a valid password.");
+			showError("Please enter a valid password.", "inputcontainer", "loginemail");
 			return false;
 		}
 		Meteor.loginWithPassword(email, password, function(error) {
@@ -44,7 +44,7 @@ Template.userInfo.events({
 					Blaze.remove(popoverTemplate);
 				});
 			} else {
-				alert(error);
+				showError(error.reason, "inputcontainer", "loginemail");
 			}
 		})
 	},
@@ -54,13 +54,13 @@ Template.userInfo.events({
 		var password1 = document.getElementById("passwordbox").value;
 		var password2 = document.getElementById("passwordconfirm").value;
 		if(!email) {
-			alert("The email field cannot be left blank. Please try again.");
+			showError("Please enter an email address.", "inputcontainer", "loginemail");
 			return false;
 		} else if (!loginName) {
-			alert("The name field cannot be left blank. Please try again.");
+			showError("Please enter a name.", "inputcontainer", "loginemail");
 			return false;
 		} else if (password1 != password2) {
-			alert("Passwords do not match. Please try again.");
+			showError("Passwords do not match.", "inputcontainer", "loginemail");
 			return false;
 		}
 		Accounts.createUser({
@@ -71,8 +71,7 @@ Template.userInfo.events({
 			}
 		}, function(error) {
 			if(error) {
-				alert(error);
-				return false;
+				showError(error.reason, "inputcontainer", "loginemail");
 			} else {
 				$(".formcontainer").fadeOut(400);
 				$("#darker").fadeOut(400, function() {
@@ -108,3 +107,12 @@ Template.userInfo.events({
 		});
 	}
 });
+
+function showError(reason, parentClass, nextID) {
+	if(typeof currentError != "undefined") {
+		Blaze.remove(currentError);
+	}
+	var parentNode = document.getElementsByClassName(parentClass)[0];
+	var nextNode = document.getElementById(nextID);
+	currentError = Blaze.renderWithData(Template.form_error, reason, parentNode, nextNode);
+}
