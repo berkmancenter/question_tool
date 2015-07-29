@@ -1,7 +1,7 @@
-/*Meteor.setInterval( function () {
+Meteor.setInterval( function () {
 	// Sets Session variable "timeval" to current time in ms every 2 seconds
 	Session.set("timeval", new Date().getTime());
-}, 1000);*/
+}, 1000);
 
 Template.list.onCreated(function () {
 	if(Template.instance().data) {
@@ -200,11 +200,15 @@ Template.list.helpers({
 					}
 				}
 				// If question is one of the first [threshhold] questions, it's "active"
-				questions[i].popular = false;
 				if(questions[i].votes == 1) {
 					questions[i].votes = "1 vote";
 				} else {
 					questions[i].votes = questions[i].votes + " votes"; 
+				}
+				if(i < Session.get("threshhold")) {
+					questions[i].popular = true;
+				} else {
+					questions[i].popular = false;
 				}
 			} else if(questions[i].state == "disabled"){
 				// If the question is disabled, don't display

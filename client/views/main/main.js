@@ -1,4 +1,5 @@
 Template.home.onCreated(function() {
+	Session.set("search", "");
 	if(Cookie.get("tablename")) {
 	Meteor.call('listCookieCheck', Cookie.get("tablename"), function(error, result) {
 		if(result) {

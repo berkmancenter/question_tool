@@ -313,7 +313,7 @@ div#wrapper {
 .replybutton {
 	float:right;
 	cursor:pointer;
-	height:25px;
+	height:23px;
 	width:65px;
 	background-color:white;
 	border:2px solid #CCCCCC;
@@ -321,8 +321,8 @@ div#wrapper {
 	font-size:14px;
 	font-family:semibold;
 	text-align:center;
-	padding-top:5px;
-	margin-top:8px;
+	padding-top:6px;
+	margin-top:7px;
 	border-radius:5px;
 	margin-right:5px;
 }
@@ -1282,4 +1282,34 @@ div#recent, div#popular {
 
 .buttonFavorite {
 	background-image:url('/heart_filled.png')!important;
+}
+
+.popularquestion {
+	border:2px solid #f1c40f;
+}
+
+.starimage {
+	width:16px;
+	height:16px;
+	float:left;
+	margin-right:4px;
+	margin-top:-1px;
+	padding-top:0px;
+}
+
+.populartext {
+	display:inline;
+	color: #f1c40f;
+	font-family:bold;
+	margin:0px;
+	padding:0px;
+}
+
+.popularcontainer {
+	float:right;
+	margin-top:-2px;
+}
+
+.question:hover .popularcontainer {
+	display:none!important;
 }

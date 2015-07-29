@@ -92,296 +92,305 @@
 		<div id="questionscontainer">
 			<div class="subcolumn">
 				{{#each question}}
-					{{#if popular}}
-					{{else}}
-						{{#if indexOne}}
-							<div id="{{_id}}" class="question {{age_marker}}">
-								<!--<div class="votes v{{shade}}">
-									<a class="voteClick" id="{{_id}}" href="{{votelink}}">{{votes}}<br />votes</a>
-								</div>-->
-								<div id="votearea">
-									<a class="voteClick {{shade}}" id="{{_id}}" href="{{votelink}}">{{votes}}</a>
-									<br />
-									<div class="facebookbutton">
+					{{#if indexOne}}
+						<div id="{{_id}}" class="question {{age_marker}} {{#if popular}}popularquestion{{/if}}">
+							<!--<div class="votes v{{shade}}">
+								<a class="voteClick" id="{{_id}}" href="{{votelink}}">{{votes}}<br />votes</a>
+							</div>-->
+							<div id="votearea">
+								<a class="voteClick {{shade}}" id="{{_id}}" href="{{votelink}}">{{votes}}</a>
+								{{#if popular}}
+									<div class="popularcontainer">
+										<img src="/star.png" class="starimage">
+										<p class="populartext">Popular</p>
 									</div>
-									<div class="twitterbutton">
-									</div>
+								{{/if}}
+								<br />
+								<div class="facebookbutton">
 								</div>
-								<p class="questiontext">
-									{{{text}}}
-								</p>
-								{{#each answer}}
-									<div class="answercontainer">
-										{{#if poster}}
-											{{#if email}}
-												<a href="mailto:{{email}}" class="answerposter">{{poster}}:</a> 
-											{{else}}
-												<span class="answerposter">{{poster}}: </span>
-											{{/if}}
+								<div class="twitterbutton">
+								</div>
+							</div>
+							<p class="questiontext">
+								{{{text}}}
+							</p>
+							{{#each answer}}
+								<div class="answercontainer">
+									{{#if poster}}
+										{{#if email}}
+											<a href="mailto:{{email}}" class="answerposter">{{poster}}:</a> 
+										{{else}}
+											<span class="answerposter">{{poster}}: </span>
 										{{/if}}
-										<span class="answertext">
-											{{{text}}}
-										</span>
-									</div>
-								{{/each}}
-								<div class="quesitonbottom">
-									<div class="bottomleft">
-										{{#if poster}}
-											{{#if email}}
-												<a href="mailto:{{email}}">
-													<p class="postername">
-														{{poster}}
-													</p>
-												</a> 
-											{{else}}
+									{{/if}}
+									<span class="answertext">
+										{{{text}}}
+									</span>
+								</div>
+							{{/each}}
+							<div class="quesitonbottom">
+								<div class="bottomleft">
+									{{#if poster}}
+										{{#if email}}
+											<a href="mailto:{{email}}">
 												<p class="postername">
 													{{poster}}
 												</p>
-											{{/if}}
-										{{/if}}
-										<span class="time">{{f_time}}</span>
-									</div>
-									<div class="bottomright">
-										<!--<a href="{{answerlink}}">-->
-											<div class="replybutton" id="reply{{_id}}">
-												Reply
-											</div>
-										<!--</a>-->
-									</div>
-								</div>
-								<div class="replybottom" id="down{{_id}}">
-									<textarea id="text{{_id}}" class="replyarea" placeholder="Type a response..." maxlength="{{responseLength}}"></textarea>
-									<div class="replyfields">
-										{{#if currentUser}}
-											<input type="text" class="replyname" id="name{{_id}}" value="{{currentUser.profile.name}}" readonly>
-											<input type="text" class="replyemail" id="email{{_id}}" value="{{currentUser.emails.[0].address}}" readonly>
+											</a> 
 										{{else}}
-											<input type="text" class="replyname" id="name{{_id}}" value="{{responseName}}" placeholder="Name...">
-											<input type="text" class="replyemail" id="email{{_id}}" value="{{responseEmail}}" placeholder="Email...">
+											<p class="postername">
+												{{poster}}
+											</p>
 										{{/if}}
-									</div>
-									<div class="replybottomcheck">
-										<div class="checkarealeft" style="{{#if anonymous}}{{else}}visibility=hidden!important{{/if}}">
-											<div class="checkbox" id="replyanonbox" style="{{#if anonymous}}{{else}}visibility:hidden!important{{/if}}">
-												<div class="checked anonchecked" id="{{_id}}">
-												</div>
+									{{/if}}
+									<span class="time">{{f_time}}</span>
+								</div>
+								<div class="bottomright">
+									<!--<a href="{{answerlink}}">-->
+										<div class="replybutton" id="reply{{_id}}">
+											Reply
+										</div>
+									<!--</a>-->
+								</div>
+							</div>
+							<div class="replybottom" id="down{{_id}}">
+								<textarea id="text{{_id}}" class="replyarea" placeholder="Type a response..." maxlength="{{responseLength}}"></textarea>
+								<div class="replyfields">
+									{{#if currentUser}}
+										<input type="text" class="replyname" id="name{{_id}}" value="{{currentUser.profile.name}}" readonly>
+										<input type="text" class="replyemail" id="email{{_id}}" value="{{currentUser.emails.[0].address}}" readonly>
+									{{else}}
+										<input type="text" class="replyname" id="name{{_id}}" value="{{responseName}}" placeholder="Name...">
+										<input type="text" class="replyemail" id="email{{_id}}" value="{{responseEmail}}" placeholder="Email...">
+									{{/if}}
+								</div>
+								<div class="replybottomcheck">
+									<div class="checkarealeft" style="{{#if anonymous}}{{else}}visibility=hidden!important{{/if}}">
+										<div class="checkbox" id="replyanonbox" style="{{#if anonymous}}{{else}}visibility:hidden!important{{/if}}">
+											<div class="checked anonchecked" id="{{_id}}">
 											</div>
 										</div>
-										<div class="checkarearight" style="{{#if anonymous}}{{else}}visibility:hidden!important{{/if}}">
-											<p class="replychecklabel">Anonymous?</p>
-										</div>
 									</div>
-									<div class="replycounter">
-										<span id="darkcounter">{{replyCount}}</span>/{{responseLength}}
-									</div>
-									<div class="replybottombutton" id="{{_id}}">
-										Reply
+									<div class="checkarearight" style="{{#if anonymous}}{{else}}visibility:hidden!important{{/if}}">
+										<p class="replychecklabel">Anonymous?</p>
 									</div>
 								</div>
-								{{#if adminButtons}}
-									<div class="adminbottom">
-										<a class="hideQuestion" id="{{_id}}">Hide</a>
-										<a href="{{modifylink}}">Modify</a>
-									</div>
-								{{/if}}
+								<div class="replycounter">
+									<span id="darkcounter">{{replyCount}}</span>/{{responseLength}}
+								</div>
+								<div class="replybottombutton" id="{{_id}}">
+									Reply
+								</div>
 							</div>
-						{{/if}}
+							{{#if adminButtons}}
+								<div class="adminbottom">
+									<a class="hideQuestion" id="{{_id}}">Hide</a>
+									<a href="{{modifylink}}">Modify</a>
+								</div>
+							{{/if}}
+						</div>
 					{{/if}}
 				{{/each}}
 			</div>
 			<div class="subcolumn">
 				{{#each question}}
-					{{#if popular}}
-					{{else}}
-						{{#if indexTwo}}
-							<div id="{{_id}}" class="question {{age_marker}}">
-								<!--<div class="votes v{{shade}}">
-									<a class="voteClick" id="{{_id}}" href="{{votelink}}">{{votes}}<br />votes</a>-->
-								<div id="votearea">
-									<a class="voteClick {{shade}}" id="{{_id}}" href="{{votelink}}">{{votes}}</a>
-									<br />
-									<div class="facebookbutton">
+					{{#if indexTwo}}
+						<div id="{{_id}}" class="question {{age_marker}} {{#if popular}}popularquestion{{/if}}">
+							<!--<div class="votes v{{shade}}">
+								<a class="voteClick" id="{{_id}}" href="{{votelink}}">{{votes}}<br />votes</a>-->
+							<div id="votearea">
+								<a class="voteClick {{shade}}" id="{{_id}}" href="{{votelink}}">{{votes}}</a>
+								{{#if popular}}
+									<div class="popularcontainer">
+										<img src="/star.png" class="starimage">
+										<p class="populartext">Popular</p>
 									</div>
-									<div class="twitterbutton">
-									</div>
+								{{/if}}
+								<br />
+								<div class="facebookbutton">
 								</div>
-								<p class="questiontext">
-									{{{text}}}
-								</p>
-								{{#each answer}}
-									<div class="answercontainer">
-										{{#if poster}}
-											{{#if email}}
-												<a href="mailto:{{email}}" class="answerposter">{{poster}}:</a> 
-											{{else}}
-												<span class="answerposter">{{poster}}: </span>
-											{{/if}}
+								<div class="twitterbutton">
+								</div>
+							</div>
+							<p class="questiontext">
+								{{{text}}}
+							</p>
+							{{#each answer}}
+								<div class="answercontainer">
+									{{#if poster}}
+										{{#if email}}
+											<a href="mailto:{{email}}" class="answerposter">{{poster}}:</a> 
+										{{else}}
+											<span class="answerposter">{{poster}}: </span>
 										{{/if}}
-										<span class="answertext">
-											{{{text}}}
-										</span>
-									</div>
-								{{/each}}
-								<div class="quesitonbottom">
-									<div class="bottomleft">
-										{{#if poster}}
-											{{#if email}}
-												<a href="mailto:{{email}}">
-													<p class="postername">
-														{{poster}}
-													</p>
-												</a> 
-											{{else}}
+									{{/if}}
+									<span class="answertext">
+										{{{text}}}
+									</span>
+								</div>
+							{{/each}}
+							<div class="quesitonbottom">
+								<div class="bottomleft">
+									{{#if poster}}
+										{{#if email}}
+											<a href="mailto:{{email}}">
 												<p class="postername">
 													{{poster}}
 												</p>
-											{{/if}}
-										{{/if}}
-										<span class="time">{{f_time}}</span>
-									</div>
-									<div class="bottomright">
-										<!--<a href="{{answerlink}}">-->
-											<div class="replybutton" id="reply{{_id}}">
-												Reply
-											</div>
-										<!--</a>-->
-									</div>
-								</div>
-								<div class="replybottom" id="down{{_id}}">
-									<textarea id="text{{_id}}" class="replyarea" placeholder="Type a response..." maxlength="{{responseLength}}"></textarea>
-									<div class="replyfields">
-										{{#if currentUser}}
-											<input type="text" class="replyname" id="name{{_id}}" value="{{currentUser.profile.name}}" readonly>
-											<input type="text" class="replyemail" id="email{{_id}}" value="{{currentUser.emails.[0].address}}" readonly>
+											</a> 
 										{{else}}
-											<input type="text" class="replyname" id="name{{_id}}" value="{{responseName}}" placeholder="Name...">
-											<input type="text" class="replyemail" id="email{{_id}}" value="{{responseEmail}}" placeholder="Email...">
+											<p class="postername">
+												{{poster}}
+											</p>
 										{{/if}}
-									</div>
-									<div class="replybottomcheck">
-										<div class="checkarealeft" style="{{#if anonymous}}{{else}}visibility:hidden!important{{/if}}">
-											<div class="checkbox" id="replyanonbox" style="{{#if anonymous}}{{else}}visibility:hidden!important{{/if}}">
-												<div class="checked anonchecked" id="{{_id}}">
-												</div>
+									{{/if}}
+									<span class="time">{{f_time}}</span>
+								</div>
+								<div class="bottomright">
+									<!--<a href="{{answerlink}}">-->
+										<div class="replybutton" id="reply{{_id}}">
+											Reply
+										</div>
+									<!--</a>-->
+								</div>
+							</div>
+							<div class="replybottom" id="down{{_id}}">
+								<textarea id="text{{_id}}" class="replyarea" placeholder="Type a response..." maxlength="{{responseLength}}"></textarea>
+								<div class="replyfields">
+									{{#if currentUser}}
+										<input type="text" class="replyname" id="name{{_id}}" value="{{currentUser.profile.name}}" readonly>
+										<input type="text" class="replyemail" id="email{{_id}}" value="{{currentUser.emails.[0].address}}" readonly>
+									{{else}}
+										<input type="text" class="replyname" id="name{{_id}}" value="{{responseName}}" placeholder="Name...">
+										<input type="text" class="replyemail" id="email{{_id}}" value="{{responseEmail}}" placeholder="Email...">
+									{{/if}}
+								</div>
+								<div class="replybottomcheck">
+									<div class="checkarealeft" style="{{#if anonymous}}{{else}}visibility:hidden!important{{/if}}">
+										<div class="checkbox" id="replyanonbox" style="{{#if anonymous}}{{else}}visibility:hidden!important{{/if}}">
+											<div class="checked anonchecked" id="{{_id}}">
 											</div>
 										</div>
-										<div class="checkarearight" style="{{#if anonymous}}{{else}}visibility:hidden!important{{/if}}">
-											<p class="replychecklabel">Anonymous?</p>
-										</div>
 									</div>
-									<div class="replycounter">
-										<span id="darkcounter">{{replyCount}}</span>/{{responseLength}}
-									</div>
-									<div class="replybottombutton" id="{{_id}}">
-										Reply
+									<div class="checkarearight" style="{{#if anonymous}}{{else}}visibility:hidden!important{{/if}}">
+										<p class="replychecklabel">Anonymous?</p>
 									</div>
 								</div>
-								{{#if adminButtons}}
-									<div class="adminbottom">
-										<a class="hideQuestion" id="{{_id}}">Hide</a>
-										<a href="{{modifylink}}">Modify</a>
-									</div>
-								{{/if}}
+								<div class="replycounter">
+									<span id="darkcounter">{{replyCount}}</span>/{{responseLength}}
+								</div>
+								<div class="replybottombutton" id="{{_id}}">
+									Reply
+								</div>
 							</div>
-						{{/if}}
+							{{#if adminButtons}}
+								<div class="adminbottom">
+									<a class="hideQuestion" id="{{_id}}">Hide</a>
+									<a href="{{modifylink}}">Modify</a>
+								</div>
+							{{/if}}
+						</div>
 					{{/if}}
 				{{/each}}
 			</div>
 			<div class="lastcolumn">
 				{{#each question}}
-					{{#if popular}}
-					{{else}}
-						{{#if indexThree}}
-							<div id="{{_id}}" class="question {{age_marker}}">
-								<!--<div class="votes v{{shade}}">
-									<a class="voteClick" id="{{_id}}" href="{{votelink}}">{{votes}}<br />votes</a>-->
-								<div id="votearea">
-									<a class="voteClick {{shade}}" id="{{_id}}" href="{{votelink}}">{{votes}}</a>
-									<br />
-									<div class="facebookbutton">
+					{{#if indexThree}}
+						<div id="{{_id}}" class="question {{age_marker}} {{#if popular}}popularquestion{{/if}}">
+							<!--<div class="votes v{{shade}}">
+								<a class="voteClick" id="{{_id}}" href="{{votelink}}">{{votes}}<br />votes</a>-->
+							<div id="votearea">
+								<a class="voteClick {{shade}}" id="{{_id}}" href="{{votelink}}">{{votes}}</a>
+								{{#if popular}}
+									<div class="popularcontainer">
+										<img src="/star.png" class="starimage">
+										<p class="populartext">Popular</p>
 									</div>
-									<div class="twitterbutton">
-									</div>
+								{{/if}}
+								<br />
+								<div class="facebookbutton">
 								</div>
-								<p class="questiontext">
-									{{{text}}}
-								</p>
-								{{#each answer}}
-									<div class="answercontainer">
-										{{#if poster}}
-											{{#if email}}
-												<a href="mailto:{{email}}" class="answerposter">{{poster}}:</a>
-											{{else}}
-												<span class="answerposter">{{poster}}: </span>
-											{{/if}}
+								<div class="twitterbutton">
+								</div>
+							</div>
+							<p class="questiontext">
+								{{{text}}}
+							</p>
+							{{#each answer}}
+								<div class="answercontainer">
+									{{#if poster}}
+										{{#if email}}
+											<a href="mailto:{{email}}" class="answerposter">{{poster}}:</a>
+										{{else}}
+											<span class="answerposter">{{poster}}: </span>
 										{{/if}}
-										<span class="answertext">
-											{{{text}}}
-										</span>
-									</div>
-								{{/each}}
-								<div class="quesitonbottom">
-									<div class="bottomleft">
-										{{#if poster}}
-											{{#if email}}
-												<a href="mailto:{{email}}">
-													<p class="postername">
-														{{poster}}
-													</p>
-												</a> 
-											{{else}}
+									{{/if}}
+									<span class="answertext">
+										{{{text}}}
+									</span>
+								</div>
+							{{/each}}
+							<div class="quesitonbottom">
+								<div class="bottomleft">
+									{{#if poster}}
+										{{#if email}}
+											<a href="mailto:{{email}}">
 												<p class="postername">
 													{{poster}}
 												</p>
-											{{/if}}
-										{{/if}}
-										<span class="time">{{f_time}}</span>
-									</div>
-									<div class="bottomright">
-										<!--<a href="{{answerlink}}">-->
-											<div class="replybutton" id="reply{{_id}}">
-												Reply
-											</div>
-										<!--</a>-->
-									</div>
-								</div>
-								<div class="replybottom" id="down{{_id}}">
-									<textarea id="text{{_id}}" class="replyarea" placeholder="Type a response..." maxlength="{{responseLength}}"></textarea>
-									<div class="replyfields">
-										{{#if currentUser}}
-											<input type="text" class="replyname" id="name{{_id}}" value="{{currentUser.profile.name}}" readonly>
-											<input type="text" class="replyemail" id="email{{_id}}" value="{{currentUser.emails.[0].address}}" readonly>
+											</a> 
 										{{else}}
-											<input type="text" class="replyname" id="name{{_id}}" value="{{responseName}}" placeholder="Name...">
-											<input type="text" class="replyemail" id="email{{_id}}" value="{{responseEmail}}" placeholder="Email...">
+											<p class="postername">
+												{{poster}}
+											</p>
 										{{/if}}
-									</div>
-									<div class="replybottomcheck">
-										<div class="checkarealeft" style="{{#if anonymous}}{{else}}visibility:hidden!important{{/if}}">
-											<div class="checkbox" id="replyanonbox" style="{{#if anonymous}}{{else}}visibility:hidden!important{{/if}}">
-												<div class="checked anonchecked" id="{{_id}}">
-												</div>
+									{{/if}}
+									<span class="time">{{f_time}}</span>
+								</div>
+								<div class="bottomright">
+									<!--<a href="{{answerlink}}">-->
+										<div class="replybutton" id="reply{{_id}}">
+											Reply
+										</div>
+									<!--</a>-->
+								</div>
+							</div>
+							<div class="replybottom" id="down{{_id}}">
+								<textarea id="text{{_id}}" class="replyarea" placeholder="Type a response..." maxlength="{{responseLength}}"></textarea>
+								<div class="replyfields">
+									{{#if currentUser}}
+										<input type="text" class="replyname" id="name{{_id}}" value="{{currentUser.profile.name}}" readonly>
+										<input type="text" class="replyemail" id="email{{_id}}" value="{{currentUser.emails.[0].address}}" readonly>
+									{{else}}
+										<input type="text" class="replyname" id="name{{_id}}" value="{{responseName}}" placeholder="Name...">
+										<input type="text" class="replyemail" id="email{{_id}}" value="{{responseEmail}}" placeholder="Email...">
+									{{/if}}
+								</div>
+								<div class="replybottomcheck">
+									<div class="checkarealeft" style="{{#if anonymous}}{{else}}visibility:hidden!important{{/if}}">
+										<div class="checkbox" id="replyanonbox" style="{{#if anonymous}}{{else}}visibility:hidden!important{{/if}}">
+											<div class="checked anonchecked" id="{{_id}}">
 											</div>
 										</div>
-										<div class="checkarearight" style="{{#if anonymous}}{{else}}visibility:hidden!important{{/if}}">
-											<p class="replychecklabel">Anonymous?</p>
-										</div>
 									</div>
-									<div class="replycounter">
-										<span id="darkcounter">{{replyCount}}</span>/{{responseLength}}
-									</div>
-									<div class="replybottombutton" id="{{_id}}">
-										Reply
+									<div class="checkarearight" style="{{#if anonymous}}{{else}}visibility:hidden!important{{/if}}">
+										<p class="replychecklabel">Anonymous?</p>
 									</div>
 								</div>
-								{{#if adminButtons}}
-									<div class="adminbottom">
-										<a class="hideQuestion" id="{{_id}}">Hide</a>
-										<a href="{{modifylink}}">Modify</a>
-									</div>
-								{{/if}}
+								<div class="replycounter">
+									<span id="darkcounter">{{replyCount}}</span>/{{responseLength}}
+								</div>
+								<div class="replybottombutton" id="{{_id}}">
+									Reply
+								</div>
 							</div>
-						{{/if}}
+							{{#if adminButtons}}
+								<div class="adminbottom">
+									<a class="hideQuestion" id="{{_id}}">Hide</a>
+									<a href="{{modifylink}}">Modify</a>
+								</div>
+							{{/if}}
+						</div>
 					{{/if}}
 				{{/each}}
 			</div>
