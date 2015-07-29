@@ -71,6 +71,18 @@ Template.home.helpers({
 		instances.sort(function(a, b) {
 		    return a.order - b.order;
 		});
+		for(var ii = 0; ii < instances.length; ii++) {
+			if(Meteor.user()) {
+				if(Meteor.user().profile.favorites) {
+					if(Meteor.user().profile.favorites.indexOf(instances[ii]._id) != -1) {
+						instances[ii].isFavorite = true;
+						var tempInstance = instances[ii];
+						instances.splice(ii, 1);
+						instances.unshift(tempInstance);
+					}
+				}
+			}
+		}
 		for(var i = 0; i < instances.length; i++) {
 			if(!instances[i].author) {
 				instances[i].author = "Anonymous";
@@ -82,16 +94,6 @@ Template.home.helpers({
 				instances[i].indexTwo = true;
 			} else if(i % 3 == 2) {
 				instances[i].indexThree = true;
-			}
-			if(Meteor.user()) {
-				if(Meteor.user().profile.favorites) {
-					if(Meteor.user().profile.favorites.indexOf(instances[i]._id) != -1) {
-						instances[i].isFavorite = true;
-						var tempInstance = instances[i];
-						instances.splice(i, 1);
-						instances.unshift(tempInstance);
-					}
-				}
 			}
 		}
 		return instances;

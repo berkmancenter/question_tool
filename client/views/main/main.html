@@ -110,8 +110,8 @@
 		</div>
 		<div id="recent">
 			<div id="questionscontainer">
-				{{#each instanceList}}
-					<div class="instancecolumn">
+				<div class="instancecolumn">
+					{{#each instanceList}}
 						{{#if indexOne}}
 							<div id="{{_id}}" class="instance {{#if isFavorite}}favoriteInstance{{/if}}">
 								<p class="instancename">
@@ -136,8 +136,10 @@
 								</div>
 							</div>
 						{{/if}}
-					</div>
-					<div class="instancecolumn">
+					{{/each}}
+				</div>
+				<div class="instancecolumn">
+					{{#each instanceList}}
 						{{#if indexTwo}}
 							<div id="{{_id}}" class="instance {{#if isFavorite}}favoriteInstance{{/if}}">
 								<p class="instancename">
@@ -162,8 +164,10 @@
 								</div>
 							</div>
 						{{/if}}
-					</div>
-					<div class="lastinstancecolumn">
+					{{/each}}
+				</div>
+				<div class="lastinstancecolumn">
+					{{#each instanceList}}
 						{{#if indexThree}}
 							<div id="{{_id}}" class="instance {{#if isFavorite}}favoriteInstance{{/if}}">
 								<p class="instancename">
@@ -188,8 +192,8 @@
 								</div>
 							</div>
 						{{/if}}
-					</div>
-				{{/each}}
+					{{/each}}
+				</div>
 			</div>
 		</div>
 		<div id="footercontainer">
