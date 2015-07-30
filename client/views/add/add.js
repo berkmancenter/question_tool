@@ -17,7 +17,8 @@ Template.add.onCreated(function () {
 
 Template.add.onRendered(function() {
 	// When the template is rendered, set the document title
-	document.title = "Live Question Tool Moderator Area";
+	$(".formcontainer").hide().fadeIn(400);
+	$("#darker").hide().fadeIn(400);
 });
 
 Template.add.helpers({
@@ -26,6 +27,8 @@ Template.add.helpers({
 	mods: function() {
 		var instance = Instances.findOne({
 			tablename: Cookie.get("tablename")
+		}, {
+			reactive: true
 		});
 		var mods = [];
 		for(var m = 0; m < instance.moderators.length; m++) {
@@ -37,9 +40,10 @@ Template.add.helpers({
 
 Template.add.events({
 	"click .plusbutton": function(event, template) {
-		var row = event.currentTarget.parentElement.parentElement;
-		if(row.children.length >= 8) {
-			alert("You have reached the maximum number of moderators. (8)");
+		var row = event.currentTarget.parentElement;
+		var modBoxes = document.getElementsByClassName("modbox");
+		if(modBoxes.length > 4) {
+			showModsError("You've reached max of 4 moderators.");
 			return false;
 		}
 		var buttons = row.getElementsByClassName("plusbutton");
@@ -52,7 +56,7 @@ Template.add.events({
 		input.type = "text";
 		input.style.clear = "both";
 		input.maxLength = "45";
-		input.className = "modbox";
+		input.className = "modbox newmod";
 		var plus = document.createElement("div");
 		plus.className = "plusbutton";
 		plus.innerHTML = "+";
@@ -62,16 +66,12 @@ Template.add.events({
 	},
 	"click .removebutton": function(event, template) {
 		var mod = event.currentTarget.previousElementSibling.value;
-		Meteor.call('removeMods', mod, Cookie.get("tablename"), Meteor.user().emails[0].address, function(error, result) {
-			if(error) {
-				alert(error);
-			}
-		});
+		Meteor.call('removeMods', mod, Cookie.get("tablename"), Meteor.user().emails[0].address);
 	},
 	// When the submit button is clicked...
-	"click #submitbutton": function(event, template) {
+	"click #modsdonebutton": function(event, template) {
 		// Checks whether the proper password was submitted
-		var modsInput = document.getElementsByClassName("modbox");
+		var modsInput = document.getElementsByClassName("newmod");
 		var mods = [];
 		for(var m = 0; m < modsInput.length; m++) {
 			if(modsInput[m].value) {
@@ -79,24 +79,19 @@ Template.add.events({
 			}
 		}
 		Meteor.call('addMods', mods, Cookie.get("tablename"), Meteor.user().emails[0].address, function(error, result) {
-			console.log(result);
 			// If the result is an object, there was an error
 			if(typeof result === 'object') {
-				var errorString = "";
-				// Store an object of the error names and codes
-				var errorCodes = {
-					"regEx": "Please enter valid email addresses."
-				}
-				// Retrieve all of the errors
-				for(var e = 0; e < result.length; e++) {
-					errorString += "Error #" + (e + 1) + ": " + errorCodes[result[e].type] + "\n\n";
-				}
 				// Alert the error
-				alert(errorString);
-			} else if(error) {
-				alert(error);
+				showModsError("Please enter valid email addresses.");
+				return false;
 			} else {
-				window.location.href = '/list';
+				var boxes = document.getElementsByClassName("newmod");
+				boxes = boxes[boxes.length - 1];
+				boxes.value = "";
+				$(".formcontainer").fadeOut(400);
+				$("#darker").fadeOut(400, function() {
+					Blaze.remove(popoverTemplate);
+				});
 			}
 		});
 	},
@@ -109,5 +104,20 @@ Template.add.events({
 			var fields = document.getElementsByClassName("modbox");
 			fields[fields.length - 1].focus();
 		}
+	},
+	"click #darker": function(event, template) {
+		$(".formcontainer").fadeOut(400);
+		$("#darker").fadeOut(400, function() {
+			Blaze.remove(popoverTemplate);
+		});
 	}
 });
+
+function showModsError(reason) {
+	if(typeof currentError != "undefined") {
+		Blaze.remove(currentError);
+	}
+	var parentNode = document.getElementsByClassName("formcontainer")[0];
+	var nextNode = document.getElementsByClassName("inputcontainer")[0];
+	currentError = Blaze.renderWithData(Template.form_error, reason, parentNode, nextNode);
+}

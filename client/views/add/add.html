@@ -1,50 +1,30 @@
 <template name="add">
-	<body>
-		<div id="banner">Question Tool Moderator Area</div>
-		<br />
-		<br />
-		<div id="wrapper">
-			<center>							
-				<div class="center">
-					<div class="columnhead">
-						Add moderators
-					</div>
-					<br/>
-					<center>
-						<b><!-- ERROR MESSAGE GOES HERE IF ONE EXISTS --></b>
-					</center>
-					<br />
-					<table width="100%">
-						<tr>
-							<td>
-								<b>Enter the emails of moderators you'd like to add to {{tablename}}:</b>
-							</td>
-							<td>
-								{{#each mods}}
-									<div class="modline">
-		                                <input class="modbox" style="float:left" type="text" maxlength="45" value="{{this}}"/>
-										<div class="removebutton">
-											x
-										</div>
-									</div>
-								{{/each}}
-								<div class="modline">
-	                                <input class="modbox" style="float:left" type="text" maxlength="45" />
-									<div class="plusbutton">
-										+
-									</div>
-								</div>
-							</td>
-						</tr>
-					</table>
-					<p align="center">
-						<button id="submitbutton">Submit</button>
-					</p>
-					<p align="center">
-						<a href="/list">Return to the list</a>
-					</p>
-				</div>
-			</center>
+	<div id="darker">
+	</div>
+	<div class="formcontainer modformcontainer">
+		{{> close_button}}
+		<h1 class="formtitle">Add Moderators</h1>
+		<div class="modaltopmessage">
+			Press the red "x" to remove moderators. Type in new emails and press "+" for more. Hit "done" once finished.
 		</div>
-	</body>
+		<div class="inputcontainer">
+			{{#each mods}}
+				<div class="modline">
+                    <input class="modbox" style="float:left" type="text" maxlength="45" value="{{this}}"/>
+					<div class="removebutton">
+						x
+					</div>
+				</div>
+			{{/each}}
+			<div class="modline">
+                <input class="modbox newmod" style="float:left" type="text" maxlength="45" />
+				<div class="plusbutton">
+					+
+				</div>
+			</div>
+			<div id="modsdonebutton">
+				Done
+			</div>
+		</div>
+	</div>
 </template>

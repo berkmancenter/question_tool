@@ -216,7 +216,7 @@ Template.home.events({
 	},
 	"click .instancemodsplus": function(event, template) {
 		var spacers = document.getElementsByClassName("emptyinputspacer");
-		if(spacers.length <= 7) {
+		if(spacers.length <= 4) {
 			var lastDiv = spacers[spacers.length-1];
 			$(".instancemodsinput").removeClass("lastmodinput");
 			$(".plusbuttoncontainer").removeClass("lastmodinput");
@@ -227,7 +227,7 @@ Template.home.events({
 			    return (height + 50);
 			});
 		} else {
-			showCreateError("You've reached the maximum # of moderators (8).");
+			showCreateError("You've reached the maximum # of moderators (4).");
 			return false;
 		}
 	},

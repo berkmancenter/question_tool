@@ -590,6 +590,10 @@ Template.list.events({
 		var questionDiv = event.target.parentElement.parentElement;
 		var questionText = questionDiv.getElementsByClassName("questiontext")[0].innerHTML.trim();
 		popupwindow("https://twitter.com/intent/tweet?text=" + encodeURIComponent(questionText), "Share Question Tool!", 600, 400);
+	},
+	"click #modbutton": function(event, template) {
+		var parentNode = document.getElementById("banner");
+		popoverTemplate = Blaze.render(Template.add, parentNode);
 	}
 });
 

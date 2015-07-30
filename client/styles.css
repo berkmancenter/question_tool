@@ -171,7 +171,7 @@ div#wrapper {
 	margin-top:-260px;
 }
 
-#loginsubmitbutton, #registersubmitbutton, #shareclosebutton {
+#loginsubmitbutton, #registersubmitbutton, #shareclosebutton, #modsdonebutton {
 	width:40%;
 	display:block;
 	height:30px;
@@ -185,6 +185,23 @@ div#wrapper {
 	font-family:semibold;
 	color:white;
 	padding-top:5px;
+}
+
+.modline {
+	width:100%;
+}
+
+.modbox {
+	width:80%;
+	padding-left:2%;
+	margin:0px auto;
+	border: 2px solid #e9edf0;
+	border-radius:5px;
+	outline:0;
+	height:30px;
+	font-family:regular;
+	font-size:16px;
+	margin-top:10px;
 }
 
 .formtitle {
@@ -1308,17 +1325,34 @@ div#recent, div#popular {
 
 .plusbutton {
 	display:inline-block;
-	width:18px;
-	height:18px;
+	width:25px;
+	height:25px;
 	border-radius:2px;
 	cursor:pointer;
 	background-color:#33a136;
-	margin-top:3px;
+	margin-top:15px;
 	color:white;
-	font-size:14px;
+	font-size:20px;
 	padding-top:0px;
 	text-align:center;
-	margin-left:5px;
+	font-family:semibold;
+	margin-left:10px;
+}
+
+.removebutton {
+	display:inline-block;
+	width:25px;
+	height:25px;
+	border-radius:2px;
+	cursor:pointer;
+	background-color:red;
+	margin-top:15px;
+	color:white;
+	font-size:18px;
+	padding-top:0px;
+	text-align:center;
+	margin-left:10px;
+	font-family:semibold;
 }
 
 .plusbuttoncontainer {
@@ -1346,22 +1380,6 @@ div#recent, div#popular {
 
 .instancemodsplus:hover {
 	background-color:#51BEDE;
-}
-
-
-.removebutton {
-	display:inline-block;
-	width:18px;
-	height:18px;
-	border-radius:2px;
-	cursor:pointer;
-	background-color:red;
-	margin-top:3px;
-	color:white;
-	font-size:14px;
-	padding-top:0px;
-	text-align:center;
-	margin-left:5px;
 }
 
 .plusbutton:hover {
@@ -1473,6 +1491,11 @@ div#recent, div#popular {
 	float:left;
 	margin-top:1px;
 	margin-right:8px;
+}
+
+.modformcontainer .error {
+	font-family:semibold;
+	width:70%;;
 }
 
 .replybottom .error {
