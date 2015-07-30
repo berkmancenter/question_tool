@@ -262,7 +262,6 @@ Template.list.events({
 				Meteor.call('vote', event.currentTarget.id, ip, Session.get("tablename"), function(error, result) {
 					// If the result is an object, there was an error
 					if(typeof result === 'object') {
-						var errorString = "";
 						// Store an object of the error names and codes
 						var errorCodes = {
 							"lasttouch": "There was an error retrieving the time. Please return to the list and try again.",
@@ -271,12 +270,8 @@ Template.list.events({
 							"ip": "There was an error with your IP address. Please return to the list and try again.",
 							"tablename": "There was an error with the table name. Please return to the list and try again."
 						}
-						// Retrieves the different error messages
-						for(var e = 0; e < result.length; e++) {
-							errorString += "Error #" + (e + 1) + ": " + errorCodes[result[e].name] + "\n\n";
-						}
 						// Alerts the error if one exists
-						alert(errorString);
+						showProposeError(errorCodes[result[0].name]);
 					}
 				});
 			}
@@ -309,6 +304,9 @@ Template.list.events({
 			document.getElementById("navAsk").style.backgroundColor = "#ec4f4f";
 			$("#toparea").slideDown();
 		} else {
+			if(typeof currentError != "undefined") {
+				Blaze.remove(currentError);
+			}
 			$("#navAsk").html("+ Ask");
 			document.getElementById("navAsk").style.backgroundColor = "#27ae60";
 			$("#toparea").slideUp();
@@ -321,6 +319,9 @@ Template.list.events({
 			document.getElementById("reply" + theID).innerHTML = "Close";
 			$("#down" + theID).slideDown(); 
 		} else {
+			if(typeof replyError != "undefined") {
+				Blaze.remove(replyError);
+			}
 			document.getElementById("reply" + theID).innerHTML = "Reply";
 			$("#down" + theID).slideUp();
 		}
@@ -350,7 +351,7 @@ Template.list.events({
 			}
 		} else {
 			if(!posterName || !email) {
-				alert("The admin of this instance has disabled anonymous posting. Please enter your name and email address.");
+				showReplyError("The admin has disabled anonymous posting.", theID);
 				return false;
 			}
 		}
@@ -365,22 +366,22 @@ Template.list.events({
 				Meteor.call('answer', Session.get("tablename"), answer, posterName, email, result, theID, function (error, result) {
 					// If the result is an object, there was an error
 					if(typeof result === 'object') {
-						var errorString = "";
 						// Store an object of the error names and codes
 						var errorCodes = {
-							"text": "Please enter a valid answer using less than 255 characters.",
-							"poster": "Please enter a valid name using less than 30 characters",
+							"text": "Please enter an answer.",
+							"poster": "Please enter a valid name.",
 							"email": "Please enter a valid email address.",
 							"ip": "There was an error with your IP address. Try again.",
 							"tablename": "There was an error with the table name. Try again.",
 							"qid": "There was an error with the question ID."
 						}
-						for(var e = 0; e < result.length; e++) {
-							errorString += "Error #" + (e + 1) + ": " + errorCodes[result[e].name] + "\n\n";
-						}
 						// Alert the error
-						alert(errorString);
+						showReplyError(errorCodes[result[0].name], theID);
+						return false;
 					} else {
+						if(typeof replyError != "undefined") {
+							Blaze.remove(replyError);
+						}
 						document.getElementById("reply" + theID).innerHTML = "Reply";
 						$("#down" + theID).slideUp();
 					}
@@ -471,25 +472,25 @@ Template.list.events({
 			}
 		} else {
 			if(!posterName || !posterEmail) {
-				alert("The admin of this instance has disabled anonymous posting. Please enter your name and email address.");
+				showProposeError("The admin of this instance has disabled anonymous posting. Please enter your name and email address.");
 				return false;
 			}
 		}
 		// Checks whether the question input is blank
 		if(!question) {
-			alert("Question cannot be left blank. Please try again.");
+			showProposeError("Question cannot be left blank. Please try again.");
 			return false;
 		}
 		// If the user entered a password, check the input
 		if(password1 || password2) {
 			if(password1 != password2) {
-				alert("Your passwords don't match. Please try again");
+				showProposeError("Your passwords don't match. Please try again");
 				return false;
 			} else if(!posterName) {
-				alert("If you're creating an account, the name can't be left blank. Please try again.");
+				showProposeError("If you're creating an account, the name can't be left blank. Please try again.");
 				return false;
 			} else if(!posterEmail) {
-				alert("If you're creating an account, the email can't be left blank. Please try again.");
+				showProposeError("If you're creating an account, the email can't be left blank. Please try again.");
 				return false;
 			} else {
 				Accounts.createUser({
@@ -500,7 +501,8 @@ Template.list.events({
 					}
 				}, function(error) {
 					if(error) {
-						alert("Account creation failed. Please try again.");
+						showProposeError("Account creation failed. Please try again.");
+						return false;
 					}
 				});
 				//Both passwords and input are a-okay
@@ -513,7 +515,6 @@ Template.list.events({
 				Meteor.call('propose', Session.get("tablename"), question, posterName, posterEmail, result, function (error, result) {
 					// If returns an object, there was an error
 					if(typeof result === 'object') {
-						var errorString = "";
 						// Store an object of the error names and codes
 						var errorCodes = {
 							"tablename": "Table name is invalid. Please return to the list and try again.",
@@ -526,15 +527,15 @@ Template.list.events({
 							"votes": "# of votes is invalid. Please return to the list and try again.",
 							"email": "Please enter a valid email address using less than 70 characters."
 						}
-						// Retrieve error descriptions
-						for(var e = 0; e < result.length; e++) {
-							errorString += "Error #" + (e + 1) + ": " + errorCodes[result[e].name] + "\n\n";
-						}
 						// Alert the error message
-						alert(errorString);
+						showProposeError(errorCodes[result[0].name]);
+						return false;
 					} else {
 						// If successful, redirect back to the list page
 						// Router.go("/list");
+						if(typeof currentError != "undefined") {
+							Blaze.remove(currentError);
+						}
 						$("#toparea").slideUp();
 						$("#navAsk").html("+ Ask");
 						document.getElementById("navAsk").style.backgroundColor = "#27ae60";
@@ -665,37 +666,6 @@ function timeSince(date) {
     return interval + ' ' + intervalType;
 };
 
-// this is a fix for the jQuery slide effects
-function slideToggle(el, bShow) {
-  var $el = $(el), height = $el.data("originalHeight"), visible = $el.is(":visible");
-  
-  // if the bShow isn't present, get the current visibility and reverse it
-  if( arguments.length == 1 ) bShow = !visible;
-  
-  // if the current visiblilty is the same as the requested state, cancel
-  if( bShow == visible ) return false;
-  
-  // get the original height
-  if( !height ) {
-    // get original height
-    height = $el.show().height();
-    // update the height
-    $el.data("originalHeight", height);
-    // if the element was hidden, hide it again
-    if( !visible ) $el.hide().css({height: 0});
-  }
-
-  // expand the knowledge (instead of slideDown/Up, use custom animation which applies fix)
-  if( bShow ) {
-    $el.show().animate({height: height}, {duration: 250});
-  } else {
-    $el.animate({height: 0}, {duration: 250, complete:function (){
-        $el.hide();
-      }
-    });
-  }
-}
-
 function enableDragging() {
 	Meteor.call('adminCheck', Meteor.user().emails[0].address, Session.get("tablename"), function(error, result) {
 		// If yes, enable draggable question divs
@@ -755,4 +725,22 @@ function enableDragging() {
 			});
 		}
 	});
+}
+
+function showProposeError(reason) {
+	if(typeof currentError != "undefined") {
+		Blaze.remove(currentError);
+	}
+	var parentNode = document.getElementById("questiondiv");
+	var nextNode = document.getElementById("questioninput");
+	currentError = Blaze.renderWithData(Template.form_error, reason, parentNode, nextNode);
+}
+
+function showReplyError(reason, id) {
+	if(typeof replyError != "undefined") {
+		Blaze.remove(replyError);
+	}
+	var parentNode = document.getElementById("down" + id);
+	var nextNode = document.getElementById("text" + id);
+	replyError = Blaze.renderWithData(Template.form_error, reason, parentNode, nextNode);
 }

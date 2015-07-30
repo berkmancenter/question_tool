@@ -169,6 +169,9 @@ Template.home.events({
 				document.getElementById("navCreate").style.backgroundColor = "#ec4f4f";
 				$("#toparea").slideDown();
 			} else {
+				if(typeof currentError != "undefined") {
+					Blaze.remove(currentError);
+				}
 				$("#navCreate").html("+ Create");
 				document.getElementById("navCreate").style.backgroundColor = "#27ae60";
 				$("#toparea").slideUp();
@@ -225,6 +228,7 @@ Template.home.events({
 			});
 		} else {
 			showCreateError("You've reached the maximum # of moderators (8).");
+			return false;
 		}
 	},
 	"click #buttonarea": function(event, template) {
@@ -289,6 +293,7 @@ Template.home.events({
 				}
 				// Alert the error
 				showCreateError(errorCodes[result[0].name]);
+				return false;
 			} else {
 				// Redirects to the newly-created table's list page
 				Cookie.set('tablename', result);

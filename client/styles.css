@@ -168,7 +168,7 @@ div#wrapper {
 	top:50%;
 	left:50%;
 	margin-left:-15%;
-	margin-top:-230px;
+	margin-top:-260px;
 }
 
 #loginsubmitbutton, #registersubmitbutton, #shareclosebutton {
@@ -1399,6 +1399,48 @@ div#recent, div#popular {
 	color:white;
 	font-weight:normal;
 	text-align:left;
+}
+
+.closecontainer {
+	cursor:pointer;
+}
+
+.closeIcon {
+	width:18px;
+	height:18px;
+	float:left;
+	margin:8px 0px 0px 8px;
+	padding-right:4px;
+}
+
+.closeText {
+	color: #ec4f4f;
+	font-family:bold;
+	font-size:16px;
+	padding-top:6px;
+}
+
+.closecontainer:hover .closeText {
+	color:#eb6f6f;
+}
+
+.errorIcon {
+	width:14px;
+	height:14px;
+	float:left;
+	margin-top:1px;
+	margin-right:8px;
+}
+
+.replybottom .error {
+	font-family:regular!important;
+	width:95%;
+	padding-top:2px;
+	padding-bottom:2px;
+}
+
+.formcontainer .errorIcon {
+	margin-top:4px;
 }
 
 #toparea .error {
