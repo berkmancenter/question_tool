@@ -1385,15 +1385,25 @@ div#recent, div#popular {
 }
 
 .error {
-	width:100%;
+	font-family:bold;
+	width:98%;
 	border: 2px solid #e74c3c;
 	background-color:#e74c3c;
 	display:block;
 	margin:0px auto;
 	padding:0px;
-	font-family:bold;
-	padding-left:6px;	
+	padding-left:12px;	
 	margin-bottom:15px;
 	border-radius:5px;
 	font-size:14px;
+	color:white;
+	font-weight:normal;
+	text-align:left;
+}
+
+#toparea .error {
+	font-family:semibold;
+	padding-top:3px;
+	padding-bottom:3px;
+	font-weight:normal;
 }

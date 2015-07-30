@@ -108,11 +108,11 @@ Template.userInfo.events({
 	}
 });
 
-function showError(reason, parentClass, nextID) {
+function showError(reason, parentElement, nextElement) {
 	if(typeof currentError != "undefined") {
 		Blaze.remove(currentError);
 	}
-	var parentNode = document.getElementsByClassName(parentClass)[0];
-	var nextNode = document.getElementById(nextID);
+	var parentNode = document.getElementsByClassName(parentElement)[0];
+	var nextNode = document.getElementById(nextElement);
 	currentError = Blaze.renderWithData(Template.form_error, reason, parentNode, nextNode);
 }

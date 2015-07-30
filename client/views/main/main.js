@@ -104,11 +104,7 @@ Template.home.events({
 	"click .deletebutton": function(event, template) {
 		var check = confirm("Are you sure you would like to delete the instance?");
 		if(check) {
-			Meteor.call('adminRemove', false, event.currentTarget.id, Meteor.user().emails[0].address, function(error, result) {
-				if(error) {
-					alert(error);
-				}
-			});
+			Meteor.call('adminRemove', false, event.currentTarget.id, Meteor.user().emails[0].address);
 		}
 	},
 	"click .renamebutton": function(event, template) {
@@ -158,19 +154,11 @@ Template.home.events({
 		if(bi == (event.target.baseURI + "heart_empty.png")) {
 			event.target.style.backgroundImage = "url('" + event.target.baseURI + "heart_filled.png')";
 			event.target.parentElement.style.border = "2px solid #ec4f4f";
-			Meteor.call('addFavorite', event.target.id, function(error, result) {
-				if(error) {
-					alert(error);
-				}
-			});
+			Meteor.call('addFavorite', event.target.id);
 		} else {
 			event.target.style.backgroundImage = "url('" + event.target.baseURI + "heart_empty.png')";
 			event.target.parentElement.style.border = "2px solid #e9edf0";
-			Meteor.call('removeFavorite', event.target.id, function(error, result) {
-				if(error) {
-					alert(error);
-				}
-			});
+			Meteor.call('removeFavorite', event.target.id);
 		}
 	},
 	"click #navCreate": function(event, template) {
@@ -236,7 +224,7 @@ Template.home.events({
 			    return (height + 50);
 			});
 		} else {
-			alert("You've reached the maximum # of moderators (8)");
+			showCreateError("You've reached the maximum # of moderators (8).");
 		}
 	},
 	"click #buttonarea": function(event, template) {
@@ -289,8 +277,6 @@ Template.home.events({
 		Meteor.call('create', tablename, threshhold, redLength, stale, description, mods,/*passwordConfirm,*/ admin, maxQuestion, maxResponse, anonymous, isHidden, author, function (error, result) {
 			// If the result is an object, there was an error
 			if(typeof result === 'object') {
-				var errorString = "";
-				console.log(result);
 				// Store an object of the error names and codes
 				var errorCodes = {
 					"tablename": "Please enter a valid table name using only letters and numbers.",
@@ -301,12 +287,8 @@ Template.home.events({
 					"modlength": "You have entered too many moderators. Please try again."/*,
 					"password": "Please enter a valid password using letters, numbers, *, #, @, and between 4 and 10 characters."*/
 				}
-				// Retrieve all of the errors
-				for(var e = 0; e < result.length; e++) {
-					errorString += "Error #" + (e + 1) + ": " + errorCodes[result[e].name] + "\n\n";
-				}
 				// Alert the error
-				alert(errorString);
+				showCreateError(errorCodes[result[0].name]);
 			} else {
 				// Redirects to the newly-created table's list page
 				Cookie.set('tablename', result);
@@ -377,3 +359,12 @@ function timeSince(date) {
 
     return interval + ' ' + intervalType;
 };
+
+function showCreateError(reason) {
+	if(typeof currentError != "undefined") {
+		Blaze.remove(currentError);
+	}
+	var parentNode = document.getElementById("creatediv");
+	var nextNode = document.getElementById("instancetopinputcontainer");
+	currentError = Blaze.renderWithData(Template.form_error, reason, parentNode, nextNode);
+}
