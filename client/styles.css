@@ -1030,6 +1030,55 @@ div#recent, div#popular {
 	margin:0px auto;
 }
 
+.admincontainer {
+	width:76%;
+	background-color:#e3e3e3;
+	border:2px solid #CCCCCC;
+	display:block;
+	margin:0px auto;
+	margin-top:25px;
+	padding:1.5% 2% 1.5% 2%;
+	border-radius:5px;
+	padding-bottom:50px;
+}
+
+.modcontainer {
+	padding-bottom:15px !important;
+}
+
+.admincontainer h2 {
+	color:#333333;
+	font-size:20px;
+	font-family:bold;
+	margin:0px;
+	padding:0px;
+}
+
+.admincontainer p {
+	color:#444444;
+	font-family:regular;
+	font-size:16px;
+}
+
+.adminbutton {
+	display:block;
+	float:left;
+	background-color:#666666;
+	border:2px solid #999999;
+	border-radius:5px;
+	color:white;
+	text-decoration:none;
+	cursor:pointer;
+	margin-right:10px;
+	padding:5px 10px 5px 10px;
+	font-family:regular;
+	font-size:14px;
+}
+
+.adminbutton:hover {
+	background-color:#888888;
+}
+
 .voteClick {
 	cursor:pointer;
 	color:white;
@@ -1040,10 +1089,9 @@ div#recent, div#popular {
 	text-decoration:none;
 }
 
-.hideQuestion, #unhidebutton, #logoutbutton {
-	text-decoration:underline;
+/*.hideQuestion, #unhidebutton, #logoutbutton {
 	cursor:pointer;
-}
+}*/
 
 #admintable {
 	display:block;
@@ -1059,11 +1107,6 @@ div#recent, div#popular {
 #tablespacer {
 	width:100%;
 	height:10px;
-}
-
-.deletebutton, .renamebutton {
-	text-decoration:underline;
-	cursor:pointer;
 }
 
 .hiddeninput {

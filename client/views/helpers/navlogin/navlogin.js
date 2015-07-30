@@ -39,10 +39,11 @@ Template.userInfo.events({
 				} else {
 					window.location.href = "/";
 				}*/
-				$(".formcontainer").fadeOut(400);
+				/*$(".formcontainer").fadeOut(400);
 				$("#darker").fadeOut(400, function() {
 					Blaze.remove(popoverTemplate);
-				});
+				});*/
+				window.location.reload();
 			} else {
 				showError(error.reason, "inputcontainer", "loginemail");
 			}

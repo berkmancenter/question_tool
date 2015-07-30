@@ -2,22 +2,6 @@
 	<div id="wrapper">
 		{{> userInfo list=true}}
 		<div id="toparea" style="text-align: center;">
-			{{#if admin}}
-				<h2>Admin Interface</h2>
-				<p>Click and drag two questions together to combine.</p>
-				<a id="unhidebutton">Unhide all questions</a> :: 
-				<a id="{{id}}" class="deletebutton">Delete this instance</a> ::
-				<a href="/add" class="modbutton">Add moderators</a> ::
-				<a href="/rename/{{id}}">Rename this instance</a>
-				<br />
-				<hr width="70%"/>
-			{{/if}}
-			{{#if moderator}}
-				<h2>Moderator Interface</h2>
-				<p>Click and drag two questions together to combine.</p>
-				<br />
-				<hr width="70%"/>
-			{{/if}}
 			<div id="questiondiv">
 				<textarea id="questioninput" maxlength="{{questionLength}}" placeholder="Type your question here..."></textarea>
 				<div id="topinputcontainer">
@@ -88,6 +72,34 @@
 </div>
 	<p class="instancetitle">{{tablename}}</p>
 	<p class="description">{{description}}</p>
+	{{#if admin}}
+		<div class="admincontainer">
+			<h2>Admin Interface</h2>
+			<p>Click and drag two questions together to combine.</p>
+			<!--<a id="unhidebutton">Unhide all questions</a> :: 
+			<a id="{{id}}" class="deletebutton">Delete this instance</a> ::
+			<a href="/add" class="modbutton">Add moderators</a> ::
+			<a href="/rename/{{id}}">Rename this instance</a>-->
+			<div class="adminbutton" id="unhidebutton">
+				Unhide all
+			</div>
+			<div class="adminbutton deletebutton" id="{{id}}">
+				Delete instance
+			</div>
+			<div class="adminbutton" id="modbutton">
+				Add moderators
+			</div>
+			<div class="adminbutton" id="renamebutton">
+				Rename instance
+			</div>
+		</div>
+	{{/if}}
+	{{#if moderator}}
+		<div class="admincontainer modcontainer">
+			<h2>Moderator Interface</h2>
+			<p>Click and drag two questions together to combine.</p>
+		</div>
+	{{/if}}
 	<div id="recent">
 		<div id="questionscontainer">
 			<div class="subcolumn">
