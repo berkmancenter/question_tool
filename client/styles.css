@@ -1,7 +1,12 @@
+html {
+    position: relative;
+    min-height: 100%;
+}
+
 body {
 	background-color: #f2f4f5;
 	color:#000;
-	margin:0px;
+	margin: 0 0 45px;
 	padding:0px;
 }
 
@@ -295,13 +300,16 @@ div#wrapper {
 }
 
 #footercontainer {
+	margin-top:25px;
+	position: absolute;
+	left: 0;
+	bottom: 0;
+	height: 45px;
 	width: 100%;
 	background-color:#293340;
-	height:auto;
 	padding-bottom:10px;
-	padding-top:10px;
+	padding-top:8px;
 	text-align:center;
-	display:inline-block;
 }
 
 #footercontainer p {
@@ -309,7 +317,6 @@ div#wrapper {
 	font-family:semibold;
 	cursor:pointer;
 }
-
 
 .postername {
 	margin:0px;
@@ -1080,7 +1087,7 @@ div#recent, div#popular {
 	float:left;
 	overflow:hidden;
 	padding-top:30px;
-	padding-bottom:40px;
+	padding-bottom:100px;
 }
 
 #questionscontainer { 
