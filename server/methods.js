@@ -486,6 +486,12 @@ Meteor.methods({
 	},
 	rename: function(id, name, check, type) {
 		var result;
+		var existsInstance = Instances.findOne({
+			tablename: name
+		});
+		if(existsInstance) {
+			return 1;
+		}
 		var originalInstance = Instances.findOne({
 			_id: id
 		});
@@ -537,7 +543,7 @@ Meteor.methods({
 										multi: true
 									},function(error, count, status) {
 										if(!error) {
-											result = true;
+											return 3;
 										}
 									});
 								}
@@ -547,9 +553,8 @@ Meteor.methods({
 				}
 			});
 		} else {
-			result = false;;
+			return 2;
 		}
-		return name;
 	},
 	// Method that registers a vote on a question
 	vote: function(id, ip, tablename) {

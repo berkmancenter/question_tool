@@ -1,36 +1,17 @@
 <template name="modify">
-	<body>
-		<div id="banner">
-			Question Tool Modification Form
+	<div id="darker">
+	</div>
+	<div class="formcontainer modifyformcontainer">
+		{{> close_button}}
+		<h1 class="formtitle">Modify</h1>
+		<div class="modaltopmessage">
+			Modify a question. Make edits and press "Done" when finished.
 		</div>
-		<br />
-		<br />
-		<div id="wrapper">  								
-			<center>
-				<div class="center">
-					<div class="columnhead">
-						Modify a question
-					</div>
-					<br />
-					<table width="100%">
-						<tr>
-							<td>
-								<b>Please modify the question. There is a limit of 255 characters.</b>
-							</td>
-							<td>
-								<textarea id="modifybox" name="comment" rows = "4" cols="40">{{this.text}}</textarea>
-							</td>
-						</tr>
-					</table>
-					<p align="center">
-						<button id="submitbutton">Submit</button>
-						<input type="hidden" name="submit_check" value="1" />
-					</p>
-					<p align="center">
-						<a href="/list">Return to the list</a>
-					</p>
-				</div>
-			</center>
+		<div class="inputcontainer">
+			<textarea id="modifybox" name="comment" rows = "4" cols="40" maxlength="{{maxmodlength}}">{{questiontext}}</textarea>
+			<div class="modifysubmitbutton" id="{{this}}">
+				Done
+			</div>
 		</div>
-	</body>
+	</div>
 </template>

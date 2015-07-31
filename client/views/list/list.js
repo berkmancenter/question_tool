@@ -104,7 +104,6 @@ Template.list.helpers({
 					}
 				}]
 			}).fetch();
-			console.log(questions);
 		}
 		var threshhold = Session.get("threshhold");
 		var voteAverage = 0;
@@ -140,9 +139,9 @@ Template.list.helpers({
 						fullURL = url;
 					}
 					if(!hasPeren) {
-						return '<a target="_blank" class="questionLink" href="' + fullURL + '">' + url + '</a>';
+						return '<a target="_blank" class="questionLink" rel="nofollow" href="' + fullURL + '">' + url + '</a>';
 					} else {
-						return '<a target="_blank" class="questionLink" href="' + fullURL + '">' + url + '</a>)';
+						return '<a target="_blank" class="questionLink" rel="nofollow" href="' + fullURL + '">' + url + '</a>)';
 					}
 				});
 				questions[i].adminButtons = (Session.get("admin") || Session.get("mod"));
@@ -278,7 +277,7 @@ Template.list.events({
 		});
 	},
 	// When the admin hide button is clicked...
-	"click .hideQuestion": function(event, template) {	
+	"click .adminquestionhide": function(event, template) {	
 		// Call the server-side hide method to hide the question
 		Meteor.call('hide', Meteor.user().emails[0].address, event.currentTarget.id);
 	},
@@ -420,14 +419,20 @@ Template.list.events({
 		//return false;
 		var checked = event.target.firstElementChild;
 		if(checked.style.display == "none" || !checked.style.display) {
+			checked.style.display = "block";
 			if(event.target.id == "savebox") {
 				$("#bottominputcontainer").slideDown();
+			} else if(event.target.id == "anonbox") {
+				$("#questionnameinput").val('Anonymous');
+				$("#questionemailinput").val('');
 			}
-			checked.style.display = "block";
 		} else {
 			checked.style.display = "none";
 			if(event.target.id == "savebox") {
 				$("#bottominputcontainer").slideUp();
+			} else if(event.target.id == "anonbox") {
+				$("#questionnameinput").val(Meteor.user().profile.name);
+				$("#questionemailinput").val(Meteor.user().emails[0].address);
 			}
 		}
 	},
@@ -438,11 +443,17 @@ Template.list.events({
 		if(checked.style.display == "none" || !checked.style.display) {
 			if(event.target.id == "savecheck") {
 				$("#bottominputcontainer").slideDown();
+			} else if(event.target.id == "anoncheck") {
+				$("#questionnameinput").val('Anonymous');
+				$("#questionemailinput").val('');
 			}
 			checked.style.display = "block";
 		} else {
 			if(event.target.id == "savecheck") {
 				$("#bottominputcontainer").slideUp();
+			} else if(event.target.id == "anoncheck") {
+				$("#questionnameinput").val(Meteor.user().profile.name);
+				$("#questionemailinput").val(Meteor.user().emails[0].address);
 			}
 			checked.style.display = "none";
 		}
@@ -467,6 +478,9 @@ Template.list.events({
 		}
 		if(Session.get("anonymous")) {
 			if(anonymous) {
+				posterName = "Anonymous";
+				email = "";
+			} else if(!posterName || !posterEmail) {
 				posterName = "Anonymous";
 				email = "";
 			}
@@ -589,11 +603,20 @@ Template.list.events({
 	"click .twitterbutton": function(event, template) {
 		var questionDiv = event.target.parentElement.parentElement;
 		var questionText = questionDiv.getElementsByClassName("questiontext")[0].innerHTML.trim();
+		var tweetMessage = "";
 		popupwindow("https://twitter.com/intent/tweet?text=" + encodeURIComponent(questionText), "Share Question Tool!", 600, 400);
 	},
 	"click #modbutton": function(event, template) {
 		var parentNode = document.getElementById("banner");
 		popoverTemplate = Blaze.render(Template.add, parentNode);
+	},
+	"click #renamebutton": function(event, template) {
+		var parentNode = document.getElementById("banner");
+		popoverTemplate = Blaze.render(Template.rename, parentNode);
+	},
+	"click .adminquestionmodify": function(event, template) {
+		var parentNode = document.getElementById("banner");
+		popoverTemplate = Blaze.renderWithData(Template.modify, event.currentTarget.id, parentNode);
 	}
 });
 

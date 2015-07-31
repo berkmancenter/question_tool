@@ -1,37 +1,17 @@
 <template name="rename">
-	<body>
-		<div id="banner">Rename Your Instance</div>
-		<br />
-		<br />
-		<div id="wrapper">
-			<center>							
-				<div class="center">
-					<div class="columnhead">
-						Rename instance
-					</div>
-					<br/>
-					<center>
-						<b><!-- ERROR MESSAGE GOES HERE IF ONE EXISTS --></b>
-					</center>
-					<br />
-					<table width="100%">
-						<tr>
-							<td>
-								<b>Enter a new name for {{this.tablename}}:</b>
-							</td>
-							<td>
-								<input type="text" id="namebox" maxlength="40" name="tname" value="{{this.tablename}}">
-							</td>
-						</tr>
-					</table>
-					<p align="center">
-						<button id="submitbutton">Submit</button>
-					</p>
-					<p align="center">
-						<a href="/">Return to the chooser</a>
-					</p>
-				</div>
-			</center>
+	<div id="darker">
+	</div>
+	<div class="formcontainer renameformcontainer">
+		{{> close_button}}
+		<h1 class="formtitle">Rename</h1>
+		<div class="modaltopmessage">
+			Rename your instance.
 		</div>
-	</body>
+		<div class="inputcontainer">
+			<input type="text" class="input" id="namebox" maxlength="40" name="tname" value="{{renamename}}">
+			<div class="renamesubmitbutton" id="{{renameid}}">
+				Done
+			</div>
+		</div>
+	</div>
 </template>

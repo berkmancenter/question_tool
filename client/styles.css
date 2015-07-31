@@ -171,7 +171,7 @@ div#wrapper {
 	margin-top:-260px;
 }
 
-#loginsubmitbutton, #registersubmitbutton, #shareclosebutton, #modsdonebutton {
+#loginsubmitbutton, #registersubmitbutton, #shareclosebutton, #modsdonebutton, .renamesubmitbutton, .modifysubmitbutton {
 	width:40%;
 	display:block;
 	height:30px;
@@ -432,9 +432,9 @@ div#wrapper {
 }
 
 .description {
-	margin-left:10%;
-	margin-right:10%;
-	width:80%;
+	display:block;
+	margin:0px auto;
+	width:40%;
 	text-align:center;
 	margin-bottom:0px;
 	margin-top:10px;
@@ -1313,6 +1313,46 @@ div#recent, div#popular {
 	background-color:#43c177;
 }
 
+.question:hover .adminquestionhide, .question:hover .adminquestionmodify {
+	border:2px solid #999999;
+	color:#999999;
+}
+
+
+.adminquestionhide {
+	clear:both;
+	float:left;
+	width:44%;
+	margin-top:15px;
+	height:26px;
+	margin-left:10px;
+	background-color:white;
+	border:2px solid #CCCCCC;
+	color:#CCCCCC;
+	font-size:14px;
+	font-family:semibold;
+	text-align:center;
+	padding-top:7px;
+	border-radius:5px;
+	cursor:pointer;
+}
+
+.adminquestionmodify {
+	margin-top:15px;
+	margin-right:5px;
+	float:right;
+	height:26px;
+	width:44%;
+	background-color:white;
+	border:2px solid #CCCCCC;
+	color:#CCCCCC;
+	font-size:14px;
+	font-family:semibold;
+	text-align:center;
+	padding-top:7px;
+	border-radius:5px;
+	cursor:pointer;
+}
 
 #navProfile {
 	float:left;
@@ -1464,25 +1504,31 @@ div#recent, div#popular {
 
 .closecontainer {
 	cursor:pointer;
+	display:inline-block;
+	background-color:#ea6153;
+	border-radius:5px;
+	padding:0px 4px 0px 0px;
+	margin:10px 0px 0px 10px;
+}
+
+.closecontainer:hover {
+	background-color:#ed766a;
 }
 
 .closeIcon {
-	width:18px;
-	height:18px;
+	width:16px;
+	height:16px;
 	float:left;
-	margin:8px 0px 0px 8px;
+	margin:5px 0px 0px 6px;
 	padding-right:4px;
 }
 
 .closeText {
-	color: #ec4f4f;
+	color: white;
 	font-family:bold;
-	font-size:16px;
-	padding-top:6px;
-}
-
-.closecontainer:hover .closeText {
-	color:#eb6f6f;
+	float:right;
+	font-size:14px;
+	padding-top:2px;
 }
 
 .errorIcon {
@@ -1495,7 +1541,17 @@ div#recent, div#popular {
 
 .modformcontainer .error {
 	font-family:semibold;
-	width:70%;;
+	width:70%;
+}
+
+.renameformcontainer .error {
+	font-family:semibold;
+	width:70%;
+}
+
+.modifyformcontainer .error {
+	font-family:semibold;
+	width:70%;
 }
 
 .replybottom .error {
@@ -1514,4 +1570,19 @@ div#recent, div#popular {
 	padding-top:3px;
 	padding-bottom:3px;
 	font-weight:normal;
+}
+
+#modifybox {
+	display:block;
+	width:100%;
+	padding-left:2%;
+	margin:0px auto;
+	border: 2px solid #e9edf0;
+	border-radius:5px;
+	outline:0;
+	height:100px;
+	resize:none;
+	margin-bottom:25px;
+	font-family:regular;
+	font-size:16px;
 }
