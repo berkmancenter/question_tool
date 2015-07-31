@@ -5,6 +5,49 @@ body {
 	padding:0px;
 }
 
+@media (max-width: 1300px) {
+	#tablename {
+		display:none!important;
+	}
+	.homesearchbar {
+		margin-left:10%!important;
+	}
+}
+
+@media (max-width: 1165px) {
+	#navProfile {
+    	display: none;
+	}
+	.listsearchbar {
+		margin-left:0px!important;
+	}
+}
+
+@media (max-width: 955px) {
+	.listsearchbar {
+		width:95%!important;
+		display:block!important;
+		margin:0px auto!important;
+		height:32px;
+		padding-left:5%;
+		/*float:left;*/
+	}
+	#rightInfo {
+		float:right;
+		width:100%!important;
+		display:block!important;
+		margin:0px auto!important;
+	}
+	#banner {
+		height:130px!important;
+		padding-left:10%!important;
+		padding-right:10%!important;
+	}
+	#navLogout {
+		margin-right:0px!important;
+	}
+}
+
 @font-face {
 	src:url('/Museo/MuseoSans_700.otf');
 	font-family:bold;
@@ -541,7 +584,6 @@ div#wrapper {
 	height:60px;
 	display:block;
 	padding-top:2px;
-	text-indent:30px;
 	text-decoration:none;
 	font-weight:700;
 	font-size:18px;
@@ -926,7 +968,7 @@ textarea:focus, input:focus{
 }
 
 #searchbar {
-	width:350px;
+	width:22%;
 	height:32px;
 	display:inline;
 	float:left;

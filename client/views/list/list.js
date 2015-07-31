@@ -598,12 +598,11 @@ Template.list.events({
 		Session.set("replyCount", total);
 	},
 	"click .facebookbutton": function(event, template) {
-		popupwindow("https://www.facebook.com/sharer/sharer.php?u=http://questiontool.com/" + encodeURIComponent(Session.get("tablename")), "Share Question Tool!", 600, 400);
+		popupwindow("https://www.facebook.com/sharer/sharer.php?u=" + window.location.origin + "/list/" + encodeURIComponent(Session.get("tablename")), "Share Question Tool!", 600, 400);
 	},
 	"click .twitterbutton": function(event, template) {
 		var questionDiv = event.target.parentElement.parentElement;
 		var questionText = questionDiv.getElementsByClassName("questiontext")[0].innerHTML.trim();
-		var tweetMessage = "";
 		popupwindow("https://twitter.com/intent/tweet?text=" + encodeURIComponent(questionText), "Share Question Tool!", 600, 400);
 	},
 	"click #modbutton": function(event, template) {

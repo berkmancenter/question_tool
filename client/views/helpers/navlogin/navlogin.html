@@ -3,7 +3,7 @@
 		<h1 id="tablename">
 			{{this.title}}
 		</h1>
-		<input id="searchbar" type="text" placeholder="Search...">
+		<input id="searchbar" class="{{#if this.list}}listsearchbar{{else}}homesearchbar{{/if}}" type="text" placeholder="Search...">
 		<div id="rightInfo">
 			<ul id="navbuttons">
 				<a href="/">
@@ -19,11 +19,6 @@
 				<!--<a href="/propose">
 					<li>Ask</li>
 				</a>-->
-				{{#if this.list}}
-					<a href="/rss/{{tablename}}">
-						<li>RSS</li>
-					</a>
-				{{/if}}
 				<a href="/report">
 					<li>Archive</li>
 				</a>
