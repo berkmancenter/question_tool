@@ -84,6 +84,9 @@ Template.home.helpers({
 			}
 		}
 		for(var i = 0; i < instances.length; i++) {
+			if(instances[i].description.length > 140) {
+				instances[i].description = instances[i].description.substring(0, 137) + "...";
+			}
 			if(!instances[i].author) {
 				instances[i].author = "Anonymous";
 			}
