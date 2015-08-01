@@ -1306,7 +1306,7 @@ div#recent, div#popular {
 }
 
 .favoriteInstance {
-	border:2px solid red;
+	border:2px solid #ec4f4f;
 }
 
 .replybottombutton:hover {
