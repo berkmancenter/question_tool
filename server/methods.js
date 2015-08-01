@@ -271,13 +271,17 @@ Meteor.methods({
 		return true;
 	},
 	// Method that combines two questions and answers
-	combine: function(question, id1, id2, password, table) {
+	combine: function(question, id1, id2, email, table) {
 		// Checks whether the user has proper admin privileges
 		var instance = Instances.findOne({
 			tablename: table
 		});
-		if((password != instance.password) || (!password || !instance.password)) {
-			return false;
+		if(email !== instance.admin) {
+			if(instance.moderators) {
+				if(instance.moderators.indexOf(email) == -1) {
+					return false;
+				}
+			}
 		}
 		var question2 = Questions.findOne({
 			_id: id2

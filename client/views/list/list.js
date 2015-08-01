@@ -702,7 +702,7 @@ function enableDragging() {
 				// Divs have inertia and continue moving when mouse is released
 				inertia: true,
 				restrict: {
-					restriction: "parent",
+					restriction: "#recent",
 					endOnly: true,
 					elementRect: { top: 0, left: 0, bottom: 0, right: 0 }
 				},
@@ -732,7 +732,7 @@ function enableDragging() {
 				// Active when one .quesiton div is dropped on another
 			  accept: '.question',
 				// The two divs need over 75% overlapping for the drop to be registered
-			  overlap: 0.4,
+			  overlap: 0.2,
 			  ondropactivate: function (event) {
 			  },
 			  ondragenter: function (event) {
@@ -745,7 +745,12 @@ function enableDragging() {
 			  ondrop: function (event) {
 				  var id1 = event.relatedTarget.id;
 				  var id2 = event.target.id;
-				  window.location.href="/combine/" + id1 + "/" + id2;
+				  var parentNode = document.getElementById("banner");
+				  Blaze.renderWithData(Template.combine, {
+					  first: id1, 
+					  second: id2
+				  }, parentNode);
+				  //window.location.href="/combine/" + id1 + "/" + id2;
 			  },
 			  ondropdeactivate: function (event) {
 			  }

@@ -219,7 +219,7 @@ div#wrapper {
 	margin-top:-260px;
 }
 
-#loginsubmitbutton, #registersubmitbutton, #shareclosebutton, #modsdonebutton, .renamesubmitbutton, .modifysubmitbutton {
+#loginsubmitbutton, #registersubmitbutton, #shareclosebutton, #modsdonebutton, .combinesubmitbutton, .renamesubmitbutton, .modifysubmitbutton {
 	width:40%;
 	display:block;
 	height:30px;
