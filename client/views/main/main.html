@@ -109,88 +109,98 @@
 			</div>
 		</div>
 		<div id="recent">
-			<div id="questionscontainer">
+			<div id="questionscontainer" class="todayinstances">
+				<div class="timesectioncontainer firsttimesection">
+					<div class="timesectionlabel">Used today:</div> 
+				</div>
 				<div class="instancecolumn">
 					{{#each instanceList}}
-						{{#if indexOne}}
-							<div id="{{_id}}" class="instance {{#if isFavorite}}favoriteInstance{{/if}}">
-								<p class="instancename">
-									{{tablename}}
-								</p>
-								{{#if currentUser}}
-									<div class="favoritebutton {{#if isFavorite}}buttonFavorite{{/if}}" id="{{_id}}">
-									</div>
-								{{/if}}
-								<div class="answercontainer">
-									<span class="instancedescription">
-										{{description}}
-									</span>
-								</div>
-								<div class="quesitonbottom">
-									<div class="bottomleft">
-										<p class="postername">
-											{{author}}
-										</p>
-										<span class="time">{{lasttouch}}</span>
-									</div>
-								</div>
-							</div>
+						{{#if today}}
+							{{#if indexOne}}
+								{{> instance_div}}
+							{{/if}}
 						{{/if}}
 					{{/each}}
 				</div>
 				<div class="instancecolumn">
 					{{#each instanceList}}
-						{{#if indexTwo}}
-							<div id="{{_id}}" class="instance {{#if isFavorite}}favoriteInstance{{/if}}">
-								<p class="instancename">
-									{{tablename}}
-								</p>
-								{{#if currentUser}}
-									<div class="favoritebutton {{#if isFavorite}}buttonFavorite{{/if}}" id="{{_id}}">
-									</div>
-								{{/if}}
-								<div class="answercontainer">
-									<span class="instancedescription">
-										{{description}}
-									</span>
-								</div>
-								<div class="quesitonbottom">
-									<div class="bottomleft">
-										<p class="postername">
-											{{author}}
-										</p>
-										<span class="time">{{lasttouch}}</span>
-									</div>
-								</div>
-							</div>
+						{{#if today}}
+							{{#if indexTwo}}
+								{{> instance_div}}
+							{{/if}}
 						{{/if}}
 					{{/each}}
 				</div>
-				<div class="lastinstancecolumn">
+				<div class="instancecolumn">
 					{{#each instanceList}}
-						{{#if indexThree}}
-							<div id="{{_id}}" class="instance {{#if isFavorite}}favoriteInstance{{/if}}">
-								<p class="instancename">
-									{{tablename}}
-								</p>
-								{{#if currentUser}}
-									<div class="favoritebutton {{#if isFavorite}}buttonFavorite{{/if}}" id="{{_id}}">
-									</div>
-								{{/if}}
-								<div class="answercontainer">
-									<span class="instancedescription">
-										{{description}}
-									</span>
-								</div>
-								<div class="quesitonbottom">
-									<div class="bottomleft">
-										<p class="postername">
-											{{author}}
-										</p>
-										<span class="time">{{lasttouch}}</span>
-									</div>
-								</div>
-							</div>
+						{{#if today}}
+							{{#if indexThree}}
+								{{> instance_div}}
+							{{/if}}
+						{{/if}}
+					{{/each}}
+				</div>
+			</div>
+			<div id="questionscontainer" class="weekinstances">
+				<div class="timesectioncontainer">
+					<div class="timesectionlabel">Used this week:</div>
+				</div>
+				<div class="instancecolumn">
+					{{#each instanceList}}
+						{{#if week}}
+							{{#if indexOne}}
+								{{> instance_div}}
+							{{/if}}
+						{{/if}}
+					{{/each}}
+				</div>
+				<div class="instancecolumn">
+					{{#each instanceList}}
+						{{#if week}}
+							{{#if indexTwo}}
+								{{> instance_div}}
+							{{/if}}
+						{{/if}}
+					{{/each}}
+				</div>
+				<div class="instancecolumn">
+					{{#each instanceList}}
+						{{#if week}}
+							{{#if indexThree}}
+								{{> instance_div}}
+							{{/if}}
+						{{/if}}
+					{{/each}}
+				</div>
+			</div>
+			<div id="questionscontainer" class="monthinstances">
+				<div class="timesectioncontainer">
+					<div class="timesectionlabel">Used this month:</div>
+				</div>
+				<div class="instancecolumn">
+					{{#each instanceList}}
+						{{#if month}}
+							{{#if indexOne}}
+								{{> instance_div}}
+							{{/if}}
+						{{/if}}
+					{{/each}}
+				</div>
+				<div class="instancecolumn">
+					{{#each instanceList}}
+						{{#if month}}
+							{{#if indexTwo}}
+								{{> instance_div}}
+							{{/if}}
+						{{/if}}
+					{{/each}}
+				</div>
+				<div class="instancecolumn">
+					{{#each instanceList}}
+						{{#if month}}
+							{{#if indexThree}}
+								{{> instance_div}}
+							{{/if}}
 						{{/if}}
 					{{/each}}
 				</div>

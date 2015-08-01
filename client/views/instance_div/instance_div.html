@@ -1,0 +1,24 @@
+<template name="instance_div">
+	<div id="{{_id}}" class="instance {{#if isFavorite}}favoriteInstance{{/if}}">
+		<p class="instancename">
+			{{tablename}}
+		</p>
+		{{#if currentUser}}
+			<div class="favoritebutton {{#if isFavorite}}buttonFavorite{{/if}}" id="{{_id}}">
+			</div>
+		{{/if}}
+		<div class="answercontainer">
+			<span class="instancedescription">
+				{{description}}
+			</span>
+		</div>
+		<div class="quesitonbottom">
+			<div class="bottomleft">
+				<p class="postername">
+					{{author}}
+				</p>
+				<span class="time">{{lasttouch}}</span>
+			</div>
+		</div>
+	</div>
+</template>

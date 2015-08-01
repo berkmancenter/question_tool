@@ -90,6 +90,13 @@ Template.home.helpers({
 			if(!instances[i].author) {
 				instances[i].author = "Anonymous";
 			}
+			if((new Date().getTime() - instances[i].lasttouch) <= 86400000) {
+				instances[i].today = true;
+			} else if((new Date().getTime() - instances[i].lasttouch) <= 604800000) {
+				instances[i].week = true;
+			} else if((new Date().getTime() - instances[i].lasttouch) <= 2678400000) {
+				instances[i].month = true;
+			}
 			instances[i].lasttouch = timeSince(instances[i].lasttouch);
 			if(i % 3 == 0) {
 				instances[i].indexOne = true;
