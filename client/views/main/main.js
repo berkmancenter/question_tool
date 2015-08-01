@@ -69,7 +69,7 @@ Template.home.helpers({
 			}).fetch();
 		}
 		instances.sort(function(a, b) {
-		    return a.order - b.order;
+		    return b.lasttouch - a.lasttouch;
 		});
 		for(var ii = 0; ii < instances.length; ii++) {
 			if(Meteor.user()) {

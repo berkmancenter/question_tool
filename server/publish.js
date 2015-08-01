@@ -1,9 +1,13 @@
 // Only publishes to the user the instances that have been updated within 30 days
 Meteor.publish('instances', function() {
+	var time = (new Date().getTime() - 2592000000);
 	return Instances.find({
 		hidden: {
 			$ne: true
-		} 
+		},
+		lasttouch: {
+			$gt: time
+		}
 	});
 });
 

@@ -85,6 +85,18 @@ Meteor.methods({
 					}, function(error, count, status) {
 						if(error) {
 							return false;
+						} else {
+							Instances.update({
+								tablename: tablename
+							}, {
+								$set: {
+									lasttouch: new Date().getTime()
+								}
+							}, function(error, count, status) {
+								if(error) {
+									keys = error.invalidKeys;
+								}
+							});
 						}
 					});
 				}
@@ -344,6 +356,18 @@ Meteor.methods({
 				if(error) {
 					// If error, store object in keys variable
 					keys = error.invalidKeys;
+				} else { 
+					Instances.update({
+						_id: table._id
+					}, {
+						$set: {
+							lasttouch: new Date().getTime()
+						}
+					}, function(error, count, status) {
+						if(error) {
+							keys = error.invalidKeys;
+						}
+					});
 				}
 			});
 			/*Instances.update({
