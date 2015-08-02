@@ -188,10 +188,12 @@ div#wrapper {
 
 .instance .postername {
 	pointer-events:none;
+	float:left;
 }
 
 .instance .time {
 	pointer-events:none;
+	float:right;
 }
 
 .formcontainer {
@@ -379,6 +381,10 @@ div#wrapper {
 	margin-top:6px;
 }
 
+.instancebottomleft {
+	width:100%;
+}
+
 .bottomleft {
 	width:50%;
 	float:left;
@@ -394,6 +400,8 @@ div#wrapper {
 	font-family:regular;
 	font-size:12px;
 	padding-left:3px;
+	margin-top:6px;
+	margin-right:6px;
 }
 
 .replybutton {
