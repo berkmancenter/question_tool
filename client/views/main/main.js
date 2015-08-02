@@ -81,6 +81,13 @@ Template.home.helpers({
 						instances.unshift(tempInstance);*/
 					}
 				}
+				if(instances[ii].admin == Meteor.user().emails[0].address) {
+					instances[ii].isAdmin = true;
+				} else if(instances[ii].moderators) {
+					if(instances[ii].moderators.indexOf(Meteor.user().emails[0].address) != -1) {
+						instances[ii].isMod = true;
+					}
+				}
 			}
 		}
 		for(var i = 0; i < instances.length; i++) {

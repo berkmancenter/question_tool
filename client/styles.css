@@ -1519,6 +1519,24 @@ div#recent, div#popular {
 	padding-top:0px;
 }
 
+.adminimage {
+	width:14px;
+	height:14px;
+	float:left;
+	margin-right:4px;
+	margin-top:2px;
+	padding-top:0px;
+}
+
+.modimage {
+	width:20px;
+	height:20px;
+	float:left;
+	margin-right:4px;
+	margin-top:-1px;
+	padding-top:0px;
+}
+
 .populartext {
 	display:inline;
 	color: #f1c40f;
@@ -1547,6 +1565,13 @@ div#recent, div#popular {
 	float:right;
 	margin-top:-2px;
 	margin-left:6px;
+}
+
+.instancebadgecontainer {
+	float:right;
+	margin-top:7px;
+	margin-left:6px;
+	margin-right:38px;
 }
 
 .question:hover .questionbadgecontainer {

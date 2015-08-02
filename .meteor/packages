@@ -12,3 +12,4 @@ accounts-password
 linto:jquery-ui
 steeve:reactive-cookie
 email
+meteorhacks:fast-render
