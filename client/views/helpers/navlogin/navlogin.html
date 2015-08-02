@@ -6,9 +6,11 @@
 		<input id="searchbar" class="{{#if this.list}}listsearchbar{{else}}homesearchbar{{/if}}" type="text" placeholder="Search...">
 		<div id="rightInfo">
 			<ul id="navbuttons">
-				<a href="/">
-					<li>Home</li>
-				</a>
+				<li>
+					<div id="navHome">
+						Home
+					</div>
+				</li>
 				{{#if this.list}}
 					<li>
 						<div id="navShare">

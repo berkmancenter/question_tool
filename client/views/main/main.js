@@ -76,9 +76,9 @@ Template.home.helpers({
 				if(Meteor.user().profile.favorites) {
 					if(Meteor.user().profile.favorites.indexOf(instances[ii]._id) != -1) {
 						instances[ii].isFavorite = true;
-						var tempInstance = instances[ii];
+						/*var tempInstance = instances[ii];
 						instances.splice(ii, 1);
-						instances.unshift(tempInstance);
+						instances.unshift(tempInstance);*/
 					}
 				}
 			}

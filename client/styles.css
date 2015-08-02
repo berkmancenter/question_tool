@@ -1219,7 +1219,7 @@ div#recent, div#popular {
 	margin-right:20px;
 }
 
-#navShare {
+#navShare, #navHome {
 	cursor:pointer;
 }
 

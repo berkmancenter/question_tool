@@ -16,6 +16,11 @@ Template.userInfo.events({
 		var parentNode = document.getElementById("banner");
 		popoverTemplate = Blaze.render(Template.register, parentNode);
 	},
+	"click #navHome": function(event, template) {
+		document.getElementById("searchbar").value = "";
+		Session.set("search", "all");
+		Router.go("/");
+	},
 	"click #darker": function(event, template) {
 		$(".formcontainer").fadeOut(400);
 		$("#darker").fadeOut(400, function() {

@@ -109,33 +109,76 @@
 			</div>
 		</div>
 		<div id="recent">
+			{{#if currentUser.profile.favorites}}
+				<div id="questionscontainer" class="todayinstances">
+					<div class="timesectioncontainer firsttimesection">
+						<div class="timesectionlabel">Favorites:</div> 
+					</div>
+					<div class="instancecolumn">
+						{{#each instanceList}}
+							{{#if isFavorite}}
+								{{#if indexOne}}
+									{{> instance_div}}
+								{{/if}}
+							{{/if}}
+						{{/each}}
+					</div>
+					<div class="instancecolumn">
+						{{#each instanceList}}
+							{{#if isFavorite}}
+								{{#if indexTwo}}
+									{{> instance_div}}
+								{{/if}}
+							{{/if}}
+						{{/each}}
+					</div>
+					<div class="instancecolumn">
+						{{#each instanceList}}
+							{{#if isFavorite}}
+								{{#if indexThree}}
+									{{> instance_div}}
+								{{/if}}
+							{{/if}}
+						{{/each}}
+					</div>
+				</div>
+			{{/if}}
 			<div id="questionscontainer" class="todayinstances">
-				<div class="timesectioncontainer firsttimesection">
+				<div class="timesectioncontainer">
 					<div class="timesectionlabel">Used today:</div> 
 				</div>
 				<div class="instancecolumn">
 					{{#each instanceList}}
-						{{#if today}}
-							{{#if indexOne}}
-								{{> instance_div}}
+						{{#if isFavorite}}
+						{{else}}
+							{{#if today}}
+								{{#if indexOne}}
+									{{> instance_div}}
+								{{/if}}
 							{{/if}}
 						{{/if}}
 					{{/each}}
 				</div>
 				<div class="instancecolumn">
 					{{#each instanceList}}
-						{{#if today}}
-							{{#if indexTwo}}
-								{{> instance_div}}
+						{{#if isFavorite}}
+						{{else}}
+							{{#if today}}
+								{{#if indexTwo}}
+									{{> instance_div}}
+								{{/if}}
 							{{/if}}
 						{{/if}}
 					{{/each}}
 				</div>
 				<div class="instancecolumn">
 					{{#each instanceList}}
-						{{#if today}}
-							{{#if indexThree}}
-								{{> instance_div}}
+						{{#if isFavorite}}
+						{{else}}
+							{{#if today}}
+								{{#if indexThree}}
+									{{> instance_div}}
+								{{/if}}
 							{{/if}}
 						{{/if}}
 					{{/each}}
@@ -147,27 +190,36 @@
 				</div>
 				<div class="instancecolumn">
 					{{#each instanceList}}
-						{{#if week}}
-							{{#if indexOne}}
-								{{> instance_div}}
+						{{#if isFavorite}}
+						{{else}}
+							{{#if week}}
+								{{#if indexOne}}
+									{{> instance_div}}
+								{{/if}}
 							{{/if}}
 						{{/if}}
 					{{/each}}
 				</div>
 				<div class="instancecolumn">
 					{{#each instanceList}}
-						{{#if week}}
-							{{#if indexTwo}}
-								{{> instance_div}}
+						{{#if isFavorite}}
+						{{else}}
+							{{#if week}}
+								{{#if indexTwo}}
+									{{> instance_div}}
+								{{/if}}
 							{{/if}}
 						{{/if}}
 					{{/each}}
 				</div>
 				<div class="instancecolumn">
 					{{#each instanceList}}
-						{{#if week}}
-							{{#if indexThree}}
-								{{> instance_div}}
+						{{#if isFavorite}}
+						{{else}}
+							{{#if week}}
+								{{#if indexThree}}
+									{{> instance_div}}
+								{{/if}}
 							{{/if}}
 						{{/if}}
 					{{/each}}
@@ -179,27 +231,36 @@
 				</div>
 				<div class="instancecolumn">
 					{{#each instanceList}}
-						{{#if month}}
-							{{#if indexOne}}
-								{{> instance_div}}
+						{{#if isFavorite}}
+						{{else}}
+							{{#if month}}
+								{{#if indexOne}}
+									{{> instance_div}}
+								{{/if}}
 							{{/if}}
 						{{/if}}
 					{{/each}}
 				</div>
 				<div class="instancecolumn">
 					{{#each instanceList}}
-						{{#if month}}
-							{{#if indexTwo}}
-								{{> instance_div}}
+						{{#if isFavorite}}
+						{{else}}
+							{{#if month}}
+								{{#if indexTwo}}
+									{{> instance_div}}
+								{{/if}}
 							{{/if}}
 						{{/if}}
 					{{/each}}
 				</div>
 				<div class="instancecolumn">
 					{{#each instanceList}}
-						{{#if month}}
-							{{#if indexThree}}
-								{{> instance_div}}
+						{{#if isFavorite}}
+						{{else}}
+							{{#if month}}
+								{{#if indexThree}}
+									{{> instance_div}}
+								{{/if}}
 							{{/if}}
 						{{/if}}
 					{{/each}}
