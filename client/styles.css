@@ -1387,7 +1387,7 @@ div#recent, div#popular {
 }
 
 
-.adminquestionhide {
+.adminquestionhide, .superadminrenamebutton {
 	clear:both;
 	float:left;
 	width:44%;
@@ -1403,9 +1403,10 @@ div#recent, div#popular {
 	padding-top:7px;
 	border-radius:5px;
 	cursor:pointer;
+	z-index:999;
 }
 
-.adminquestionmodify {
+.adminquestionmodify, .superadmindeletebutton {
 	margin-top:15px;
 	margin-right:5px;
 	float:right;
@@ -1420,6 +1421,7 @@ div#recent, div#popular {
 	padding-top:7px;
 	border-radius:5px;
 	cursor:pointer;
+	z-index:999;
 }
 
 #navProfile {

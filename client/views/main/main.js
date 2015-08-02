@@ -17,6 +17,13 @@ Template.home.onRendered(function() {
 	// When the template is rendered, set the document title
 	document.title = "Live Question Tool Chooser";
 	document.getElementById("allowanoncheck").style.display = "block";
+	this.autorun(function() {
+		if(Meteor.user()) {
+			Meteor.call('superadmin', Meteor.user().emails[0].address, function(error, result) {
+				Session.set("superadmin", result);
+			});
+		}
+	});
 });
 
 Template.home.helpers({
@@ -71,26 +78,21 @@ Template.home.helpers({
 		instances.sort(function(a, b) {
 		    return b.lasttouch - a.lasttouch;
 		});
-		for(var ii = 0; ii < instances.length; ii++) {
+		for(var i = 0; i < instances.length; i++) {
 			if(Meteor.user()) {
 				if(Meteor.user().profile.favorites) {
-					if(Meteor.user().profile.favorites.indexOf(instances[ii]._id) != -1) {
-						instances[ii].isFavorite = true;
-						/*var tempInstance = instances[ii];
-						instances.splice(ii, 1);
-						instances.unshift(tempInstance);*/
+					if(Meteor.user().profile.favorites.indexOf(instances[i]._id) != -1) {
+						instances[i].isFavorite = true;
 					}
 				}
-				if(instances[ii].admin == Meteor.user().emails[0].address) {
-					instances[ii].isAdmin = true;
-				} else if(instances[ii].moderators) {
-					if(instances[ii].moderators.indexOf(Meteor.user().emails[0].address) != -1) {
-						instances[ii].isMod = true;
+				if(instances[i].admin == Meteor.user().emails[0].address) {
+					instances[i].isAdmin = true;
+				} else if(instances[i].moderators) {
+					if(instances[i].moderators.indexOf(Meteor.user().emails[0].address) != -1) {
+						instances[i].isMod = true;
 					}
 				}
 			}
-		}
-		for(var i = 0; i < instances.length; i++) {
 			if(instances[i].description.length > 140) {
 				instances[i].description = instances[i].description.substring(0, 137) + "...";
 			}
@@ -335,6 +337,29 @@ Template.home.events({
 			last = document.getElementsByClassName("lastinputspacer")[0];
 			last.previousSibling.focus();
 		}
+	},
+	"click .superadmindeletebutton": function(event, template) {
+		var check = confirm("Are you sure you would like to delete the instance?");
+		if(check) {
+			Meteor.call('adminRemove', false, event.currentTarget.id, Meteor.user().emails[0].address, function(error, result) {
+				if(error) {
+					alert(error);
+				}
+			});
+		}
+		event.stopPropogation();
+	},
+	"click .superadminrenamebutton": function(event, template) {
+		var parentNode = document.getElementById("banner");
+		var tablename = Instances.findOne({
+			_id: event.currentTarget.id
+		}).tablename;
+		popoverTemplate = Blaze.renderWithData(Template.rename, {
+			id: event.currentTarget.id,
+			tablename: tablename,
+			isList: false
+		}, parentNode);
+		event.stopPropogation();
 	}
 });
 

@@ -6,10 +6,10 @@ Template.rename.onRendered(function() {
 
 Template.rename.helpers({
 	renamename: function() {
-		return Session.get("tablename");
+		return Template.instance().data.tablename;
 	},
 	renameid: function() {
-		return Session.get("id");
+		return Template.instance().data.id;
 	}
 })
 
@@ -18,17 +18,23 @@ Template.rename.events({
 	"click .renamesubmitbutton": function(event, template) {
 		// Checks whether the proper password was submitted
 		var newName = document.getElementById("namebox").value;
-		if(newName == Session.get("tablename")) {
+		if(newName == Template.instance().data.tablename) {
 			return false;
 		}
-		Meteor.call('rename', event.target.id, newName, Meteor.user().emails[0].address, 2, function (error, result) { 
-			if(result == 3) {
-				Cookie.set("tablename", newName);
-				window.location.reload();
-			} else if(result == 2) {
+		Meteor.call('rename', Template.instance().data.id, newName, Meteor.user().emails[0].address, function (error, result) { 
+			if(result == 2) {
 				showRenameError("Insufficient permissions.");
 			} else if (result == 1) {
 				showRenameError("Name is already taken.");
+			} else {
+				if(template.data.isList) {
+					Cookie.set("tablename", newName);
+					window.location.reload();
+				}
+				$(".formcontainer").fadeOut(400);
+				$("#darker").fadeOut(400, function() {
+					Blaze.remove(popoverTemplate);
+				});
 			}
 		});
 	},

@@ -612,7 +612,11 @@ Template.list.events({
 	},
 	"click #renamebutton": function(event, template) {
 		var parentNode = document.getElementById("banner");
-		popoverTemplate = Blaze.render(Template.rename, parentNode);
+		popoverTemplate = Blaze.renderWithData(Template.rename, {
+			id: Session.get("id"),
+			tablename: Session.get("tablename"),
+			isList: true
+		}, parentNode);
 	},
 	"click .adminquestionmodify": function(event, template) {
 		var parentNode = document.getElementById("banner");

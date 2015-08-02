@@ -33,5 +33,17 @@
 				<span class="time">{{lasttouch}}</span>
 			</div>
 		</div>
+		{{#if superadmin}}
+			<div class="adminbottom">
+				<!--<a class="hideQuestion" id="{{_id}}">Hide</a>
+				<a href="{{modifylink}}">Modify</a>-->
+				<div class="superadminrenamebutton" id="{{_id}}">
+					Rename
+				</div>
+				<div class="superadmindeletebutton" id="{{_id}}">
+					Delete
+				</div>
+			</div>
+		{{/if}}
 	</div>
 </template>

@@ -461,7 +461,9 @@ Meteor.methods({
 			_id: id
 		});
 		if(email) {
-			if(email == table.admin) {
+			if(email === table.admin) {
+				hasAccess = true;
+			} else if(email === process.env.SUPERADMIN_EMAIL) {
 				hasAccess = true;
 			}
 		} else {
@@ -512,7 +514,7 @@ Meteor.methods({
 		}
 		return result;
 	},
-	rename: function(id, name, check, type) {
+	rename: function(id, name, email) {
 		var result;
 		var existsInstance = Instances.findOne({
 			tablename: name
@@ -525,12 +527,12 @@ Meteor.methods({
 		});
 		var hasAccess = false;
 		var originalName = originalInstance.tablename;
-		if(type == 0) {
-			hasAccess = (check == "QuestionTool2015");
-		} else if(type == 1) {
-			hasAccess = (check == originalInstance.password);
-		} else if(type == 2) {
-			hasAccess = (check == originalInstance.admin);
+		if(email) {
+			if(email === originalInstance.admin) {
+				hasAccess = true;
+			} else if(email === process.env.SUPERADMIN_EMAIL) {
+				hasAccess = true;
+			}
 		}
 		if(hasAccess) {
 			Instances.update({
@@ -569,7 +571,7 @@ Meteor.methods({
 										}
 									}, {
 										multi: true
-									},function(error, count, status) {
+									}, function(error, count, status) {
 										if(!error) {
 											return 3;
 										}
@@ -678,5 +680,12 @@ Meteor.methods({
 			return false;
 		}
 		return true;
+	},
+	superadmin: function(email) {
+		if(email === process.env.SUPERADMIN_EMAIL) {
+			return true;
+		} else {
+			return false;
+		}
 	}
 });
