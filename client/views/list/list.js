@@ -471,7 +471,7 @@ Template.list.events({
 			}
 		} else {
 			if(!posterName || !posterEmail) {
-				showProposeError("The admin of this instance has disabled anonymous posting. Please enter your name and email address.");
+				showProposeError("Admin has disabled anonymous posting. Please enter your name and email address.");
 				return false;
 			}
 		}
@@ -584,12 +584,16 @@ Template.list.events({
 		Session.set("replyCount", total);
 	},
 	"click .facebookbutton": function(event, template) {
-		popupwindow("https://www.facebook.com/sharer/sharer.php?u=" + window.location.origin + "/list/" + encodeURIComponent(Session.get("tablename")), "Share Question Tool!", 600, 400);
+		popupwindow("https://www.facebook.com/sharer/sharer.php?u=" + encodeURIComponent(window.location.origin + "/list/" + Session.get("tablename")), "Share Question Tool!", 600, 400);
 	},
 	"click .twitterbutton": function(event, template) {
 		var questionDiv = event.target.parentElement.parentElement;
 		var questionText = questionDiv.getElementsByClassName("questiontext")[0].innerHTML.trim();
-		popupwindow("https://twitter.com/intent/tweet?text=" + encodeURIComponent(questionText), "Share Question Tool!", 600, 400);
+		if(questionText.length > 35) {
+			questionText = questionText.substring(0, 34);
+		}
+		var tweetText = 'Check out this question: "' + questionText + '..." on Question Tool by @berkmancenter ' + window.location.origin + "/list/" + Session.get("tablename");
+		popupwindow("https://twitter.com/intent/tweet?text=" + encodeURIComponent(tweetText), "Share Question Tool!", 600, 400);
 	},
 	"click #modbutton": function(event, template) {
 		var parentNode = document.getElementById("banner");
