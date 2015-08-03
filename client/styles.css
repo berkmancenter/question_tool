@@ -10,46 +10,119 @@ body {
 	padding:0px;
 }
 
-@media (max-width: 1300px) {
+@media (max-width: 1330px) {
+	#questionscontainer {
+		width:90%!important;
+	}
+}
+
+@media (max-width: 1200px) {
 	#tablename {
 		display:none!important;
 	}
-	.homesearchbar {
+	.homebanner #searchbar {
 		margin-left:10%!important;
+		width:30%!important;
 	}
 }
 
-@media (max-width: 1165px) {
-	#navProfile {
-    	display: none;
-	}
-	.listsearchbar {
-		margin-left:0px!important;
+@media (max-width: 990px) {
+	.homebanner #navProfile {
+		display:none!important;
 	}
 }
 
-@media (max-width: 955px) {
-	.listsearchbar {
-		width:95%!important;
-		display:block!important;
-		margin:0px auto!important;
-		height:32px;
-		padding-left:5%;
-		/*float:left;*/
+@media (max-width: 1075px) {
+	.instancecolumn {
+		width:48%!important;
 	}
-	#rightInfo {
-		float:right;
+	.lastinstancecolumn {
 		width:100%!important;
-		display:block!important;
-		margin:0px auto!important;
 	}
+	.subcolumn {
+		width:48%!important;
+	}
+	.lastcolumn {
+		width:100%!important;
+	}
+}
+
+@media (max-width: 945px) {
 	#banner {
-		height:130px!important;
-		padding-left:10%!important;
-		padding-right:10%!important;
+		height:60px!important;
+		padding-left:0px!important;
 	}
-	#navLogout {
+	#navLogin {
 		margin-right:0px!important;
+	}
+	.homebanner #navHome {
+		display:none!important;
+	}
+	.homebanner #searchbar {
+		width:76%!important;
+	}
+	#navbuttons {
+		float:left!important;
+	}
+	.homebanner #navProfile {
+		display:inline-block!important;
+	}
+	.loggedoutlistbanner #navProfile {
+		display:inline-block!important;
+	}
+	.homebanner #rightInfo {
+		display:none!important;
+	}
+}
+
+@media (max-width: 720px) {
+	.instancecolumn {
+		width:100%!important;
+	}
+	.subcolumn {
+		width:100%!important;
+	}
+}
+
+@media (max-width: 1105px) {
+	.loggedoutlistbanner #navRegister, .loggedoutlistbanner #navLogin {
+		display:none!important;
+	}
+}
+
+@media (max-width: 1186px) {
+	.loggedoutlistbanner #searchbar {
+		width:35%!important;
+	}
+	.loggedoutlistbanner #navProfile {
+		display:none!important;
+	}
+}
+
+@media (max-width: 625px) {
+	.homebanner #navProfile {
+		display:none!important;
+	}
+}
+
+@media (max-width: 630px) {
+	.loggedoutlistbanner #navbuttons {
+		display:none!important;
+	}
+	.loggedoutlistbanner #searchbar {
+		width:32%!important;
+	}
+}
+
+@media (max-width: 960px) {
+	.loggedinlistbanner #navProfile {
+		display:none!important;
+	}
+}
+
+@media (max-width: 800px) {
+	.loggedinlistbanner #navbuttons {
+		display:none!important;
 	}
 }
 
@@ -138,6 +211,11 @@ div#wrapper {
 }
 
 .instancecolumn {
+	float:left;
+	width:32%;
+}
+
+.lastinstancecolumn {
 	float:left;
 	width:32%;
 }

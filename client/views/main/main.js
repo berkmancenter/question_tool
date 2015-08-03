@@ -81,7 +81,7 @@ Template.home.helpers({
 				instances[i].description = instances[i].description.substring(0, 137) + "...";
 			}
 			if(instances[i].tablename.length > 15) {
-				instances[i].tablename = instances[i].tablename.substring(0, 14) + "...";
+				instances[i].tablename = instances[i].tablename.substring(0, 13) + "...";
 			}
 			if(!instances[i].author) {
 				instances[i].author = "Anonymous";
