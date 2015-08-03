@@ -1,11 +1,11 @@
 Template.add.onCreated(function () {
 	// Checks whether the user has a valid table cookie
-	Meteor.call('cookieCheck', Cookie.get("tablename"), function (error, result) {
+	Meteor.call('listCookieCheck', Session.get("tablename"), function (error, result) {
 		if(!result) {
 			// If not, return the user to the chooser page
 			window.location.href = "/";
 		} else {
-			Meteor.call('adminCheck', Meteor.user().emails[0].address, Cookie.get("tablename"), function (error, result) {
+			Meteor.call('adminCheck', Session.get("tablename"), function (error, result) {
 				if(!result) {
 					// If not, return the user to the chooser page
 					window.location.href = "/";
@@ -23,10 +23,10 @@ Template.add.onRendered(function() {
 
 Template.add.helpers({
 	// Sets the template tablename to the tablename Cookie
-	tablename: Cookie.get("tablename"),
+	tablename: Session.get("tablename"),
 	mods: function() {
 		var instance = Instances.findOne({
-			tablename: Cookie.get("tablename")
+			tablename: Session.get("tablename")
 		}, {
 			reactive: true
 		});
@@ -66,7 +66,7 @@ Template.add.events({
 	},
 	"click .removebutton": function(event, template) {
 		var mod = event.currentTarget.previousElementSibling.value;
-		Meteor.call('removeMods', mod, Cookie.get("tablename"), Meteor.user().emails[0].address);
+		Meteor.call('removeMods', mod, Session.get("tablename"));
 	},
 	// When the submit button is clicked...
 	"click #modsdonebutton": function(event, template) {
@@ -78,7 +78,7 @@ Template.add.events({
 				mods.push(modsInput[m].value);
 			}
 		}
-		Meteor.call('addMods', mods, Cookie.get("tablename"), Meteor.user().emails[0].address, function(error, result) {
+		Meteor.call('addMods', mods, Session.get("tablename"), function(error, result) {
 			// If the result is an object, there was an error
 			if(typeof result === 'object') {
 				// Alert the error

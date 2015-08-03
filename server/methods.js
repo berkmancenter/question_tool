@@ -1,12 +1,4 @@
 Meteor.methods({
-	// A method that checks whether the Question Tool admin password is correct
-	admin: function(email) {
-		if(email === "nrubin999@gmail.com") {
-			return true;
-		} else {
-			return false;
-		}
-	},
 	// A method that returns the current connection's IP address
 	getIP: function () {
 		return this.connection.clientAddress;
@@ -41,7 +33,12 @@ Meteor.methods({
 		}
 	},
 	// A method that checks whether the email matches the admin of the supplied tablename
-	adminCheck: function(user, tablename) {
+	adminCheck: function(tablename) {
+		if(Meteor.user()) {
+			var user = Meteor.user().emails[0].address;
+		} else {
+			return false;
+		}
 		var table = Instances.findOne({
 			tablename: tablename
 		});
@@ -162,27 +159,13 @@ Meteor.methods({
 			return tablename;
 		}
 	},
-	rearrange: function(arrangement, email) {
-		if(email === "nrubin999@gmail.com") {
-			for(var i = 0; i < arrangement.length; i++) {
-				Instances.update({
-					_id: arrangement[i]
-				}, {
-					$set: {
-						order: i
-					}
-				}, function(error, count, status) {
-					if(error) {
-						return false;
-					}
-				});
-			}
+	// Method that unhides every question in a given table
+	unhide: function(table) {
+		if(Meteor.user()) {
+			var email = Meteor.user().emails[0].address;
 		} else {
 			return false;
 		}
-	},
-	// Method that unhides every question in a given table
-	unhide: function(email, table) {
 		var instance = Instances.findOne({
 			tablename: table
 		});
@@ -203,7 +186,12 @@ Meteor.methods({
 			});
 		}
 	},
-	addMods: function(mods, table, email) {
+	addMods: function(mods, table) {
+		if(Meteor.user()) {
+			var email = Meteor.user().emails[0].address;
+		} else {
+			return false;
+		}
 		var keys;
 		var instance = Instances.findOne({
 			tablename: table
@@ -231,7 +219,12 @@ Meteor.methods({
 			return true;
 		}
 	},
-	removeMods: function(mod, table, email) {
+	removeMods: function(mod, table) {
+		if(Meteor.user()) {
+			var email = Meteor.user().emails[0].address;
+		} else {
+			return false;
+		}
 		var instance = Instances.findOne({
 			tablename: table
 		});
@@ -253,7 +246,12 @@ Meteor.methods({
 		return true;
 	},
 	// Method that modifies a question
-	modify: function(question, id, email, table) {
+	modify: function(question, id, table) {
+		if(Meteor.user()) {
+			var email = Meteor.user().emails[0].address;
+		} else {
+			return false;
+		}
 		// Checks whether the user has the proper admin privileges
 		var instance = Instances.findOne({
 			tablename: table
@@ -283,7 +281,12 @@ Meteor.methods({
 		return true;
 	},
 	// Method that combines two questions and answers
-	combine: function(question, id1, id2, email, table) {
+	combine: function(question, id1, id2, table) {
+		if(Meteor.user()) {
+			var email = Meteor.user().emails[0].address;
+		} else {
+			return false;
+		}
 		// Checks whether the user has proper admin privileges
 		var instance = Instances.findOne({
 			tablename: table
@@ -407,15 +410,20 @@ Meteor.methods({
 		return keys;
 	},
 	// Method that removes a table from the database
-	remove: function(password, table) {
+	remove: function(table) {
+		if(Meteor.user()) {
+			var email = Meteor.user().emails[0].address;
+		} else {
+			return false;
+		}
 		// Ensures that the user has proper admin privileges
 		var instance = Instances.findOne({
 			tablename: table
 		});
-		if((password != instance.password) || (!password || !instance.password)) {
+		// Removes all questions with the given tablename
+		if(email !== instance.admin) {
 			return false;
 		}
-		// Removes all questions with the given tablename
 		Questions.remove({
 			tablename: table
 		}, function(error) {
@@ -453,10 +461,15 @@ Meteor.methods({
 			}
 		});
 	},
-	adminRemove: function(password, id, email) {
+	adminRemove: function(id) {
 		// Ensures that the user has proper admin privileges
 		var result;
 		var hasAccess = false;
+		if(Meteor.user()) {
+			var email = Meteor.user().emails[0].address;
+		} else {
+			return false;
+		}
 		var table = Instances.findOne({
 			_id: id
 		});
@@ -464,10 +477,6 @@ Meteor.methods({
 			if(email === table.admin) {
 				hasAccess = true;
 			} else if(email === process.env.SUPERADMIN_EMAIL) {
-				hasAccess = true;
-			}
-		} else {
-			if(password === "QuestionTool2015") {
 				hasAccess = true;
 			}
 		}
@@ -514,7 +523,12 @@ Meteor.methods({
 		}
 		return result;
 	},
-	rename: function(id, name, email) {
+	rename: function(id, name) {
+		if(Meteor.user()) {
+			var email = Meteor.user().emails[0].address;
+		} else {
+			return false;
+		}
 		var result;
 		var existsInstance = Instances.findOne({
 			tablename: name
@@ -627,7 +641,12 @@ Meteor.methods({
 		return keys;
 	},
 	// Method that hides (sets state to disabled) a question with given ID
-	hide: function(email, id) {
+	hide: function(id) {
+		if(Meteor.user()) {
+			var email = Meteor.user().emails[0].address;
+		} else {
+			return false;
+		}
 		var question = Questions.findOne({
 			_id: id
 		});
@@ -681,7 +700,12 @@ Meteor.methods({
 		}
 		return true;
 	},
-	superadmin: function(email) {
+	superadmin: function() {
+		if(Meteor.user()) {
+			var email = Meteor.user().emails[0].address;
+		} else {
+			return false;
+		}
 		if(email === process.env.SUPERADMIN_EMAIL) {
 			return true;
 		} else {

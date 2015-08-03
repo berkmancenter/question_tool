@@ -21,15 +21,14 @@ Template.rename.events({
 		if(newName == Template.instance().data.tablename) {
 			return false;
 		}
-		Meteor.call('rename', Template.instance().data.id, newName, Meteor.user().emails[0].address, function (error, result) { 
+		Meteor.call('rename', Template.instance().data.id, newName, function (error, result) { 
 			if(result == 2) {
 				showRenameError("Insufficient permissions.");
 			} else if (result == 1) {
 				showRenameError("Name is already taken.");
 			} else {
 				if(template.data.isList) {
-					Cookie.set("tablename", newName);
-					window.location.reload();
+					window.location.href = "/list/" + newName;
 				}
 				$(".formcontainer").fadeOut(400);
 				$("#darker").fadeOut(400, function() {

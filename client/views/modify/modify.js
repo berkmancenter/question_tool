@@ -1,12 +1,12 @@
 Template.modify.onCreated(function () {
 	// Checks whether the user has a valid table cookie
-	Meteor.call('cookieCheck', Cookie.get("tablename"), function (error, result) {
+	Meteor.call('cookieCheck', Session.get("tablename"), function (error, result) {
 		if(!result) {
 			// If not, redirect back to the chooser page
 			window.location.href = "/";
 		} else {
 			// Checks whether the user has proper admin privileges
-			Meteor.call('adminCheck', Meteor.user().emails[0].address, Cookie.get("tablename"), function (error, result) {
+			Meteor.call('adminCheck', Session.get("tablename"), function (error, result) {
 				if(!result) {
 					// If not, redirects back to the list page
 					window.location.href = "/list";
@@ -43,7 +43,7 @@ Template.modify.events({
 			return false;
 		}
 		// Calls the server-side "modify" method to update the DBs
-		Meteor.call('modify', question, event.currentTarget.id, Meteor.user().emails[0].address, Cookie.get("tablename"), function (error, result) { 
+		Meteor.call('modify', question, event.currentTarget.id, Session.get("tablename"), function (error, result) { 
 			if(result) {
 				// If successful, redirect back to the list page
 				//window.location.href = "/list";

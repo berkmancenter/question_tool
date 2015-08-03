@@ -1,7 +1,7 @@
 Template.home.onCreated(function() {
 	Session.set("search", "");
-	if(Cookie.get("tablename")) {
-	Meteor.call('listCookieCheck', Cookie.get("tablename"), function(error, result) {
+	if(Session.get("tablename")) {
+	Meteor.call('listCookieCheck', Session.get("tablename"), function(error, result) {
 		if(result) {
 			Session.set("hasCookie", true);
 		} else {
@@ -19,7 +19,7 @@ Template.home.onRendered(function() {
 	document.getElementById("allowanoncheck").style.display = "block";
 	this.autorun(function() {
 		if(Meteor.user()) {
-			Meteor.call('superadmin', Meteor.user().emails[0].address, function(error, result) {
+			Meteor.call('superadmin', function(error, result) {
 				Session.set("superadmin", result);
 			});
 		}
@@ -110,7 +110,7 @@ Template.home.events({
 	"click .deletebutton": function(event, template) {
 		var check = confirm("Are you sure you would like to delete the instance?");
 		if(check) {
-			Meteor.call('adminRemove', false, event.currentTarget.id, Meteor.user().emails[0].address);
+			Meteor.call('adminRemove', event.currentTarget.id);
 		}
 	},
 	"click .renamebutton": function(event, template) {
@@ -125,7 +125,7 @@ Template.home.events({
 			var tableNode = event.currentTarget.parentNode.parentNode.children[0];
 			tableNode.children[0].style.display = "inline";
 			tableNode.children[1].className = "hiddeninput";
-			Meteor.call('rename', event.currentTarget.id, tableNode.children[1].value, Meteor.user().emails[0].address, 2, function(error, result) {
+			Meteor.call('rename', event.currentTarget.id, tableNode.children[1].value, function(error, result) {
 				event.currentTarget.children[0].innerHTML = "Rename";
 			});
 			event.currentTarget.children[0].id = "rename";
@@ -328,7 +328,7 @@ Template.home.events({
 	"click .superadmindeletebutton": function(event, template) {
 		var check = confirm("Are you sure you would like to delete the instance?");
 		if(check) {
-			Meteor.call('adminRemove', false, event.currentTarget.id, Meteor.user().emails[0].address, function(error, result) {
+			Meteor.call('adminRemove', event.currentTarget.id, function(error, result) {
 				if(error) {
 					alert(error);
 				}

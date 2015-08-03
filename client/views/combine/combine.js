@@ -1,12 +1,12 @@
 Template.combine.onCreated(function () {
 	// Checks whether the user has a valid table cookie
-	Meteor.call('cookieCheck', Cookie.get("tablename"), function (error, result) {
+	Meteor.call('cookieCheck', Session.get("tablename"), function (error, result) {
 		// If not, redirects back to the chooser page
 		if(!result) {
 			window.location.href = "/";
 		} else {
 			// Checks whether the current user has admin privileges
-			Meteor.call('adminCheck', Meteor.user().emails[0].address, Cookie.get("tablename"), function (error, result) {
+			Meteor.call('adminCheck', Session.get("tablename"), function (error, result) {
 				if(!result) {
 					// If not, redirects back to the list page
 					window.location.href = "/list";
@@ -44,7 +44,7 @@ Template.combine.events({
 		// Calls the combine function on the server to update the DBs
 		var id2 = Template.instance().data.second;
 		var id1 = Template.instance().data.first;
-		Meteor.call('combine', question, id1, id2, Meteor.user().emails[0].address, Cookie.get("tablename"), function (error, result) { 
+		Meteor.call('combine', question, id1, id2, Session.get("tablename"), function (error, result) { 
 			// If successful
 			if(!error) {
 				// Hides the second question (combined -> first)

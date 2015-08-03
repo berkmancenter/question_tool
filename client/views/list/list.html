@@ -76,7 +76,7 @@
 	{{#if admin}}
 		<div class="admincontainer">
 			<h2>Admin Interface</h2>
-			<p>Click and drag two questions together to combine.</p>
+			<p>Click and drag two questions together to .</p>
 			<!--<a id="unhidebutton">Unhide all questions</a> :: 
 			<a id="{{id}}" class="deletebutton">Delete this instance</a> ::
 			<a href="/add" class="modbutton">Add moderators</a> ::
@@ -98,7 +98,7 @@
 	{{#if moderator}}
 		<div class="admincontainer modcontainer">
 			<h2>Moderator Interface</h2>
-			<p>Click and drag two questions together to combine.</p>
+			<p>Click and drag two questions together to .</p>
 		</div>
 	{{/if}}
 	<div id="recent">
@@ -234,7 +234,10 @@
 							<!--<div class="votes v{{shade}}">
 								<a class="voteClick" id="{{_id}}" href="{{votelink}}">{{votes}}<br />votes</a>-->
 							<div id="votearea">
-								<a class="voteClick {{shade}}" id="{{_id}}" href="{{votelink}}">{{votes}}</a>
+								<a class="voteClick {{shade}}" href="{{votelink}}">{{votes}}</a>
+								<div class="voteright" id="{{_id}}">
+									Vote
+								</div>
 								{{#if popular}}
 									<div class="questionbadgecontainer">
 										<img src="/star.png" class="starimage">
@@ -354,7 +357,10 @@
 							<!--<div class="votes v{{shade}}">
 								<a class="voteClick" id="{{_id}}" href="{{votelink}}">{{votes}}<br />votes</a>-->
 							<div id="votearea">
-								<a class="voteClick {{shade}}" id="{{_id}}" href="{{votelink}}">{{votes}}</a>
+								<a class="voteClick {{shade}}" href="{{votelink}}">{{votes}}</a>
+								<div class="voteright" id="{{_id}}">
+									Vote
+								</div>
 								{{#if popular}}
 									<div class="questionbadgecontainer">
 										<img src="/star.png" class="starimage">

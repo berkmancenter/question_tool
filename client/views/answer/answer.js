@@ -1,6 +1,6 @@
 Template.answer.onCreated(function () {
 	// Checks whether the user has a valid cookie, if not redirects
-	Meteor.call('cookieCheck', Cookie.get("tablename"), function (error, result) {
+	Meteor.call('cookieCheck', Session.get("tablename"), function (error, result) {
 		// If not, redirects back to the chooser page
 		if(!result) {
 			window.location.href = "/";
@@ -39,7 +39,7 @@ Template.answer.events({
 					posterName = "Anonymous";
 				}
 				// Calls a server-side method to answer a question and update DBs
-				Meteor.call('answer', Cookie.get("tablename"), answer, posterName, email, result, currentURL, function (error, result) {
+				Meteor.call('answer', Session.get("tablename"), answer, posterName, email, result, currentURL, function (error, result) {
 					// If the result is an object, there was an error
 					if(typeof result === 'object') {
 						var errorString = "";

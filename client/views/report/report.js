@@ -27,7 +27,7 @@ Template.report.helpers({
 		var beginTime = mktime(0, 0, 0, Session.get("startMonth"), Session.get("startDay"), Session.get("startYear")) * 1000;
 		var endTime = mktime(23, 59, 59, Session.get("endMonth"), Session.get("endDay"), Session.get("endYear")) * 1000;
 		var questions = Questions.find({
-			tablename: Cookie.get("tablename"),
+			tablename: Session.get("tablename"),
 			timeorder: { 
 				'$gt' : beginTime, 
 				'$lt' : endTime 

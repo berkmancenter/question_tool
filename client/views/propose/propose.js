@@ -1,6 +1,6 @@
 Template.propose.onCreated(function () {
 	// Checks whether the user has a valid table cookie
-	Meteor.call('cookieCheck', Cookie.get("tablename"), function (error, result) {
+	Meteor.call('cookieCheck', Session.get("tablename"), function (error, result) {
 		if(!result) {
 			// If not, redirect back to the chooser page
 			window.location.href = "/";
@@ -70,7 +70,7 @@ Template.propose.events({
 				return false;
 			} else {
 				// Calls server-side "propose" method to add question to DB
-				Meteor.call('propose', Cookie.get("tablename"), question, posterName, posterEmail, result, function (error, result) {
+				Meteor.call('propose', Session.get("tablename"), question, posterName, posterEmail, result, function (error, result) {
 					// If returns an object, there was an error
 					if(typeof result === 'object') {
 						var errorString = "";

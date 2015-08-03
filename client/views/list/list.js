@@ -264,17 +264,17 @@ Template.list.events({
 	// When the admin hide button is clicked...
 	"click .adminquestionhide": function(event, template) {	
 		// Call the server-side hide method to hide the question
-		Meteor.call('hide', Meteor.user().emails[0].address, event.currentTarget.id);
+		Meteor.call('hide', event.currentTarget.id);
 	},
 	// When the admin unhide button is clicked...
 	"click #unhidebutton": function(event, template) {	
 		// Call the server-side unhide method to unhide all questions
-		Meteor.call('unhide', Meteor.user().emails[0].address, Session.get("tablename"));
+		Meteor.call('unhide', Session.get("tablename"));
 	},
 	"click .deletebutton": function(event, template) {
 		var check = confirm("Are you sure you would like to delete the instance?");
 		if(check) {
-			Meteor.call('adminRemove', false, event.currentTarget.id, Meteor.user().emails[0].address, function(error, result) {
+			Meteor.call('adminRemove', event.currentTarget.id, function(error, result) {
 				if(!error) {
 					Router.go('/');
 				}
@@ -697,7 +697,7 @@ function timeSince(date) {
 };
 
 function enableDragging() {
-	Meteor.call('adminCheck', Meteor.user().emails[0].address, Session.get("tablename"), function(error, result) {
+	Meteor.call('adminCheck', Session.get("tablename"), function(error, result) {
 		// If yes, enable draggable question divs
 		if(result) {
 			interact('.question')
