@@ -1243,6 +1243,41 @@ div#recent, div#popular {
 	margin-right:20px;
 }
 
+#navPresent {
+	width:8px;
+	height:24px;
+	background-color:#5d6a7b;
+	cursor:pointer;
+	float:right;
+	padding:3px 15px 5px 15px;
+	border-radius:5px;
+	margin-top:12px;
+	margin-right:20px;
+	background-image:url('/present.png');
+	background-size:18px 18px;
+	background-repeat:no-repeat;
+	background-position:10px 7px;
+}
+
+#navPresent:hover {
+	background-color:#737f8e;
+}
+
+#navUnPresent {
+	display:none;
+	width:auto;
+	height:22px;
+	background-color:#5d6a7b;
+	cursor:pointer;
+	float:right;
+	padding:6px 15px 5px 15px;
+	border-radius:5px;
+	margin-top:12px;
+	margin-right:20px;
+	color:white;
+	font-family:semibold;
+}
+
 #navShare, #navHome {
 	cursor:pointer;
 }

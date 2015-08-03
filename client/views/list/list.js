@@ -606,6 +606,20 @@ Template.list.events({
 	"click .adminquestionmodify": function(event, template) {
 		var parentNode = document.getElementById("banner");
 		popoverTemplate = Blaze.renderWithData(Template.modify, event.currentTarget.id, parentNode);
+	},
+	"click #navPresent": function(event, template) {
+		$("#banner").slideUp();
+		$(".instancetitle").slideUp();
+		$(".description").slideUp();
+		$("#footercontainer").slideUp();
+		$("#navUnPresent").fadeIn();
+	},
+	"click #navUnPresent": function(event, template) {
+		$("#banner").slideDown();
+		$(".instancetitle").slideDown();
+		$(".description").slideDown();
+		$("#footercontainer").slideDown();
+		$("#navUnPresent").fadeOut();
 	}
 });
 
