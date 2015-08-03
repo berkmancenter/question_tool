@@ -627,6 +627,7 @@ Template.list.events({
 		$(".description").slideUp();
 		$("#footercontainer").slideUp();
 		$("#navUnPresent").fadeIn();
+		$(".admincontainer").slideUp();
 	},
 	"click #navUnPresent": function(event, template) {
 		$("#banner").slideDown();
@@ -634,6 +635,7 @@ Template.list.events({
 		$(".description").slideDown();
 		$("#footercontainer").slideDown();
 		$("#navUnPresent").fadeOut();
+		$(".admincontainer").slideDown();
 	}
 });
 

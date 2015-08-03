@@ -48,7 +48,7 @@ Template.combine.events({
 			// If successful
 			if(!error) {
 				// Hides the second question (combined -> first)
-				Meteor.call('hide', Meteor.user().emails[0].address, id2, function (error, result) { 
+				Meteor.call('hide', id2, function (error, result) { 
 					if(!error) {
 						//If successful, fade the modal out
 						window.location.reload();
