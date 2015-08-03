@@ -285,6 +285,10 @@ div#wrapper {
 	font-size:16px;
 }
 
+.input:focus {
+	border:2px solid #7ec3f1!important;
+}
+
 #shareinput {
 	display:block;
 	width:80%;
