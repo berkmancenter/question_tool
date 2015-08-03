@@ -331,6 +331,18 @@ div#wrapper {
 	color:#666666;
 }
 
+.voteright {
+	position:absolute;
+	margin-left:20px;
+	margin-top:2px;
+	text-decoration:underline;
+	cursor:pointer;
+}
+
+.voteright:hover {
+	color:#999999!important;
+}
+
 .facebookbutton {
 	background-image:url('/facebook.png');
 	background-size:contain;
@@ -1177,13 +1189,13 @@ div#recent, div#popular {
 }
 
 .voteClick {
-	cursor:pointer;
 	color:white;
 	font-family:bold;
 	padding:2px 4px 2px 4px;
 	font-size:12px;
 	border-radius:3px;
 	text-decoration:none;
+	float:left;
 }
 
 /*.hideQuestion, #unhidebutton, #logoutbutton {

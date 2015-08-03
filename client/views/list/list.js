@@ -186,11 +186,11 @@ Template.list.helpers({
 					}
 				}
 				// If question is one of the first [threshhold] questions, it's "active"
-				if(questions[i].votes == 1) {
+				/*if(questions[i].votes == 1) {
 					questions[i].votes = "1 vote";
 				} else {
 					questions[i].votes = questions[i].votes + " votes"; 
-				}
+				}*/
 				if(i < Session.get("threshhold")) {
 					questions[i].popular = true;
 				} else {
@@ -237,7 +237,7 @@ Template.list.helpers({
 
 Template.list.events({
 	// When the vote button is clicked...
-	"click .voteClick": function(event, template) {
+	"click .voteright": function(event, template) {
 		// Retrieves the user's IP address from the server
 		Meteor.call('getIP', function (error, result) {
 			var ip = result;
