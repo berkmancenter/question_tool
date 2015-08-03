@@ -231,6 +231,10 @@ div#wrapper {
 	padding-top:5px;
 }
 
+#loginsubmitbutton:hover, #registersubmitbutton:hover, #shareclosebutton:hover, #modsdonebutton:hover, .combinesubmitbutton:hover, .renamesubmitbutton:hover, .modifysubmitbutton:hover {
+	background-color:#4cd785;
+}
+
 .modline {
 	width:100%;
 }
@@ -603,6 +607,21 @@ div#wrapper {
 	padding:2px;
 }
 
+#notfoundheader {
+	font-family:bold;
+	margin-top:180px;
+	text-align:center;
+}
+
+#notfoundmessage {
+	font-family:regular;
+	text-align:center;
+}
+
+#notfoundlink {
+	text-decoration:underline;
+}
+
 #banner {
 	color:white;
 	background:#293340;
@@ -696,7 +715,7 @@ div#wrapper {
 	padding-left:20px!important;
 	font-family:light;
 	font-size:14px;
-	display:block;         
+	display:block;     
 }
 
 #instancenameinput {
@@ -808,12 +827,6 @@ textarea:focus, input:focus{
 .dropdownlabel {
 	float:left;
 	clear:both;
-}
-
-#topinputcontainer {
-	height:50px;
-	display:block;
-	width:100%;
 }
 
 #topinputcontainer {
@@ -1397,12 +1410,20 @@ div#recent, div#popular {
 	margin-right:130px;
 }
 
+#navLogin:hover {
+	background-color:#f16f71;
+}
+
 #navAsk, #navCreate {
 	background-color:#27ae60;
 }
 
 #navRegister {
 	background-color:#5d6a7b;
+}
+
+#navRegister:hover {
+	background-color:#707e8f;
 }
 
 .favoritebutton {

@@ -416,8 +416,13 @@ Template.list.events({
 			if(event.target.id == "savebox") {
 				$("#bottominputcontainer").slideUp();
 			} else if(event.target.id == "anonbox") {
-				$("#questionnameinput").val(Meteor.user().profile.name);
-				$("#questionemailinput").val(Meteor.user().emails[0].address);
+				if(Meteor.user()) {
+					$("#questionnameinput").val(Meteor.user().profile.name);
+					$("#questionemailinput").val(Meteor.user().emails[0].address);
+				} else {
+					$("#questionnameinput").val("");
+					$("#questionemailinput").val("");
+				}
 			}
 		}
 	},
@@ -437,8 +442,13 @@ Template.list.events({
 			if(event.target.id == "savecheck") {
 				$("#bottominputcontainer").slideUp();
 			} else if(event.target.id == "anoncheck") {
-				$("#questionnameinput").val(Meteor.user().profile.name);
-				$("#questionemailinput").val(Meteor.user().emails[0].address);
+				if(Meteor.user()) {
+					$("#questionnameinput").val(Meteor.user().profile.name);
+					$("#questionemailinput").val(Meteor.user().emails[0].address);
+				} else {
+					$("#questionnameinput").val("");
+					$("#questionemailinput").val("");
+				}
 			}
 			checked.style.display = "none";
 		}
@@ -705,6 +715,7 @@ function enableDragging() {
 		// If yes, enable draggable question divs
 		if(result) {
 			interact('.question')
+			.ignoreFrom('textarea')
 			.draggable({
 				// Divs have inertia and continue moving when mouse is released
 				inertia: true,

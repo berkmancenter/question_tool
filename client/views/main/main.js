@@ -302,8 +302,7 @@ Template.home.events({
 				return false;
 			} else {
 				// Redirects to the newly-created table's list page
-				Cookie.set('tablename', result);
-				window.location.href = '/list';
+				Router.go("/list/" + result);
 			}
 		});
 	},
