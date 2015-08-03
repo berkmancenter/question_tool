@@ -144,9 +144,11 @@
 				</div>
 			{{/if}}
 			<div id="questionscontainer" class="todayinstances">
-				<div class="timesectioncontainer">
-					<div class="timesectionlabel">Used today:</div> 
-				</div>
+				{{#if hasToday}}
+					<div class="timesectioncontainer">
+						<div class="timesectionlabel">Used today:</div> 
+					</div>
+				{{/if}}
 				<div class="instancecolumn">
 					{{#each instanceList}}
 						{{#if isFavorite}}
@@ -185,9 +187,11 @@
 				</div>
 			</div>
 			<div id="questionscontainer" class="weekinstances">
-				<div class="timesectioncontainer">
-					<div class="timesectionlabel">Used this week:</div>
-				</div>
+				{{#if hasWeek}}
+					<div class="timesectioncontainer">
+						<div class="timesectionlabel">Used this week:</div>
+					</div>
+				{{/if}}
 				<div class="instancecolumn">
 					{{#each instanceList}}
 						{{#if isFavorite}}
@@ -226,9 +230,11 @@
 				</div>
 			</div>
 			<div id="questionscontainer" class="monthinstances">
-				<div class="timesectioncontainer">
-					<div class="timesectionlabel">Used this month:</div>
-				</div>
+				{{#if hasMonth}}
+					<div class="timesectioncontainer">
+						<div class="timesectionlabel">Used this month:</div>
+					</div>
+				{{/if}}
 				<div class="instancecolumn">
 					{{#each instanceList}}
 						{{#if isFavorite}}

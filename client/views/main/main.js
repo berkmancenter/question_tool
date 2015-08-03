@@ -38,6 +38,40 @@ Template.home.helpers({
 	hasCookie: function() {
 		return Session.get("hasCookie");
 	},
+	hasToday: function() {
+		var instances = Template.instance().data;
+		var greatest = 0;
+		for(var i = 0; i < instances.length; i++) {
+			if(instances[i].lasttouch > greatest) {
+				greatest = instances[i].lasttouch;
+			}
+		}
+		var ht = (greatest > (new Date().getTime() - 86400000));
+		return ht;
+	},
+	hasWeek: function() {
+		var instances = Template.instance().data;
+		var hw;
+		for(var i = 0; i < instances.length; i++) {
+			if(instances[i].lasttouch > (new Date().getTime() - 604800000)) {
+				if(instances[i].lasttouch < (new Date().getTime() - 86400000)) { 
+					return true;
+				}
+			}
+		}
+		return false;
+	},
+	hasMonth: function() {
+		var instances = Template.instance().data;
+		var oldest = new Date().getTime();
+		for(var i = 0; i < instances.length; i++) {
+			if(instances[i].lasttouch < oldest) {
+				oldest = instances[i].lasttouch;
+			}
+		}
+		var hm = (oldest > (new Date().getTime() - 2678400000)) && (oldest < (new Date().getTime() - 604800000));
+		return hm;
+	},
 	instanceList: function() {
 		var re = new RegExp(Session.get("search"), "i");
 		if(Session.get("search") == "all") {
