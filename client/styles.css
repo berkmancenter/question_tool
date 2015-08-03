@@ -421,6 +421,10 @@ div#wrapper {
 	margin-right:5px;
 }
 
+.replybutton:hover {
+	background-color:#e3e3e3;
+}
+
 .modaltopmessage {
 	color:#777777;
 	font-family:light;
@@ -1389,7 +1393,7 @@ div#recent, div#popular {
 	background-color:#43c177;
 }
 
-.question:hover .adminquestionhide, .question:hover .adminquestionmodify {
+.question:hover .adminquestionhide, .question:hover .adminquestionmodify, .instance:hover .superadminrenamebutton, .instance:hover .superadmindeletebutton {
 	border:2px solid #999999;
 	color:#999999;
 }
@@ -1412,6 +1416,10 @@ div#recent, div#popular {
 	border-radius:5px;
 	cursor:pointer;
 	z-index:999;
+}
+
+.superadminrenamebutton:hover, .superadmindeletebutton:hover, .adminquestionhide:hover, .adminquestionmodify:hover {
+	background-color:#e3e3e3;
 }
 
 .adminquestionmodify, .superadmindeletebutton {
