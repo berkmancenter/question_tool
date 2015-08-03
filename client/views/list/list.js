@@ -4,11 +4,11 @@ Meteor.setInterval( function () {
 }, 1000);
 
 Template.list.onCreated(function () {
-	if(Template.instance().data) {
-		Cookie.set("tablename", Template.instance().data, {
-			path: '/'
-		});
-	}
+	Meteor.call('listCookieCheck', Template.instance().data.tablename, function (error, result) {
+		if(!result) {
+			window.location.href = "/";
+		}
+	});
 	Session.set("responseName", "");
 	Session.set("responseEmail", "");
 	Session.set("timeval", new Date().getTime());
@@ -16,43 +16,29 @@ Template.list.onCreated(function () {
 	Session.set("replyCount", 0);
 	Session.set("questionLimit", 250);
 	Session.set("search", "all");
-	// Checks whether the user has a valid table cookie
-	Meteor.call('listCookieCheck', Cookie.get("tablename"), function (error, result) {
-		if(!result) {
-			// If not, redirect back to the chooser page
-			window.location.href = "/";
+	Session.set("tablename", Template.instance().data.tablename);
+	Session.set("id", Template.instance().data._id);
+	Session.set("description",  Template.instance().data.description);
+	if(typeof  Template.instance().data.anonymous !== 'undefined') {
+		Session.set("anonymous",  Template.instance().data.anonymous);
+	} else {
+		Session.set("anonymous", true);
+	}
+	Session.set("questionLength",  Template.instance().data.max_question);
+	Session.set("responseLength",  Template.instance().data.max_response);
+	Session.set("threshhold",  Template.instance().data.threshhold);
+	Session.set("mod", false);
+	if(Meteor.user()) {
+		if( Template.instance().data.admin == Meteor.user().emails[0].address) {
+			Session.set("admin", true);
+			enableDragging();
+		} else if( Template.instance().data.moderators.indexOf(Meteor.user().emails[0].address) > -1) {
+			Session.set("mod", true);
+			enableDragging();
 		}
-	});
-	// Calls server-side method to retrieve the current table
-	Meteor.call('getTable', Cookie.get("tablename"), function(error, result) {
-		// If successful, store table data in Session variables
-		//console.log(result);
-		if(result) {
-			Session.set("id", result._id);
-			Session.set("tablename", result.tablename);
-			Session.set("description", result.description);
-			if(typeof result.anonymous !== 'undefined') {
-				Session.set("anonymous", result.anonymous);
-			} else {
-				Session.set("anonymous", true);
-			}
-			Session.set("questionLength", result.max_question);
-			Session.set("responseLength", result.max_response);
-			Session.set("threshhold", result.threshhold);
-			Session.set("mod", false);
-			if(Meteor.user()) {
-				if(result.admin == Meteor.user().emails[0].address) {
-					Session.set("admin", true);
-					enableDragging();
-				} else if(result.moderators.indexOf(Meteor.user().emails[0].address) > -1) {
-					Session.set("mod", true);
-					enableDragging();
-				}
-			}
-			Session.set("stale_length", result.stale_length);
-			Session.set("new_length", result.new_length);
-		}
-	});
+	}
+	Session.set("stale_length",  Template.instance().data.stale_length);
+	Session.set("new_length",  Template.instance().data.new_length);
 });
 
 Template.list.onRendered(function() {
@@ -89,7 +75,6 @@ Template.list.helpers({
 			var questions = Questions.find({
 				tablename: Session.get("tablename")
 			}).fetch();
-			//console.log(questions);
 		} else {
 			var re = new RegExp(Session.get("search"), "i");
 			var questions = Questions.find({

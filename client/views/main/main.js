@@ -38,26 +38,10 @@ Template.home.helpers({
 	hasCookie: function() {
 		return Session.get("hasCookie");
 	},
-	instances: function() {
-		var instances = Instances.find({
-			admin: Meteor.user().emails[0].address
-		}).fetch();
-		for(var i = 0; i < instances.length; i++) {
-			instances[i].userAdmin = true;
-		}
-		var moderators = Instances.find({
-			moderators: Meteor.user().emails[0].address
-		}).fetch();
-		for(var m = 0; m < moderators.length; m++) {
-			moderators[m].userModerator = true;
-		}
-		var final = instances.concat(moderators);
-		return final;
-	},
 	instanceList: function() {
 		var re = new RegExp(Session.get("search"), "i");
 		if(Session.get("search") == "all") {
-			var instances = Instances.find().fetch();
+			var instances = Template.instance().data;
 		} else {
 			var instances = Instances.find({
 				"$or": [{
@@ -95,6 +79,9 @@ Template.home.helpers({
 			}
 			if(instances[i].description.length > 140) {
 				instances[i].description = instances[i].description.substring(0, 137) + "...";
+			}
+			if(instances[i].tablename.length > 15) {
+				instances[i].tablename = instances[i].tablename.substring(0, 14) + "...";
 			}
 			if(!instances[i].author) {
 				instances[i].author = "Anonymous";
@@ -153,9 +140,9 @@ Template.home.events({
 		});
 		//var instances = document.getElementsByTagName("select")[0];
 		//var selectedInstance = instances.options[instances.selectedIndex].text;
-		Cookie.set('tablename', theInstance.tablename);
+		//Cookie.set('tablename', theInstance.tablename);
 		// Redirects to the list
-		window.location.href = "/list";
+		window.location.href = "/list/" + theInstance.tablename;
 		//Router.go('/list');
 	},
 	"keyup #searchbar": function(event, template) {

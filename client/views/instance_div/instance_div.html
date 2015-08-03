@@ -1,25 +1,24 @@
 <template name="instance_div">
 	<div id="{{_id}}" class="instance {{#if isFavorite}}favoriteInstance{{/if}}">
-		{{#if isAdmin}}
-			<div class="instancebadgecontainer">
-				<img src="/admin.png" class="adminimage">
-				<p class="populartext">Admin</p>
-			</div>
-		{{else}}
-			{{#if isMod}}
+		{{#if currentUser}}
+			{{#if isAdmin}}
 				<div class="instancebadgecontainer">
-					<img src="/mod.png" class="modimage">
-					<p class="populartext">Mod</p>
+					<img src="/admin.png" class="adminimage">
+					<p class="populartext">Admin</p>
 				</div>
+			{{else}}
+				{{#if isMod}}
+					<div class="instancebadgecontainer">
+						<img src="/mod.png" class="modimage">
+						<p class="populartext">Mod</p>
+					</div>
+				{{/if}}
 			{{/if}}
+			<div class="favoritebutton {{#if isFavorite}}buttonFavorite{{/if}}" id="{{_id}}"></div>
 		{{/if}}
 		<p class="instancename">
 			{{tablename}}
 		</p>
-		{{#if currentUser}}
-			<div class="favoritebutton {{#if isFavorite}}buttonFavorite{{/if}}" id="{{_id}}">
-			</div>
-		{{/if}}
 		<div class="answercontainer">
 			<span class="instancedescription">
 				{{description}}
