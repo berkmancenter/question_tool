@@ -219,9 +219,6 @@ Template.list.helpers({
 	count: function() {
 		return Session.get("questionCount");
 	},
-	replyCount: function() {
-		return Session.get("replyCount");
-	},
 	questionLength: function() {
 		if(Session.get("questionLength")) {
 			return Session.get("questionLength");

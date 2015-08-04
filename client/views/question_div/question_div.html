@@ -1,0 +1,144 @@
+<template name="question_div">
+	<div id="{{_id}}" class="question {{#if popular}}popularquestion{{else}}{{age_marker}}{{/if}}">
+		<!--<div class="votes v{{shade}}">
+			<a class="voteClick" id="{{_id}}" href="{{votelink}}">{{votes}}<br />votes</a>-->
+		<div id="votearea">
+			<a class="voteClick {{shade}}" href="{{votelink}}">{{votes}}</a>
+			<div class="voteright" id="{{_id}}">
+				Vote
+			</div>
+			{{#if popular}}
+				<div class="questionbadgecontainer">
+					<img src="/star.png" class="starimage">
+					<p class="populartext">Popular</p>
+				</div>
+			{{else}}
+				{{#if stale}}
+					<div class="questionbadgecontainer">
+						<img src="/stalequestion.png" class="starimage">
+						<p class="stalequestiontext">Stale</p>
+					</div>
+				{{/if}}
+			{{/if}}
+			{{#if new}}
+				<div class="questionbadgecontainer">
+					<img src="/newquestion.png" class="starimage">
+					<p class="newquestiontext">New</p>
+				</div>
+			{{/if}}
+			<br />
+			<div class="facebookbutton">
+			</div>
+			<div class="twitterbutton">
+			</div>
+		</div>
+		<p class="questiontext">
+			{{{text}}}
+		</p>
+		{{#each answer}}
+			{{#if isHidden}}
+			{{else}}
+				<div class="answercontainer">
+					{{#if poster}}
+						{{#if email}}
+							<a href="mailto:{{email}}" class="answerposter">{{poster}}:</a> 
+						{{else}}
+							<span class="answerposter">{{poster}}: </span>
+						{{/if}}
+					{{/if}}
+					<span class="answertext">
+						{{{text}}}
+					</span>
+				</div>
+			{{/if}}
+		{{/each}}
+		{{#if hasHidden}}
+			<div class="hiddenanswers">
+				{{#each answer}}
+					{{#if isHidden}}
+						<div class="answercontainer">
+							{{#if poster}}
+								{{#if email}}
+									<a href="mailto:{{email}}" class="answerposter">{{poster}}:</a> 
+								{{else}}
+									<span class="answerposter">{{poster}}:</span>
+								{{/if}}
+							{{/if}}
+							<span class="answertext">
+								{{{text}}}
+							</span>
+						</div>
+					{{/if}}
+				{{/each}}
+			</div>
+			<p class="hiddenMessage" id="{{numberHidden}}">Show {{numberHidden}} more {{replyText}}...</p>
+			<p class="hiddenMessageHide" id="{{numberHidden}}">Hide {{replyText}}...</p>
+		{{/if}}
+		<div class="quesitonbottom">
+			<div class="bottomleft">
+				{{#if poster}}
+					{{#if email}}
+						<a href="mailto:{{email}}">
+							<p class="postername">
+								{{poster}}
+							</p>
+						</a> 
+					{{else}}
+						<p class="postername">
+							{{poster}}
+						</p>
+					{{/if}}
+				{{/if}}
+				<span class="time">{{f_time}}</span>
+			</div>
+			<div class="bottomright">
+				<!--<a href="{{answerlink}}">-->
+					<div class="replybutton" id="reply{{_id}}">
+						Reply
+					</div>
+				<!--</a>-->
+			</div>
+		</div>
+		<div class="replybottom" id="down{{_id}}">
+			<textarea id="text{{_id}}" class="replyarea" placeholder="Type a response..." maxlength="{{responseLength}}"></textarea>
+			<div class="replyfields">
+				{{#if currentUser}}
+					<input type="text" class="replyname" id="name{{_id}}" value="{{currentUser.profile.name}}" readonly>
+					<input type="text" class="replyemail" id="email{{_id}}" value="{{currentUser.emails.[0].address}}" readonly>
+				{{else}}
+					<input type="text" class="replyname" id="name{{_id}}" value="{{responseName}}" placeholder="Name...">
+					<input type="text" class="replyemail" id="email{{_id}}" value="{{responseEmail}}" placeholder="Email...">
+				{{/if}}
+			</div>
+			<div class="replybottomcheck">
+				<div class="checkarealeft" style="{{#if anonymous}}{{else}}visibility:hidden!important{{/if}}">
+					<div class="checkbox" id="replyanonbox" style="{{#if anonymous}}{{else}}visibility:hidden!important{{/if}}">
+						<div class="checked anonchecked" id="{{_id}}">
+						</div>
+					</div>
+				</div>
+				<div class="checkarearight" style="{{#if anonymous}}{{else}}visibility:hidden!important{{/if}}">
+					<p class="replychecklabel">Anonymous?</p>
+				</div>
+			</div>
+			<div class="replycounter">
+				<span id="darkcounter">{{replyCount}}</span>/{{responseLength}}
+			</div>
+			<div class="replybottombutton" id="{{_id}}">
+				Reply
+			</div>
+		</div>
+		{{#if adminButtons}}
+			<div class="adminbottom">
+				<!--<a class="hideQuestion" id="{{_id}}">Hide</a>
+				<a href="{{modifylink}}">Modify</a>-->
+				<div class="adminquestionhide" id="{{_id}}">
+					Hide
+				</div>
+				<div class="adminquestionmodify" id="{{_id}}">
+					Modify
+				</div>
+			</div>
+		{{/if}}
+	</div>
+</template>
