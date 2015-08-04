@@ -1,5 +1,5 @@
 Template.footer.events({
-	"click #footercredits": function(event, template) {
+	"click #creditsbutton": function(event, template) {
 		var parentNode = document.getElementById("banner");
 		popoverTemplate = Blaze.render(Template.credits, parentNode);
 	},

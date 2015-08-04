@@ -1847,3 +1847,7 @@ div#recent, div#popular {
 	font-family:regular;
 	font-size:16px;
 }
+
+#footercredits a {
+	color:white!important;
+}
