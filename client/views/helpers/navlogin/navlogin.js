@@ -17,8 +17,8 @@ Template.userInfo.events({
 		popoverTemplate = Blaze.render(Template.register, parentNode);
 	},
 	"click #navHome": function(event, template) {
-		document.getElementById("searchbar").value = "";
-		Session.set("search", "all");
+	 	document.getElementById("searchbar").value = "";
+		Session.set("search", "");
 		Router.go("/");
 	},
 	"click #darker": function(event, template) {
