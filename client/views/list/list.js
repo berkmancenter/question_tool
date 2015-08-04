@@ -537,7 +537,7 @@ Template.list.events({
 						// Store an object of the error names and codes
 						var errorCodes = {
 							"tablename": "Table name is invalid. Please return to the list and try again.",
-							"text": "Please enter a valid question using less than 500 characters.",
+							"text": "Please enter a valid question between 10 and " + Session.get("questionLength") + " characters.",
 							"poster": "Please enter a valid name using less than 30 characters.",
 							"ip": "There was an error with your IP address. Please try again.",
 							"timeorder": "There was an error retrieving the current time. Please try again.",
