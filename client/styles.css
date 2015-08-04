@@ -317,6 +317,29 @@ div#wrapper {
 	width:100%;
 }
 
+.hiddenanswers {
+	display:none;
+}
+
+.hiddenMessage {
+	font-family:semibold!important;
+	text-decoration:underline!important;
+	color:#999999!important;
+	font-size:13px;
+	cursor:pointer;
+	margin-left:7px;
+}
+
+.hiddenMessageHide {
+	display:none;
+	font-family:semibold!important;
+	text-decoration:underline!important;
+	color:#999999!important;
+	font-size:13px;
+	cursor:pointer;
+	margin-left:7px;
+}
+
 .modbox {
 	width:80%;
 	padding-left:2%;

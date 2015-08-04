@@ -144,19 +144,44 @@
 								{{{text}}}
 							</p>
 							{{#each answer}}
-								<div class="answercontainer">
-									{{#if poster}}
-										{{#if email}}
-											<a href="mailto:{{email}}" class="answerposter">{{poster}}:</a> 
-										{{else}}
-											<span class="answerposter">{{poster}}: </span>
+								{{#if isHidden}}
+								{{else}}
+									<div class="answercontainer">
+										{{#if poster}}
+											{{#if email}}
+												<a href="mailto:{{email}}" class="answerposter">{{poster}}:</a> 
+											{{else}}
+												<span class="answerposter">{{poster}}: </span>
+											{{/if}}
 										{{/if}}
-									{{/if}}
-									<span class="answertext">
-										{{{text}}}
-									</span>
-								</div>
+										<span class="answertext">
+											{{{text}}}
+										</span>
+									</div>
+								{{/if}}
 							{{/each}}
+							{{#if hasHidden}}
+								<div class="hiddenanswers">
+									{{#each answer}}
+										{{#if isHidden}}
+											<div class="answercontainer">
+												{{#if poster}}
+													{{#if email}}
+														<a href="mailto:{{email}}" class="answerposter">{{poster}}:</a> 
+													{{else}}
+														<span class="answerposter">{{poster}}:</span>
+													{{/if}}
+												{{/if}}
+												<span class="answertext">
+													{{{text}}}
+												</span>
+											</div>
+										{{/if}}
+									{{/each}}
+								</div>
+								<p class="hiddenMessage" id="{{numberHidden}}">Show {{numberHidden}} more {{replyText}}...</p>
+								<p class="hiddenMessageHide" id="{{numberHidden}}">Hide {{replyText}}...</p>
+							{{/if}}
 							<div class="quesitonbottom">
 								<div class="bottomleft">
 									{{#if poster}}
@@ -267,19 +292,44 @@
 								{{{text}}}
 							</p>
 							{{#each answer}}
-								<div class="answercontainer">
-									{{#if poster}}
-										{{#if email}}
-											<a href="mailto:{{email}}" class="answerposter">{{poster}}:</a> 
-										{{else}}
-											<span class="answerposter">{{poster}}: </span>
+								{{#if isHidden}}
+								{{else}}
+									<div class="answercontainer">
+										{{#if poster}}
+											{{#if email}}
+												<a href="mailto:{{email}}" class="answerposter">{{poster}}:</a> 
+											{{else}}
+												<span class="answerposter">{{poster}}: </span>
+											{{/if}}
 										{{/if}}
-									{{/if}}
-									<span class="answertext">
-										{{{text}}}
-									</span>
-								</div>
+										<span class="answertext">
+											{{{text}}}
+										</span>
+									</div>
+								{{/if}}
 							{{/each}}
+							{{#if hasHidden}}
+								<div class="hiddenanswers">
+									{{#each answer}}
+										{{#if isHidden}}
+											<div class="answercontainer">
+												{{#if poster}}
+													{{#if email}}
+														<a href="mailto:{{email}}" class="answerposter">{{poster}}:</a> 
+													{{else}}
+														<span class="answerposter">{{poster}}:</span>
+													{{/if}}
+												{{/if}}
+												<span class="answertext">
+													{{{text}}}
+												</span>
+											</div>
+										{{/if}}
+									{{/each}}
+								</div>
+								<p class="hiddenMessage" id="{{numberHidden}}">Show {{numberHidden}} more {{replyText}}...</p>
+								<p class="hiddenMessageHide" id="{{numberHidden}}">Hide {{replyText}}...</p>
+							{{/if}}
 							<div class="quesitonbottom">
 								<div class="bottomleft">
 									{{#if poster}}
@@ -390,19 +440,44 @@
 								{{{text}}}
 							</p>
 							{{#each answer}}
-								<div class="answercontainer">
-									{{#if poster}}
-										{{#if email}}
-											<a href="mailto:{{email}}" class="answerposter">{{poster}}:</a>
-										{{else}}
-											<span class="answerposter">{{poster}}: </span>
+								{{#if isHidden}}
+								{{else}}
+									<div class="answercontainer">
+										{{#if poster}}
+											{{#if email}}
+												<a href="mailto:{{email}}" class="answerposter">{{poster}}:</a> 
+											{{else}}
+												<span class="answerposter">{{poster}}: </span>
+											{{/if}}
 										{{/if}}
-									{{/if}}
-									<span class="answertext">
-										{{{text}}}
-									</span>
-								</div>
+										<span class="answertext">
+											{{{text}}}
+										</span>
+									</div>
+								{{/if}}
 							{{/each}}
+							{{#if hasHidden}}
+								<div class="hiddenanswers">
+									{{#each answer}}
+										{{#if isHidden}}
+											<div class="answercontainer">
+												{{#if poster}}
+													{{#if email}}
+														<a href="mailto:{{email}}" class="answerposter">{{poster}}:</a> 
+													{{else}}
+														<span class="answerposter">{{poster}}:</span>
+													{{/if}}
+												{{/if}}
+												<span class="answertext">
+													{{{text}}}
+												</span>
+											</div>
+										{{/if}}
+									{{/each}}
+								</div>
+								<p class="hiddenMessage" id="{{numberHidden}}">Show {{numberHidden}} more {{replyText}}...</p>
+								<p class="hiddenMessageHide" id="{{numberHidden}}">Hide {{replyText}}...</p>
+							{{/if}}
 							<div class="quesitonbottom">
 								<div class="bottomleft">
 									{{#if poster}}

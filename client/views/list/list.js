@@ -164,8 +164,20 @@ Template.list.helpers({
 					qid: questions[i]._id
 				});
 				if(answers.fetch().length > 0) {
+					if(answers.fetch().length > 3) {
+						questions[i].hasHidden = true;
+						questions[i].numberHidden = answers.fetch().length - 3;
+						if(answers.fetch().length == 4) {
+							questions[i].replyText = "reply";
+						} else {
+							questions[i].replyText = "replies";
+						}
+					}
 					questions[i].answer = answers.fetch();
 					for(var a = 0; a < questions[i].answer.length; a++) {
+						if(a > 2) {
+							questions[i].answer[a].isHidden = true;
+						}
 						var urlRegex = /(https?:\/\/(?:www\.|(?!www))[^\s\.]+\.[^\s]{2,}|www\.[^\s]+\.[^\s]{2,})/g;
 						questions[i].answer[a].text = questions[i].answer[a].text.replace(urlRegex, function(url) {
 							if(url.charAt(url.length-1) == ")") {
@@ -636,6 +648,31 @@ Template.list.events({
 		$("#footercontainer").slideDown();
 		$("#navUnPresent").fadeOut();
 		$(".admincontainer").slideDown();
+	},
+	"click .hiddenMessage": function(event, template) {
+		$(event.currentTarget).prev().slideDown();
+		event.currentTarget.style.display = "none";
+		$(event.currentTarget).next().css("display", "block");
+		/*var replyText = "replies";
+		if(event.target.id == 1) {
+			replyText = "reply";
+		}
+		$(event.currentTarget).html("Hide " + replyText + "...");
+		$(event.currentTarget).attr('class', 'hiddenMessageHide');
+		Tracker.flush();*/
+	},
+	"click .hiddenMessageHide": function(event, template) {
+		$(event.currentTarget).prev().prev().slideUp();
+		event.currentTarget.style.display = "none";
+		$(event.currentTarget).prev().css("display", "block");
+		/*var numberHidden = event.currentTarget.id;
+		var replyText = "replies";
+		if(numberHidden == 1) {
+			replyText = "reply";
+		}
+		$(event.currentTarget).html("Show " + numberHidden + " {{numberHidden}} more " + replyText + "...");
+		$(event.currentTarget).attr('class', 'hiddenMessage');
+		Tracker.flush();*/
 	}
 });
 
