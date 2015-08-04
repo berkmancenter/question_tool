@@ -70,6 +70,7 @@ Template.combine.events({
 		$("#darker").fadeOut(400, function() {
 			Blaze.remove(popoverTemplate);
 		});
+		window.location.reload();
 	},
 	"click .closecontainer": function(event, template) {
 		window.location.reload();
