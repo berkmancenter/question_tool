@@ -379,6 +379,7 @@ Template.list.events({
 							Blaze.remove(replyError);
 						}
 						document.getElementById("reply" + theID).innerHTML = "Reply";
+						document.getElementById("text" + theID).value = "";
 						$("#down" + theID).slideUp();
 					}
 				});

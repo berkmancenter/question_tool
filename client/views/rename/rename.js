@@ -30,10 +30,6 @@ Template.rename.events({
 				if(template.data.isList) {
 					window.location.href = "/list/" + newName;
 				}
-				$(".formcontainer").fadeOut(400);
-				$("#darker").fadeOut(400, function() {
-					Blaze.remove(popoverTemplate);
-				});
 			}
 		});
 	},
