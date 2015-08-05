@@ -323,7 +323,7 @@ Template.home.events({
 			if(typeof result === 'object') {
 				// Store an object of the error names and codes
 				var errorCodes = {
-					"tablename": "Please enter a valid table name using only letters and numbers.",
+					"tablename": "Please enter a valid instance name using only letters and numbers, no spaces.",
 					"threshhold": "Please enter a valid # of 'featured' questions using the drop down menu.",
 					"new_length": "Please enter a valid value using the 'new questions' drop down menu.",
 					"stale_length": "Please enter a valid value using the 'old questions' drop down menu.",

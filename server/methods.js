@@ -77,7 +77,7 @@ Meteor.methods({
 						_id: currentURL
 					}, {
 						$set: {
-							lasttouch: new Date().getTime()
+							lasttouch: new Date().getTime() - 1000
 						}
 					}, function(error, count, status) {
 						if(error) {
@@ -87,7 +87,7 @@ Meteor.methods({
 								tablename: tablename
 							}, {
 								$set: {
-									lasttouch: new Date().getTime()
+									lasttouch: new Date().getTime() - 1000
 								}
 							}, function(error, count, status) {
 								if(error) {
@@ -122,7 +122,7 @@ Meteor.methods({
 			description: description,
 			moderators: mods,
 			/*password: passwordConfirm,*/
-			lasttouch: new Date().getTime(),
+			lasttouch: new Date().getTime() - 1000,
 			admin: admin,
 			max_question: maxQuestion,
 			max_response: maxResponse,
@@ -137,10 +137,10 @@ Meteor.methods({
 				// If successful, add the "starter" question to the questions database
 				Questions.insert({
 					tablename: tablename,
-					text: "Welcome to the live question tool. Feel free to post questions. Vote by clicking on the votes box.",
+					text: "Welcome to the live question tool. Feel free to post questions. Vote by clicking on the 'vote' button. To reply, press the button in the bottom-right.",
 					poster: "the system",
-					timeorder: new Date().getTime(),
-					lasttouch: new Date().getTime(),
+					timeorder: new Date().getTime() - 1000,
+					lasttouch: new Date().getTime() - 1000,
 					state: "normal",
 					votes: 0,
 				}, function(error, id) {
@@ -270,7 +270,7 @@ Meteor.methods({
 			_id: id
 		}, {
 			$set: {
-				lasttouch: new Date().getTime(),
+				lasttouch: new Date().getTime() - 1000,
 				text: question
 			}
 		}, function(error, count, status) {
@@ -306,7 +306,7 @@ Meteor.methods({
 			_id: id1
 		}, {
 			$set: {
-				lasttouch: new Date().getTime(),
+				lasttouch: new Date().getTime() - 1000,
 				text: question
 			}, 
 			$inc: {
@@ -351,8 +351,8 @@ Meteor.methods({
 				poster: posterName,
 				email: posterEmail,
 				ip: ip,
-				timeorder: new Date().getTime(),
-				lasttouch: new Date().getTime(),
+				timeorder: new Date().getTime() - 1000,
+				lasttouch: new Date().getTime() - 1000,
 				state: "normal",
 				votes: 0
 			}, function(error, id) {
@@ -364,7 +364,7 @@ Meteor.methods({
 						_id: table._id
 					}, {
 						$set: {
-							lasttouch: new Date().getTime()
+							lasttouch: new Date().getTime() - 1000
 						}
 					}, function(error, count, status) {
 						if(error) {
@@ -614,7 +614,7 @@ Meteor.methods({
 				_id: id
 			}, {
 				$set: {
-					lasttouch: new Date().getTime()
+					lasttouch: new Date().getTime() - 1000
 				},
 				$inc: {
 					votes: 1
