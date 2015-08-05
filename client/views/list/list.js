@@ -87,15 +87,20 @@ Template.list.helpers({
 		}
 		var threshhold = Session.get("threshhold");
 		var voteAverage = 0;
+		var maxVote = 0;
 		var voteArray = [];
 		// Finds the average # of votes and stores votes in an array
 		for(var i = 0; i < questions.length; i++) {
+			if(questions[i].votes > maxVote) {
+				maxVote = questions[i].votes;
+			}
 			voteAverage += questions[i].votes;
 			voteArray.push(questions[i].votes);
 		}
 		voteAverage /= questions.length;
 		// Sorts the questions depending on # of votes (descending)
 		questions.sort(function(a, b) {
+			//console.log(((new Date().getTime() - a.lasttouch) / 60000).floor());
 			if(a.votes > b.votes) {
 				return -1;
 			} else if(a.votes < b.votes) {
@@ -208,6 +213,32 @@ Template.list.helpers({
 				questions[i].disabled = true;
 			}
 		}
+		questions.sort(function(a, b) {
+			//console.log(((new Date().getTime() - a.lasttouch) / 60000).floor());
+			var aDiff = Math.floor(((new Date().getTime() - a.timeorder) / 60000));
+			var bDiff = Math.floor(((new Date().getTime() - b.timeorder) / 60000));
+			var aIndex = a.votes;
+			var bIndex = b.votes;
+			if(aDiff < 5) {
+				aIndex += (maxVote * (5 - aDiff));
+			}
+			if(bDiff < 5) {
+				bIndex += (maxVote * (5 - bDiff));
+			}
+			if(a.popular) {
+				aIndex += 999999999;
+			}
+			if(b.popular) {
+				bIndex += 999999999;
+			}
+			if(aIndex > bIndex) {
+				return -1;
+			} else if(aIndex < bIndex) {
+				return 1;
+			} else {
+				return 0;
+			}
+		});
 		// Return the questions object to be displayed in the template
 		return questions;
 	},
