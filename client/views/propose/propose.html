@@ -1,0 +1,70 @@
+<template name="propose">
+		<div id="toparea" style="text-align: center;">
+			<div id="questiondiv">
+				<textarea id="questioninput" maxlength="{{questionLength}}" placeholder="Type your question here..."></textarea>
+				<div id="topinputcontainer">
+					{{#if currentUser}}
+						<input id="questionnameinput" spellcheck="false" type="text" placeholder="Name..." value="{{currentUser.profile.name}}">
+						<input id="questionemailinput" spellcheck="false" type="text" placeholder="Email..." value="{{currentUser.emails.[0].address}}">
+					{{else}}
+						<input id="questionnameinput" spellcheck="false" type="text" placeholder="Name...">
+						<input id="questionemailinput" spellcheck="false" type="text" placeholder="Email...">
+					{{/if}}
+				</div>
+				<div id="bottominputcontainer">
+					<input id="questionpasswordinput" type="password" placeholder="Password...">
+					<input id="questionconfirminput" type="password" placeholder="Confirm password...">
+				</div>
+				<div id="bottomquestionarea">
+					<div id="checkareas">
+						{{#if currentUser}}
+							<div id="checkarea1">
+								<div class="checkarealeft">
+									<div class="checkbox" id="anonbox">
+										<div class="checked" id="anoncheck">
+										</div>
+									</div>
+								</div>
+								<div class="checkarearight">
+									<p class="checkboxlabel">Post as anonymous?</p>
+								</div>
+							</div>
+						{{else}}
+							<div id="checkarea1">
+								<div class="checkarealeft">
+									<div class="checkbox" id="savebox">
+										<div class="checked" id="savecheck">
+										</div>
+									</div>
+								</div>
+								<div class="checkarearight">
+									<p class="checkboxlabel">Save your information?</p>
+								</div>
+							</div>
+							<div id="checkarea2" style="{{#if anonymous}}{{else}}visibility:hidden!important{{/if}}">
+								<div class="checkarealeft" style="{{#if anonymous}}{{else}}visibility:hidden!important{{/if}}">
+									<div class="checkbox" id="anonbox">
+										<div class="checked" id="anoncheck">
+										</div>
+									</div>
+								</div>
+								<div class="checkarearight" style="{{#if anonymous}}{{else}}visibility:hidden!important{{/if}}">
+									<p class="checkboxlabel">Post as anonymous?</p>
+								</div>
+							</div>
+						{{/if}}
+					</div>
+					<div class="countarea">
+						<span id="darkcounter">{{count}}</span>/{{questionLength}}
+					</div>
+					<div id="buttonarea">
+						Ask a question!
+					</div>
+				</div>
+			</div>
+			<!--<a href="/propose">Post a question</a> :: 
+			<a href="/">Choose a different instance</a> ::
+			<a href="/report">Archived questions</a> :: 
+			<a href="/rss/{{tablename}}"><img src="/rss.gif" alt="xml icon" /></a>-->
+		</div>
+</template>
