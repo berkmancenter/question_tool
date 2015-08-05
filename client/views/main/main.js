@@ -169,7 +169,7 @@ Template.home.events({
 		if(event.target.value) {
 			Session.set("search", event.target.value);
 		} else {
-			Session.set("search", "all");
+			Session.set("search", "");
 		}
 		//return Users.find({name: {$regex: re}});
 	},
