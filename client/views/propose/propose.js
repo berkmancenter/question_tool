@@ -193,7 +193,8 @@ Template.propose.events({
 						$("#navAsk").html("+ Ask");
 						document.getElementById("navAsk").style.backgroundColor = "#27ae60";
 						document.getElementById("questioninput").value = "";
-						$("html, body").animate({ scrollTop: $(document).height() }, "slow");
+						Blaze.remove(dropDownTemplate);
+						//$("html, body").animate({ scrollTop: $(document).height() }, "slow");
 					}
 				});
 			}
