@@ -1,0 +1,22 @@
+#footercredits a {
+	color:white!important;
+}
+
+#footercontainer {
+	margin-top:25px;
+	position: absolute;
+	left: 0;
+	bottom: 0;
+	height: 45px;
+	width: 100%;
+	background-color:#293340;
+	padding-bottom:10px;
+	padding-top:8px;
+	text-align:center;
+}
+
+#footercontainer p {
+	color:white;
+	font-family:semibold;
+	cursor:pointer;
+}

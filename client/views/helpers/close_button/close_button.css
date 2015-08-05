@@ -1,0 +1,28 @@
+.closecontainer {
+	cursor:pointer;
+	display:inline-block;
+	background-color:#ea6153;
+	border-radius:5px;
+	padding:0px 4px 0px 0px;
+	margin:10px 0px 0px 10px;
+}
+
+.closecontainer:hover {
+	background-color:#ed766a;
+}
+
+.closeIcon {
+	width:16px;
+	height:16px;
+	float:left;
+	margin:5px 0px 0px 6px;
+	padding-right:4px;
+}
+
+.closeText {
+	color: white;
+	font-family:bold;
+	float:right;
+	font-size:14px;
+	padding-top:2px;
+}

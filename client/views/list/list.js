@@ -144,7 +144,7 @@ Template.list.helpers({
 				// Gets and formats the question date
 				//var d = new Date(questions[i].lasttouch);
 				//questions[i].f_time = getTime(d.toTimeString().substring(0,5)) + " " + d.toDateString().substring(4, 10);
-				questions[i].f_time = timeSince(questions[i].lasttouch) + " Ago";
+				questions[i].f_time = timeSince(questions[i].timeorder) + " Ago";
 				var avg = (Math.max.apply(Math, voteArray) + Math.min.apply(Math, voteArray)) / 2;
 				// Uses standard deviation to set the shade of the vote box
 				var stddev = standardDeviation(voteArray) + .001;
@@ -190,9 +190,9 @@ Template.list.helpers({
 								fullURL = url;
 							}
 							if(!hasPeren) {
-								return '<a target="_blank" class="questionLink" href="' + fullURL + '">' + url + '</a>';
+								return '<a target="_blank" class="questionLink" rel="nofollow" href="' + fullURL + '">' + url + '</a>';
 							} else {
-								return '<a target="_blank" class="questionLink" href="' + fullURL + '">' + url + '</a>)';
+								return '<a target="_blank" class="questionLink" rel="nofollow" href="' + fullURL + '">' + url + '</a>)';
 							}
 						});
 					}

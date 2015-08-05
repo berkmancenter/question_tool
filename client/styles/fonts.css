@@ -1,0 +1,19 @@
+@font-face {
+	src:url('/Museo/MuseoSans_700.otf');
+	font-family:bold;
+}
+
+@font-face {
+	src:url('/Museo/MuseoSans-300.otf');
+	font-family:regular;
+}
+
+@font-face {
+	src:url('/Museo/MuseoSans_500.otf');
+	font-family:semibold;
+}
+
+@font-face {
+	src:url('/Museo/MuseoSans-100.otf');
+	font-family:light;
+}
