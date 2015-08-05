@@ -8,3 +8,12 @@ Template.share.helpers({
 		return window.location.origin + "/list/" + Session.get("tablename");
 	}
 });
+
+Template.share.events({
+	"click #shareclosebutton": function(event, template) {
+		$(".formcontainer").fadeOut(400);
+		$("#darker").fadeOut(400, function() {
+			Blaze.remove(popoverTemplate);
+		});
+	}
+})
