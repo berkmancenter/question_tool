@@ -1,16 +1,5 @@
 Template.home.onCreated(function() {
 	Session.set("search", "");
-	if(Session.get("tablename")) {
-	Meteor.call('listCookieCheck', Session.get("tablename"), function(error, result) {
-		if(result) {
-			Session.set("hasCookie", true);
-		} else {
-			Session.set("hasCookie", false);
-		}
-	});
-	} else {
-		Session.set("hasCookie", false);
-	}
 });
 
 Template.home.onRendered(function() {
@@ -34,9 +23,6 @@ Template.home.helpers({
 			}
 		});
 		return Session.get("toolAdmin");
-	},
-	hasCookie: function() {
-		return Session.get("hasCookie");
 	},
 	hasToday: function() {
 		var instances = Template.instance().data;
@@ -361,11 +347,7 @@ Template.home.events({
 	"click .superadmindeletebutton": function(event, template) {
 		var check = confirm("Are you sure you would like to delete the instance?");
 		if(check) {
-			Meteor.call('adminRemove', event.currentTarget.id, function(error, result) {
-				if(error) {
-					alert(error);
-				}
-			});
+			Meteor.call('adminRemove', event.currentTarget.id);
 		}
 		event.stopPropogation();
 	},

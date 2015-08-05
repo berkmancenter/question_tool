@@ -4,11 +4,6 @@ Meteor.setInterval( function () {
 }, 1000);
 
 Template.list.onCreated(function () {
-	Meteor.call('listCookieCheck', Template.instance().data.tablename, function (error, result) {
-		if(!result) {
-			window.location.href = "/";
-		}
-	});
 	Session.set("responseName", "");
 	Session.set("responseEmail", "");
 	Session.set("timeval", new Date().getTime());
