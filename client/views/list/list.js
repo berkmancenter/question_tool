@@ -39,6 +39,10 @@ Template.list.onCreated(function () {
 Template.list.onRendered(function() {
 	// Sets the document title when the template is rendered
 	document.title = "Live Question Tool";
+	if(!Meteor.user()) {
+		$('#anoncheck').show();
+	}
+	$('#topinputcontainer').hide();
 	$('head').append('<link rel="alternate" type="application/rss+xml" href="/rss/{{tablename}}"/>');
 });
 
@@ -443,19 +447,25 @@ Template.list.events({
 			checked.style.display = "block";
 			if(event.target.id == "savebox") {
 				$("#bottominputcontainer").slideDown();
+				$('#topinputcontainer').slideDown();
+				document.getElementById("anoncheck").style.display = "none";
 			} else if(event.target.id == "anonbox") {
-				$("#questionnameinput").val('Anonymous');
+				$('#topinputcontainer').slideUp();
+				$("#questionnameinput").val('');
 				$("#questionemailinput").val('');
 			}
 		} else {
 			checked.style.display = "none";
 			if(event.target.id == "savebox") {
 				$("#bottominputcontainer").slideUp();
+				$('#topinputcontainer').slideUp()
+				document.getElementById("anoncheck").style.display = "block";
 			} else if(event.target.id == "anonbox") {
 				if(Meteor.user()) {
 					$("#questionnameinput").val(Meteor.user().profile.name);
 					$("#questionemailinput").val(Meteor.user().emails[0].address);
 				} else {
+					$('#topinputcontainer').slideDown();
 					$("#questionnameinput").val("");
 					$("#questionemailinput").val("");
 				}
@@ -469,19 +479,25 @@ Template.list.events({
 		if(checked.style.display == "none" || !checked.style.display) {
 			if(event.target.id == "savecheck") {
 				$("#bottominputcontainer").slideDown();
+				$('#topinputcontainer').slideDown();
+				document.getElementById("anoncheck").style.display = "none";
 			} else if(event.target.id == "anoncheck") {
-				$("#questionnameinput").val('Anonymous');
+				$('#topinputcontainer').slideUp();
+				$("#questionnameinput").val('');
 				$("#questionemailinput").val('');
 			}
 			checked.style.display = "block";
 		} else {
 			if(event.target.id == "savecheck") {
 				$("#bottominputcontainer").slideUp();
+				$('#topinputcontainer').slideUp();
+				document.getElementById("anoncheck").style.display = "block";
 			} else if(event.target.id == "anoncheck") {
 				if(Meteor.user()) {
 					$("#questionnameinput").val(Meteor.user().profile.name);
 					$("#questionemailinput").val(Meteor.user().emails[0].address);
 				} else {
+					$('#topinputcontainer').slideDown();
 					$("#questionnameinput").val("");
 					$("#questionemailinput").val("");
 				}
@@ -511,7 +527,7 @@ Template.list.events({
 			if(anonymous) {
 				posterName = "Anonymous";
 				email = "";
-			} else if(!posterName || !posterEmail) {
+			} else if(!posterName && !posterEmail) {
 				posterName = "Anonymous";
 				email = "";
 			}

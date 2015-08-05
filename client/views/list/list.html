@@ -6,8 +6,8 @@
 				<textarea id="questioninput" maxlength="{{questionLength}}" placeholder="Type your question here..."></textarea>
 				<div id="topinputcontainer">
 					{{#if currentUser}}
-						<input id="questionnameinput" spellcheck="false" type="text" placeholder="Name..." value="{{currentUser.profile.name}}" readonly>
-						<input id="questionemailinput" spellcheck="false" type="text" placeholder="Email..." value="{{currentUser.emails.[0].address}}" readonly>
+						<input id="questionnameinput" spellcheck="false" type="text" placeholder="Name..." value="{{currentUser.profile.name}}">
+						<input id="questionemailinput" spellcheck="false" type="text" placeholder="Email..." value="{{currentUser.emails.[0].address}}">
 					{{else}}
 						<input id="questionnameinput" spellcheck="false" type="text" placeholder="Name...">
 						<input id="questionemailinput" spellcheck="false" type="text" placeholder="Email...">
