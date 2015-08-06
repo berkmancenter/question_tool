@@ -321,6 +321,7 @@ Template.list.events({
 			$("#navAsk").html("Close");
 			document.getElementById("navAsk").style.backgroundColor = "#ec4f4f";
 			$("#toparea").slideDown();
+			$('#questioninput').focus();
 		} else {
 			if(typeof currentError != "undefined") {
 				Blaze.remove(currentError);
@@ -343,6 +344,7 @@ Template.list.events({
 		if(theArea.style.display == "none" || !theArea.style.display) {
 			document.getElementById("reply" + theID).innerHTML = "Close";
 			$("#down" + theID).slideDown(); 
+			$('#text' + theID).focus();
 		} else {
 			if(typeof replyError != "undefined") {
 				Blaze.remove(replyError);
