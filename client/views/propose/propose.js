@@ -145,6 +145,9 @@ Template.propose.events({
 			} else if(!posterEmail) {
 				showProposeError("If you're creating an account, the email can't be left blank. Please try again.");
 				return false;
+			} else if(posterName.length >= 30) {
+				showProposeError("Enter a name using less than 30 characters.");
+				return false;
 			} else {
 				Accounts.createUser({
 					email: posterEmail,

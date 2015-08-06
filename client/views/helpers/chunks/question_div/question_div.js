@@ -3,6 +3,10 @@ Template.question_div.helpers({
 		return Session.get("replyCount");
 	},
 	responseLength: function() {
-		return Session.get("responseLength");
-	}
+		if(Session.get("responseLength")) {
+			return Session.get("responseLength");
+		} else {
+			return 150;
+		}
+	},
 })

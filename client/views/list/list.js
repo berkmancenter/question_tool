@@ -237,18 +237,27 @@ Template.list.helpers({
 			} else if(aIndex < bIndex) {
 				return 1;
 			} else {
-				return 0;
+				if(!a.answer) {
+					var aAnswerLength = 0;
+				} else {
+					var aAnswerLength = a.answer.length;
+				}
+				if(!b.answer) {
+					var bAnswerLength = 0;
+				} else {
+					var bAnswerLength = b.answer.length;
+				}
+				if(aAnswerLength > bAnswerLength) {
+					return -1;
+				} else if(aAnswerLength < bAnswerLength) {
+					return 1;
+				} else {
+					return 0;
+				}
 			}
 		});
 		// Return the questions object to be displayed in the template
 		return questions;
-	},
-	responseLength: function() {
-		if(Session.get("responseLength")) {
-			return Session.get("responseLength");
-		} else {
-			return 150;
-		}
 	},
 	responseName: function() {
 		return Session.get("responseName");

@@ -19,6 +19,9 @@ Template.register.events({
 		if(!email) {
 			showError("Please enter an email address.", "inputcontainer", "loginemail");
 			return false;
+		} else if(loginName.length >= 30) {
+			showError("Enter a name using less than 30 characters.", "inputcontainer", "loginemail");
+			return false;
 		} else if (!loginName) {
 			showError("Please enter a name.", "inputcontainer", "loginemail");
 			return false;

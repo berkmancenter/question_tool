@@ -265,6 +265,25 @@ div #wrapper {
 	margin-top:-260px;
 }
 
+.creditsformcontainer {
+	display:none;
+	background-color:#FFF;
+	border: 2px solid #e9edf0;
+	border-radius:5px;
+	height:auto;
+	display:block;
+	margin:0px auto;
+	width:40%;
+	margin-top:120px;
+	margin-bottom:100px;
+	z-index:9999999999999999;
+	position:fixed;
+	top:50%;
+	left:50%;
+	margin-left:-20%;
+	margin-top:-320px;
+}
+
 #loginsubmitbutton, #registersubmitbutton, #shareclosebutton, #modsdonebutton, .combinesubmitbutton, .renamesubmitbutton, .modifysubmitbutton {
 	width:40%;
 	display:block;

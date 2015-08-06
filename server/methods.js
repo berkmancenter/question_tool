@@ -104,6 +104,9 @@ Meteor.methods({
 	},
 	// A method that adds an instance to the databases
 	create: function(tablename, threshhold, redLength, stale, description, mods, admin, maxQuestion, maxResponse, anonymous, isHidden, author) {
+		if(!Meteor.user()) {
+			return false;
+		}
 		var keys;
 		if(mods.length > 4) {
 			var errors = [
