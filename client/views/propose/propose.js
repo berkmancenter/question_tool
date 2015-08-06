@@ -136,32 +136,57 @@ Template.propose.events({
 		}
 		// If the user entered a password, check the input
 		if(password1 || password2) {
-			if(password1 != password2) {
-				showProposeError("Your passwords don't match. Please try again");
+			var re = /^([\w-]+(?:\.[\w-]+)*)@((?:[\w-]+\.)*\w[\w-]{0,66})\.([a-z]{2,6}(?:\.[a-z]{2})?)$/i;
+			if(!posterEmail) {
+				showProposeError("Please enter an email address.");
 				return false;
-			} else if(!posterName) {
-				showProposeError("If you're creating an account, the name can't be left blank. Please try again.");
+			} else if (!posterName) {
+				showProposeError("Please enter a name.");
 				return false;
-			} else if(!posterEmail) {
-				showProposeError("If you're creating an account, the email can't be left blank. Please try again.");
+			} else if(!re.test(posterEmail)) {
+				showProposeError("Enter a valid email address.");
 				return false;
-			} else if(posterName.length >= 30) {
-				showProposeError("Enter a name using less than 30 characters.");
+			} else if(posterName.length >= 30 || posterName.length <= 3) {
+				showProposeError("Name must be between 3 and 30 characters.");
+				return false;
+			} else if(posterEmail.length >= 50 || posterEmail.length <= 7) {
+				showProposeError("Email must be between 7 and 50 characters.");
+				return false;
+			} else if (password1 !== password2) {
+				showProposeError("Passwords do not match.");
+				return false;
+			} else if(password2.length >= 30 || password2.length <= 6) {
+				showProposeError("Password must be between 6 and 30 characters.");
 				return false;
 			} else {
-				Accounts.createUser({
-					email: posterEmail,
-					password: password2,
-					profile: {
-						name: posterName
-					}
-				}, function(error) {
-					if(error) {
-						showProposeError("Account creation failed. Please try again.");
+				Meteor.call('register', posterEmail, password2, posterName, function(error, result) {
+					if(result === 3) {
+						showProposeError("Account with email already exists.");
 						return false;
+					} else if(result == 4) {
+						showProposeError("Enter a name using less than 30 characters.");
+						return false;
+					} else if(result == 5) {
+						showProposeError("Email must be between 7 and 50 characters.");
+						return false;
+					} else if(result == 1) {
+						showProposeError("Enter a name and email address.");
+						return false;
+					} else if(result == 2) {
+						showProposeError("Enter a valid email address.");
+						return false;
+					} else if(result == 6) {
+						showProposeError("Password must be between 6 and 30 characters.");
+						return false;
+					} else {
+						Meteor.loginWithPassword(posterEmail, password2, function(error) {
+							if(error) {
+								showProposeError(error);
+								return false;
+							}
+						});
 					}
 				});
-				//Both passwords and input are a-okay
 			}
 		}
 		// Calls server-side method to get the user's IP address

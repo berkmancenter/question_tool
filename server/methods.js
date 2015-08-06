@@ -714,5 +714,29 @@ Meteor.methods({
 		} else {
 			return false;
 		}
+	},
+	register: function(email, password, profileName) {
+		var re = /^([\w-]+(?:\.[\w-]+)*)@((?:[\w-]+\.)*\w[\w-]{0,66})\.([a-z]{2,6}(?:\.[a-z]{2})?)$/i;
+		if(!email || !profileName) {
+			return 1;
+		} else if(!re.test(email)) {
+			return 2;
+		} else if(Meteor.users.findOne({ "emails.address" : email })) {
+			return 3;
+		} else if(profileName.length >= 30) {
+			return 4;
+		} else if(email.length >= 50 || email.length <= 7) {
+			return 5;
+		} else if(password.length >= 30 || password.length <= 6) {
+			return 6;
+		} else {
+			return Accounts.createUser({
+				email: email,
+				password: password,
+				profile: {
+					name: profileName
+				}
+			});
+		}
 	}
 });
