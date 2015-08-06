@@ -491,6 +491,7 @@ Template.list.events({
 		$(".description").slideUp();
 		$("#footercontainer").slideUp();
 		$("#navUnPresent").fadeIn();
+		$("#hiddenName").fadeIn();
 		$(".admincontainer").slideUp();
 	},
 	"click #navUnPresent": function(event, template) {
@@ -499,6 +500,7 @@ Template.list.events({
 		$(".description").slideDown();
 		$("#footercontainer").slideDown();
 		$("#navUnPresent").fadeOut();
+		$("#hiddenName").fadeOut();
 		$(".admincontainer").slideDown();
 	},
 	"click .hiddenMessage": function(event, template) {
