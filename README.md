@@ -30,6 +30,8 @@ TODO: Write history
 
 TODO: Write credits
 
+Nick Rubin
+
 ## License
 
 TODO: Write license
