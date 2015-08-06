@@ -334,6 +334,10 @@ Template.list.events({
 		}
 	},
 	"click .replybutton": function(event, template) {
+		Session.set("replyCount", 0);
+		$(".replybottom").slideUp();
+		$(".replyarea").val("");
+		$(".replybutton").html("Reply");
 		var theID = event.target.id.substring(5);
 		var theArea = document.getElementById("down" + theID);
 		if(theArea.style.display == "none" || !theArea.style.display) {
