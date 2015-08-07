@@ -132,19 +132,27 @@ Template.list.helpers({
 				});
 				questions[i].adminButtons = (Session.get("admin") || Session.get("mod"));
 				// Every other question goes in column #2
-				if(i % 3 == 0) {
+				if($(document).width() > 1075) {
+					if(i % 3 == 0) {
+						questions[i].indexOne = true;
+					} else if(i % 3 == 1) {
+						questions[i].indexTwo = true;
+					} else if(i % 3 == 2) {
+						questions[i].indexThree = true;
+					}
+				} else if($(document).width() < 1075 && $(document).width() > 720) {
+					if(i % 2 == 0) {
+						questions[i].indexOne = true;
+					} else if(i % 2 == 1) {
+						questions[i].indexTwo = true;
+					}
+				} else {
 					questions[i].indexOne = true;
-				} else if(i % 3 == 1) {
-					questions[i].indexTwo = true;
-				} else if(i % 3 == 2) {
-					questions[i].indexThree = true;
 				}
 				// Sets the answer and modify links
 				questions[i].answerlink = "/answer/" + questions[i]._id;
 				questions[i].modifylink = "/modify/" + questions[i]._id;
 				// Gets and formats the question date
-				//var d = new Date(questions[i].lasttouch);
-				//questions[i].f_time = getTime(d.toTimeString().substring(0,5)) + " " + d.toDateString().substring(4, 10);
 				questions[i].f_time = timeSince(questions[i].timeorder) + " Ago";
 				var avg = (Math.max.apply(Math, voteArray) + Math.min.apply(Math, voteArray)) / 2;
 				// Uses standard deviation to set the shade of the vote box
