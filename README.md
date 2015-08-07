@@ -28,12 +28,15 @@ A user who is signed in can create an instance with a specific topic, after whic
 
   * git clone the repo
   * build the meteor application
-  ```meteor build {output_dir} --directory```
+
+   ```meteor build {output_dir} --directory```
   * in the build directory, install node packages
-  ```(cd programs/server && npm install)```
+
+   ```(cd programs/server && npm install)```
   * create the mongo db and add necessary permissions
   * run the app
-  ```export MONGO_URL='mongodb://app_user:app_passwd@127.0.0.1:27017/app_db'
+
+   ```export MONGO_URL='mongodb://app_user:app_passwd@127.0.0.1:27017/app_db'
 export MONGO_OPLOG_URL=mongodb://oplog_user:oplog_passwd@127.0.0.1:27017/local?authSource=admin
 export ROOT_URL='https://your.url.here'
 export HTTP_FORWARDED_COUNT=1
