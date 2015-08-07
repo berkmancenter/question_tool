@@ -48,7 +48,7 @@ A user who is signed in can create an instance with a specific topic, after whic
 
 * Setup
 
-Navigate to the /server/lib/startup.js file to set the email of the Question Tool superadmin (is able to delete/rename instances) and add a mail server URL for emailing. Superadmin must create a Question Tool account and be logged in with the specified email address for the superadmin priveleges.
+   Navigate to the /server/lib/startup.js file to set the email of the Question Tool superadmin (is able to delete/rename instances) and add a mail server URL for emailing. Superadmin must create a Question Tool account and be logged in with the specified email address for the superadmin priveleges.
 
 ## Contributing
 
@@ -60,7 +60,7 @@ Navigate to the /server/lib/startup.js file to set the email of the Question Too
 
 ## History
 
-The question tool has been used at the [Berkman Center for Internet & Society](https://cyber.law.harvard.edu "Berkman Center for Internet & Society") for over 10 years. It has been used at events, in class rooms, in forums, in meetings, any place where it is valuable to obtain community consensus over the topics that need to be pusued.
+The question tool has been used at the [Berkman Center for Internet & Society](https://cyber.law.harvard.edu "Berkman Center for Internet & Society") for over 10 years. It has been used at events, in class rooms, in forums, in meetings, any place where it is valuable to obtain community consensus over the topics that need to be pursued.
 
 ## Credits
 
