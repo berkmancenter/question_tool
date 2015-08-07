@@ -8,7 +8,7 @@ Admins of the instance have various special privileges, eg can mute or delete ce
 
 ## Installation
 
-TODO: Describe the installation process
+Navigate to the /server/lib/startup.js file to set the email of the Question Tool superadmin (is able to delete/rename instances) and add a mail server URL for emailing. Superadmin must create a Question Tool account and be logged in with the specified email address for the superadmin priveleges.
 
 ## Usage
 
