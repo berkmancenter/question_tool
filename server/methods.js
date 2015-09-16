@@ -107,6 +107,11 @@ Meteor.methods({
 		if(!Meteor.user()) {
 			return false;
 		}
+
+		if(Instances.find({ tablename: tablename }).count() > 0) {
+			return false;
+		}
+
 		var keys;
 		if(mods.length > 4) {
 			var errors = [
