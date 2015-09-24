@@ -69,12 +69,12 @@ Template.list.helpers({
 		if(Session.get("search") == "all") {
 			//console.log(Session.get("tablename"));
 			var questions = Questions.find({
-				tablename: Session.get("tablename")
+				instanceid: Session.get("id")
 			}).fetch();
 		} else {
 			var re = new RegExp(Session.get("search"), "i");
 			var questions = Questions.find({
-				tablename: Session.get("tablename"),
+				instanceid: Session.get("id"),
 				"$or": [{
 					text: {
 						$regex: re

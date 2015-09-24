@@ -193,7 +193,7 @@ Template.propose.events({
 		Meteor.call('getIP', function (error, result) {
 			if (!error) {
 				// Calls server-side "propose" method to add question to DB
-				Meteor.call('propose', Session.get("tablename"), question, posterName, posterEmail, result, function (error, result) {
+				Meteor.call('propose', Session.get("id"), Session.get("tablename"), question, posterName, posterEmail, result, function (error, result) {
 					// If returns an object, there was an error
 					if(typeof result === 'object') {
 						// Store an object of the error names and codes

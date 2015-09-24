@@ -131,7 +131,7 @@ Meteor.methods({
 			max_response: maxResponse,
 			anonymous: anonymous,
 			hidden: isHidden,
-			author: author
+			author: author,
 		}, function(error, id) {
 			// If error, set keys to the error object
 			if(error) {
@@ -139,6 +139,7 @@ Meteor.methods({
 			} else {
 				// If successful, add the "starter" question to the questions database
 				Questions.insert({
+					instanceid: id,
 					tablename: tablename,
 					text: "Welcome to the live question tool. Feel free to post questions. Vote by clicking on the 'vote' button. To reply, press the button in the bottom-right.",
 					poster: "the system",
@@ -149,6 +150,7 @@ Meteor.methods({
 				}, function(error, id) {
 					// If error, set keys to the error object
 					if(error) {
+						console.log("Second error " + error);
 						keys = error.invalidKeys;
 					}
 				});
@@ -337,18 +339,19 @@ Meteor.methods({
 		});
 	},
 	// Method that adds a new question to the database
-	propose: function(tablename, question, posterName, posterEmail, ip) {
+	propose: function(instanceid, tablename, question, posterName, posterEmail, ip) {
 		var keys;
 		question.replace(/<(?:.|\n)*?>/gm, '');
 		// Gets the current table
 		var table = Instances.findOne({
-			tablename: tablename
+			_id: instanceid
 		});
 		if(table == null) {
 			return false;
 		} else {
 			// Update the lasttouch of the Instance
 			Questions.insert({
+				instanceid: instanceid,
 				tablename: tablename,
 				text: question,
 				poster: posterName,
