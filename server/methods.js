@@ -131,7 +131,7 @@ Meteor.methods({
 			max_response: maxResponse,
 			anonymous: anonymous,
 			hidden: isHidden,
-			author: author,
+			author: author
 		}, function(error, id) {
 			// If error, set keys to the error object
 			if(error) {
