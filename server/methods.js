@@ -33,14 +33,14 @@ Meteor.methods({
 		}
 	},
 	// A method that checks whether the email matches the admin of the supplied tablename
-	adminCheck: function(tablename) {
+	adminCheck: function(instanceid) {
 		if(Meteor.user()) {
 			var user = Meteor.user().emails[0].address;
 		} else {
 			return false;
 		}
 		var table = Instances.findOne({
-			tablename: tablename
+			_id: instanceid
 		});
 		if(((user == table.admin) || (table.moderators.indexOf(user) != -1)) && (user && table.admin)) {
 			return true;

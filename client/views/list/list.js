@@ -614,7 +614,7 @@ function timeSince(date) {
 };
 
 function enableDragging() {
-	Meteor.call('adminCheck', Session.get("tablename"), function(error, result) {
+	Meteor.call('adminCheck', Session.get("id"), function(error, result) {
 		// If yes, enable draggable question divs
 		if(result) {
 			interact('.question')
