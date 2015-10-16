@@ -161,7 +161,7 @@ Template.home.events({
 		//var selectedInstance = instances.options[instances.selectedIndex].text;
 		//Cookie.set('tablename', theInstance.tablename);
 		// Redirects to the list
-		window.location.href = "/list/" + theInstance.tablename;
+		window.location.href = "/list/" + theID;
 		//Router.go('/list');
 	},
 	"keyup #searchbar": function(event, template) {

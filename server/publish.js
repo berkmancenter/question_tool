@@ -12,11 +12,9 @@ Meteor.publish('instances', function() {
 });
 
 // Only publishes to the user the questions that are associated with the selected table and are not disabled
-Meteor.publish('questions', function(table) {
+Meteor.publish('questions', function(instanceid) {
 	return Questions.find({
-		tablename: { 
-			$regex: new RegExp("^" + table, "i") 
-		},
+		instanceid: instanceid,
 		state: { 
 			$ne : 'disabled' 
 		}
@@ -24,11 +22,9 @@ Meteor.publish('questions', function(table) {
 });
 
 // Only publishes to the user the answers that are associated with the selected table
-Meteor.publish('answers', function(table) {
+Meteor.publish('answers', function(instanceid) {
 	return Answers.find({
-		tablename: { 
-			$regex: new RegExp("^" + table, "i") 
-		}
+		instanceid: instanceid,
 	});
 });
 

@@ -49,7 +49,7 @@ Meteor.methods({
 		}
 	},
 	// A method that adds an answer to the databases
-	answer: function(tablename, answer, posterName, email, result, currentURL) {
+	answer: function(instanceid, answer, posterName, email, result, currentURL) {
 		var keys = "";
 		answer.replace(/<(?:.|\n)*?>/gm, '');
 		// Retrieves the current quesetion from the DB (if one exists)
@@ -65,7 +65,7 @@ Meteor.methods({
 				poster: posterName,
 				email: email,
 				ip: result,
-				tablename: tablename,
+				instanceid: instanceid,
 				qid: currentURL
 			}, function(error, id) {
 				// If error, set keys to the error object
@@ -84,7 +84,7 @@ Meteor.methods({
 							return false;
 						} else {
 							Instances.update({
-								tablename: tablename
+								instanceid: instanceid
 							}, {
 								$set: {
 									lasttouch: new Date().getTime() - 1000

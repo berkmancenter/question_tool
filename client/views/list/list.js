@@ -398,7 +398,7 @@ Template.list.events({
 					posterName = "Anonymous";
 				}
 				// Calls a server-side method to answer a question and update DBs
-				Meteor.call('answer', Session.get("tablename"), answer, posterName, email, result, theID, function (error, result) {
+				Meteor.call('answer', Session.get("id"), answer, posterName, email, result, theID, function (error, result) {
 					// If the result is an object, there was an error
 					if(typeof result === 'object') {
 						// Store an object of the error names and codes
@@ -407,7 +407,7 @@ Template.list.events({
 							"poster": "Please enter a valid name.",
 							"email": "Please enter a valid email address.",
 							"ip": "There was an error with your IP address. Try again.",
-							"tablename": "There was an error with the table name. Try again.",
+							"instanceid": "There was an error with the instance id. Try again.",
 							"qid": "There was an error with the question ID."
 						}
 						// Alert the error
