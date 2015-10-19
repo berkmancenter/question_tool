@@ -20,11 +20,9 @@ Meteor.methods({
 		});
 	},
 	// A method that checks whether a table exists with parameter tablename
-	listCookieCheck: function(table) {
+	listCookieCheck: function(instanceid) {
 		var table = Instances.findOne({
-			tablename: { 
-				$regex: new RegExp("^" + table, "i") 
-			}
+			_id: instanceid
 		});
 		if(table == null) {
 			return false;

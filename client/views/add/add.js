@@ -1,11 +1,11 @@
 Template.add.onCreated(function () {
 	// Checks whether the user has a valid table cookie
-	Meteor.call('listCookieCheck', Session.get("tablename"), function (error, result) {
+	Meteor.call('listCookieCheck', Session.get("id"), function (error, result) {
 		if(!result) {
 			// If not, return the user to the chooser page
 			window.location.href = "/";
 		} else {
-			Meteor.call('adminCheck', Session.get("tablename"), function (error, result) {
+			Meteor.call('adminCheck', Session.get("id"), function (error, result) {
 				if(!result) {
 					// If not, return the user to the chooser page
 					window.location.href = "/";
