@@ -501,7 +501,7 @@ Meteor.methods({
 						} else {
 							// If successful, remove the instance with the given tablename
 							Instances.remove({
-								instanceid: instanceid
+								_id: instanceid
 							}, function(error) {
 								if(error) {
 									alert(error);
