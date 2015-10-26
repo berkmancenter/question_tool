@@ -163,19 +163,19 @@ Meteor.methods({
 		}
 	},
 	// Method that unhides every question in a given table
-	unhide: function(table) {
+	unhide: function(instanceid) {
 		if(Meteor.user()) {
 			var email = Meteor.user().emails[0].address;
 		} else {
 			return false;
 		}
 		var instance = Instances.findOne({
-			tablename: table
+			_id: instanceid
 		});
 		if(email === instance.admin) {
 			// Sets state to normal for every question with tablename table
 			Questions.update({
-				tablename: table
+				instanceid: instanceid
 			}, {
 				$set: {
 					state: "normal"
@@ -189,7 +189,7 @@ Meteor.methods({
 			});
 		}
 	},
-	addMods: function(mods, table) {
+	addMods: function(mods, instanceid) {
 		if(Meteor.user()) {
 			var email = Meteor.user().emails[0].address;
 		} else {
@@ -197,11 +197,11 @@ Meteor.methods({
 		}
 		var keys;
 		var instance = Instances.findOne({
-			tablename: table
+			_id: instanceid
 		});
 		if(email === instance.admin) {
 			Instances.update({
-				tablename: table
+				_id: instanceid
 			}, {
 				$push: {
 					moderators: {
@@ -222,18 +222,18 @@ Meteor.methods({
 			return true;
 		}
 	},
-	removeMods: function(mod, table) {
+	removeMods: function(mod, instanceid) {
 		if(Meteor.user()) {
 			var email = Meteor.user().emails[0].address;
 		} else {
 			return false;
 		}
 		var instance = Instances.findOne({
-			tablename: table
+			_id: instanceid
 		});
 		if(email === instance.admin) {
 			Instances.update({
-				tablename: table
+				_id: instanceid
 			}, {
 				$pull: {
 					moderators: mod
@@ -249,7 +249,7 @@ Meteor.methods({
 		return true;
 	},
 	// Method that modifies a question
-	modify: function(question, id, table) {
+	modify: function(question, id, instanceid) {
 		if(Meteor.user()) {
 			var email = Meteor.user().emails[0].address;
 		} else {
@@ -257,7 +257,7 @@ Meteor.methods({
 		}
 		// Checks whether the user has the proper admin privileges
 		var instance = Instances.findOne({
-			tablename: table
+			_id: instanceid
 		});
 		if(email || instance.admin) {
 			if(email != instance.admin) {
@@ -284,7 +284,7 @@ Meteor.methods({
 		return true;
 	},
 	// Method that combines two questions and answers
-	combine: function(question, id1, id2, table) {
+	combine: function(question, id1, id2, instanceid) {
 		if(Meteor.user()) {
 			var email = Meteor.user().emails[0].address;
 		} else {
@@ -292,7 +292,7 @@ Meteor.methods({
 		}
 		// Checks whether the user has proper admin privileges
 		var instance = Instances.findOne({
-			tablename: table
+			_id: instanceid
 		});
 		if(email !== instance.admin) {
 			if(instance.moderators) {
@@ -414,7 +414,7 @@ Meteor.methods({
 		return keys;
 	},
 	// Method that removes a table from the database
-	remove: function(table) {
+	remove: function(instanceid) {
 		if(Meteor.user()) {
 			var email = Meteor.user().emails[0].address;
 		} else {
@@ -422,28 +422,28 @@ Meteor.methods({
 		}
 		// Ensures that the user has proper admin privileges
 		var instance = Instances.findOne({
-			tablename: table
+			_id: instanceid
 		});
 		// Removes all questions with the given tablename
 		if(email !== instance.admin) {
 			return false;
 		}
 		Questions.remove({
-			tablename: table
+			instanceid: instanceid
 		}, function(error) {
 			if(error) {
 				alert(error);
 			} else {
 				// If successful, removes all answers with the given tablename
 				Answers.remove({
-					tablename: table
+					instanceid: instanceid
 				}, function(error) {
 					if(error) {
 						alert(error);
 					} else {
 						// If successful, remove the instance with the given tablename
 						Instances.remove({
-							tablename: table
+							_id: instanceid
 						}, function(error) {
 							if(error) {
 								alert(error);
@@ -465,7 +465,7 @@ Meteor.methods({
 			}
 		});
 	},
-	adminRemove: function(id) {
+	adminRemove: function(instanceid) {
 		// Ensures that the user has proper admin privileges
 		var result;
 		var hasAccess = false;
@@ -475,7 +475,7 @@ Meteor.methods({
 			return false;
 		}
 		var table = Instances.findOne({
-			_id: id
+			_id: instanceid
 		});
 		if(email) {
 			if(email === table.admin) {
@@ -487,21 +487,21 @@ Meteor.methods({
 		if(hasAccess) {
 			//Removes all of the questions with the given table ID
 			Questions.remove({
-				q: table.tablename
+				instanceid: instanceid
 			}, function(error) {
 				if(error) {
 					alert(error);
 				} else {
 					// If successful, removes all answers with the given tablename
 					Answers.remove({
-						tablename: table.tablename
+						instanceid: instanceid
 					}, function(error) {
 						if(error) {
 							alert(error);
 						} else {
 							// If successful, remove the instance with the given tablename
 							Instances.remove({
-								tablename: table.tablename
+								instanceid: instanceid
 							}, function(error) {
 								if(error) {
 									alert(error);
@@ -655,7 +655,7 @@ Meteor.methods({
 			_id: id
 		});
 		var table = Instances.findOne({
-			tablename: question.tablename
+			_id: question.instanceid
 		});
 		if(email !== table.admin) {
 			if(table.moderators) {

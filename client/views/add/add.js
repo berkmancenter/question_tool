@@ -66,7 +66,7 @@ Template.add.events({
 	},
 	"click .removebutton": function(event, template) {
 		var mod = event.currentTarget.previousElementSibling.value;
-		Meteor.call('removeMods', mod, Session.get("tablename"));
+		Meteor.call('removeMods', mod, Session.get("id"));
 	},
 	// When the submit button is clicked...
 	"click #modsdonebutton": function(event, template) {
@@ -78,7 +78,7 @@ Template.add.events({
 				mods.push(modsInput[m].value);
 			}
 		}
-		Meteor.call('addMods', mods, Session.get("tablename"), function(error, result) {
+		Meteor.call('addMods', mods, Session.get("id"), function(error, result) {
 			// If the result is an object, there was an error
 			if(typeof result === 'object') {
 				// Alert the error
