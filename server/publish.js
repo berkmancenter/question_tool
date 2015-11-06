@@ -24,15 +24,13 @@ Meteor.publish('questions', function(instanceid) {
 // Only publishes to the user the answers that are associated with the selected table
 Meteor.publish('answers', function(instanceid) {
 	return Answers.find({
-		instanceid: instanceid,
+		instanceid: instanceid
 	});
 });
 
 // Only publishes to the user the votes that are associated with the selected table
-Meteor.publish('votes', function(table) {
+Meteor.publish('votes', function(instanceid) {
 	return Votes.find({
-		tablename: { 
-			$regex: new RegExp("^" + table, "i") 
-		}
+		instanceid: instanceid
 	});
 });

@@ -283,7 +283,7 @@ Template.list.events({
 			var ip = result;
 			if (!error) {
 				// Calls server-side "vote" method to update the Questions and Vote DBs
-				Meteor.call('vote', event.currentTarget.id, ip, Session.get("tablename"), function(error, result) {
+				Meteor.call('vote', event.currentTarget.id, ip, Session.get("id"), function(error, result) {
 					// If the result is an object, there was an error
 					if(typeof result === 'object') {
 						// Store an object of the error names and codes

@@ -6,7 +6,7 @@ Template.modify.onCreated(function () {
 			window.location.href = "/";
 		} else {
 			// Checks whether the user has proper admin privileges
-			Meteor.call('adminCheck', Session.get("tablename"), function (error, result) {
+			Meteor.call('adminCheck', Session.get("id"), function (error, result) {
 				if(!result) {
 					// If not, redirects back to the list page
 					window.location.href = "/list";

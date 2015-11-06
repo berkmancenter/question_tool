@@ -213,7 +213,7 @@ Template.propose.events({
 						return false;
 					} else {
 						// If successful, redirect back to the list page
-						// Router.go("/list");
+						//Router.go("/list");
 						if(typeof currentError != "undefined") {
 							Blaze.remove(currentError);
 						}

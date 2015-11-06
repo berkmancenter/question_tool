@@ -534,12 +534,6 @@ Meteor.methods({
 			return false;
 		}
 		var result;
-		var existsInstance = Instances.findOne({
-			tablename: name
-		});
-		if(existsInstance) {
-			return 1;
-		}
 		var originalInstance = Instances.findOne({
 			_id: id
 		});
@@ -562,41 +556,13 @@ Meteor.methods({
 			}, function(error, count, status) {
 				if(!error) {
 					Questions.update({
-						tablename: originalName
+						instanceid: id
 					}, {
 						$set: {
 							tablename: name
 						}
 					}, {
 						multi: true
-					}, function(error, count, status) {
-						if(!error) {
-							Answers.update({
-								tablename: originalName
-							}, {
-								$set: {
-									tablename: name
-								}
-							}, {
-								multi: true
-							}, function(error, count, status) {
-								if(!error) {
-									Votes.update({
-										tablename: originalName
-									}, {
-										$set: {
-											tablename: name
-										}
-									}, {
-										multi: true
-									}, function(error, count, status) {
-										if(!error) {
-											return 3;
-										}
-									});
-								}
-							});
-						}
 					});
 				}
 			});
@@ -605,17 +571,17 @@ Meteor.methods({
 		}
 	},
 	// Method that registers a vote on a question
-	vote: function(id, ip, tablename) {
+	vote: function(questionid, ip, instanceid) {
 		var keys = "";
 		// Ensures that the user hasn't already voted from their IP address
 		var votes = Votes.find({
-			qid: id,
+			qid: questionid,
 			ip: ip
 		});
 		if(votes.fetch().length == 0) {
 			// If they haven't voted, increment the given quesiton's vote # by 1 and update the lasttouch
 			Questions.update({
-				_id: id
+				_id: questionid
 			}, {
 				$set: {
 					lasttouch: new Date().getTime() - 1000
@@ -630,9 +596,9 @@ Meteor.methods({
 				} else {
 					// If successful, insert vote into the votes DB
 					Votes.insert({
-						qid: id, 
+						qid: questionid, 
 						ip: ip, 
-						tablename: tablename,
+						instanceid: instanceid,
 					}, function(error, id) {
 						if(error) {
 							// If error, set keys to the error object
