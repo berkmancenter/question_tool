@@ -9,4 +9,4 @@ Template.question_div.helpers({
 			return 150;
 		}
 	},
-})
+});

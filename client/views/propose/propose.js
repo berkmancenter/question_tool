@@ -50,7 +50,7 @@ Template.propose.events({
 			checked.style.display = "none";
 			if(event.target.id == "savebox") {
 				$("#bottominputcontainer").slideUp();
-				$('#topinputcontainer').slideUp()
+				$('#topinputcontainer').slideUp();
 				document.getElementById("anoncheck").style.display = "block";
 			} else if(event.target.id == "anonbox") {
 				if(Meteor.user()) {
