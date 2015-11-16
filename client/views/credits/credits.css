@@ -15,3 +15,8 @@
 #creditstext a {
 	text-decoration:underline;
 }
+
+.creditsformcontainer {
+	position: relative;
+	z-index: 99999999999;
+}
