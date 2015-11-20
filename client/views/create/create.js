@@ -56,6 +56,7 @@ Template.create.events({
 		if(!Meteor.user()) {
 			return false;
 		}
+		document.getElementById("buttonarea").disabled = true;
 		var anonElement = document.getElementById("allowanoncheck");
 		var anonymous;
 		if(anonElement.style.display) {
