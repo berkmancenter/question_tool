@@ -57,10 +57,11 @@ Template.create.events({
 			return false;
 		}
 		var anonElement = document.getElementById("allowanoncheck");
+		var anonymous;
 		if(anonElement.style.display) {
-			var anonymous = (anonElement.style.display != "none");
+			anonymous = (anonElement.style.display != "none");
 		} else {
-			var anonymous = false;
+			anonymous = false;
 		}
 		// Retrieve data from the form
 		var tablename = document.getElementById("instancenameinput").value;
@@ -111,7 +112,7 @@ Template.create.events({
 					"description": "Please enter a valid description under 255 characters.",
 					"modlength": "You have entered too many moderators. Please try again."/*,
 					"password": "Please enter a valid password using letters, numbers, *, #, @, and between 4 and 10 characters."*/
-				}
+				};
 				// Alert the error
 				showCreateError(errorCodes[result[0].name]);
 				return false;
@@ -141,3 +142,12 @@ Template.create.events({
 		}
 	}
 });
+
+function showCreateError(reason) {
+	if(typeof currentError != "undefined") {
+		Blaze.remove(currentError);
+	}
+	var parentNode = document.getElementById("creatediv");
+	var nextNode = document.getElementById("instancebottominputcontainer");
+	currentError = Blaze.renderWithData(Template.form_error, reason, parentNode, nextNode);
+}
