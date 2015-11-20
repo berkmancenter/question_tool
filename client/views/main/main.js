@@ -78,6 +78,12 @@ Template.home.helpers({
 				}]
 			}).fetch();
 		}
+		if(instances.length < 1) {
+			showCreateError("Nothing found.");
+		}
+		else {
+			Blaze.remove(currentError);
+		}
 		instances.sort(function(a, b) {
 		    return b.lasttouch - a.lasttouch;
 		});
@@ -276,13 +282,13 @@ function timeSince(date) {
     }
 
     return interval + ' ' + intervalType;
-};
+}
 
 function showCreateError(reason) {
 	if(typeof currentError != "undefined") {
 		Blaze.remove(currentError);
 	}
-	var parentNode = document.getElementById("creatediv");
-	var nextNode = document.getElementById("instancetopinputcontainer");
-	currentError = Blaze.renderWithData(Template.form_error, reason, parentNode, nextNode);
+	var parentNode = document.getElementById("recent");
+	var nextNode = document.getElementById("footercontainer");
+	currentError = Blaze.renderWithData(Template.form_error, reason, parentNode);
 }
