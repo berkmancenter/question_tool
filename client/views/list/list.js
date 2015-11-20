@@ -361,6 +361,28 @@ Template.list.events({
 			$("#down" + theID).slideUp();
 		}
 	},
+	"click .checkbox": function(event, template) {
+		var checked = event.target.firstElementChild;
+		if(checked.style.display == "none" || !checked.style.display) {
+			checked.style.display = "block";
+			if(Meteor.user()) {
+				$(".replyname").val("Anonymous");
+				$(".replyemail").val("");
+			}
+		}
+	},
+	"click .checked": function(event, template) {
+		//console.log(event);
+		//return false;
+		var checked = event.target;
+		if(checked.style.display == "block") {
+			if(Meteor.user()) {
+				$(".replyname").val(Meteor.user().profile.name);
+				$(".replyemail").val(Meteor.user().emails[0].address);
+			}
+			checked.style.display = "none";
+		}
+	},
 	"click .replybottombutton": function(event, template) {
 		// Retrieves data from form
 		var theID = event.target.id;
