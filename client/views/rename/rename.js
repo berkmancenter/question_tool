@@ -11,7 +11,7 @@ Template.rename.helpers({
 	renameid: function() {
 		return Template.instance().data.id;
 	}
-})
+});
 
 Template.rename.events({
 	// When the submit button is clicked...
@@ -28,7 +28,7 @@ Template.rename.events({
 				showRenameError("Name is already taken.");
 			} else {
 				if(template.data.isList) {
-					window.location.href = "/list/" + newName;
+					window.location.href = "/list/" + Session.get("id");
 				}
 			}
 		});

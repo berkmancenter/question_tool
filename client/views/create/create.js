@@ -119,7 +119,6 @@ Template.create.events({
 			} else {
 				// Redirects to the newly-created table's list page
 				Blaze.remove(dropDownTemplate);
-				Router.go("/list/" + result);
 			}
 		});
 	},

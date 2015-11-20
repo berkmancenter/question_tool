@@ -69,12 +69,12 @@ Template.list.helpers({
 		if(Session.get("search") == "all") {
 			//console.log(Session.get("tablename"));
 			var questions = Questions.find({
-				tablename: Session.get("tablename")
+				instanceid: Session.get("id")
 			}).fetch();
 		} else {
 			var re = new RegExp(Session.get("search"), "i");
 			var questions = Questions.find({
-				tablename: Session.get("tablename"),
+				instanceid: Session.get("id"),
 				"$or": [{
 					text: {
 						$regex: re
@@ -283,7 +283,7 @@ Template.list.events({
 			var ip = result;
 			if (!error) {
 				// Calls server-side "vote" method to update the Questions and Vote DBs
-				Meteor.call('vote', event.currentTarget.id, ip, Session.get("tablename"), function(error, result) {
+				Meteor.call('vote', event.currentTarget.id, ip, Session.get("id"), function(error, result) {
 					// If the result is an object, there was an error
 					if(typeof result === 'object') {
 						// Store an object of the error names and codes
@@ -309,7 +309,7 @@ Template.list.events({
 	// When the admin unhide button is clicked...
 	"click #unhidebutton": function(event, template) {	
 		// Call the server-side unhide method to unhide all questions
-		Meteor.call('unhide', Session.get("tablename"));
+		Meteor.call('unhide', Session.get("id"));
 	},
 	"click .deletebutton": function(event, template) {
 		var check = confirm("Are you sure you would like to delete the instance?");
@@ -398,7 +398,7 @@ Template.list.events({
 					posterName = "Anonymous";
 				}
 				// Calls a server-side method to answer a question and update DBs
-				Meteor.call('answer', Session.get("tablename"), answer, posterName, email, result, theID, function (error, result) {
+				Meteor.call('answer', Session.get("id"), answer, posterName, email, result, theID, function (error, result) {
 					// If the result is an object, there was an error
 					if(typeof result === 'object') {
 						// Store an object of the error names and codes
@@ -407,7 +407,7 @@ Template.list.events({
 							"poster": "Please enter a valid name.",
 							"email": "Please enter a valid email address.",
 							"ip": "There was an error with your IP address. Try again.",
-							"tablename": "There was an error with the table name. Try again.",
+							"instanceid": "There was an error with the instance id. Try again.",
 							"qid": "There was an error with the question ID."
 						}
 						// Alert the error
@@ -468,7 +468,7 @@ Template.list.events({
 		Session.set("replyCount", total);
 	},
 	"click .facebookbutton": function(event, template) {
-		popupwindow("https://www.facebook.com/sharer/sharer.php?u=" + encodeURIComponent(window.location.origin + "/list/" + Session.get("tablename")), "Share Question Tool!", 600, 400);
+		popupwindow("https://www.facebook.com/sharer/sharer.php?u=" + encodeURIComponent(window.location.origin + "/list/" + Session.get("id")), "Share Question Tool!", 600, 400);
 	},
 	"click .twitterbutton": function(event, template) {
 		var questionDiv = event.target.parentElement.parentElement;
@@ -476,7 +476,7 @@ Template.list.events({
 		if(questionText.length > 35) {
 			questionText = questionText.substring(0, 34);
 		}
-		var tweetText = 'Check out this question: "' + questionText + '..." on Question Tool by @berkmancenter ' + window.location.origin + "/list/" + Session.get("tablename");
+		var tweetText = 'Check out this question: "' + questionText + '..." on Question Tool by @berkmancenter ' + window.location.origin + "/list/" + Session.get("id");
 		popupwindow("https://twitter.com/intent/tweet?text=" + encodeURIComponent(tweetText), "Share Question Tool!", 600, 400);
 	},
 	"click #modbutton": function(event, template) {
@@ -614,7 +614,7 @@ function timeSince(date) {
 };
 
 function enableDragging() {
-	Meteor.call('adminCheck', Session.get("tablename"), function(error, result) {
+	Meteor.call('adminCheck', Session.get("id"), function(error, result) {
 		// If yes, enable draggable question divs
 		if(result) {
 			interact('.question')

@@ -1,11 +1,11 @@
 Template.add.onCreated(function () {
 	// Checks whether the user has a valid table cookie
-	Meteor.call('listCookieCheck', Session.get("tablename"), function (error, result) {
+	Meteor.call('listCookieCheck', Session.get("id"), function (error, result) {
 		if(!result) {
 			// If not, return the user to the chooser page
 			window.location.href = "/";
 		} else {
-			Meteor.call('adminCheck', Session.get("tablename"), function (error, result) {
+			Meteor.call('adminCheck', Session.get("id"), function (error, result) {
 				if(!result) {
 					// If not, return the user to the chooser page
 					window.location.href = "/";
@@ -66,7 +66,7 @@ Template.add.events({
 	},
 	"click .removebutton": function(event, template) {
 		var mod = event.currentTarget.previousElementSibling.value;
-		Meteor.call('removeMods', mod, Session.get("tablename"));
+		Meteor.call('removeMods', mod, Session.get("id"));
 	},
 	// When the submit button is clicked...
 	"click #modsdonebutton": function(event, template) {
@@ -78,7 +78,7 @@ Template.add.events({
 				mods.push(modsInput[m].value);
 			}
 		}
-		Meteor.call('addMods', mods, Session.get("tablename"), function(error, result) {
+		Meteor.call('addMods', mods, Session.get("id"), function(error, result) {
 			// If the result is an object, there was an error
 			if(typeof result === 'object') {
 				// Alert the error
