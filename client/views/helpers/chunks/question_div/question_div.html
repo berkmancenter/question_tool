@@ -101,7 +101,7 @@
 		</div>
 		<div class="replybottom" id="down{{_id}}">
 			<textarea id="text{{_id}}" class="replyarea" placeholder="Type a response..." maxlength="{{responseLength}}"></textarea>
-			<div class="replyfields" style="{{#if currentUser}}display: none{{/if}}">
+			<div class="replyfields">
 				{{#if currentUser}}
 					<input type="text" class="replyname" id="name{{_id}}" value="{{currentUser.profile.name}}" readonly>
 					<input type="text" class="replyemail" id="email{{_id}}" value="{{currentUser.emails.[0].address}}" readonly>
