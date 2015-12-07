@@ -289,6 +289,6 @@ function showCreateError(reason) {
 		Blaze.remove(currentError);
 	}
 	var parentNode = document.getElementById("recent");
-	var nextNode = document.getElementById("footercontainer");
-	currentError = Blaze.renderWithData(Template.form_error, reason, parentNode);
+	var nextNode = document.getElementById("questionscontainer");
+	currentError = Blaze.renderWithData(Template.form_error, reason, parentNode, nextNode);
 }
