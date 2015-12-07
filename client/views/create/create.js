@@ -146,6 +146,7 @@ Template.create.events({
 function showCreateError(reason) {
 	if(typeof currentError != "undefined") {
 		Blaze.remove(currentError);
+		document.getElementById("buttonarea").disabled = false;
 	}
 	var parentNode = document.getElementById("creatediv");
 	var nextNode = document.getElementById("instancebottominputcontainer");
