@@ -1,15 +1,15 @@
 #creditstext {
-	color:#777777;
-	font-family:regular;
-	text-align:center;
-	font-size:14px;
-	display:block;
-	margin:0px auto;
-	padding:0px;
-	line-height:1.5em;
-	width:80%;
-	margin-top:25px;
-	margin-bottom:35px;
+	color: #777777;
+	font-family: regular;
+	text-align: center;
+	font-size: 14px;
+	display: block;
+	margin: 0 auto;
+	padding: 0;
+	line-height: 1.5em;
+	width: 80%;
+	margin-top: 25px;
+	margin-bottom: 35px;
 }
 
 #creditstext a {
@@ -17,6 +17,26 @@
 }
 
 .creditsformcontainer {
-	position: relative;
-	z-index: 99999999999;
+	position: fixed;
+	background-color:black;
+    top: 1%;
+	left: 30%;
+	width: 40%;
+	opacity:.9;
+	overflow:hidden;
+	z-index:999999999999999;
+	cursor:pointer;	
+}
+
+@media screen and (max-width: 667px) {
+    .creditsformcontainer {
+	background-color:black;
+    top: 0;
+	left: 0;
+	width: 100%;
+	opacity:.9;
+	overflow:hidden;
+	z-index:999999999999999;
+	cursor:pointer;	
+}
 }
