@@ -180,7 +180,7 @@ Template.home.events({
 	},
 	"click .favoritebutton": function(event, template) {
 		var style = event.target.currentStyle || window.getComputedStyle(event.target, false),
-		bi = style.backgroundImage.slice(4, -1);
+		bi = style.backgroundImage.slice(4, -1).replace(/['"]+/g, '');
 		event.stopPropagation();
 		if(bi == (event.target.baseURI + "heart_empty.png")) {
 			event.target.style.backgroundImage = "url('" + event.target.baseURI + "heart_filled.png')";
