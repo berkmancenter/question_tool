@@ -28,7 +28,10 @@ Template.rename.events({
 				showRenameError("Name is already taken.");
 			} else {
 				if(template.data.isList) {
-					window.location.href = "/list/" + Session.get("id");
+					var instance = Instances.findOne({
+						_id: Session.get("id")
+					});
+					window.location.href = "/list/" + instance.slug;
 				}
 			}
 		});
