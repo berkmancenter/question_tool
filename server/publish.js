@@ -15,9 +15,9 @@ Meteor.publish('instances', function() {
 Meteor.publish('questions', function(instanceid) {
 	return Questions.find({
 		instanceid: instanceid,
-		state: { 
-			$ne : 'disabled' 
-		}
+		//state: { 
+		//	$ne : 'disabled' 
+		//}
 	});
 });
 
