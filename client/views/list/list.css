@@ -147,6 +147,7 @@ div#recent {
 	padding:1.5% 2% 1.5% 2%;
 	border-radius:5px;
 	padding-bottom:50px;
+	display: none;
 }
 
 .modcontainer {
