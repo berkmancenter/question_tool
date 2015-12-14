@@ -41,6 +41,9 @@ Template.list.onRendered(function() {
 	document.title = "Live Question Tool";
 	$('#topinputcontainer').hide();
 	$('head').append('<link rel="alternate" type="application/rss+xml" href="/rss/{{tablename}}"/>');
+	$('span.answertext').html(function() {
+		return $('span.answertext').html().replace(/(@\S+)/g, "<strong>$1</strong>");
+	});
 });
 
 Template.list.helpers({
