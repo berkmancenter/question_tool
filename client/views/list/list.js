@@ -41,9 +41,6 @@ Template.list.onRendered(function() {
 	document.title = "Live Question Tool";
 	$('#topinputcontainer').hide();
 	$('head').append('<link rel="alternate" type="application/rss+xml" href="/rss/{{tablename}}"/>');
-	$('span.answertext').html(function() {
-		return $('span.answertext').html().replace(/(@\S+)/g, "<strong>$1</strong>");
-	});
 });
 
 Template.list.helpers({
@@ -190,6 +187,7 @@ Template.list.helpers({
 						if(a > 2) {
 							questions[i].answer[a].isHidden = true;
 						}
+						questions[i].answer[a].text = questions[i].answer[a].text.replace(/\B(@\S+)/g, "<strong>$1</strong>");
 						var urlRegex = /(https?:\/\/(?:www\.|(?!www))[^\s\.]+\.[^\s]{2,}|www\.[^\s]+\.[^\s]{2,})/g;
 						questions[i].answer[a].text = questions[i].answer[a].text.replace(urlRegex, function(url) {
 							if(url.charAt(url.length-1) == ")") {
