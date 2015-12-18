@@ -141,10 +141,8 @@
 		</div>
 		{{#if adminButtons}}
 			<div class="adminbottom">
-				<!--<a class="hideQuestion" id="{{_id}}">Hide</a>
-				<a href="{{modifylink}}">Modify</a>-->
 				<div class="adminquestionhide" id="{{_id}}">
-					Hide
+					{{#if isDisabled}}Unhide{{else}}Hide{{/if}}
 				</div>
 				<div class="adminquestionmodify" id="{{_id}}">
 					Modify

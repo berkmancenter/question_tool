@@ -113,7 +113,7 @@ Template.list.helpers({
 		});
 		// Loops through the retrieved questions and sets properties
 		for(var i = 0; i < questions.length; i++) {
-			if(questions[i].state != "disabled") {
+			if(questions[i].state != "disabled" || Session.get("admin") || Session.get("mod")) {
 				var urlRegex = /(https?:\/\/(?:www\.|(?!www))[^\s\.]+\.[^\s]{2,}|www\.[^\s]+\.[^\s]{2,})/g;
 				questions[i].text = questions[i].text.replace(urlRegex, function(url) {
 					if(url.charAt(url.length-1) == ")") {
@@ -220,7 +220,7 @@ Template.list.helpers({
 				}
 			} else if(questions[i].state == "disabled") {
 				// If the question is disabled, don't display
-				questions[i].disabled = true;
+				//questions[i].disabled = true;
 			}
 		}
 		questions.sort(function(a, b) {
@@ -305,7 +305,12 @@ Template.list.events({
 	// When the admin hide button is clicked...
 	"click .adminquestionhide": function(event, template) {	
 		// Call the server-side hide method to hide the question
-		Meteor.call('hide', event.currentTarget.id);
+		if(Questions.findOne({ _id: event.currentTarget.id}).state === "disabled") {
+			Meteor.call('unhideThis', event.currentTarget.id);
+		}
+		else {
+			Meteor.call('hide', event.currentTarget.id);
+		}
 	},
 	// When the admin unhide button is clicked...
 	"click #unhidebutton": function(event, template) {	

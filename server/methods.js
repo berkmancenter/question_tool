@@ -203,6 +203,37 @@ Meteor.methods({
 			});
 		}
 	},
+	unhideThis: function(id) {
+		if(Meteor.user()) {
+			var email = Meteor.user().emails[0].address;
+		} else {
+			return false;
+		}
+		var question = Questions.findOne({
+			_id: id
+		});
+		var table = Instances.findOne({
+			_id: question.instanceid
+		});
+		if(email !== table.admin) {
+			if(table.moderators) {
+				if(table.moderators.indexOf(email) == -1) {
+					return false;
+				}
+			}
+		}
+		Questions.update({
+			_id: id
+		}, {
+			$set: {
+				state: "normal"
+			}
+		}, function(error, count, status) {
+			if(error) {
+				return false;
+			} 
+		});
+	},
 	addMods: function(mods, instanceid) {
 		if(Meteor.user()) {
 			var email = Meteor.user().emails[0].address;
