@@ -6,7 +6,7 @@ Template.modify.onCreated(function () {
 			window.location.href = "/";
 		} else {
 			// Checks whether the user has proper admin privileges
-			Meteor.call('adminCheck', Session.get("tablename"), function (error, result) {
+			Meteor.call('adminCheck', Session.get("id"), function (error, result) {
 				if(!result) {
 					// If not, redirects back to the list page
 					window.location.href = "/list";
@@ -43,7 +43,7 @@ Template.modify.events({
 			return false;
 		}
 		// Calls the server-side "modify" method to update the DBs
-		Meteor.call('modify', question, event.currentTarget.id, Session.get("tablename"), function (error, result) { 
+		Meteor.call('modify', question, event.currentTarget.id, Session.get("id"), function (error, result) { 
 			if(result) {
 				// If successful, redirect back to the list page
 				//window.location.href = "/list";

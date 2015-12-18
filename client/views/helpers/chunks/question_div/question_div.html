@@ -105,13 +105,24 @@
 				{{#if currentUser}}
 					<input type="text" class="replyname" id="name{{_id}}" value="{{currentUser.profile.name}}" readonly>
 					<input type="text" class="replyemail" id="email{{_id}}" value="{{currentUser.emails.[0].address}}" readonly>
+					<div id="checkarea1">
+						<div class="checkarealeft">
+							<div class="checkbox" id="anonbox">
+								<div class="checked" id="anoncheck">
+								</div>
+							</div>
+						</div>
+						<div class="checkarearight">
+							<p class="checkboxlabel">Post as anonymous?</p>
+						</div>
+					</div>
 				{{else}}
 					<input type="text" class="replyname" id="name{{_id}}" value="{{responseName}}" placeholder="Name...">
 					<input type="text" class="replyemail" id="email{{_id}}" value="{{responseEmail}}" placeholder="Email...">
 				{{/if}}
 			</div>
 			<div class="replybottomcheck">
-				<div class="checkarealeft" style="{{#if anonymous}}{{else}}visibility:hidden!important{{/if}}">
+				<div class="checkarealeft" style="{{#if anonymous}}{{else}}display: none{{/if}}">
 					<div class="checkbox" id="replyanonbox" style="{{#if anonymous}}{{else}}visibility:hidden!important{{/if}}">
 						<div class="checked anonchecked" id="{{_id}}">
 						</div>
@@ -130,10 +141,8 @@
 		</div>
 		{{#if adminButtons}}
 			<div class="adminbottom">
-				<!--<a class="hideQuestion" id="{{_id}}">Hide</a>
-				<a href="{{modifylink}}">Modify</a>-->
 				<div class="adminquestionhide" id="{{_id}}">
-					Hide
+					{{#if isDisabled}}Unhide{{else}}Hide{{/if}}
 				</div>
 				<div class="adminquestionmodify" id="{{_id}}">
 					Modify

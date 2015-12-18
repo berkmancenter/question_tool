@@ -20,11 +20,9 @@ Meteor.methods({
 		});
 	},
 	// A method that checks whether a table exists with parameter tablename
-	listCookieCheck: function(table) {
+	listCookieCheck: function(instanceid) {
 		var table = Instances.findOne({
-			tablename: { 
-				$regex: new RegExp("^" + table, "i") 
-			}
+			_id: instanceid
 		});
 		if(table == null) {
 			return false;
@@ -33,14 +31,14 @@ Meteor.methods({
 		}
 	},
 	// A method that checks whether the email matches the admin of the supplied tablename
-	adminCheck: function(tablename) {
+	adminCheck: function(instanceid) {
 		if(Meteor.user()) {
 			var user = Meteor.user().emails[0].address;
 		} else {
 			return false;
 		}
 		var table = Instances.findOne({
-			tablename: tablename
+			_id: instanceid
 		});
 		if(((user == table.admin) || (table.moderators.indexOf(user) != -1)) && (user && table.admin)) {
 			return true;
@@ -48,8 +46,22 @@ Meteor.methods({
 			return false;
 		}
 	},
+	sendEmail: function (to, from, subject, text) {
+	  check([to, from, subject, text], [String]);
+
+	  // Let other method calls from the same client start running,
+	  // without waiting for the email sending to complete.
+	  this.unblock();
+
+	  Email.send({
+	    to: to,
+	    from: from,
+	    subject: subject,
+	    text: text
+	  });
+	},
 	// A method that adds an answer to the databases
-	answer: function(tablename, answer, posterName, email, result, currentURL) {
+	answer: function(instanceid, answer, posterName, email, result, currentURL) {
 		var keys = "";
 		answer.replace(/<(?:.|\n)*?>/gm, '');
 		// Retrieves the current quesetion from the DB (if one exists)
@@ -65,7 +77,7 @@ Meteor.methods({
 				poster: posterName,
 				email: email,
 				ip: result,
-				tablename: tablename,
+				instanceid: instanceid,
 				qid: currentURL
 			}, function(error, id) {
 				// If error, set keys to the error object
@@ -84,7 +96,7 @@ Meteor.methods({
 							return false;
 						} else {
 							Instances.update({
-								tablename: tablename
+								instanceid: instanceid
 							}, {
 								$set: {
 									lasttouch: new Date().getTime() - 1000
@@ -139,6 +151,7 @@ Meteor.methods({
 			} else {
 				// If successful, add the "starter" question to the questions database
 				Questions.insert({
+					instanceid: id,
 					tablename: tablename,
 					text: "Welcome to the live question tool. Feel free to post questions. Vote by clicking on the 'vote' button. To reply, press the button in the bottom-right.",
 					poster: "the system",
@@ -149,6 +162,7 @@ Meteor.methods({
 				}, function(error, id) {
 					// If error, set keys to the error object
 					if(error) {
+						console.log("Second error " + error);
 						keys = error.invalidKeys;
 					}
 				});
@@ -163,19 +177,19 @@ Meteor.methods({
 		}
 	},
 	// Method that unhides every question in a given table
-	unhide: function(table) {
+	unhide: function(instanceid) {
 		if(Meteor.user()) {
 			var email = Meteor.user().emails[0].address;
 		} else {
 			return false;
 		}
 		var instance = Instances.findOne({
-			tablename: table
+			_id: instanceid
 		});
 		if(email === instance.admin) {
 			// Sets state to normal for every question with tablename table
 			Questions.update({
-				tablename: table
+				instanceid: instanceid
 			}, {
 				$set: {
 					state: "normal"
@@ -189,7 +203,38 @@ Meteor.methods({
 			});
 		}
 	},
-	addMods: function(mods, table) {
+	unhideThis: function(id) {
+		if(Meteor.user()) {
+			var email = Meteor.user().emails[0].address;
+		} else {
+			return false;
+		}
+		var question = Questions.findOne({
+			_id: id
+		});
+		var table = Instances.findOne({
+			_id: question.instanceid
+		});
+		if(email !== table.admin) {
+			if(table.moderators) {
+				if(table.moderators.indexOf(email) == -1) {
+					return false;
+				}
+			}
+		}
+		Questions.update({
+			_id: id
+		}, {
+			$set: {
+				state: "normal"
+			}
+		}, function(error, count, status) {
+			if(error) {
+				return false;
+			} 
+		});
+	},
+	addMods: function(mods, instanceid) {
 		if(Meteor.user()) {
 			var email = Meteor.user().emails[0].address;
 		} else {
@@ -197,11 +242,11 @@ Meteor.methods({
 		}
 		var keys;
 		var instance = Instances.findOne({
-			tablename: table
+			_id: instanceid
 		});
 		if(email === instance.admin) {
 			Instances.update({
-				tablename: table
+				_id: instanceid
 			}, {
 				$push: {
 					moderators: {
@@ -222,18 +267,18 @@ Meteor.methods({
 			return true;
 		}
 	},
-	removeMods: function(mod, table) {
+	removeMods: function(mod, instanceid) {
 		if(Meteor.user()) {
 			var email = Meteor.user().emails[0].address;
 		} else {
 			return false;
 		}
 		var instance = Instances.findOne({
-			tablename: table
+			_id: instanceid
 		});
 		if(email === instance.admin) {
 			Instances.update({
-				tablename: table
+				_id: instanceid
 			}, {
 				$pull: {
 					moderators: mod
@@ -249,7 +294,7 @@ Meteor.methods({
 		return true;
 	},
 	// Method that modifies a question
-	modify: function(question, id, table) {
+	modify: function(question, id, instanceid) {
 		if(Meteor.user()) {
 			var email = Meteor.user().emails[0].address;
 		} else {
@@ -257,7 +302,7 @@ Meteor.methods({
 		}
 		// Checks whether the user has the proper admin privileges
 		var instance = Instances.findOne({
-			tablename: table
+			_id: instanceid
 		});
 		if(email || instance.admin) {
 			if(email != instance.admin) {
@@ -284,7 +329,7 @@ Meteor.methods({
 		return true;
 	},
 	// Method that combines two questions and answers
-	combine: function(question, id1, id2, table) {
+	combine: function(question, id1, id2, instanceid) {
 		if(Meteor.user()) {
 			var email = Meteor.user().emails[0].address;
 		} else {
@@ -292,7 +337,7 @@ Meteor.methods({
 		}
 		// Checks whether the user has proper admin privileges
 		var instance = Instances.findOne({
-			tablename: table
+			_id: instanceid
 		});
 		if(email !== instance.admin) {
 			if(instance.moderators) {
@@ -337,18 +382,19 @@ Meteor.methods({
 		});
 	},
 	// Method that adds a new question to the database
-	propose: function(tablename, question, posterName, posterEmail, ip) {
+	propose: function(instanceid, tablename, question, posterName, posterEmail, ip) {
 		var keys;
 		question.replace(/<(?:.|\n)*?>/gm, '');
 		// Gets the current table
 		var table = Instances.findOne({
-			tablename: tablename
+			_id: instanceid
 		});
 		if(table == null) {
 			return false;
 		} else {
 			// Update the lasttouch of the Instance
 			Questions.insert({
+				instanceid: instanceid,
 				tablename: tablename,
 				text: question,
 				poster: posterName,
@@ -413,7 +459,7 @@ Meteor.methods({
 		return keys;
 	},
 	// Method that removes a table from the database
-	remove: function(table) {
+	remove: function(instanceid) {
 		if(Meteor.user()) {
 			var email = Meteor.user().emails[0].address;
 		} else {
@@ -421,28 +467,28 @@ Meteor.methods({
 		}
 		// Ensures that the user has proper admin privileges
 		var instance = Instances.findOne({
-			tablename: table
+			_id: instanceid
 		});
 		// Removes all questions with the given tablename
 		if(email !== instance.admin) {
 			return false;
 		}
 		Questions.remove({
-			tablename: table
+			instanceid: instanceid
 		}, function(error) {
 			if(error) {
 				alert(error);
 			} else {
 				// If successful, removes all answers with the given tablename
 				Answers.remove({
-					tablename: table
+					instanceid: instanceid
 				}, function(error) {
 					if(error) {
 						alert(error);
 					} else {
 						// If successful, remove the instance with the given tablename
 						Instances.remove({
-							tablename: table
+							_id: instanceid
 						}, function(error) {
 							if(error) {
 								alert(error);
@@ -464,7 +510,7 @@ Meteor.methods({
 			}
 		});
 	},
-	adminRemove: function(id) {
+	adminRemove: function(instanceid) {
 		// Ensures that the user has proper admin privileges
 		var result;
 		var hasAccess = false;
@@ -474,7 +520,7 @@ Meteor.methods({
 			return false;
 		}
 		var table = Instances.findOne({
-			_id: id
+			_id: instanceid
 		});
 		if(email) {
 			if(email === table.admin) {
@@ -486,21 +532,21 @@ Meteor.methods({
 		if(hasAccess) {
 			//Removes all of the questions with the given table ID
 			Questions.remove({
-				q: table.tablename
+				instanceid: instanceid
 			}, function(error) {
 				if(error) {
 					alert(error);
 				} else {
 					// If successful, removes all answers with the given tablename
 					Answers.remove({
-						tablename: table.tablename
+						instanceid: instanceid
 					}, function(error) {
 						if(error) {
 							alert(error);
 						} else {
 							// If successful, remove the instance with the given tablename
 							Instances.remove({
-								tablename: table.tablename
+								_id: instanceid
 							}, function(error) {
 								if(error) {
 									alert(error);
@@ -533,12 +579,6 @@ Meteor.methods({
 			return false;
 		}
 		var result;
-		var existsInstance = Instances.findOne({
-			tablename: name
-		});
-		if(existsInstance) {
-			return 1;
-		}
 		var originalInstance = Instances.findOne({
 			_id: id
 		});
@@ -561,41 +601,13 @@ Meteor.methods({
 			}, function(error, count, status) {
 				if(!error) {
 					Questions.update({
-						tablename: originalName
+						instanceid: id
 					}, {
 						$set: {
 							tablename: name
 						}
 					}, {
 						multi: true
-					}, function(error, count, status) {
-						if(!error) {
-							Answers.update({
-								tablename: originalName
-							}, {
-								$set: {
-									tablename: name
-								}
-							}, {
-								multi: true
-							}, function(error, count, status) {
-								if(!error) {
-									Votes.update({
-										tablename: originalName
-									}, {
-										$set: {
-											tablename: name
-										}
-									}, {
-										multi: true
-									}, function(error, count, status) {
-										if(!error) {
-											return 3;
-										}
-									});
-								}
-							});
-						}
 					});
 				}
 			});
@@ -604,17 +616,17 @@ Meteor.methods({
 		}
 	},
 	// Method that registers a vote on a question
-	vote: function(id, ip, tablename) {
+	vote: function(questionid, ip, instanceid) {
 		var keys = "";
 		// Ensures that the user hasn't already voted from their IP address
 		var votes = Votes.find({
-			qid: id,
+			qid: questionid,
 			ip: ip
 		});
 		if(votes.fetch().length == 0) {
 			// If they haven't voted, increment the given quesiton's vote # by 1 and update the lasttouch
 			Questions.update({
-				_id: id
+				_id: questionid
 			}, {
 				$set: {
 					lasttouch: new Date().getTime() - 1000
@@ -629,9 +641,9 @@ Meteor.methods({
 				} else {
 					// If successful, insert vote into the votes DB
 					Votes.insert({
-						qid: id, 
+						qid: questionid, 
 						ip: ip, 
-						tablename: tablename,
+						instanceid: instanceid,
 					}, function(error, id) {
 						if(error) {
 							// If error, set keys to the error object
@@ -654,7 +666,7 @@ Meteor.methods({
 			_id: id
 		});
 		var table = Instances.findOne({
-			tablename: question.tablename
+			_id: question.instanceid
 		});
 		if(email !== table.admin) {
 			if(table.moderators) {

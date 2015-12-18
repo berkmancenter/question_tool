@@ -121,6 +121,14 @@ Template.home.helpers({
 				instances[i].indexThree = true;
 			}
 		}
+		if(instances.length < 1) {
+			showCreateError("Nothing found.");
+		}
+		else {
+			if(typeof currentError != "undefined") {
+				Blaze.remove(currentError);
+			}
+		}
 		return instances;
 	}
 });
@@ -161,7 +169,7 @@ Template.home.events({
 		//var selectedInstance = instances.options[instances.selectedIndex].text;
 		//Cookie.set('tablename', theInstance.tablename);
 		// Redirects to the list
-		window.location.href = "/list/" + theInstance.tablename;
+		window.location.href = "/list/" + theInstance.slug;
 		//Router.go('/list');
 	},
 	"keyup #searchbar": function(event, template) {
@@ -174,7 +182,7 @@ Template.home.events({
 	},
 	"click .favoritebutton": function(event, template) {
 		var style = event.target.currentStyle || window.getComputedStyle(event.target, false),
-		bi = style.backgroundImage.slice(4, -1);
+		bi = style.backgroundImage.slice(4, -1).replace(/['"]+/g, '');
 		event.stopPropagation();
 		if(bi == (event.target.baseURI + "heart_empty.png")) {
 			event.target.style.backgroundImage = "url('" + event.target.baseURI + "heart_filled.png')";
@@ -276,13 +284,13 @@ function timeSince(date) {
     }
 
     return interval + ' ' + intervalType;
-};
+}
 
 function showCreateError(reason) {
 	if(typeof currentError != "undefined") {
 		Blaze.remove(currentError);
 	}
-	var parentNode = document.getElementById("creatediv");
-	var nextNode = document.getElementById("instancetopinputcontainer");
+	var parentNode = document.getElementById("recent");
+	var nextNode = document.getElementById("questionscontainer");
 	currentError = Blaze.renderWithData(Template.form_error, reason, parentNode, nextNode);
 }

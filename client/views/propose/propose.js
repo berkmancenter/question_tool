@@ -50,7 +50,7 @@ Template.propose.events({
 			checked.style.display = "none";
 			if(event.target.id == "savebox") {
 				$("#bottominputcontainer").slideUp();
-				$('#topinputcontainer').slideUp()
+				$('#topinputcontainer').slideUp();
 				document.getElementById("anoncheck").style.display = "block";
 			} else if(event.target.id == "anonbox") {
 				if(Meteor.user()) {
@@ -193,7 +193,7 @@ Template.propose.events({
 		Meteor.call('getIP', function (error, result) {
 			if (!error) {
 				// Calls server-side "propose" method to add question to DB
-				Meteor.call('propose', Session.get("tablename"), question, posterName, posterEmail, result, function (error, result) {
+				Meteor.call('propose', Session.get("id"), Session.get("tablename"), question, posterName, posterEmail, result, function (error, result) {
 					// If returns an object, there was an error
 					if(typeof result === 'object') {
 						// Store an object of the error names and codes
@@ -213,7 +213,7 @@ Template.propose.events({
 						return false;
 					} else {
 						// If successful, redirect back to the list page
-						// Router.go("/list");
+						//Router.go("/list");
 						if(typeof currentError != "undefined") {
 							Blaze.remove(currentError);
 						}

@@ -18,9 +18,13 @@
 						</div>
 					</li>
 				{{/if}}
-				<!--<a href="/propose">
-					<li>Ask</li>
-				</a>-->
+				{{#if admin}}
+					<li>
+						<div id="navAdmin">
+							Admin
+						</div>
+					</li>
+				{{/if}}
 			</ul>
 			{{#if currentUser}}
 				<div id="navProfile">

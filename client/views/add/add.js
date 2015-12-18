@@ -1,11 +1,11 @@
 Template.add.onCreated(function () {
 	// Checks whether the user has a valid table cookie
-	Meteor.call('listCookieCheck', Session.get("tablename"), function (error, result) {
+	Meteor.call('listCookieCheck', Session.get("id"), function (error, result) {
 		if(!result) {
 			// If not, return the user to the chooser page
 			window.location.href = "/";
 		} else {
-			Meteor.call('adminCheck', Session.get("tablename"), function (error, result) {
+			Meteor.call('adminCheck', Session.get("id"), function (error, result) {
 				if(!result) {
 					// If not, return the user to the chooser page
 					window.location.href = "/";
@@ -66,7 +66,7 @@ Template.add.events({
 	},
 	"click .removebutton": function(event, template) {
 		var mod = event.currentTarget.previousElementSibling.value;
-		Meteor.call('removeMods', mod, Session.get("tablename"));
+		Meteor.call('removeMods', mod, Session.get("id"));
 	},
 	// When the submit button is clicked...
 	"click #modsdonebutton": function(event, template) {
@@ -78,7 +78,15 @@ Template.add.events({
 				mods.push(modsInput[m].value);
 			}
 		}
-		Meteor.call('addMods', mods, Session.get("tablename"), function(error, result) {
+		Meteor.call('addMods', mods, Session.get("id"), function(error, result) {
+			console.log(Meteor.user().emails[0].address);
+			for(var m = 0; m < mods.length; m++) {
+				Meteor.call('sendEmail',
+				            mods[m],
+				            Meteor.user().emails[0].address,
+				            'You have been added as a moderator on Question Tool',
+				            Meteor.user().profile.name + ' added you as a moderator on Question Tool. You are able to modify, combine, and hide questions. You must use this email address when registering to be considered a moderator.');
+			}
 			// If the result is an object, there was an error
 			if(typeof result === 'object') {
 				// Alert the error
