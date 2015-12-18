@@ -78,12 +78,6 @@ Template.home.helpers({
 				}]
 			}).fetch();
 		}
-		if(instances.length < 1) {
-			showCreateError("Nothing found.");
-		}
-		else {
-			Blaze.remove(currentError);
-		}
 		instances.sort(function(a, b) {
 		    return b.lasttouch - a.lasttouch;
 		});
@@ -125,6 +119,14 @@ Template.home.helpers({
 				instances[i].indexTwo = true;
 			} else if(i % 3 == 2) {
 				instances[i].indexThree = true;
+			}
+		}
+		if(instances.length < 1) {
+			showCreateError("Nothing found.");
+		}
+		else {
+			if(typeof currentError != "undefined") {
+				Blaze.remove(currentError);
 			}
 		}
 		return instances;
