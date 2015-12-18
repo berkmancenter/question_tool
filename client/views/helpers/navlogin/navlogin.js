@@ -16,6 +16,14 @@ Template.userInfo.events({
 		var parentNode = document.getElementById("banner");
 		popoverTemplate = Blaze.render(Template.register, parentNode);
 	},
+	"click #navAdmin": function(event, template) {
+		if( $(".admincontainer").css('display') == 'none') {
+			$(".admincontainer").slideDown();
+		}
+		else {
+			$(".admincontainer").slideUp();
+		}
+	},
 	"click #navHome": function(event, template) {
 	 	document.getElementById("searchbar").value = "";
 		Session.set("search", "");
@@ -26,6 +34,12 @@ Template.userInfo.events({
 		$("#darker").fadeOut(400, function() {
 			Blaze.remove(popoverTemplate);
 		});
+	}
+});
+
+Template.userInfo.helpers({
+	admin: function() {
+		return Session.get("admin");
 	}
 });
 
