@@ -169,7 +169,7 @@ Template.home.events({
 		//var selectedInstance = instances.options[instances.selectedIndex].text;
 		//Cookie.set('tablename', theInstance.tablename);
 		// Redirects to the list
-		window.location.href = "/list/" + theID;
+		window.location.href = "/list/" + theInstance.slug;
 		//Router.go('/list');
 	},
 	"keyup #searchbar": function(event, template) {

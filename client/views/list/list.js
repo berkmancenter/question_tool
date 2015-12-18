@@ -13,6 +13,7 @@ Template.list.onCreated(function () {
 	Session.set("search", "all");
 	Session.set("tablename", Template.instance().data.tablename);
 	Session.set("id", Template.instance().data._id);
+	Session.set("slug", Template.instance().data.slug);
 	Session.set("description",  Template.instance().data.description);
 	if(typeof  Template.instance().data.anonymous !== 'undefined') {
 		Session.set("anonymous",  Template.instance().data.anonymous);
@@ -490,7 +491,7 @@ Template.list.events({
 		Session.set("replyCount", total);
 	},
 	"click .facebookbutton": function(event, template) {
-		popupwindow("https://www.facebook.com/sharer/sharer.php?u=" + encodeURIComponent(window.location.origin + "/list/" + Session.get("id")), "Share Question Tool!", 600, 400);
+		popupwindow("https://www.facebook.com/sharer/sharer.php?u=" + encodeURIComponent(window.location.origin + "/list/" + Session.get("slug")), "Share Question Tool!", 600, 400);
 	},
 	"click .twitterbutton": function(event, template) {
 		var questionDiv = event.target.parentElement.parentElement;
@@ -498,7 +499,7 @@ Template.list.events({
 		if(questionText.length > 35) {
 			questionText = questionText.substring(0, 34);
 		}
-		var tweetText = 'Check out this question: "' + questionText + '..." on Question Tool by @berkmancenter ' + window.location.origin + "/list/" + Session.get("id");
+		var tweetText = 'Check out this question: "' + questionText + '..." on Question Tool by @berkmancenter ' + window.location.origin + "/list/" + Session.get("slug");
 		popupwindow("https://twitter.com/intent/tweet?text=" + encodeURIComponent(tweetText), "Share Question Tool!", 600, 400);
 	},
 	"click #modbutton": function(event, template) {
