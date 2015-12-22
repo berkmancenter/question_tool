@@ -39,7 +39,7 @@ Template.list.onCreated(function () {
 
 Template.list.onRendered(function() {
 	// Sets the document title when the template is rendered
-	document.title = "Live Question Tool";
+	document.title = "Live Question Answer Tool";
 	$('#topinputcontainer').hide();
 	$('head').append('<link rel="alternate" type="application/rss+xml" href="/rss/{{tablename}}"/>');
 });

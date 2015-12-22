@@ -4,7 +4,7 @@ Template.home.onCreated(function() {
 
 Template.home.onRendered(function() {
 	// When the template is rendered, set the document title
-	document.title = "Live Question Tool Chooser";
+	document.title = "Live Question Answer Tool Chooser";
 	this.autorun(function() {
 		if(Meteor.user()) {
 			Meteor.call('superadmin', function(error, result) {
