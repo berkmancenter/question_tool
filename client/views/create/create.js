@@ -87,6 +87,7 @@ Template.create.events({
 		var author = Meteor.user().profile.name;
 		// Ensures that the table description is capitalized
 		description = description.charAt(0).toUpperCase() + description.slice(1);
+		description = UniHTML.purify(description, {withoutTags: ['a', 'img', 'ol', 'ul' , 'span' , 'br' , 'table' , 'caption' , 'col' , 'colgroup' , 'tbody' , 'td' , 'tfoot' , 'th' , 'thread' , 'tr' , 'li' ]});
 		// If the passwords don't match, alert the user
 		/*if(password != passwordConfirm) {
 			alert("Passwords do not match. Please try again.");
