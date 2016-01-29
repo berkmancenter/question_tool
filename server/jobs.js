@@ -5,9 +5,9 @@ SyncedCron.add({
     return parser.text('every 1 day');
   },
   job: function() {
-    var today = new Date();
+    var twentyNineDaysAgo = new Date(today.getTime() - 29*24*60*60*1000);
     var thirtyDaysAgo = new Date(today.getTime() - 30*24*60*60*1000);
-    var oldInstances = Instances.find({ lasttouch: { $lt: +thirtyDaysAgo } } ).fetch();
+    var oldInstances = Instances.find({ lasttouch: { $lt: +twentyNineDaysAgo, $gt: +thirtyDaysAgo } } ).fetch();
     for(var i = 0; i < oldInstances.length; i++) {
     	Email.send({
     		to: oldInstances[i].admin,
