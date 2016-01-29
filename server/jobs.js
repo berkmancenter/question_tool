@@ -2,7 +2,7 @@ SyncedCron.add({
   name: 'EMail Administrator when 30 Day Deletion is Approaching',
   schedule: function(parser) {
     // parser is a later.parse object
-    return parser.text('every 1 minute');
+    return parser.text('every 1 day');
   },
   job: function() {
     var today = new Date();
