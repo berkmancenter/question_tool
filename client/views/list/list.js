@@ -42,6 +42,22 @@ Template.list.onRendered(function() {
 	document.title = "Live Question Tool";
 	$('#topinputcontainer').hide();
 	$('head').append('<link rel="alternate" type="application/rss+xml" href="/rss/{{tablename}}"/>');
+
+	var elem = document.querySelector('.questionscontainer');
+	var msnry = new Masonry( elem, {
+	  // options
+	  itemSelector: '.question',
+	  columnWidth: '.question',
+	  gutter: 10,
+	  fitWidth: true
+	});
+
+	this.find('.questionscontainer')._uihooks = {
+		insertElement: function(node, next) {
+			elem.appendChild(node);
+			msnry.appended(node);
+		}
+	};
 });
 
 Template.list.helpers({
@@ -132,24 +148,6 @@ Template.list.helpers({
 					}
 				});
 				questions[i].adminButtons = (Session.get("admin") || Session.get("mod"));
-				// Every other question goes in column #2
-				if($(document).width() > 1075) {
-					if(i % 3 == 0) {
-						questions[i].indexOne = true;
-					} else if(i % 3 == 1) {
-						questions[i].indexTwo = true;
-					} else if(i % 3 == 2) {
-						questions[i].indexThree = true;
-					}
-				} else if($(document).width() < 1075 && $(document).width() > 720) {
-					if(i % 2 == 0) {
-						questions[i].indexOne = true;
-					} else if(i % 2 == 1) {
-						questions[i].indexTwo = true;
-					}
-				} else {
-					questions[i].indexOne = true;
-				}
 				// Sets the answer and modify links
 				questions[i].answerlink = "/answer/" + questions[i]._id;
 				questions[i].modifylink = "/modify/" + questions[i]._id;

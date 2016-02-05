@@ -227,6 +227,7 @@ Template.propose.events({
 				});
 			}
 		});
+		console.log("Question added!");
 	},
 	"keyup #questioninput": function(event, template) {
 		var urlRegex = /(https?:\/\/(?:www\.|(?!www))[^\s\.]+\.[^\s]{2,}|www\.[^\s]+\.[^\s]{2,})/g;
