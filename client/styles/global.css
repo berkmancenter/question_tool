@@ -141,7 +141,7 @@ a {
 }
 
 .input:focus {
-  border: 2px solid #7ec3f1!important;
+  border: 2px solid #7ec3f1;
 }
 
 .time {
@@ -279,7 +279,6 @@ a {
 
 #checkarea1 {
   width: 180px;
-  float: left;
 }
 
 #checkarea2 {
