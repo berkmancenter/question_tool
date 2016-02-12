@@ -1,129 +1,80 @@
-.instance {
-	background-color:#FFF;
-	border: 2px solid #e9edf0;
-	border-radius:5px;
-	float:left;
-	width:90%;
-	margin:.5% 2% .5% 0;
-	padding:2%!important;
-	padding-top:1%!important;
-	padding-bottom:10px!important;
-	margin-bottom:15px;
-	cursor:pointer;
-	position:relative;
+.adminimage {
+  width: 14px;
+  height: 14px;
+  display: inline-block;
 }
 
-.instance .instancename {
-	pointer-events: none;
-}
-
-.instance .answercontainer {
-	pointer-events:none;
-}
-
-.instance .questionbottom {
-	pointer-events:none;
-}
-
-.instance .bottomleft {
-	pointer-events:none;
-}
-
-.instance .postername {
-	pointer-events:none;
-	float:left;
-}
-
-.instance .time {
-	pointer-events:none;
-	float:right;
-}
-
-.instance:hover {
-	background-color:#F7F7F7;
-}
-
-.instancebottomleft {
-	width:100%;
-}
-
-.bottomleft {
-	width:50%;
-	float:left;
-}
-
-.bottomright {
-	width:50%;
-	float:right;
-}
-
-.description {
-	display:block;
-	margin:0px auto;
-	width:40%;
-	text-align:center;
-	margin-bottom:0px;
-	margin-top:10px;
-	padding-bottom:0px;
-	padding-left:5px;
-	color:#999999;
-	font-family:semibold;
-}
-
-.instancename {
-	padding-left:8px;
-	padding-top:4px;
-	margin-top:0px;
-	font-family:semibold;
-	font-size:20px;
-	color:#333333;
-	padding-bottom:10px;
-	margin-bottom:0px;
-}
-
-.favoriteInstance {
-	border:2px solid #ec4f4f;
-}
-
-.favoritebutton {
-	background-image:url('/heart_empty.png');
-	background-size:contain;
-	background-repeat:no-repeat;
-	width:20px;
-	height:20px;
-	position:absolute;
-	top:0;
-	right:0;
-	cursor:pointer;
-	z-index:99999999;
-	margin:15px;
+.admintext {
+  color: #f1c40f;
+  font-family: bold;
+  display: inline-block;
 }
 
 .buttonFavorite {
-	background-image:url('/heart_filled.png')!important;
+  background-image: url('/heart_filled.png')!important;
 }
 
-.adminimage {
-	width:14px;
-	height:14px;
-	float:left;
-	margin-right:4px;
-	margin-top:2px;
-	padding-top:0px;
+.description {
+  display: block;
+  margin: 0 auto;
+  width: 40%;
+  text-align: center;
+  margin-bottom: 0;
+  margin-top: 10px;
+  padding-bottom: 0;
+  padding-left: 5px;
+  color: #999999;
+  font-family: semibold;
+}
+
+.favorite-instance {
+  border: 2px solid #ec4f4f;
+}
+
+.favoritebutton {
+  background-image: url('/heart_empty.png');
+  background-size: contain;
+  background-repeat: no-repeat;
+  width: 20px;
+  height: 20px;
+  position: absolute;
+  top: 0.85em;
+  right: 0.8em;
+  cursor: pointer;
+  z-index: 20;
+}
+
+.instance {
+  background-color: #FFF;
+  border: 1px solid #e9edf0;
+  border-radius: 5px;
+  width: 18.5em;
+  padding: 0.75em;
+  padding-bottom: 10px;
+  margin-bottom: 1em;
+  display: inline-block;
+  margin: 5px;
+  position: relative;
+}
+
+.instancename {
+  font-family: semibold;
+  font-size: 20px;
+  color: #333333;
+  padding-bottom: 0.2em;
+  margin: 0;
 }
 
 .modimage {
-	width:20px;
-	height:20px;
-	float:left;
-	margin-right:4px;
-	margin-top:-1px;
-	padding-top:0px;
+  width: 20px;
+  height: 20px;
+  float: left;
+  margin-right: 4px;
+  margin-top: -1px;
+  padding-top: 0;
 }
 
 .instancebadgecontainer {
-	float:right;
-	margin-top:7px;
-	margin-left:6px;
-	margin-right:38px;
+  margin-right: 1.5em;
+  margin-top: 0.2em;
 }

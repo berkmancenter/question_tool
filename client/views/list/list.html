@@ -1,5 +1,5 @@
 <template name="list">
-	<div id="wrapper">
+	<div class="wrapper">
 		{{> userInfo list=true}}
 	</div>
 	<p class="instancetitle">{{tablename}}</p>
@@ -34,7 +34,7 @@
 			<p>Click and drag two questions together to combine.</p>
 		</div>
 	{{/if}}
-	<div class="questionscontainer">
+	<div class="container">
 		{{#each question}}
 			{{> question_div}}
 		{{/each}}

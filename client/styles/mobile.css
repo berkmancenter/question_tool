@@ -1,15 +1,8 @@
-@media (max-width: 1330px) {
-	#questionscontainer {
-		width:90%!important;
-	}
-}
-
 @media (max-width: 1200px) {
 	#tablename {
 		display:none!important;
 	}
 	.homebanner #searchbar {
-		margin-left:10%!important;
 		width:30%!important;
 	}
 }

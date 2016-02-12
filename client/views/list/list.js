@@ -42,22 +42,6 @@ Template.list.onRendered(function() {
 	document.title = "Live Question Tool";
 	$('#topinputcontainer').hide();
 	$('head').append('<link rel="alternate" type="application/rss+xml" href="/rss/{{tablename}}"/>');
-
-	var elem = document.querySelector('.questionscontainer');
-	var msnry = new Masonry( elem, {
-	  // options
-	  itemSelector: '.question',
-	  columnWidth: '.question',
-	  gutter: 10,
-	  fitWidth: true
-	});
-
-	this.find('.questionscontainer')._uihooks = {
-		insertElement: function(node, next) {
-			elem.appendChild(node);
-			msnry.appended(node);
-		}
-	};
 });
 
 Template.list.helpers({

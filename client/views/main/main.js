@@ -113,13 +113,6 @@ Template.home.helpers({
 				instances[i].month = true;
 			}
 			instances[i].lasttouch = timeSince(instances[i].lasttouch);
-			if(i % 3 == 0) {
-				instances[i].indexOne = true;
-			} else if(i % 3 == 1) {
-				instances[i].indexTwo = true;
-			} else if(i % 3 == 2) {
-				instances[i].indexThree = true;
-			}
 		}
 		if(instances.length < 1) {
 			showCreateError("Nothing found.");
@@ -159,19 +152,6 @@ Template.home.events({
 		}
 	},
 	// When the submit button is clicked
-	"click .instance": function(event, template) {
-		// Sets the tablename cookie to the chosen table
-		var theID = event.target.id;
-		var theInstance = Instances.findOne({
-			_id: theID
-		});
-		//var instances = document.getElementsByTagName("select")[0];
-		//var selectedInstance = instances.options[instances.selectedIndex].text;
-		//Cookie.set('tablename', theInstance.tablename);
-		// Redirects to the list
-		window.location.href = "/list/" + theInstance.slug;
-		//Router.go('/list');
-	},
 	"keyup #searchbar": function(event, template) {
 		if(event.target.value) {
 			Session.set("search", event.target.value);
