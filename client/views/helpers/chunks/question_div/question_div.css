@@ -3,7 +3,6 @@
   width: 9em;
   margin-top: 15px;
   height: 26px;
-  margin-left: 10px;
   background-color: white;
   border: 2px solid #CCCCCC;
   color: #CCCCCC;
@@ -13,13 +12,11 @@
   padding-top: 7px;
   border-radius: 5px;
   cursor: pointer;
-  z-index: 999;
 }
 
 .adminquestionmodify,
 .superadmindeletebutton {
   margin-top: 15px;
-  margin-right: 5px;
   height: 26px;
   width: 9em;
   background-color: white;
@@ -32,6 +29,22 @@
   border-radius: 5px;
   cursor: pointer;
   z-index: 999;
+}
+
+.anon-reply-bottom-button {
+  color: #47c3e1;
+  cursor: pointer;
+  height: 26px;
+  width: 9em;
+  background-color: white;
+  border: 2px solid #47c3e1;
+  font-size: 14px;
+  font-family: semibold;
+  text-align: center;
+  padding-top: 5px;
+  margin-top: 20px;
+  margin-bottom: 6px;
+  border-radius: 5px;
 }
 
 .answer {
@@ -61,25 +74,21 @@
 }
 
 #bottomquestionarea {
-  width: 700px;
+  width: 90%;
   height: 50px;
   background-color: #f2f4f5;
   display: block;
   border-radius: 0 0 5px 5px;
-  /*padding:14px;*/
+  padding: 0 25px;
+  margin: 0 auto;
 }
 
 .countarea {
-  width: auto;
   margin-top: 16px;
-  margin-left: 46px;
   font-family: light;
   color: #999999;
   font-size: 15px;
-}
-
-#darkcounter {
-  color: #333333;
+  position: absolute;
 }
 
 .facebookbutton {
@@ -168,7 +177,6 @@
 }
 
 .quesitonbottom {
-  padding-left: 6px;
   margin-top: 6px;
   position: relative;
 }
@@ -200,8 +208,8 @@
 
 .replybutton {
   cursor: pointer;
-  height: 23px;
-  width: 65px;
+  width: 100%;
+  height: 26px;
   background-color: white;
   border: 2px solid #CCCCCC;
   color: #CCCCCC;
@@ -235,7 +243,6 @@
 .question {
   background-color: #FFF;
   border: 2px solid #e9edf0;
-  border-radius: 5px;
   width: 19em;
   padding: 0.5em;
   padding-bottom: 10px;
@@ -244,10 +251,22 @@
   display: inline-block;
 }
 
+.question-time {
+  color: #999999;
+  font-family: regular;
+  font-size: 12px;
+  padding-left: 3px;
+  margin-top: 6px;
+  margin-right: 6px;
+  position: absolute;
+  right: 0.9em;
+}
+
 .replybottom {
   display: none;
   margin: 0 auto;
-  padding-top: 20px;
+  justify-content: space-between;
+  flex-wrap: wrap;
 }
 
 .replybottomcheck {
@@ -258,11 +277,10 @@
   width: 21em;
   display: block;
   margin: 0 auto;
-  border: 2px solid #e9edf0;
-  border-radius: 5px 5px 0 0;
+  border: 0.1em solid #e9edf0;
   color: #888888;
   font-family: light;
-  padding-left: 5px;
+  padding-left: 0.4em;
   font-size: 14px;
   height: 65px;
   outline: 0;
@@ -270,35 +288,34 @@
 }
 
 .replyname {
-  width: 10em;
-  height: 36px;
+  width: 10.2em;
   outline: 0;
-  padding: 0;
+  padding: 0.5em 0.2em;
   margin: 0;
-  border-left: 0.2em solid #e9edf0;
-  border-right: 0.2em solid #e9edf0;
-  border-bottom: 0.2em solid #e9edf0;
+  border-left: 0.1em solid #e9edf0;
+  border-right: 0.1em solid #e9edf0;
+  border-bottom: 0.1em solid #e9edf0;
+  border-top: 0;
   font-family: light;
-  padding-left: 5px;
   font-size: 14px;
 }
 
 .replyemail {
-  width: 10em;
-  height: 36px;
+  width: 10.2em;
   margin: 0;
-  padding: 0;
+  padding: 0.5em 0.26em;
   outline: 0;
-  border-right: 2px solid #e9edf0;
-  border-bottom: 2px solid #e9edf0;
+  border-left: 0.1em solid #e9edf0;
+  border-right: 0.1em solid #e9edf0;
+  border-bottom: 0.1em solid #e9edf0;
+  border-top: 0;
   font-family: light;
-  padding-left: 5px;
   font-size: 14px;
 }
 
 .replybottombutton {
   cursor: pointer;
-  height: 25px;
+  height: 26px;
   width: 9em;
   background-color: white;
   border: 2px solid #27ae60;
@@ -317,6 +334,7 @@
   color: #999999;
   font-size: 14px;
   text-align: right;
+  margin-left: auto;
 }
 
 .replybottombutton:hover {

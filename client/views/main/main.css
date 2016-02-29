@@ -18,30 +18,26 @@
 }
 
 #instancenameinput {
-  float: left;
-  width: 680px;
-  padding: 0px!important;
-  margin: 0px!important;
+  width: 90%;
+  padding: 0 25px;
+  margin: 0 auto;
   border-radius: 5px 5px 0px 0px;
   border-width: 0;
   border-bottom: 1px solid #e3e3e3;
   height: 50px;
   color: #888888;
-  padding-left: 20px!important;
   font-family: light;
   font-size: 14px;
   display: block;
 }
 
 #instancedescriptioninput {
-  float: left;
-  width: 680px;
-  padding: 0px!important;
-  margin: 0px!important;
+  width: 90%;
+  padding: 0 25px;
+  margin: 0 auto;
   border-width: 0;
   height: 50px;
   color: #888888;
-  padding-left: 20px!important;
   font-family: light;
   font-size: 14px;
   display: block;
@@ -49,7 +45,7 @@
 }
 
 .emptyinputspacer {
-  width: 280px;
+  width: 210px;
   float: right;
   height: 50px;
 }
@@ -102,12 +98,12 @@ input:focus {
 }
 
 #instancebottominputcontainer {
-  height: 320px;
+  height: 360px;
   display: none;
-  width: 100%;
+  width: 90%;
   background-color: #f9f9f9;
-  padding-top: 30px;
-  padding-bottom: 20px;
+  padding: 30px 25px 20px 25px;
+  margin: 0 auto;
 }
 
 .dropdowncontainer {

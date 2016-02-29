@@ -7,8 +7,17 @@
 	}
 }
 
-@media (max-width: 990px) {
-	.homebanner #navProfile {
+@media (max-width: 1186px) {
+	.loggedoutlistbanner #searchbar {
+		width:35%!important;
+	}
+	.loggedoutlistbanner #navProfile {
+		display:none!important;
+	}
+}
+
+@media (max-width: 1105px) {
+	.loggedoutlistbanner #navRegister, .loggedoutlistbanner #navLogin {
 		display:none!important;
 	}
 }
@@ -25,6 +34,18 @@
 	}
 	.lastcolumn {
 		width:100%!important;
+	}
+}
+
+@media (max-width: 990px) {
+	.homebanner #navProfile {
+		display:none!important;
+	}
+}
+
+@media (max-width: 960px) {
+	.loggedinlistbanner #navProfile {
+		display:none!important;
 	}
 }
 
@@ -56,6 +77,16 @@
 	}
 }
 
+@media (max-width: 800px) {
+	.loggedinlistbanner #navbuttons {
+		display:none!important;
+	}
+	.container {
+		width: 20em;
+		margin: 0 auto;
+	}
+}
+
 @media (max-width: 720px) {
 	.instancecolumn {
 		width:100%!important;
@@ -63,20 +94,13 @@
 	.subcolumn {
 		width:100%!important;
 	}
-}
 
-@media (max-width: 1105px) {
-	.loggedoutlistbanner #navRegister, .loggedoutlistbanner #navLogin {
-		display:none!important;
+	#navPresent {
+		display: none;
 	}
-}
 
-@media (max-width: 1186px) {
-	.loggedoutlistbanner #searchbar {
-		width:35%!important;
-	}
-	.loggedoutlistbanner #navProfile {
-		display:none!important;
+	#searchbar {
+		font-size: 12px;
 	}
 }
 
@@ -92,17 +116,5 @@
 	}
 	.loggedoutlistbanner #searchbar {
 		width:32%!important;
-	}
-}
-
-@media (max-width: 960px) {
-	.loggedinlistbanner #navProfile {
-		display:none!important;
-	}
-}
-
-@media (max-width: 800px) {
-	.loggedinlistbanner #navbuttons {
-		display:none!important;
 	}
 }

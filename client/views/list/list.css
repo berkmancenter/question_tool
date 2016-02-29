@@ -15,15 +15,13 @@
 #questiondiv {
   display: block;
   margin: 0px auto;
-  width: 700px;
   height: auto;
   background-color: #27b0d8;
 }
 
 #questioninput {
-  width: 650px;
+  width: 90%;
   height: 110px;
-  padding: 0;
   font-size: 15px;
   border-width: 0;
   padding: 20px 20px 20px 30px;
@@ -31,7 +29,7 @@
   font-family: light;
   border-radius: 5px 5px 0 0;
   border-bottom: 1px solid #e3e3e3;
-  margin: 0px!important;
+  margin: 0 auto;
   display: block;
   resize: none;
 }
@@ -116,8 +114,7 @@
   background-color: #e3e3e3;
   border: 2px solid #CCCCCC;
   display: block;
-  margin: 0px auto;
-  margin-top: 25px;
+  margin: 25px auto;
   padding: 1.5% 2% 1.5% 2%;
   border-radius: 5px;
   padding-bottom: 50px;

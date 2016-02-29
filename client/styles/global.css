@@ -1,17 +1,6 @@
-html {
-  position: relative;
-  min-height: 100%;
-}
-
 body {
   background-color: #f2f4f5;
-  color: #000;
-  margin: 0 0 45px;
-  padding: 0;
-}
-
-* {
-  text-indent: 0;
+  margin: 0 0 3em;
 }
 
 a {
@@ -251,14 +240,16 @@ a {
 }
 
 #checkareas {
-  width: 360px;
   float: left;
-  margin-top: 14px;
-  margin-left: 8px;
+  margin-left: 2.5em;
+}
+
+#checkarea1 {
+  padding-top: 0.8em;
 }
 
 #buttonarea {
-  width: 200px;
+  width: 150px;
   height: 25px;
   margin-right: 12px;
   margin-top: 10px;
@@ -275,10 +266,6 @@ a {
 
 #buttonarea:hover {
   background-color: #2ecc71;
-}
-
-#checkarea1 {
-  width: 180px;
 }
 
 #checkarea2 {
