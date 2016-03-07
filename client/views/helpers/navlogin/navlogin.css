@@ -17,19 +17,20 @@
     font-family: semibold;
     display: inline;
     float: left;
-    margin-left: 130px;
+    margin-left: 1em;
 }
 
 #searchbar {
     height: 32px;
+    width: 22em;
     display: inline;
     float: left;
     background-color: white;
     margin-top: 11px;
     margin-left: 1em;
     border-radius: 5px;
-    border: 0px;
-    outline: 0px;
+    border: 0;
+    outline: 0;
     padding-left: 35px;
     font-family: regular;
     color: #444444;
