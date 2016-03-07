@@ -102,15 +102,13 @@
 
 #navUnPresent {
     display: none;
-    width: auto;
+    width: 3em;
     height: 22px;
     background-color: #5d6a7b;
     cursor: pointer;
-    float: right;
     padding: 6px 15px 5px 15px;
     border-radius: 5px;
-    margin-top: 12px;
-    margin-right: 20px;
+    margin: 0.5em auto;
     color: white;
     font-family: semibold;
 }
