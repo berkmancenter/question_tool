@@ -1,5 +1,5 @@
 <template name="question_div">
-	<div id="{{_id}}" class="question {{#if popular}}popularquestion{{else}}{{age_marker}}{{/if}}">
+	<div id="{{_id}}" class="question {{#if popular}}popularquestion{{else}}{{age_marker}}{{/if}} {{#if isDisabled}}hiddenQuestion{{/if}}">
 		<!--<div class="votes v{{shade}}">
 			<a class="voteClick" id="{{_id}}" href="{{votelink}}">{{votes}}<br />votes</a>-->
 		<div id="votearea">

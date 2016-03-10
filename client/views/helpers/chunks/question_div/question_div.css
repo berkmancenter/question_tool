@@ -386,6 +386,10 @@
 	opacity:.7;
 }
 
+.hiddenQuestion {
+	border:2px solid #FF0000;
+}
+
 .starimage {
 	width:16px;
 	height:16px;
