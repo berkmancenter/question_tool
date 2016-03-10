@@ -2,15 +2,9 @@
 	#tablename {
 		display:none!important;
 	}
-	.homebanner #searchbar {
-		width:40%!important;
-	}
 }
 
 @media (max-width: 1186px) {
-	.loggedoutlistbanner #searchbar {
-		width:35%!important;
-	}
 	.loggedoutlistbanner #navProfile {
 		display:none!important;
 	}
@@ -60,9 +54,6 @@
 	.homebanner #navHome {
 		display:none!important;
 	}
-	.homebanner #searchbar {
-		width:84%!important;
-	}
 	#navbuttons {
 		float:left!important;
 	}
@@ -108,13 +99,15 @@
 	.homebanner #navProfile {
 		display:none!important;
 	}
+
+	#navAsk, #navLogout {
+		font-size: 11px;
+		margin: 1em 0.5em;
+	}
 }
 
 @media (max-width: 630px) {
 	.loggedoutlistbanner #navbuttons {
 		display:none!important;
-	}
-	.loggedoutlistbanner #searchbar {
-		width:32%!important;
 	}
 }
