@@ -85,7 +85,7 @@ Template.add.events({
 				            mods[m],
 				            Meteor.user().emails[0].address,
 				            'You have been added as a moderator on Question Tool',
-				            Meteor.user().profile.name + ' added you as a moderator on Question Tool. You are able to modify, combine, and hide questions. You must use this email address when registering to be considered a moderator.');
+				            Meteor.user().profile.name + ' added you as a moderator of ' + Session.get('tablename') + ' at ' + Iron.Location.get().originalUrl + ' on Question Tool. You are able to modify, combine, and hide questions. You must use this email address when registering to be considered a moderator.');
 			}
 			// If the result is an object, there was an error
 			if(typeof result === 'object') {
