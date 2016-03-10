@@ -63,9 +63,6 @@
 	.loggedoutlistbanner #navProfile {
 		display:inline-block!important;
 	}
-	.homebanner #rightInfo {
-		display:none!important;
-	}
 }
 
 @media (max-width: 800px) {
