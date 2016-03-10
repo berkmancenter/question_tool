@@ -1,21 +1,23 @@
-@media (max-width: 1330px) {
-	#questionscontainer {
-		width:90%!important;
-	}
-}
-
 @media (max-width: 1200px) {
 	#tablename {
 		display:none!important;
 	}
 	.homebanner #searchbar {
-		margin-left:10%!important;
-		width:30%!important;
+		width:40%!important;
 	}
 }
 
-@media (max-width: 990px) {
-	.homebanner #navProfile {
+@media (max-width: 1186px) {
+	.loggedoutlistbanner #searchbar {
+		width:35%!important;
+	}
+	.loggedoutlistbanner #navProfile {
+		display:none!important;
+	}
+}
+
+@media (max-width: 1105px) {
+	.loggedoutlistbanner #navRegister, .loggedoutlistbanner #navLogin {
 		display:none!important;
 	}
 }
@@ -35,6 +37,18 @@
 	}
 }
 
+@media (max-width: 990px) {
+	.homebanner #navProfile {
+		display:none!important;
+	}
+}
+
+@media (max-width: 960px) {
+	.loggedinlistbanner #navProfile {
+		display:none!important;
+	}
+}
+
 @media (max-width: 945px) {
 	#banner {
 		height:60px!important;
@@ -47,7 +61,7 @@
 		display:none!important;
 	}
 	.homebanner #searchbar {
-		width:76%!important;
+		width:84%!important;
 	}
 	#navbuttons {
 		float:left!important;
@@ -63,6 +77,16 @@
 	}
 }
 
+@media (max-width: 800px) {
+	.loggedinlistbanner #navbuttons {
+		display:none!important;
+	}
+	.container {
+		width: 20em;
+		margin: 0 auto;
+	}
+}
+
 @media (max-width: 720px) {
 	.instancecolumn {
 		width:100%!important;
@@ -70,20 +94,13 @@
 	.subcolumn {
 		width:100%!important;
 	}
-}
 
-@media (max-width: 1105px) {
-	.loggedoutlistbanner #navRegister, .loggedoutlistbanner #navLogin {
-		display:none!important;
+	#navPresent {
+		display: none;
 	}
-}
 
-@media (max-width: 1186px) {
-	.loggedoutlistbanner #searchbar {
-		width:35%!important;
-	}
-	.loggedoutlistbanner #navProfile {
-		display:none!important;
+	#searchbar {
+		font-size: 12px;
 	}
 }
 
@@ -99,17 +116,5 @@
 	}
 	.loggedoutlistbanner #searchbar {
 		width:32%!important;
-	}
-}
-
-@media (max-width: 960px) {
-	.loggedinlistbanner #navProfile {
-		display:none!important;
-	}
-}
-
-@media (max-width: 800px) {
-	.loggedinlistbanner #navbuttons {
-		display:none!important;
 	}
 }

@@ -132,24 +132,6 @@ Template.list.helpers({
 					}
 				});
 				questions[i].adminButtons = (Session.get("admin") || Session.get("mod"));
-				// Every other question goes in column #2
-				if($(document).width() > 1075) {
-					if(i % 3 == 0) {
-						questions[i].indexOne = true;
-					} else if(i % 3 == 1) {
-						questions[i].indexTwo = true;
-					} else if(i % 3 == 2) {
-						questions[i].indexThree = true;
-					}
-				} else if($(document).width() < 1075 && $(document).width() > 720) {
-					if(i % 2 == 0) {
-						questions[i].indexOne = true;
-					} else if(i % 2 == 1) {
-						questions[i].indexTwo = true;
-					}
-				} else {
-					questions[i].indexOne = true;
-				}
 				// Sets the answer and modify links
 				questions[i].answerlink = "/answer/" + questions[i]._id;
 				questions[i].modifylink = "/modify/" + questions[i]._id;
@@ -358,7 +340,9 @@ Template.list.events({
 		var theArea = document.getElementById("down" + theID);
 		if(theArea.style.display == "none" || !theArea.style.display) {
 			document.getElementById("reply" + theID).innerHTML = "Close";
-			$("#down" + theID).slideDown(); 
+			$("#down" + theID).slideDown(400, function() {
+				$(this).css("display", "flex")
+			}); 
 			$('#text' + theID).focus();
 		} else {
 			if(typeof replyError != "undefined") {
@@ -395,29 +379,54 @@ Template.list.events({
 		var theID = event.target.id;
 		//var anonymous = document.getElementById("anonbox").checked;
 		var answer = document.getElementById("text" + theID).value;
-		var posterName = document.getElementById("name" + theID).value;
-		var email = document.getElementById("email" + theID).value;
-		var anonChecks = document.getElementsByClassName("anonchecked");
-		for(var a = 0; a < anonChecks.length; a++) {
-			if(anonChecks[a].id == theID) {
-				var anonElement = anonChecks[a];
+		var posterName = Meteor.user().profile.name;
+		var email = Meteor.user().emails[0].address;
+		// Gets the user's IP address from the server
+		Meteor.call('getIP', function (error, result) {
+			if(!error) {
+				// If a name isn't specified, call them "Anonymous"
+				if(!posterName) {
+					posterName = "Anonymous";
+				}
+				// Calls a server-side method to answer a question and update DBs
+				Meteor.call('answer', Session.get("id"), answer, posterName, email, result, theID, function (error, result) {
+					// If the result is an object, there was an error
+					if(typeof result === 'object') {
+						// Store an object of the error names and codes
+						var errorCodes = {
+							"text": "Please enter an answer.",
+							"poster": "Please enter a valid name.",
+							"email": "Please enter a valid email address.",
+							"ip": "There was an error with your IP address. Try again.",
+							"instanceid": "There was an error with the instance id. Try again.",
+							"qid": "There was an error with the question ID."
+						}
+						// Alert the error
+						showReplyError(errorCodes[result[0].name], theID);
+						return false;
+					} else {
+						if(typeof replyError != "undefined") {
+							Blaze.remove(replyError);
+						}
+						document.getElementById("reply" + theID).innerHTML = "Reply";
+						document.getElementById("text" + theID).value = "";
+						$("#down" + theID).slideUp();
+					}
+				});
 			}
-		}
-		if(anonElement.style.display) {
-			var anonymous = (anonElement.style.display != "none");
-		} else {
-			var anonymous = false;
-		}
-		if(Session.get("anonymous")) {
-			if(anonymous) {
-				posterName = "Anonymous";
-				email = "";
-			}
-		} else {
-			if(!posterName || !email) {
-				showReplyError("The admin has disabled anonymous posting.", theID);
-				return false;
-			}
+		});
+	},
+
+	"click .anon-reply-bottom-button": function(event, template) {
+		// Retrieves data from form
+		var theID = event.target.id;
+		//var anonymous = document.getElementById("anonbox").checked;
+		var answer = document.getElementById("text" + theID).value;
+		var posterName = "Anonymous";
+		var email = "";
+		if(!Session.get("anonymous")) {
+			showReplyError("The admin has disabled anonymous posting.", theID);
+			return false;
 		}
 		// Gets the user's IP address from the server
 		Meteor.call('getIP', function (error, result) {

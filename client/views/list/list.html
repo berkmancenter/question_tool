@@ -1,5 +1,5 @@
 <template name="list">
-	<div id="wrapper">
+	<div class="wrapper" id="wrapper">
 		{{> userInfo list=true}}
 	</div>
 	<p class="description">{{{description}}}</p>
@@ -33,30 +33,10 @@
 			<p>Click and drag two questions together to combine.</p>
 		</div>
 	{{/if}}
-	<div id="recent">
-		<div id="questionscontainer">
-			<div class="subcolumn">
-				{{#each question}}
-					{{#if indexOne}}
-						{{> question_div}}
-					{{/if}}
-				{{/each}}
-			</div>
-			<div class="subcolumn">
-				{{#each question}}
-					{{#if indexTwo}}
-						{{> question_div}}
-					{{/if}}
-				{{/each}}
-			</div>
-			<div class="lastcolumn">
-				{{#each question}}
-					{{#if indexThree}}
-						{{> question_div}}
-					{{/if}}
-				{{/each}}
-			</div>
-		</div>
+	<div class="container">
+		{{#each question}}
+			{{> question_div}}
+		{{/each}}
 	</div>
 	{{> footer}}
 </template>

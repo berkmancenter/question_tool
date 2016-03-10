@@ -1,168 +1,172 @@
 #banner {
-	color:white;
-	background:#293340;
-	height:60px;
-	display:block;
-	padding-top:2px;
-	text-decoration:none;
-	font-weight:700;
-	font-size:18px;
-	line-height:24px;
-	margin-bottom:0px;
-	padding-bottom:0px;
+    color: white;
+    background: #293340;
+    height: 60px;
+    display: block;
+    padding-top: 2px;
+    text-decoration: none;
+    font-weight: 700;
+    font-size: 18px;
+    line-height: 24px;
+    margin-bottom: 0;
+    padding-bottom: 0;
 }
 
 #tablename {
-	font-size:24px;
-	font-family:semibold;
-	display:inline;
-	float:left;
-	margin-left:130px;
+    font-size: 24px;
+    font-family: semibold;
+    display: inline;
+    float: left;
+    margin-left: 1em;
 }
 
 #searchbar {
-	width:22%;
-	height:32px;
-	display:inline;
-	float:left;
-	background-color:white;
-	margin-top:11px;
-	margin-left:50px;
-	border-radius: 5px;
-	border:0px;
-	outline:0px;
-	padding-left:35px;
-	font-family:regular;
-	color:#444444;
-	font-size:16px;
-	background-image:url('/search.png');
-	background-repeat:no-repeat;
-	background-position:10px center;
-	background-size: 16px 16px;
-	outline:0;
+    height: 32px;
+    width: 22em;
+    display: inline;
+    float: left;
+    background-color: white;
+    margin-top: 11px;
+    margin-left: 1em;
+    border-radius: 5px;
+    border: 0;
+    outline: 0;
+    padding-left: 35px;
+    font-family: regular;
+    color: #444444;
+    font-size: 16px;
+    background-image: url('/search.png');
+    background-repeat: no-repeat;
+    background-position: 10px center;
+    background-size: 16px 16px;
+    outline: 0;
 }
 
 #navbuttons {
-	list-style-type: none;
-	margin: 0;
-	padding: 0;
-	float:left;
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+    float: left;
 }
 
 #navbuttons li {
-	color:white;
-	font-family:light;
-	font-weight:normal;
-	font-size:14px;
-	margin-top:15px;
-	margin-right:25px;
-	float:left;
-	padding:0px 5px 0px 5px;
-	border-radius:4px
+    color: white;
+    font-family: light;
+    font-weight: normal;
+    font-size: 14px;
+    margin-top: 15px;
+    margin-right: 25px;
+    float: left;
+    padding: 0px 5px 0px 5px;
+    border-radius: 4px
 }
 
 #navbuttons li:hover {
-	background-color:#5d6a7b;
+    background-color: #5d6a7b;
 }
 
-#navLogin, #navRegister, #navAsk, #navCreate {
-	cursor:pointer;
-	float:right;
-	padding:3px 15px 5px 15px;
-	text-align:center;
-	font-size:15px;
-	font-family:regular;
-	border-radius:5px;
-	margin-top:12px;
-	margin-right:20px;
+#navLogin,
+#navRegister,
+#navAsk,
+#navCreate {
+    cursor: pointer;
+    float: right;
+    padding: 3px 15px 5px 15px;
+    text-align: center;
+    font-size: 15px;
+    font-family: regular;
+    border-radius: 5px;
+    margin-top: 12px;
+    margin-right: 20px;
 }
 
 #navPresent {
-	width:8px;
-	height:24px;
-	background-color:#5d6a7b;
-	cursor:pointer;
-	float:right;
-	padding:3px 15px 5px 15px;
-	border-radius:5px;
-	margin-top:12px;
-	margin-right:20px;
-	background-image:url('/present.png');
-	background-size:18px 18px;
-	background-repeat:no-repeat;
-	background-position:10px 7px;
+    width: 8px;
+    height: 24px;
+    background-color: #5d6a7b;
+    cursor: pointer;
+    float: right;
+    padding: 3px 15px 5px 15px;
+    border-radius: 5px;
+    margin-top: 12px;
+    margin-right: 20px;
+    background-image: url('/present.png');
+    background-size: 18px 18px;
+    background-repeat: no-repeat;
+    background-position: 10px 7px;
 }
 
 #navPresent:hover {
-	background-color:#737f8e;
+    background-color: #737f8e;
 }
 
 #navUnPresent {
-	display:none;
-	width:auto;
-	height:22px;
-	background-color:#5d6a7b;
-	cursor:pointer;
-	float:right;
-	padding:6px 15px 5px 15px;
-	border-radius:5px;
-	margin-top:12px;
-	margin-right:20px;
-	color:white;
-	font-family:semibold;
+    display: none;
+    width: 3em;
+    height: 22px;
+    background-color: #5d6a7b;
+    cursor: pointer;
+    padding: 6px 15px 5px 15px;
+    border-radius: 5px;
+    margin: 0.5em auto;
+    color: white;
+    font-family: semibold;
 }
 
-#navShare, #navHome {
-	cursor:pointer;
+#navShare,
+#navHome {
+    cursor: pointer;
 }
 
 #navProfile {
-	float:left;
-	margin-right:20px;
-	margin-top:15px;
-	font-family:regular;
-	font-weight:normal;
-	font-size:15px;
+    float: left;
+    margin-right: 20px;
+    margin-top: 15px;
+    font-family: regular;
+    font-weight: normal;
+    font-size: 15px;
 }
 
 #navLogin {
-	background-color:#ec4f4f;/*#5d6a7b*/
-	margin-right:130px;
+    background-color: #ec4f4f;
+    /*#5d6a7b*/
+    margin-right: 130px;
 }
 
 #navLogin:hover {
-	background-color:#f16f71;
+    background-color: #f16f71;
 }
 
-#navAsk, #navCreate {
-	background-color:#27ae60;
+#navAsk,
+#navCreate {
+    background-color: #27ae60;
 }
 
 #navRegister {
-	background-color:#5d6a7b;
+    background-color: #5d6a7b;
 }
 
 #navRegister:hover {
-	background-color:#707e8f;
+    background-color: #707e8f;
 }
 
 #navLogout {
-	cursor:pointer;
-	background-color: #5d6a7b;
-	float:right;
-	padding:3px 15px 5px 15px;
-	text-align:center;
-	font-size:15px;
-	font-family:regular;
-	border-radius:5px;
-	margin-top:12px;
-	margin-right:130px;
+    cursor: pointer;
+    background-color: #5d6a7b;
+    float: right;
+    padding: 3px 15px 5px 15px;
+    text-align: center;
+    font-size: 15px;
+    font-family: regular;
+    border-radius: 5px;
+    margin-top: 12px;
 }
 
 #navLogout:hover {
-	background-color: #738092;
+    background-color: #738092;
 }
 
-#navAsk:hover, #navCreate:hover {
-	background-color:#43c177;
+#navAsk:hover,
+#navCreate:hover {
+    background-color: #43c177;
 }
