@@ -46,6 +46,11 @@ Meteor.methods({
 			return false;
 		}
 	},
+	touch: function(instanceid) {
+		Instances.update({ _id: instanceid }, 
+		{ $set: { lasttouch: new Date().getTime() - 1000 }}
+		);
+	},
 	sendEmail: function (to, from, subject, text) {
 	  check([to, from, subject, text], [String]);
 
