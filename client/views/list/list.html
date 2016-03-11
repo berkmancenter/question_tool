@@ -1,42 +1,44 @@
 <template name="list">
-	<div class="wrapper" id="wrapper">
-		{{> userInfo list=true}}
-	</div>
-	<p class="description">{{{description}}}</p>
-	<div id="hiddenName">{{tablename}}</div>
-	<div id="navUnPresent">Unhide</div>
-	{{#if admin}}
-		<div class="admincontainer">
-			<h2>Admin Interface</h2>
-			<p>Click and drag two questions together to combine.</p>
-			<!--<a id="unhidebutton">Unhide all questions</a> :: 
-			<a id="{{id}}" class="deletebutton">Delete this instance</a> ::
-			<a href="/add" class="modbutton">Add moderators</a> ::
-			<a href="/rename/{{id}}">Rename this instance</a>-->
-			<div class="adminbutton" id="unhidebutton">
-				Unhide all
-			</div>
-			<div class="adminbutton deletebutton" id="{{id}}">
-				Delete instance
-			</div>
-			<div class="adminbutton" id="modbutton">
-				Add moderators
-			</div>
-			<div class="adminbutton" id="renamebutton">
-				Rename instance
-			</div>
+	<div class="wrapper">
+		<div class="header" id="header">
+			{{> userInfo list=true}}
 		</div>
-	{{/if}}
-	{{#if moderator}}
-		<div class="admincontainer modcontainer">
-			<h2>Moderator Interface</h2>
-			<p>Click and drag two questions together to combine.</p>
+		<p class="description">{{{description}}}</p>
+		<div id="hiddenName">{{tablename}}</div>
+		<div id="navUnPresent">Unhide</div>
+		{{#if admin}}
+			<div class="admincontainer">
+				<h2>Admin Interface</h2>
+				<p>Click and drag two questions together to combine.</p>
+				<!--<a id="unhidebutton">Unhide all questions</a> :: 
+				<a id="{{id}}" class="deletebutton">Delete this instance</a> ::
+				<a href="/add" class="modbutton">Add moderators</a> ::
+				<a href="/rename/{{id}}">Rename this instance</a>-->
+				<div class="adminbutton" id="unhidebutton">
+					Unhide all
+				</div>
+				<div class="adminbutton deletebutton" id="{{id}}">
+					Delete instance
+				</div>
+				<div class="adminbutton" id="modbutton">
+					Add moderators
+				</div>
+				<div class="adminbutton" id="renamebutton">
+					Rename instance
+				</div>
+			</div>
+		{{/if}}
+		{{#if moderator}}
+			<div class="admincontainer modcontainer">
+				<h2>Moderator Interface</h2>
+				<p>Click and drag two questions together to combine.</p>
+			</div>
+		{{/if}}
+		<div class="container">
+			{{#each question}}
+				{{> question_div}}
+			{{/each}}
 		</div>
-	{{/if}}
-	<div class="container">
-		{{#each question}}
-			{{> question_div}}
-		{{/each}}
+		{{> footer}}
 	</div>
-	{{> footer}}
 </template>

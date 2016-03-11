@@ -1,6 +1,12 @@
+html {
+  height: 100%;
+}
+
 body {
   background-color: #f2f4f5;
-  margin: 0 0 3em;
+  margin: 0;
+  padding: 0;
+  height: 100%;
 }
 
 a {
@@ -13,7 +19,7 @@ a {
   justify-content: space-between;
 }
 
-.wrapper {
+.header {
   width: 100%;
 }
 
@@ -47,6 +53,7 @@ a {
   /* Fx */
   column-width: 20em;
   /* IE 10, Op 11.1+ */
+  padding-bottom: 63px;
 }
 
 .formcontainer {
@@ -143,6 +150,11 @@ a {
   position: absolute;
   right: 0.9em;
   bottom: 0.9em;
+}
+
+.wrapper {
+  min-height: 100%;
+  position: relative;
 }
 
 .modaltopmessage {
@@ -356,4 +368,8 @@ a {
 
 .formcontainer .errorIcon {
   margin-top: 4px;
+}
+
+#recent {
+  padding-bottom: 45px;
 }

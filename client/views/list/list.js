@@ -311,7 +311,7 @@ Template.list.events({
 		}
 	},
 	"click #navAsk": function(event, template) {
-		var parentNode = document.getElementById("wrapper");
+		var parentNode = document.getElementById("header");
 		dropDownTemplate = Blaze.render(Template.propose, parentNode);
 		var questionDiv = document.getElementById("toparea");
 		if(questionDiv.style.display == "none" || !questionDiv.style.display) { 
