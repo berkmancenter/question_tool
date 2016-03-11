@@ -41,7 +41,6 @@
         <p class="hiddenMessageHide" id="{{numberHidden}}">Hide {{replyText}}...</p>
         {{/if}}
         <div class="quesitonbottom">
-            <span class="question-time">{{f_time}}</span>
             <div class="bottomleft">
                 {{#if poster}} {{#if email}}
                 <a href="mailto:{{email}}">
@@ -54,6 +53,7 @@
                     {{poster}}
                 </p>
                 {{/if}} {{/if}}
+                <span class="question-time">{{f_time}}</span>
             </div>
             <div class="bottomright">
                 <div class="replybutton" id="reply{{_id}}">
