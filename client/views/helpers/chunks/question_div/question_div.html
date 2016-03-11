@@ -1,5 +1,5 @@
 <template name="question_div">
-    <div id="{{_id}}" class="question {{#if popular}}popularquestion{{else}}{{age_marker}}{{/if}}">
+    <div id="{{_id}}" class="question {{#if popular}}popularquestion{{else}}{{age_marker}}{{/if}} {{#if isDisabled}}hiddenQuestion{{/if}}">
         <div id="votearea">
             <div class="voteright" id="{{_id}}">
                 <a class="voteClick {{shade}}" href="{{votelink}}">{{votes}}</a> Vote
@@ -70,7 +70,7 @@
                 Reply
             </div>
             <div class="anon-reply-bottom-button" id="{{_id}}">
-            	Anonymous Reply
+                Anonymous Reply
             </div>
         </div>
         {{#if adminButtons}}
