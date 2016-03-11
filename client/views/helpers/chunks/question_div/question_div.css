@@ -228,6 +228,10 @@
   display: inline-block;
 }
 
+.questionbadgecontainer {
+  height: 16px;
+}
+
 .question-time {
   color: #999999;
   font-family: regular;
