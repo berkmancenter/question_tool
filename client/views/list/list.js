@@ -6,13 +6,10 @@ Meteor.setInterval( function () {
 reconnect_interval = 30000;
 reconnect = Meteor.setInterval( function () { 
 	Meteor.reconnect(); 
-	console.log("Reconnected");
-	console.log(reconnect_interval);
 }, reconnect_interval );
 
 disconnect = Meteor.setInterval( function () { 
 	Meteor.disconnect();
-	console.log("Disconnected");
 }, Session.get("disconnect_interval") );
 
 Template.list.onCreated(function () {
@@ -473,7 +470,6 @@ Template.list.events({
 		});
 		setTimeout(function() { 
 			Meteor.disconnect();
-			console.log("Correctly disconnected!")
 		}, 1500);
 	},
 	"keypress .replyemail": function(event, template) {
