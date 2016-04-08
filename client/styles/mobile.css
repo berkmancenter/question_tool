@@ -98,8 +98,11 @@
 	}
 
 	#navAsk, #navLogout {
-		font-size: 11px;
-		margin: 1em 0.5em;
+		font-size: 12px;
+		margin-top: 0.9em;
+		margin-bottom: 1.25em;
+		margin-left: 0.5em;
+		margin-right: 0.5em;
 	}
 }
 
