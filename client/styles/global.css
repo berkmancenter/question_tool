@@ -239,9 +239,8 @@ a {
   margin-left: 5px;
 }
 
-#checkareas {
-  float: left;
-  margin-left: 2.5em;
+.checkareas {
+  flex-grow: 1;
 }
 
 #checkarea1 {
@@ -251,9 +250,10 @@ a {
 #buttonarea {
   width: 150px;
   height: 25px;
-  margin-right: 12px;
+  margin-right: 5px;
+  margin-left: 5px;
   margin-top: 10px;
-  float: right;
+  margin-bottom: 10px;
   background-color: #27ae60;
   color: white;
   border-radius: 2px;

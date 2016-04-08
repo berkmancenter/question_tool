@@ -75,9 +75,10 @@
 
 #bottomquestionarea {
   width: 90%;
-  height: 50px;
   background-color: #f2f4f5;
-  display: block;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
   border-radius: 0 0 5px 5px;
   padding: 0 25px;
   margin: 0 auto;
@@ -88,7 +89,6 @@
   font-family: light;
   color: #999999;
   font-size: 15px;
-  position: absolute;
 }
 
 .facebookbutton {
