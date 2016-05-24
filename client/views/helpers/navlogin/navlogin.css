@@ -2,7 +2,8 @@
     color: white;
     background: #293340;
     height: 60px;
-    display: block;
+    display: flex;
+    flex-direction: row;
     padding-top: 2px;
     text-decoration: none;
     font-weight: 700;
@@ -22,9 +23,7 @@
 
 #searchbar {
     height: 32px;
-    width: 22em;
-    display: inline;
-    float: left;
+    flex-grow: 1;
     background-color: white;
     margin-top: 11px;
     margin-left: 1em;
@@ -70,14 +69,12 @@
 #navAsk,
 #navCreate {
     cursor: pointer;
-    float: right;
-    padding: 3px 15px 5px 15px;
+    padding: 0.4em 1em;
     text-align: center;
     font-size: 15px;
     font-family: regular;
     border-radius: 5px;
-    margin-top: 12px;
-    margin-right: 20px;
+    margin: 0.75em 0.5em;
 }
 
 #navPresent {
@@ -153,13 +150,12 @@
 #navLogout {
     cursor: pointer;
     background-color: #5d6a7b;
-    float: right;
-    padding: 3px 15px 5px 15px;
+    padding: 5px 15px;
     text-align: center;
     font-size: 15px;
     font-family: regular;
     border-radius: 5px;
-    margin-top: 12px;
+    margin: 0.75em 0.5em;
 }
 
 #navLogout:hover {

@@ -2,15 +2,9 @@
 	#tablename {
 		display:none!important;
 	}
-	.homebanner #searchbar {
-		width:40%!important;
-	}
 }
 
 @media (max-width: 1186px) {
-	.loggedoutlistbanner #searchbar {
-		width:35%!important;
-	}
 	.loggedoutlistbanner #navProfile {
 		display:none!important;
 	}
@@ -60,9 +54,6 @@
 	.homebanner #navHome {
 		display:none!important;
 	}
-	.homebanner #searchbar {
-		width:84%!important;
-	}
 	#navbuttons {
 		float:left!important;
 	}
@@ -71,9 +62,6 @@
 	}
 	.loggedoutlistbanner #navProfile {
 		display:inline-block!important;
-	}
-	.homebanner #rightInfo {
-		display:none!important;
 	}
 }
 
@@ -104,17 +92,22 @@
 	}
 }
 
-@media (max-width: 625px) {
+@media (max-width: 666px) {
 	.homebanner #navProfile {
 		display:none!important;
+	}
+
+	#navAsk, #navLogout {
+		font-size: 12px;
+		margin-top: 0.9em;
+		margin-bottom: 1.25em;
+		margin-left: 0.5em;
+		margin-right: 0.5em;
 	}
 }
 
 @media (max-width: 630px) {
 	.loggedoutlistbanner #navbuttons {
 		display:none!important;
-	}
-	.loggedoutlistbanner #searchbar {
-		width:32%!important;
 	}
 }

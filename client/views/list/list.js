@@ -337,7 +337,7 @@ Template.list.events({
 			if(typeof currentError != "undefined") {
 				Blaze.remove(currentError);
 			}
-			$("#navAsk").html("+ Ask");
+			$("#navAsk").html("Post");
 			document.getElementById("navAsk").style.backgroundColor = "#27ae60";
 			$("#toparea").slideUp();
 			if(typeof dropDownTemplate != "undefined") {
