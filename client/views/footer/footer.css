@@ -3,11 +3,11 @@
 }
 
 #footercontainer {
-  margin-top: 25px;
   left: 0;
+  right: 0;
   bottom: 0;
   height: 45px;
-  width: 100%;
+  position: absolute;
   background-color: #293340;
   padding-bottom: 10px;
   padding-top: 8px;
