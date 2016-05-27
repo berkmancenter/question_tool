@@ -39,7 +39,7 @@ Template.home.helpers({
 		var hw;
 		for(var i = 0; i < instances.length; i++) {
 			if(instances[i].lasttouch > (new Date().getTime() - 604800000)) {
-				if(instances[i].lasttouch < (new Date().getTime() - 86400000)) { 
+				if(instances[i].lasttouch < (new Date().getTime() - 86400000)) {
 					return true;
 				}
 			}
@@ -176,11 +176,11 @@ Template.home.events({
 	},
 	"click #navCreate": function(event, template) {
 		if(Meteor.user()) {
-			var parentNode = document.body;
+			var parentNode = document.getElementById("main-wrapper");
 			var nextNode = document.getElementById("recent");
 			dropDownTemplate = Blaze.render(Template.create, parentNode, nextNode);
 			var questionDiv = document.getElementById("toparea");
-			if(questionDiv.style.display == "none" || !questionDiv.style.display) { 
+			if(questionDiv.style.display == "none" || !questionDiv.style.display) {
 				$("#navCreate").html("Close");
 				document.getElementById("navCreate").style.backgroundColor = "#ec4f4f";
 				$("#toparea").slideDown();
