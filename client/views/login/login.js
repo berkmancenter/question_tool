@@ -5,6 +5,9 @@ Template.login.onRendered(function() {
 
 Template.login.events({
 	"click #loginsubmitbutton": function(event, template) {
+    console.log(Meteor.status())
+    Meteor.reconnect();
+    console.log(Meteor.status())
 		var email = document.getElementById("loginemail").value;
 		var password = document.getElementById("passwordbox").value;
 		if(!email) {
@@ -14,6 +17,7 @@ Template.login.events({
 			showError("Please enter a valid password.", "inputcontainer", "loginemail");
 			return false;
 		}
+    console.log(Meteor.status())
 		Meteor.loginWithPassword(email, password, function(error) {
 			if(!error) {
 				/*if(template.data) {
