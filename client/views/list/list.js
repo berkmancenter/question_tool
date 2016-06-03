@@ -3,15 +3,6 @@ Meteor.setInterval( function () {
 	Session.set("timeval", new Date().getTime());
 }, 1000);
 
-reconnect_interval = 30000;
-reconnect = Meteor.setInterval( function () { 
-	Meteor.reconnect(); 
-}, reconnect_interval );
-
-disconnect = Meteor.setInterval( function () { 
-	Meteor.disconnect();
-}, Session.get("disconnect_interval") );
-
 Template.list.onCreated(function () {
 	Session.set("responseName", "");
 	Session.set("responseEmail", "");
@@ -44,7 +35,6 @@ Template.list.onCreated(function () {
 	}
 	Session.set("stale_length",  Template.instance().data.stale_length);
 	Session.set("new_length",  Template.instance().data.new_length);
-	Session.set("disconnect_interval", 11000);
 });
 
 Template.list.onRendered(function() {
@@ -272,7 +262,6 @@ Template.list.helpers({
 Template.list.events({
 	// When the vote button is clicked...
 	"click .voteright": function(event, template) {
-		Meteor.reconnect();
 		// Retrieves the user's IP address from the server
 		Meteor.call('getIP', function (error, result) {
 			var ip = result;
@@ -295,9 +284,6 @@ Template.list.events({
 				});
 			}
 		});
-		setTimeout(function() { 
-			Meteor.disconnect();
-		}, 1500);
 	},
 	// When the admin hide button is clicked...
 	"click .adminquestionhide": function(event, template) {	
@@ -389,7 +375,6 @@ Template.list.events({
 		}
 	},
 	"click .replybottombutton": function(event, template) {
-		Meteor.reconnect();
 		// Retrieves data from form
 		var theID = event.target.id;
 		//var anonymous = document.getElementById("anonbox").checked;
@@ -477,9 +462,6 @@ Template.list.events({
 				});
 			}
 		});
-		setTimeout(function() { 
-			Meteor.disconnect();
-		}, 1500);
 	},
 	"keypress .replyemail": function(event, template) {
 		event.which = event.which || event.keyCode;
