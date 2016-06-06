@@ -1,4 +1,4 @@
-Template.userInfo.events({
+Template.nav.events({
 	"click #navLogout": function(event, template) {
 		Meteor.logout();
 		//Tracker.flush();
@@ -37,7 +37,7 @@ Template.userInfo.events({
 	}
 });
 
-Template.userInfo.helpers({
+Template.nav.helpers({
 	admin: function() {
 		return Session.get("admin");
 	}
