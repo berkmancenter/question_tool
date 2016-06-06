@@ -518,11 +518,11 @@ Template.list.events({
 		popupwindow("https://twitter.com/intent/tweet?text=" + encodeURIComponent(tweetText), "Share Question Tool!", 600, 400);
 	},
 	"click #modbutton": function(event, template) {
-		var parentNode = document.getElementById("banner");
+		var parentNode = document.getElementById("nav");
 		popoverTemplate = Blaze.render(Template.add, parentNode);
 	},
 	"click #renamebutton": function(event, template) {
-		var parentNode = document.getElementById("banner");
+		var parentNode = document.getElementById("nav");
 		popoverTemplate = Blaze.renderWithData(Template.rename, {
 			id: Session.get("id"),
 			tablename: Session.get("tablename"),
@@ -530,11 +530,11 @@ Template.list.events({
 		}, parentNode);
 	},
 	"click .adminquestionmodify": function(event, template) {
-		var parentNode = document.getElementById("banner");
+		var parentNode = document.getElementById("nav");
 		popoverTemplate = Blaze.renderWithData(Template.modify, event.currentTarget.id, parentNode);
 	},
 	"click #navPresent": function(event, template) {
-		$("#banner").slideUp();
+		$("#nav").slideUp();
 		$(".instancetitle").slideUp();
 		$(".description").slideUp();
 		$("#footercontainer").slideUp();
@@ -543,7 +543,7 @@ Template.list.events({
 		$(".admincontainer").slideUp();
 	},
 	"click #navUnPresent": function(event, template) {
-		$("#banner").slideDown();
+		$("#nav").slideDown();
 		$(".instancetitle").slideDown();
 		$(".description").slideDown();
 		$("#footercontainer").slideDown();
@@ -704,7 +704,7 @@ function enableDragging() {
 			  ondrop: function (event) {
 				  var id1 = event.relatedTarget.id;
 				  var id2 = event.target.id;
-				  var parentNode = document.getElementById("banner");
+				  var parentNode = document.getElementById("nav");
 				  Blaze.renderWithData(Template.combine, {
 					  first: id1, 
 					  second: id2

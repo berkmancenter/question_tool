@@ -5,15 +5,15 @@ Template.nav.events({
 		window.location.reload();
 	},
 	"click #navLogin": function(event, template) {
-		var parentNode = document.getElementById("banner");
+		var parentNode = document.getElementById("nav");
 		popoverTemplate = Blaze.render(Template.login, parentNode);
 	},
 	"click #navShare": function(event, template) {
-		var parentNode = document.getElementById("banner");
+		var parentNode = document.getElementById("nav");
 		popoverTemplate = Blaze.render(Template.share, parentNode);
 	},
 	"click #navRegister": function(event, template) {
-		var parentNode = document.getElementById("banner");
+		var parentNode = document.getElementById("nav");
 		popoverTemplate = Blaze.render(Template.register, parentNode);
 	},
 	"click #navAdmin": function(event, template) {
