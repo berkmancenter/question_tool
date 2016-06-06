@@ -1,66 +1,47 @@
 <template name="nav">
-	<div id="nav" class="{{#if this.list}}{{#if currentUser}}loggedinlistbanner{{else}}loggedoutlistbanner{{/if}}{{else}}homebanner{{/if}}">
-		<h1 id="tablename">
-			{{this.title}}
-		</h1>
-		<input id="searchbar" class="{{#if this.list}}listsearchbar{{else}}homesearchbar{{/if}}" type="text" placeholder="Search...">
-		<ul id="navbuttons">
-			<li>
-				<div id="navHome">
-					Home
-				</div>
-			</li>
-			{{#if this.list}}
-				<li>
-					<div id="navShare">
-						Share
-					</div>
-				</li>
-			{{/if}}
-			{{#if admin}}
-				<li>
-					<div id="navAdmin">
-						Admin
-					</div>
-				</li>
-			{{/if}}
-		</ul>
-		{{#if currentUser}}
-			<div id="navProfile">
-				Hi, {{currentUser.profile.name}}!
-			</div>
-			<div id="navLogout">
-				Log out
-			</div>
-			{{#if this.list}}
-				<div id="navAsk">
-					Post
-				</div>
-				<div id="navPresent">
-				</div>
-			{{else}}
-				<div id="navCreate">
-					Create
-				</div>
-			{{/if}}
-		{{else}}
-			<div id="navLogin">
-				Sign in
-			</div>
-			<div id="navRegister">
-				Sign up
-			</div>
-			{{#if this.list}}
-				<div id="navAsk">
-					Post
-				</div>
-				<div id="navPresent">
-				</div>
-			{{else}}
-				<div id="navCreate">
-					+ Create
-				</div>
-			{{/if}}
-		{{/if}}
-	</div>
+  <div id="nav-wrapper">
+  	<div id="nav" class="{{#if this.list}}{{#if currentUser}}loggedinlistbanner{{else}}loggedoutlistbanner{{/if}}{{else}}homebanner{{/if}}">
+  		<h1 id="tablename">
+  			{{this.title}}
+  		</h1>
+  		<input id="searchbar" class="{{#if this.list}}listsearchbar{{else}}homesearchbar{{/if}}" type="text" placeholder="Search...">
+  		<ul id="navbuttons">
+  			<li>
+  				<a id="navHome" class="link">Home</a>
+  			</li>
+  			{{#if this.list}}
+  				<li>
+  					<a id="navShare" class="link">Share</a>
+  				</li>
+
+          {{#if admin}}
+    				<li>
+    					<a id="navAdmin" class="link">Admin</a>
+    				</li>
+    			{{/if}}
+  			{{/if}}
+  		</ul>
+      <ul id="navoptions">
+  		{{#if currentUser}}
+  			{{#if this.list}}
+  				<li><a id="navAsk" class="link" data-toggle-text="Close">+ Post</a></li>
+  				<li><a id="navPresent" class="link"></a></li>
+  			{{else}}
+  				<li><a id="navCreate" class="link" data-toggle-text="Close">+ Create</a></li>
+  			{{/if}}
+        <li><a id="navProfile">Hi, {{currentUser.profile.name}}!</a></li>
+  			<li><a id="navLogout" class="link">Log out</a></li>
+  		{{else}}
+  			{{#if this.list}}
+  				<li><a id="navAsk" class="link" data-toggle-text="Close">+ Post</a></li>
+  				<li><a id="navPresent" class="link"></a></li>
+  			{{else}}
+  				<li><a id="navCreate" class="link" data-toggle-text="Close">+ Create</a></li>
+  			{{/if}}
+        <li><a id="navLogin" class="link">Sign in</a></li>
+  			<li><a id="navRegister" class="link">Sign up</a></li>
+  		{{/if}}
+      </ul>
+  	</div>
+  </div>
 </template>

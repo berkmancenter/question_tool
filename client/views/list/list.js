@@ -152,7 +152,7 @@ Template.list.helpers({
 					questions[i].age_marker = "newquestion";
 				}
 				// Finds the answers for the given question ID
-				var answers = Answers.find({ 
+				var answers = Answers.find({
 					qid: questions[i]._id
 				});
 				if(answers.fetch().length > 0) {
@@ -194,7 +194,7 @@ Template.list.helpers({
 				/*if(questions[i].votes == 1) {
 					questions[i].votes = "1 vote";
 				} else {
-					questions[i].votes = questions[i].votes + " votes"; 
+					questions[i].votes = questions[i].votes + " votes";
 				}*/
 				if(i < Session.get("threshhold")) {
 					questions[i].popular = true;
@@ -286,7 +286,7 @@ Template.list.events({
 		});
 	},
 	// When the admin hide button is clicked...
-	"click .adminquestionhide": function(event, template) {	
+	"click .adminquestionhide": function(event, template) {
 		// Call the server-side hide method to hide the question
 		if(Questions.findOne({ _id: event.currentTarget.id}).state === "disabled") {
 			Meteor.call('unhideThis', event.currentTarget.id);
@@ -296,7 +296,7 @@ Template.list.events({
 		}
 	},
 	// When the admin unhide button is clicked...
-	"click #unhidebutton": function(event, template) {	
+	"click #unhidebutton": function(event, template) {
 		// Call the server-side unhide method to unhide all questions
 		Meteor.call('unhide', Session.get("id"));
 	},
@@ -311,11 +311,11 @@ Template.list.events({
 		}
 	},
 	"click #navAsk": function(event, template) {
-		var parentNode = document.getElementById("header");
+		var parentNode = document.getElementById("nav-wrapper");
 		dropDownTemplate = Blaze.render(Template.propose, parentNode);
 		var questionDiv = document.getElementById("toparea");
-		if(questionDiv.style.display == "none" || !questionDiv.style.display) { 
-			$("#navAsk").html("Close");
+		if(questionDiv.style.display == "none" || !questionDiv.style.display) {
+      toggleButtonText('#navAsk');
 			document.getElementById("navAsk").style.backgroundColor = "#ec4f4f";
 			$("#toparea").slideDown();
 			$('#questioninput').focus();
@@ -323,7 +323,7 @@ Template.list.events({
 			if(typeof currentError != "undefined") {
 				Blaze.remove(currentError);
 			}
-			$("#navAsk").html("Post");
+			toggleButtonText('#navAsk');
 			document.getElementById("navAsk").style.backgroundColor = "#27ae60";
 			$("#toparea").slideUp();
 			if(typeof dropDownTemplate != "undefined") {
@@ -342,7 +342,7 @@ Template.list.events({
 			document.getElementById("reply" + theID).innerHTML = "Close";
 			$("#down" + theID).slideDown(400, function() {
 				$(this).css("display", "flex")
-			}); 
+			});
 			$('#text' + theID).focus();
 		} else {
 			if(typeof replyError != "undefined") {
@@ -582,7 +582,7 @@ function popupwindow(url, title, w, h) {
   var left = (screen.width/2)-(w/2);
   var top = (screen.height/2)-(h/2);
   return window.open(url, title, 'toolbar=no, location=no, directories=no, status=no, menubar=no, scrollbars=no, resizable=no, copyhistory=no, width='+w+', height='+h+', top='+top+', left='+left);
-} 
+}
 
 // Helper function that caluclates a standard deviation given an array
 // Source: http://derickbailey.com/
@@ -597,7 +597,7 @@ function standardDeviation(values) {
 	var stdDev = Math.sqrt(avgSquareDiff);
 	return stdDev;
 }
- 
+
 // Helper function that calculates the average given an array
 function average(data) {
 	var sum = data.reduce(function(sum, value) {
@@ -706,7 +706,7 @@ function enableDragging() {
 				  var id2 = event.target.id;
 				  var parentNode = document.getElementById("nav");
 				  Blaze.renderWithData(Template.combine, {
-					  first: id1, 
+					  first: id1,
 					  second: id2
 				  }, parentNode);
 				  //window.location.href="/combine/" + id1 + "/" + id2;
@@ -734,4 +734,11 @@ function showReplyError(reason, id) {
 	var parentNode = document.getElementById("down" + id);
 	var nextNode = document.getElementById("text" + id);
 	replyError = Blaze.renderWithData(Template.form_error, reason, parentNode, nextNode);
+}
+
+function toggleButtonText (selector) {
+  var oldText = $(selector).html();
+  var toggleText = $(selector).attr("data-toggle-text");
+  $(selector).attr("data-toggle-text", oldText);
+  $(selector).html(toggleText);
 }
