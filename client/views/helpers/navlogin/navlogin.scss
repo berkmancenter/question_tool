@@ -15,7 +15,7 @@
 
 #tablename {
 	font-size: 24px;
-	font-family: semibold;
+	font-weight: 600;
 	display: inline;
 	float: left;
 	margin-left: 1em;
@@ -31,7 +31,7 @@
 	border: 0;
 	outline: 0;
 	padding-left: 35px;
-	font-family: regular;
+	font-weight: 400;
 	color: #444444;
 	font-size: 16px;
 	background-image: url('/search.png');
@@ -49,7 +49,7 @@
 
   li {
 		color: white;
-		font-family: light;
+		font-weight: 300;
 		font-weight: normal;
 		font-size: 14px;
 		margin-top: 15px;
@@ -69,7 +69,7 @@
 	padding: 0.4em 1em;
 	text-align: center;
 	font-size: 15px;
-	font-family: regular;
+	font-weight: 400;
 	border-radius: 5px;
 	margin: 0.75em 0.5em;
 	background-color: #ec4f4f;
@@ -85,7 +85,7 @@
 	padding: 0.4em 1em;
 	text-align: center;
 	font-size: 15px;
-	font-family: regular;
+	font-weight: 400;
 	border-radius: 5px;
 	margin: 0.75em 0.5em;
 	background-color: #5d6a7b;
@@ -100,7 +100,7 @@
 	padding: 0.4em 1em;
 	text-align: center;
 	font-size: 15px;
-	font-family: regular;
+	font-weight: 400;
 	border-radius: 5px;
 	margin: 0.75em 0.5em;
 	background-color: #27ae60;
@@ -115,7 +115,7 @@
 	padding: 0.4em 1em;
 	text-align: center;
 	font-size: 15px;
-	font-family: regular;
+	font-weight: 400;
 	border-radius: 5px;
 	margin: 0.75em 0.5em;
 	background-color: #27ae60;
@@ -155,7 +155,7 @@
 	border-radius: 5px;
 	margin: 0.5em auto;
 	color: white;
-	font-family: semibold;
+	font-weight: 600;
 }
 
 #navShare {
@@ -170,7 +170,7 @@
 	float: left;
 	margin-right: 20px;
 	margin-top: 15px;
-	font-family: regular;
+	font-weight: 400;
 	font-weight: normal;
 	font-size: 15px;
 }
@@ -181,7 +181,7 @@
 	padding: 5px 15px;
 	text-align: center;
 	font-size: 15px;
-	font-family: regular;
+	font-weight: 400;
 	border-radius: 5px;
 	margin: 0.75em 0.5em;
 

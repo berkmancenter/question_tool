@@ -9,7 +9,7 @@
 	padding-left: 5px;
 	color: #333333;
 	font-size: 24px;
-	font-family: bold;
+	font-weight: 700;
 }
 
 #questiondiv {
@@ -26,7 +26,7 @@
 	border-width: 0;
 	padding: 20px 20px 20px 30px;
 	color: #888888;
-	font-family: light;
+	font-weight: 300;
 	border-radius: 5px 5px 0 0;
 	border-bottom: 1px solid #e3e3e3;
 	margin: 0 auto;
@@ -44,7 +44,7 @@
 	color: #888888;
 	padding-left: 20px;
 	border-bottom: 1px solid #e3e3e3;
-	font-family: light;
+	font-weight: 300;
 	font-size: 14px;
 	display: block;
 }
@@ -58,7 +58,7 @@
 	height: 50px;
 	color: #888888;
 	padding-left: 20px;
-	font-family: light;
+	font-weight: 300;
 	font-size: 14px;
 	display: block;
 	border-right: 1px solid #e3e3e3;
@@ -75,7 +75,7 @@
 	height: 50px;
 	color: #888888;
 	padding-left: 20px;
-	font-family: light;
+	font-weight: 300;
 	font-size: 14px;
 	display: block;
 	border-top: 0px;
@@ -93,7 +93,7 @@
 	padding-left: 20px;
 	border-left: 1px solid #e3e3e3;
 	border-bottom: 1px solid #e3e3e3;
-	font-family: light;
+	font-weight: 300;
 	font-size: 14px;
 	display: block;
 }
@@ -104,7 +104,7 @@
 	padding-top: 10px;
 	color: #333333;
 	font-size: 24px;
-	font-family: bold;
+	font-weight: 700;
 }
 
 .admincontainer {
@@ -121,14 +121,14 @@
   h2 {
 		color: #333333;
 		font-size: 20px;
-		font-family: bold;
+		font-weight: 700;
 		margin: 0px;
 		padding: 0px;
 	}
 
   p {
 		color: #444444;
-		font-family: regular;
+		font-weight: 400;
 		font-size: 16px;
 	}
 }
@@ -148,7 +148,7 @@
 	cursor: pointer;
 	margin-right: 10px;
 	padding: 5px 10px 5px 10px;
-	font-family: regular;
+	font-weight: 400;
 	font-size: 14px;
 
   &:hover {
@@ -157,7 +157,7 @@
 }
 
 .instancedescription {
-	font-family: light;
+	font-weight: 300;
 	text-decoration: none;
 	color: #999999;
 	font-size: 14px;
@@ -165,7 +165,7 @@
 
 .replybottom {
 	.error {
-		font-family: regular;
+		font-weight: 400;
 		width: 95%;
 		padding-top: 2px;
 		padding-bottom: 2px;

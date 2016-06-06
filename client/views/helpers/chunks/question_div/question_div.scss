@@ -6,7 +6,7 @@
 	border: 2px solid #CCCCCC;
 	color: #CCCCCC;
 	font-size: 14px;
-	font-family: semibold;
+	font-weight: 600;
 	text-align: center;
 	padding-top: 7px;
 	border-radius: 5px;
@@ -21,7 +21,7 @@
 	border: 2px solid #CCCCCC;
 	color: #CCCCCC;
 	font-size: 14px;
-	font-family: semibold;
+	font-weight: 600;
 	text-align: center;
 	padding-top: 7px;
 	border-radius: 5px;
@@ -36,7 +36,7 @@
 	border: 2px solid #CCCCCC;
 	color: #CCCCCC;
 	font-size: 14px;
-	font-family: semibold;
+	font-weight: 600;
 	text-align: center;
 	padding-top: 7px;
 	border-radius: 5px;
@@ -52,7 +52,7 @@
 	border: 2px solid #CCCCCC;
 	color: #CCCCCC;
 	font-size: 14px;
-	font-family: semibold;
+	font-weight: 600;
 	text-align: center;
 	padding-top: 7px;
 	border-radius: 5px;
@@ -68,7 +68,7 @@
 	background-color: white;
 	border: 2px solid #47c3e1;
 	font-size: 14px;
-	font-family: semibold;
+	font-weight: 600;
 	text-align: center;
 	padding-top: 5px;
 	margin-top: 20px;
@@ -89,14 +89,14 @@
 }
 
 .answerposter {
-	font-family: regular;
+	font-weight: 400;
 	text-decoration: none;
 	color: #999999;
 	font-size: 12px;
 }
 
 .answertext {
-	font-family: light;
+	font-weight: 300;
 	text-decoration: none;
 	color: #999999;
 	font-size: 12px;
@@ -124,7 +124,7 @@
 
 .countarea {
 	margin-top: 16px;
-	font-family: light;
+	font-weight: 300;
 	color: #999999;
 	font-size: 15px;
 }
@@ -147,7 +147,7 @@
 }
 
 .hiddenMessage {
-	font-family: semibold;
+	font-weight: 600;
 	text-decoration: underline;
 	color: #999999;
 	font-size: 13px;
@@ -157,7 +157,7 @@
 
 .hiddenMessageHide {
 	display: none;
-	font-family: semibold;
+	font-weight: 600;
 	text-decoration: underline;
 	color: #999999;
 	font-size: 13px;
@@ -170,7 +170,7 @@
 	padding: 0;
 	padding-left: 3px;
 	padding-top: 4px;
-	font-family: semibold;
+	font-weight: 600;
 	color: #777777;
 	text-decoration: none;
 }
@@ -218,7 +218,7 @@
 	padding-left: 8px;
 	padding-top: 4px;
 	margin-top: 0;
-	font-family: semibold;
+	font-weight: 600;
 	font-size: 16px;
 	color: #333333;
 	padding-bottom: 10px;
@@ -241,7 +241,7 @@
 	border: 2px solid #CCCCCC;
 	color: #CCCCCC;
 	font-size: 14px;
-	font-family: semibold;
+	font-weight: 600;
 	text-align: center;
 	padding: 0.5em 0;
 	border-radius: 5px;
@@ -257,7 +257,7 @@
 	margin-top: 3px;
 	padding: 0;
 	text-align: left;
-	font-family: regular;
+	font-weight: 400;
 	color: #888888;
 	font-size: 14px;
 }
@@ -268,7 +268,7 @@
 
 .question-time {
 	color: #999999;
-	font-family: regular;
+	font-weight: 400;
 	font-size: 12px;
 	padding-left: 3px;
 	margin-top: 6px;
@@ -292,7 +292,7 @@
 	margin: 0 auto;
 	border: 0.1em solid #e9edf0;
 	color: #888888;
-	font-family: light;
+	font-weight: 300;
 	padding-left: 0.4em;
 	font-size: 14px;
 	height: 65px;
@@ -309,7 +309,7 @@
 	border-right: 0.1em solid #e9edf0;
 	border-bottom: 0.1em solid #e9edf0;
 	border-top: 0;
-	font-family: light;
+	font-weight: 300;
 	font-size: 14px;
 }
 
@@ -322,7 +322,7 @@
 	border-right: 0.1em solid #e9edf0;
 	border-bottom: 0.1em solid #e9edf0;
 	border-top: 0;
-	font-family: light;
+	font-weight: 300;
 	font-size: 14px;
 }
 
@@ -334,7 +334,7 @@
 	border: 2px solid #27ae60;
 	color: #27ae60;
 	font-size: 14px;
-	font-family: semibold;
+	font-weight: 600;
 	text-align: center;
 	padding-top: 5px;
 	margin-top: 20px;
@@ -348,7 +348,7 @@
 }
 
 .replycounter {
-	font-family: light;
+	font-weight: 300;
 	color: #999999;
 	font-size: 14px;
 	text-align: right;
@@ -368,7 +368,7 @@
 .stalequestiontext {
 	display: inline;
 	color: #CCCCCC;
-	font-family: semibold;
+	font-weight: 600;
 	margin: 0;
 	padding: 0;
 }
@@ -430,7 +430,7 @@
 
 .voteClick {
 	color: white;
-	font-family: bold;
+	font-weight: 700;
 	padding: 2px 4px 2px 4px;
 	font-size: 12px;
 	border-radius: 3px;
@@ -439,7 +439,7 @@
 
 #votearea {
 	padding: 6px;
-	font-family: semibold;
+	font-weight: 600;
 	font-size: 13px;
 	color: #666666;
 	display: flex;
@@ -476,14 +476,14 @@
 .newquestiontext {
 	display: inline;
 	color: #27ae60;
-	font-family: bold;
+	font-weight: 700;
 	margin: 0;
 	padding: 0;
 }
 
 .populartext {
 	color: #f1c40f;
-	font-family: bold;
+	font-weight: 700;
 	margin: 0;
 	padding: 0;
 }
