@@ -1,40 +1,42 @@
 .modline {
-	width:100%;
-	display:inline-block;
+	width: 100%;
+	display: inline-block;
 }
 
 .modbox {
-	width:80%;
-	padding-left:2%;
-	margin:0px auto;
+	width: 80%;
+	padding-left: 2%;
+	margin: 0px auto;
 	border: 2px solid #e9edf0;
-	border-radius:5px;
-	outline:0;
-	height:30px;
-	font-family:regular;
-	font-size:16px;
-	margin-top:10px;
+	border-radius: 5px;
+	outline: 0;
+	height: 30px;
+	font-family: regular;
+	font-size: 16px;
+	margin-top: 10px;
 }
 
 .instancemodsplus {
-	width:31px;
-	float:left;
-	height:30px;
-	margin:10px;
-	background-color:#27b0d8;
-	border-radius:5px;
-	color:white;
-	font-family:bold;
-	text-align:center;
-	font-size:23px;
-	cursor:pointer;
+	width: 31px;
+	float: left;
+	height: 30px;
+	margin: 10px;
+	background-color: #27b0d8;
+	border-radius: 5px;
+	color: white;
+	font-family: bold;
+	text-align: center;
+	font-size: 23px;
+	cursor: pointer;
+
+  &:hover {
+		background-color: #51BEDE;
+	}
 }
 
-.instancemodsplus:hover {
-	background-color:#51BEDE;
-}
-
-.modformcontainer .error {
-	font-family:semibold;
-	width:70%;
+.modformcontainer {
+	.error {
+		font-family: semibold;
+		width: 70%;
+	}
 }

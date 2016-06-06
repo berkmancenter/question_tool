@@ -10,33 +10,33 @@
 	width: 80%;
 	margin-top: 25px;
 	margin-bottom: 35px;
-}
 
-#creditstext a {
-	text-decoration:underline;
+	a {
+		text-decoration: underline;
+	}
 }
 
 .creditsformcontainer {
 	position: fixed;
-	background-color:black;
-    top: 1%;
+	background-color: black;
+	top: 1%;
 	left: 30%;
 	width: 40%;
-	opacity:.9;
-	overflow:hidden;
-	z-index:999999999999999;
-	cursor:pointer;	
+	opacity: .9;
+	overflow: hidden;
+	z-index: 999999999999999;
+	cursor: pointer;
 }
 
 @media screen and (max-width: 667px) {
-    .creditsformcontainer {
-	background-color:black;
-    top: 0;
-	left: 0;
-	width: 100%;
-	opacity:.9;
-	overflow:hidden;
-	z-index:999999999999999;
-	cursor:pointer;	
-}
+	.creditsformcontainer {
+		background-color: black;
+		top: 0;
+		left: 0;
+		width: 100%;
+		opacity: .9;
+		overflow: hidden;
+		z-index: 999999999999999;
+		cursor: pointer;
+	}
 }

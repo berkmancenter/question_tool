@@ -1,74 +1,101 @@
 @media (max-width: 1200px) {
 	#tablename {
-		display:none!important;
+		display: none !important;
 	}
 }
 
 @media (max-width: 1186px) {
-	.loggedoutlistbanner #navProfile {
-		display:none!important;
+	.loggedoutlistbanner {
+		#navProfile {
+			display: none !important;
+		}
 	}
 }
 
 @media (max-width: 1105px) {
-	.loggedoutlistbanner #navRegister, .loggedoutlistbanner #navLogin {
-		display:none!important;
+	.loggedoutlistbanner {
+		#navRegister {
+			display: none !important;
+		}
+
+    #navLogin {
+			display: none !important;
+		}
 	}
 }
 
 @media (max-width: 1075px) {
 	.instancecolumn {
-		width:48%!important;
+		width: 48% !important;
 	}
+
 	.lastinstancecolumn {
-		width:100%!important;
+		width: 100% !important;
 	}
+
 	.subcolumn {
-		width:48%!important;
+		width: 48% !important;
 	}
+
 	.lastcolumn {
-		width:100%!important;
+		width: 100% !important;
 	}
 }
 
 @media (max-width: 990px) {
-	.homebanner #navProfile {
-		display:none!important;
+	.homebanner {
+		#navProfile {
+			display: none !important;
+		}
 	}
 }
 
 @media (max-width: 960px) {
-	.loggedinlistbanner #navProfile {
-		display:none!important;
+	.loggedinlistbanner {
+		#navProfile {
+			display: none !important;
+		}
 	}
 }
 
 @media (max-width: 945px) {
 	#banner {
-		height:60px!important;
-		padding-left:0px!important;
+		height: 60px !important;
+		padding-left: 0px !important;
 	}
-	#navLogin {
-		margin-right:0px!important;
+
+  #navLogin {
+		margin-right: 0px !important;
 	}
-	.homebanner #navHome {
-		display:none!important;
+
+	.homebanner {
+		#navHome {
+			display: none !important;
+		}
+
+		#navProfile {
+			display: inline-block !important;
+		}
 	}
-	#navbuttons {
-		float:left!important;
+
+  #navbuttons {
+		float: left !important;
 	}
-	.homebanner #navProfile {
-		display:inline-block!important;
-	}
-	.loggedoutlistbanner #navProfile {
-		display:inline-block!important;
+
+	.loggedoutlistbanner {
+		#navProfile {
+			display: inline-block !important;
+		}
 	}
 }
 
 @media (max-width: 800px) {
-	.loggedinlistbanner #navbuttons {
-		display:none!important;
+	.loggedinlistbanner {
+		#navbuttons {
+			display: none !important;
+		}
 	}
+
 	.container {
 		width: 20em;
 		margin: 0 auto;
@@ -77,27 +104,37 @@
 
 @media (max-width: 720px) {
 	.instancecolumn {
-		width:100%!important;
-	}
-	.subcolumn {
-		width:100%!important;
+		width: 100% !important;
 	}
 
-	#navPresent {
+	.subcolumn {
+		width: 100% !important;
+	}
+
+  #navPresent {
 		display: none;
 	}
 
-	#searchbar {
+  #searchbar {
 		font-size: 12px;
 	}
 }
-
 @media (max-width: 666px) {
-	.homebanner #navProfile {
-		display:none!important;
+	.homebanner {
+		#navProfile {
+			display: none !important;
+		}
 	}
 
-	#navAsk, #navLogout {
+  #navAsk {
+		font-size: 12px;
+		margin-top: 0.9em;
+		margin-bottom: 1.25em;
+		margin-left: 0.5em;
+		margin-right: 0.5em;
+	}
+
+  #navLogout {
 		font-size: 12px;
 		margin-top: 0.9em;
 		margin-bottom: 1.25em;
@@ -107,7 +144,9 @@
 }
 
 @media (max-width: 630px) {
-	.loggedoutlistbanner #navbuttons {
-		display:none!important;
+	.loggedoutlistbanner {
+		#navbuttons {
+			display: none !important;
+		}
 	}
 }
