@@ -1,6 +1,5 @@
 #nav {
-	color: #fff;
-	background: #293340;
+	background: #fff;
 	min-height: 54px;
 	display: flex;
 	flex-direction: row;
@@ -12,6 +11,11 @@
 	padding-bottom: 0;
   padding-left: 54px;
   padding-right: 54px;
+  border-bottom: 2px solid #888;
+
+  a {
+    color: #444;
+  }
 }
 
 #tablename {
@@ -52,11 +56,16 @@
     a {
       display: block;
       padding: 17px 10px;
-      color: #fff;
     }
 
     &:hover {
-			background-color: #5d6a7b;
+			&:not(.no-bg) {
+        background-color: #888;
+
+        a {
+          color: #fff;
+        }
+      }
 		}
 	}
 }
@@ -73,26 +82,14 @@
 		float: left;
 
     a {
+      color: #fff;
       padding: 6px 12px;
       display: block;
-      color: #fff;
     }
 	}
 }
 
-#navAsk {
-  color: #fff;
-	border-radius: 5px;
-	background-color: #27ae60;
-
-  &:hover {
-		background-color: #43c177;
-	}
-}
-
-#navCreate {
-	padding: 0.4em 1em;
-	text-align: center;
+#navCreate, #navAsk {
 	border-radius: 5px;
 	background-color: #27ae60;
 
@@ -129,16 +126,8 @@
 	color: #fff;
 }
 
-#navProfile {
-	float: left;
-	padding: 17px 10px 17px 10px;
-}
-
 #navLogout {
-  color: #fff;
 	background-color: #5d6a7b;
-	padding: 5px 15px;
-	text-align: center;
 	border-radius: 5px;
 
   &:hover {

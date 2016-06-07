@@ -6,18 +6,14 @@
   		</h1>
   		<input id="searchbar" class="{{#if this.list}}listsearchbar{{else}}homesearchbar{{/if}}" type="text" placeholder="Search...">
   		<ul id="navbuttons">
-  			<li>
-  				<a id="navHome" class="link">Home</a>
-  			</li>
+        {{#if currentUser}}
+        <li class="no-bg"><a id="navProfile">Hi, {{currentUser.profile.name}}!</a></li>
+        {{/if}}
+  			<li><a id="navHome" class="link">Home</a></li>
   			{{#if this.list}}
-  				<li>
-  					<a id="navShare" class="link">Share</a>
-  				</li>
-
+  				<li><a id="navShare" class="link">Share</a></li>
           {{#if admin}}
-    				<li>
-    					<a id="navAdmin" class="link">Admin</a>
-    				</li>
+    				<li><a id="navAdmin" class="link">Admin</a></li>
     			{{/if}}
   			{{/if}}
   		</ul>
@@ -29,7 +25,6 @@
   			{{else}}
   				<li><a id="navCreate" class="link" data-toggle-text="Close">+ Create</a></li>
   			{{/if}}
-        <li><a id="navProfile">Hi, {{currentUser.profile.name}}!</a></li>
   			<li><a id="navLogout" class="link">Log out</a></li>
   		{{else}}
   			{{#if this.list}}
