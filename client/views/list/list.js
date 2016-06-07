@@ -537,7 +537,7 @@ Template.list.events({
 		$("#nav").slideUp();
 		$(".instancetitle").slideUp();
 		$(".description").slideUp();
-		$("#footercontainer").slideUp();
+		$("#footer").slideUp();
 		$("#navUnPresent").fadeIn();
 		$("#hiddenName").fadeIn();
 		$(".admincontainer").slideUp();
@@ -546,7 +546,7 @@ Template.list.events({
 		$("#nav").slideDown();
 		$(".instancetitle").slideDown();
 		$(".description").slideDown();
-		$("#footercontainer").slideDown();
+		$("#footer").slideDown();
 		$("#navUnPresent").fadeOut();
 		$("#hiddenName").fadeOut();
 		$(".admincontainer").slideDown();
