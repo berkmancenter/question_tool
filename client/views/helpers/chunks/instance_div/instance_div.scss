@@ -1,0 +1,80 @@
+.adminimage {
+	width: 14px;
+	height: 14px;
+	display: inline-block;
+}
+
+.admintext {
+	color: #f1c40f;
+	font-weight: 700;
+	display: inline-block;
+}
+
+.buttonFavorite {
+	background-image: url('/heart_filled.png') !important;
+}
+
+.description {
+	display: block;
+	margin: 0 auto;
+	width: 40%;
+	text-align: center;
+	margin-bottom: 0;
+	margin-top: 10px;
+	padding-bottom: 0;
+	padding-left: 5px;
+	color: #999999;
+	font-weight: 600;
+}
+
+.favorite-instance {
+	border: 2px solid #ec4f4f;
+}
+
+.favoritebutton {
+	background-image: url('/heart_empty.png');
+	background-size: contain;
+	background-repeat: no-repeat;
+	width: 20px;
+	height: 20px;
+	position: absolute;
+	top: 0.85em;
+	right: 0.8em;
+	cursor: pointer;
+	z-index: 20;
+}
+
+.instance {
+	background-color: #FFF;
+	border: 1px solid #e9edf0;
+	border-radius: 5px;
+	width: 18.5em;
+	padding: 0.75em;
+	padding-bottom: 10px;
+	margin-bottom: 1em;
+	display: inline-block;
+	margin: 5px;
+	position: relative;
+}
+
+.instancename {
+	font-weight: 600;
+	font-size: 20px;
+	color: #333333;
+	padding-bottom: 0.2em;
+	margin: 0;
+}
+
+.modimage {
+	width: 20px;
+	height: 20px;
+	float: left;
+	margin-right: 4px;
+	margin-top: -1px;
+	padding-top: 0;
+}
+
+.instancebadgecontainer {
+	margin-right: 1.5em;
+	margin-top: 0.2em;
+}

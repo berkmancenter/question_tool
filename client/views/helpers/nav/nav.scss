@@ -1,0 +1,152 @@
+$nav-bg-color: #293340;
+$nav-text-color: #eee;
+
+#nav {
+	background: $nav-bg-color;
+  color: $nav-text-color;
+	min-height: 54px;
+	display: flex;
+	flex-direction: row;
+	text-decoration: none;
+	font-size: 15px;
+	line-height: 20px;
+  font-weight: 600;
+	margin-bottom: 0;
+	padding-bottom: 0;
+  padding-left: 54px;
+  padding-right: 54px;
+
+  a {
+    color: $nav-text-color;
+  }
+}
+
+#tablename {
+  display: inline;
+	font-size: 22px;
+	margin-top: 16px;
+}
+
+#searchbar {
+	height: 32px;
+	flex-grow: 1;
+	background-color: #fff;
+	margin-top: 10px;
+	margin-left: 1em;
+	border-radius: 5px;
+	border: 0;
+	outline: 0;
+	padding-left: 35px;
+	color: #333;
+	font-size: 16px;
+	background-image: url('/search.png');
+	background-repeat: no-repeat;
+	background-position: 10px center;
+	background-size: 16px 16px;
+	outline: 0;
+  font-weight: 400;
+}
+
+#navbuttons {
+	list-style-type: none;
+	margin: 0 0 0 10px;
+	padding: 0;
+	float: left;
+
+  li {
+		float: left;
+
+    a {
+      display: block;
+      padding: 17px 10px;
+    }
+
+    &:hover {
+			&:not(.no-bg) {
+        background-color: lighten($nav-bg-color, 10);
+      }
+		}
+	}
+}
+
+#navoptions {
+	list-style-type: none;
+	margin-top: 11px;
+  margin-bottom: 0;
+	padding: 0;
+	float: left;
+
+  li {
+    margin-left: 8px;
+		float: left;
+
+    a {
+      padding: 6px 12px;
+      display: block;
+    }
+	}
+}
+
+#navCreate, #navAsk {
+	border-radius: 5px;
+	background-color: #27ae60;
+
+  &:hover {
+		background-color: #43c177;
+	}
+}
+
+#navPresent {
+	width: 18px;
+	height: 20px;
+	background-color: #5d6a7b;
+	float: right;
+	padding: 3px 15px 5px 15px;
+	border-radius: 5px;
+	background-image: url('/present.png');
+	background-size: 18px 18px;
+	background-repeat: no-repeat;
+	background-position: 12px 8px;
+
+  &:hover {
+		background-color: #737f8e;
+	}
+}
+
+#navUnPresent {
+	display: none;
+	width: 3em;
+	height: 22px;
+	background-color: #5d6a7b;
+	padding: 6px 15px 5px 15px;
+	border-radius: 5px;
+	margin: 0.5em auto;
+	color: #fff;
+}
+
+#navLogout {
+	background-color: #5d6a7b;
+	border-radius: 5px;
+
+  &:hover {
+		background-color: #738092;
+	}
+}
+
+#navLogin {
+	border-radius: 5px;
+	background-color: #ec4f4f;
+
+  &:hover {
+		background-color: #f16f71;
+	}
+}
+
+#navRegister {
+	border-radius: 5px;
+	background-color: #5d6a7b;
+
+  &:hover {
+		background-color: #707e8f;
+	}
+}

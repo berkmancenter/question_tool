@@ -98,7 +98,6 @@ Template.propose.events({
 		}
 	},
 	"click #buttonarea": function(event, template) {
-		Meteor.reconnect();
 		// Retrieves data from the form
 		var question = document.getElementById("questioninput").value;
 		question = $("<p>").html(question).text();
@@ -228,9 +227,6 @@ Template.propose.events({
 				});
 			}
 		});
-		setTimeout(function() { 
-			Meteor.disconnect();
-		}, 1500);
 	},
 	"keyup #questioninput": function(event, template) {
 		var urlRegex = /(https?:\/\/(?:www\.|(?!www))[^\s\.]+\.[^\s]{2,}|www\.[^\s]+\.[^\s]{2,})/g;

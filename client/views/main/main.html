@@ -1,8 +1,6 @@
 <template name="home">
   <div class="wrapper" id="main-wrapper">
-    <div class="header">
-      {{> userInfo title="Question Tool" list=false}}
-    </div>
+    {{> nav title="Question Tool" list=false}}
     <div id="recent">
       {{#if currentUser.profile.favorites}}
         <div class="timesectionlabel">Favorites:</div>

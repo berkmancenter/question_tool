@@ -1,0 +1,42 @@
+<template name="nav">
+  <div id="nav-wrapper">
+  	<div id="nav" class="{{#if this.list}}{{#if currentUser}}loggedinlistbanner{{else}}loggedoutlistbanner{{/if}}{{else}}homebanner{{/if}}">
+  		<h1 id="tablename">
+  			{{this.title}}
+  		</h1>
+  		<input id="searchbar" class="{{#if this.list}}listsearchbar{{else}}homesearchbar{{/if}}" type="text" placeholder="Search...">
+  		<ul id="navbuttons">
+        {{#if currentUser}}
+        <li class="no-bg"><a id="navProfile">Hi, {{currentUser.profile.name}}!</a></li>
+        {{/if}}
+  			<li><a id="navHome" class="link">Home</a></li>
+  			{{#if this.list}}
+  				<li><a id="navShare" class="link">Share</a></li>
+          {{#if admin}}
+    				<li><a id="navAdmin" class="link">Admin</a></li>
+    			{{/if}}
+  			{{/if}}
+  		</ul>
+      <ul id="navoptions">
+  		{{#if currentUser}}
+  			{{#if this.list}}
+  				<li><a id="navAsk" class="link" data-toggle-text="Close">+ Post</a></li>
+  				<li><a id="navPresent" class="link"></a></li>
+  			{{else}}
+  				<li><a id="navCreate" class="link" data-toggle-text="Close">+ Create</a></li>
+  			{{/if}}
+  			<li><a id="navLogout" class="link">Log out</a></li>
+  		{{else}}
+  			{{#if this.list}}
+  				<li><a id="navAsk" class="link" data-toggle-text="Close">+ Post</a></li>
+  				<li><a id="navPresent" class="link"></a></li>
+  			{{else}}
+  				<li><a id="navCreate" class="link" data-toggle-text="Close">+ Create</a></li>
+  			{{/if}}
+        <li><a id="navLogin" class="link">Sign in</a></li>
+  			<li><a id="navRegister" class="link">Sign up</a></li>
+  		{{/if}}
+      </ul>
+  	</div>
+  </div>
+</template>

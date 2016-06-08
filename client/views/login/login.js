@@ -36,7 +36,7 @@ Template.login.events({
 		$("#darker").fadeOut(400, function() {
 			Blaze.remove(popoverTemplate);
 			window.setTimeout(function() {
-				var parentNode = document.getElementById("banner");
+				var parentNode = document.getElementById("nav");
 				popoverTemplate = Blaze.render(Template.register, parentNode);
 			}, 10);
 		});
