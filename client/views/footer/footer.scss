@@ -1,9 +1,11 @@
+$footer-bg-color: #293340;
+
 #footer {
 	left: 0;
 	right: 0;
 	bottom: 0;
 	position: absolute;
-	background-color: #2a2731;
+	background-color: $footer-bg-color;
   padding-top: 20px;
 	padding-bottom: 20px;
 
@@ -14,10 +16,6 @@
 
     li {
       display: inline-block;
-
-      &:first-child {
-        font-weight: 600;
-      }
 
       &:not(:first-child) {
         margin-left: 14px;
