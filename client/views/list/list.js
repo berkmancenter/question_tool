@@ -146,10 +146,10 @@ Template.list.helpers({
 				var newDiff = (Session.get("timeval") - questions[i].timeorder)/1000;
 				if(staleDiff > Session.get("stale_length")) {
 					questions[i].stale = true;
-					questions[i].age_marker = "stalequestion";
+					questions[i].age_marker = "stale-question";
 				} else if(newDiff < Session.get("new_length")) {
 					questions[i].new = true;
-					questions[i].age_marker = "newquestion";
+					questions[i].age_marker = "new-question";
 				}
 				// Finds the answers for the given question ID
 				var answers = Answers.find({
@@ -341,7 +341,7 @@ Template.list.events({
 		if(theArea.style.display == "none" || !theArea.style.display) {
 			document.getElementById("reply" + theID).innerHTML = "Close";
 			$("#down" + theID).slideDown(400, function() {
-				$(this).css("display", "flex")
+				$(this).css("display", "block")
 			});
 			$('#text' + theID).focus();
 		} else {

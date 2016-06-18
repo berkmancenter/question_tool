@@ -4,6 +4,7 @@ html, body {
 
 body {
   font-family: 'Source Sans Pro';
+  font-size: 14px;
 	background-color: #f2f4f5;
 	margin: 0;
 	padding: 0;
@@ -50,12 +51,19 @@ a {
 	padding: 5px;
 }
 
+.masonary-wrapper {
+  padding-left: 20px;
+  padding-right: 20px;
+  margin: 0 auto;
+}
+
 .container {
-	margin: 0 1em;
-	-webkit-column-width: 20em;
-	-moz-column-width: 20em;
-	column-width: 20em;
-	padding-bottom: 63px;
+	-webkit-columns: 4 16em;
+	-moz-columns: 4 16em;
+	columns: 4 16em;
+  column-gap: 1em;
+  margin: 0;
+	padding: 0 0 70px 0;
 }
 
 .formcontainer {
@@ -414,18 +422,16 @@ a {
 	margin: 0 1em;
 }
 
-.question {
-	&:hover {
-		.adminquestionhide {
-			border: 2px solid #999999;
-			color: #999999;
-		}
+.instance-wrapper {
+  display: inline-block;
+  width: 100%;
+  cursor: auto;
 
-		.adminquestionmodify {
-			border: 2px solid #999999;
-			color: #999999;
-		}
-	}
+  &, div, span, a {
+    -webkit-column-break-inside: avoid;
+    page-break-inside: avoid;
+    break-inside: avoid;
+  }
 }
 
 .instance {
@@ -439,30 +445,6 @@ a {
 			border: 2px solid #999999;
 			color: #999999;
 		}
-	}
-}
-
-.superadminrenamebutton {
-	&:hover {
-		background-color: #e3e3e3;
-	}
-}
-
-.superadmindeletebutton {
-	&:hover {
-		background-color: #e3e3e3;
-	}
-}
-
-.adminquestionhide {
-	&:hover {
-		background-color: #e3e3e3;
-	}
-}
-
-.adminquestionmodify {
-	&:hover {
-		background-color: #e3e3e3;
 	}
 }
 

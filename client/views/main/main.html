@@ -1,49 +1,51 @@
 <template name="home">
   <div class="wrapper" id="main-wrapper">
     {{> nav title="Question Tool" list=false}}
-    <div id="recent">
-      {{#if currentUser.profile.favorites}}
-        <div class="timesectionlabel">Favorites:</div>
-        <div id="favorites" class="container">
-          {{#each instanceList}}
-            {{#if isFavorite}} {{> instance_div}} {{/if}}
-          {{/each}}
-        </div>
-      {{/if}}
-      {{#if hasToday}}
-        <div class="timesectionlabel">Used today:</div>
-        <div id="today" class="container">
-          {{#each instanceList}}
-            {{#if isFavorite}} {{else}}
-              {{#if today}} {{> instance_div}} {{/if}}
-            {{/if}}
-          {{/each}}
-        </div>
-      {{/if}}
-      {{#if hasWeek}}
-        <div class="timesectionlabel">Used this week:</div>
-        <div id="week" class="container">
-          {{#each instanceList}}
-            {{#if isFavorite}} {{else}}
-              {{#if week}}
-                {{> instance_div}}
+    <div class="masonary-wrapper">
+      <div id="recent">
+        {{#if currentUser.profile.favorites}}
+          <div class="timesectionlabel">Favorites:</div>
+          <div id="favorites" class="container">
+            {{#each instanceList}}
+              {{#if isFavorite}} {{> instance_div}} {{/if}}
+            {{/each}}
+          </div>
+        {{/if}}
+        {{#if hasToday}}
+          <div class="timesectionlabel">Used today:</div>
+          <div id="today" class="container">
+            {{#each instanceList}}
+              {{#if isFavorite}} {{else}}
+                {{#if today}} {{> instance_div}} {{/if}}
               {{/if}}
-            {{/if}}
-          {{/each}}
-        </div>
-      {{/if}}
-      {{#if hasMonth}}
-        <div class="timesectionlabel">Used this month:</div>
-        <div id="month" class="container">
-          {{#each instanceList}}
-            {{#if isFavorite}} {{else}}
-              {{#if month}}
-                {{> instance_div}}
+            {{/each}}
+          </div>
+        {{/if}}
+        {{#if hasWeek}}
+          <div class="timesectionlabel">Used this week:</div>
+          <div id="week" class="container">
+            {{#each instanceList}}
+              {{#if isFavorite}} {{else}}
+                {{#if week}}
+                  {{> instance_div}}
+                {{/if}}
               {{/if}}
-            {{/if}}
-          {{/each}}
-        </div>
-      {{/if}}
+            {{/each}}
+          </div>
+        {{/if}}
+        {{#if hasMonth}}
+          <div class="timesectionlabel">Used this month:</div>
+          <div id="month" class="container">
+            {{#each instanceList}}
+              {{#if isFavorite}} {{else}}
+                {{#if month}}
+                  {{> instance_div}}
+                {{/if}}
+              {{/if}}
+            {{/each}}
+          </div>
+        {{/if}}
+      </div>
     </div>
     {{> footer}}
   </div>
