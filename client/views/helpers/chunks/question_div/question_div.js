@@ -14,5 +14,12 @@ Template.question_div.helpers({
 			return true;
 		}
 		return false;
-	}
+	},
+  hasAnswers: function () {
+    var answers = Answers.find({
+      qid: this._id
+    })
+
+    return answers.fetch().length > 0
+  }
 });

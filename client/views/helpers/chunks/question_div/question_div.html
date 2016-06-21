@@ -14,7 +14,9 @@
         {{/if}}
         asked <span class="smallcaps">{{f_time}}</span>
       </div>
-      {{> answers}}
+      {{# if hasAnswers}}
+        {{> answers}}
+      {{/if}}
       <div class="replybottom" id="down{{_id}}">
         <textarea id="text{{_id}}" class="replyarea" placeholder="Type a response..." maxlength="{{responseLength}}"></textarea>
         <div style="margin: 8px 0">
