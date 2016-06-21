@@ -154,18 +154,19 @@ Template.list.helpers({
 				// Finds the answers for the given question ID
 				var answers = Answers.find({
 					qid: questions[i]._id
-				});
-				if(answers.fetch().length > 0) {
-					if(answers.fetch().length > 3) {
+				}).fetch();
+				if(answers.length > 0) {
+					if(answers.length > 3) {
 						questions[i].hasHidden = true;
-						questions[i].numberHidden = answers.fetch().length - 3;
-						if(answers.fetch().length == 4) {
+						questions[i].numberHidden = answers.length - 3;
+						if(answers.length == 4) {
 							questions[i].replyText = "reply";
 						} else {
 							questions[i].replyText = "replies";
 						}
 					}
-					questions[i].answer = answers.fetch();
+          answers.reverse()
+					questions[i].answer = answers;
 					for(var a = 0; a < questions[i].answer.length; a++) {
 						if(a > 2) {
 							questions[i].answer[a].isHidden = true;
