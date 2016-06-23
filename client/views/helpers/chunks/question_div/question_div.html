@@ -2,18 +2,6 @@
   <div class="question-wrapper">
     <div id="{{_id}}" class="question {{#if popular}}popular-question{{else}}{{age_marker}}{{/if}} {{#if isDisabled}}hidden-question{{/if}}">
       <p class="questiontext">{{{text}}}</p>
-      <div class="asked-by">
-        {{#if poster}}
-        <span class="poser">
-          {{#if email}}
-            <a href="mailto:{{email}}">{{poster}}</a>
-          {{else}}
-            {{poster}}
-          {{/if}}
-        </span>
-        {{/if}}
-        asked <span class="smallcaps">{{f_time}}</span>
-      </div>
       {{# if hasAnswers}}
         {{> answers}}
       {{/if}}
@@ -32,6 +20,18 @@
         </div>
       </div>
       {{> toolbar}}
+      <div class="asked-by">
+        {{#if poster}}
+        <span class="poser">
+          {{#if email}}
+            <a href="mailto:{{email}}">{{poster}}</a>
+          {{else}}
+            {{poster}}
+          {{/if}}
+        </span>
+        {{/if}}
+        asked <span class="smallcaps">{{f_time}}</span>
+      </div>
     </div>
   </div>
 </template>

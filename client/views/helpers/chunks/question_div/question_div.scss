@@ -50,7 +50,7 @@ $popular-question-color: #f1c40f;
 .asked-by {
 	color: #999;
 	font-size: 14px;
-  margin-bottom: 4px;
+  text-align: right;
 
   .poser {
     color: #888;
@@ -68,7 +68,7 @@ $popular-question-color: #f1c40f;
 	font-size: 14px;
   text-transform: lowercase;
   justify-content: space-between;
-  margin: 0 -12px;
+  margin: 4px -12px 3px -12px;
   border-radius: 0 0 4px 4px;
   padding: 0 12px;
 
