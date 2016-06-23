@@ -353,9 +353,7 @@ $popular-question-color: #f1c40f;
 }
 
 .answers {
-  border: 1px solid #bbb;
   border-radius: 4px;
-  padding: 4px 8px 0 8px;
   margin-bottom: 4px;
 
   .question-answer {
@@ -367,10 +365,10 @@ $popular-question-color: #f1c40f;
   font-size: 0.85rem;
   text-align: center;
   padding: 1px 4px;
-  margin: 0 -8px;
+  margin: 0;
   background: #bbb;
 	color: #fff;
-  border-radius: 0 0 4px 4px;
+  border-radius: 4px;
 }
 
 .hiddenMessageHide {
