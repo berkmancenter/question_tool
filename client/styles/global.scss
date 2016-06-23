@@ -58,9 +58,13 @@ a {
 }
 
 .container {
-	-webkit-columns: 4 16em;
-	-moz-columns: 4 16em;
-	columns: 4 16em;
+  -webkit-column-width: 18em;
+  -moz-column-width: 18em;
+  column-width: 18em;
+
+	// -webkit-columns: 4 16em;
+	// -moz-columns: 4 16em;
+	// columns: 4 16em;
   column-gap: 1em;
   margin: 0;
 	padding: 0 0 70px 0;
