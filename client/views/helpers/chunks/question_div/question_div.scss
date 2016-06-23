@@ -81,13 +81,9 @@ $popular-question-color: #f1c40f;
 
 .replybottombutton, .anon-reply-bottom-button {
 	color: #47c3e1;
-	background-color: white;
-	border: 2px solid #47c3e1;
 	font-size: 14px;
 	font-weight: 600;
-	padding: 3px 5px;
 	margin-top: 20px;
-	border-radius: 5px;
 }
 
 .anon-reply-bottom-button {
@@ -205,10 +201,9 @@ $popular-question-color: #f1c40f;
 
 .replyarea {
 	display: block;
-	border: 0.1em solid #e9edf0;
-	color: #888888;
+	border: 0.1em solid #aaa;
+	color: #666;
 	font-weight: 300;
-	padding-left: 0.4em;
 	font-size: 14px;
 	height: 65px;
 	outline: 0;
