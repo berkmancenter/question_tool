@@ -19,7 +19,34 @@
           </span>
         </div>
       </div>
-      {{> toolbar}}
+      <div class="question-toolbar">
+        <span class="vote-and-options">
+          <a class="voteright {{shade}}" id="{{_id}}"><span class="triangle"></span> {{votes}}</a>
+          <span class="replybutton" id="reply{{_id}}">Reply</span>
+          {{#if adminButtons}}
+          <span class="adminquestionhide" id="{{_id}}">
+            {{#if isDisabled}}Unhide{{else}}Hide{{/if}}
+          </span>
+          <span class="adminquestionmodify" id="{{_id}}">
+            Modify
+          </span>
+          {{/if}}
+        </span>
+        <span class="sharing">
+          {{#if popular}}
+          <span class="image-icon popular-icon"></span>
+          {{else}}
+            {{#if stale}}
+              <span class="image-icon stale-icon"></span>
+            {{/if}}
+          {{/if}}
+          {{#if new}}
+            <span class="image-icon new-icon"></span>
+          {{/if}}
+          <span class="image-icon facebookbutton"></span>
+          <span class="image-icon twitterbutton"></span>
+        </span>
+      </div>
       <div class="asked-by">
         {{#if poster}}
         <span class="poser">
