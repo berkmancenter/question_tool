@@ -156,21 +156,21 @@ Template.list.helpers({
 					qid: questions[i]._id
 				}).fetch();
 				if(answers.length > 0) {
-					if(answers.length > 3) {
+					// if(answers.length > 3) {
 						questions[i].hasHidden = true;
-						questions[i].numberHidden = answers.length - 3;
-						if(answers.length == 4) {
+						questions[i].numberHidden = answers.length;
+						if(answers.length === 1) {
 							questions[i].replyText = "reply";
 						} else {
 							questions[i].replyText = "replies";
 						}
-					}
+					// }
           answers.reverse()
 					questions[i].answer = answers;
 					for(var a = 0; a < questions[i].answer.length; a++) {
-						if(a > 2) {
+						// if(a > 2) {
 							questions[i].answer[a].isHidden = true;
-						}
+						// }
 						questions[i].answer[a].text = questions[i].answer[a].text.replace(/\B(@\S+)/g, "<strong>$1</strong>");
 						var urlRegex = /(https?:\/\/(?:www\.|(?!www))[^\s\.]+\.[^\s]{2,}|www\.[^\s]+\.[^\s]{2,})/g;
 						questions[i].answer[a].text = questions[i].answer[a].text.replace(urlRegex, function(url) {
