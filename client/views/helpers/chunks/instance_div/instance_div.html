@@ -2,20 +2,22 @@
   <div class="instance-wrapper">
     <div id="{{_id}}" class="instance {{#if isFavorite}}favorite-instance {{else}} {{#if today}}today-instance{{/if}} {{#if week}}week-instance{{/if}} {{#if month}}month-instance{{/if}} {{/if}}">
       {{#if currentUser}}
+        <div>
         {{#if isAdmin}}
-          <div class="instancebadgecontainer">
+          <span class="instancebadgecontainer">
             <img src="/admin.png" class="adminimage">
             <span class="admintext">Admin</span>
-          </div>
+          </span>
         {{else}}
           {{#if isMod}}
-            <div class="instancebadgecontainer">
+            <span class="instancebadgecontainer">
               <img src="/mod.png" class="modimage">
               <p class="popular-icon">Mod</p>
-            </div>
+            </span>
           {{/if}}
         {{/if}}
-        <div class="favoritebutton {{#if isFavorite}}buttonFavorite{{/if}}" id="{{_id}}"></div>
+          <span class="favoritebutton {{#if isFavorite}}buttonFavorite{{/if}}" id="{{_id}}"></span>
+        </div>
       {{/if}}
       <p class="instancename">
         <a class="divLink" href="/list/{{slug}}"></a>{{tablename}}
@@ -26,9 +28,7 @@
   			</span>
       </div>
       <div class="instance-bottom">
-        <p class="postername">
-          {{author}}
-        </p>
+        <span class="posted-by-text">posted by</span> <span class="postername">{{author}}</span>
         <span class="time">{{lasttouch}}</span>
       </div>
       {{#if superadmin}}
