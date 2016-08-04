@@ -553,9 +553,12 @@ Template.list.events({
 		$(".admincontainer").slideDown();
 	},
 	"click .hiddenMessage": function(event, template) {
-		$(event.currentTarget).prev().slideDown();
-		event.currentTarget.style.display = "none";
-		$(event.currentTarget).next().css("display", "block");
+    var parentNode = document.getElementById("nav");
+    popoverTemplate = Blaze.renderWithData(Template.answers, event.currentTarget.id, parentNode);
+
+		// $(event.currentTarget).prev().slideDown();
+		// event.currentTarget.style.display = "none";
+		// $(event.currentTarget).next().css("display", "block");
 		/*var replyText = "replies";
 		if(event.target.id == 1) {
 			replyText = "reply";

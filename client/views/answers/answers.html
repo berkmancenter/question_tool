@@ -1,0 +1,24 @@
+<template name="answers">
+	<div id="darker">
+	</div>
+	<div class="formcontainer">
+		{{> close_button}}
+		<h1 class="formtitle">Answers</h1>
+		<div class="modaltopmessage">
+      <div class="modalanswers">
+        {{#each answers}}
+        <div class="question-answer">
+          {{#if poster}}
+            {{#if email}}
+              <a href="mailto:{{email}}" class="answerposter">{{poster}}:</a>
+            {{else}}
+              <span class="answerposter">{{poster}}: </span>
+            {{/if}}
+          {{/if}}
+          <span class="answertext">{{{text}}}</span>
+        </div>
+        {{/each}}
+      </div>
+		</div>
+	</div>
+</template>

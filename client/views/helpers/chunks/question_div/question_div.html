@@ -2,9 +2,10 @@
   <div class="question-wrapper">
     <div id="{{_id}}" class="question {{#if popular}}popular-question{{else}}{{age_marker}}{{/if}} {{#if isDisabled}}hidden-question{{/if}}">
       <p class="questiontext">{{{text}}}</p>
-      {{# if hasAnswers}}
-        {{> answers}}
-      {{/if}}
+      <!-- {{# if hasAnswers}}
+        {{> answers_list}}
+      {{/if}} -->
+      <p class="hiddenMessage" id="{{_id}}">show replies</p>
       <div class="replybottom" id="down{{_id}}">
         <textarea id="text{{_id}}" class="replyarea" placeholder="Type a response..." maxlength="{{responseLength}}"></textarea>
         <div style="margin: 8px 0">

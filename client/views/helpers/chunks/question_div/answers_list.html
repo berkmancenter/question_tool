@@ -1,4 +1,4 @@
-<template name="answers">
+<template name="answers_list">
 <div class="answers">
   {{#each answer}} {{#if isHidden}} {{else}}
   <div class="question-answer">
@@ -30,8 +30,8 @@
       {{/if}}
     {{/each}}
   </div>
-  <p class="hiddenMessage" id="{{numberHidden}}">show {{numberHidden}} {{replyText}}</p>
-  <p class="hiddenMessageHide" id="{{numberHidden}}">hide {{replyText}}</p>
+  <p class="hiddenMessage" id="{{_id}}">show {{numberHidden}} {{replyText}}</p>
+  <p class="hiddenMessageHide" id="{{_id}}">hide {{replyText}}</p>
   {{/if}}
 </div>
 </template>

@@ -9,12 +9,14 @@ Template.question_div.helpers({
 			return 150;
 		}
 	},
-	isDisabled: function() {
+
+  isDisabled: function() {
 		if(Questions.findOne({ _id: this._id}).state === "disabled") {
 			return true;
 		}
 		return false;
 	},
+
   hasAnswers: function () {
     var answers = Answers.find({
       qid: this._id
