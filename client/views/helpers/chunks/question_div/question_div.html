@@ -5,17 +5,19 @@
       <!-- {{# if hasAnswers}}
         {{> answers_list}}
       {{/if}} -->
-      <p class="hiddenMessage" id="{{_id}}">show replies</p>
+      {{# if hasAnswers}}
+      <p class="hiddenMessage link" id="{{_id}}">show replies</p>
+      {{/if}}
       <div class="replybottom" id="down{{_id}}">
         <textarea id="text{{_id}}" class="replyarea" placeholder="Type a response..." maxlength="{{responseLength}}"></textarea>
         <div style="margin: 8px 0">
           <span class="replycounter">
             {{replyCount}}/{{responseLength}}
           </span>
-          <span class="replybottombutton" id="{{_id}}">
+          <span class="replybottombutton link" id="{{_id}}">
             Reply
           </span>
-          <span class="anon-reply-bottom-button" id="{{_id}}">
+          <span class="anon-reply-bottom-button link" id="{{_id}}">
             Anonymous Reply
           </span>
         </div>
@@ -23,12 +25,12 @@
       <div class="question-toolbar">
         <span class="vote-and-options">
           <a class="voteright {{shade}}" id="{{_id}}"><span class="triangle"></span> {{votes}}</a>
-          <span class="replybutton" id="reply{{_id}}">Reply</span>
+          <span class="replybutton link" id="reply{{_id}}">Reply</span>
           {{#if adminButtons}}
-          <span class="adminquestionhide" id="{{_id}}">
+          <span class="adminquestionhide link" id="{{_id}}">
             {{#if isDisabled}}Unhide{{else}}Hide{{/if}}
           </span>
-          <span class="adminquestionmodify" id="{{_id}}">
+          <span class="adminquestionmodify link" id="{{_id}}">
             Modify
           </span>
           {{/if}}
@@ -44,8 +46,8 @@
           {{#if new}}
             <span class="image-icon new-icon"></span>
           {{/if}}
-          <span class="image-icon facebookbutton"></span>
-          <span class="image-icon twitterbutton"></span>
+          <span class="image-icon facebookbutton link"></span>
+          <span class="image-icon twitterbutton link"></span>
         </span>
       </div>
       <div class="asked-by">

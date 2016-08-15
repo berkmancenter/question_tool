@@ -108,7 +108,6 @@ $popular-question-color: #f1c40f;
 }
 
 #bottomquestionarea {
-	width: 90%;
 	background-color: #f2f4f5;
 	display: flex;
 	flex-wrap: wrap;
@@ -123,6 +122,7 @@ $popular-question-color: #f1c40f;
 	font-weight: 300;
 	color: #999999;
 	font-size: 15px;
+  margin-right: 8px;
 }
 
 .facebookbutton {
@@ -198,8 +198,10 @@ $popular-question-color: #f1c40f;
 }
 
 .replyarea {
+  margin-top: 8px;
+  border-radius: 4px;
 	display: block;
-	border: 0.1em solid #aaa;
+	border: 1px solid #aaa;
 	color: #666;
 	font-weight: 300;
 	font-size: 14px;
@@ -207,6 +209,7 @@ $popular-question-color: #f1c40f;
 	outline: 0;
 	resize: none;
   width: 100%;
+  padding: 8px 10px;
 }
 
 .replyname {
@@ -370,5 +373,5 @@ $popular-question-color: #f1c40f;
 
 .answerposter {
   font-weight: 600;
-  color: #777;
+  color: #777!important;
 }

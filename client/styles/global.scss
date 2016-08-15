@@ -1,3 +1,9 @@
+textarea, input {
+  -webkit-box-sizing: border-box;
+  -moz-box-sizing: border-box;
+  box-sizing: border-box;
+}
+
 html, body {
 	height: 100%;
 }
@@ -77,16 +83,13 @@ a {
 	border-radius: 5px;
 	height: auto;
 	display: block;
-	margin: 0px auto;
-	width: 30%;
+	width: 35%;
 	margin-top: 120px;
-	margin-bottom: 100px;
+	margin-bottom: 120px;
 	z-index: 9999999999999999;
 	position: fixed;
-	top: 50%;
-	left: 50%;
-	margin-left: -15%;
-	margin-top: -260px;
+	top: 0;
+	left: 32%;
 
   .errorIcon {
 		margin-top: 4px;
@@ -276,13 +279,10 @@ a {
 .modaltopmessage {
 	color: #777777;
 	font-weight: 300;
-	text-align: center;
-	font-size: 13px;
 	display: block;
 	margin: 0px auto;
-	padding: 0px;
+	padding: 15px 15px 0 15px;
 	line-height: 1em;
-	width: 70%;
 	margin-top: 10px;
 	margin-bottom: 35px;
 }
@@ -372,7 +372,7 @@ a {
 }
 
 #checkarea1 {
-	padding-top: 0.8em;
+	padding-top: 13px;
 }
 
 #buttonarea {
@@ -397,6 +397,7 @@ a {
 }
 
 #checkarea2 {
+  padding-top: 13px;
 	width: 180px;
 	float: left;
 }

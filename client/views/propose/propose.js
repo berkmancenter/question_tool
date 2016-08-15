@@ -218,7 +218,8 @@ Template.propose.events({
 							Blaze.remove(currentError);
 						}
 						$("#toparea").slideUp();
-						$("#navAsk").html("+ Ask");
+            $('#navAsk').click()
+						// $("#navAsk").html("+ Ask");
 						document.getElementById("navAsk").style.backgroundColor = "#27ae60";
 						document.getElementById("questioninput").value = "";
 						Blaze.remove(dropDownTemplate);

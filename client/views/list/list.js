@@ -510,7 +510,7 @@ Template.list.events({
 		popupwindow("https://www.facebook.com/sharer/sharer.php?u=" + encodeURIComponent(window.location.origin + "/list/" + Session.get("slug")), "Share Question Tool!", 600, 400);
 	},
 	"click .twitterbutton": function(event, template) {
-		var questionDiv = event.target.parentElement.parentElement;
+		var questionDiv = event.target.parentElement.parentElement.parentElement;
 		var questionText = questionDiv.getElementsByClassName("questiontext")[0].innerHTML.trim();
 		if(questionText.length > 35) {
 			questionText = questionText.substring(0, 34);
