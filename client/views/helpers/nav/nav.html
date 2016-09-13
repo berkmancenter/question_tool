@@ -1,15 +1,15 @@
 <template name="nav">
   <div id="nav-wrapper">
   	<div id="nav" class="{{#if this.list}}{{#if currentUser}}loggedinlistbanner{{else}}loggedoutlistbanner{{/if}}{{else}}homebanner{{/if}}">
-  		<h1 id="tablename">
+  		<h1 id="tablename" class="hidden-xs hidden-sm">
   			{{this.title}}
   		</h1>
   		<input id="searchbar" class="{{#if this.list}}listsearchbar{{else}}homesearchbar{{/if}}" type="text" placeholder="Search...">
-  		<ul id="navbuttons">
+  		<ul id="navbuttons" class="hidden-xs hidden-sm">
         {{#if currentUser}}
         <li class="no-bg"><a id="navProfile">Hi, {{currentUser.profile.name}}!</a></li>
         {{/if}}
-  			<li><a id="navHome" class="link">Home</a></li>
+  			<li><a id="navHome" class="link hidden-xs hidden-sm">Home</a></li>
   			{{#if this.list}}
   				<li><a id="navShare" class="link">Share</a></li>
           {{#if admin}}
@@ -21,7 +21,7 @@
   		{{#if currentUser}}
   			{{#if this.list}}
   				<li><a id="navAsk" class="link" data-toggle-text="Close">+ Post</a></li>
-  				<li><a id="navPresent" class="link"></a></li>
+  				<li><a id="navPresent" class="link hidden-xs hidden-sm"></a></li>
   			{{else}}
   				<li><a id="navCreate" class="link" data-toggle-text="Close">+ Create</a></li>
   			{{/if}}
@@ -29,7 +29,7 @@
   		{{else}}
   			{{#if this.list}}
   				<li><a id="navAsk" class="link" data-toggle-text="Close">+ Post</a></li>
-  				<li><a id="navPresent" class="link"></a></li>
+  				<li><a id="navPresent" class="link hidden-xs hidden-sm"></a></li>
   			{{else}}
   				<li><a id="navCreate" class="link" data-toggle-text="Close">+ Create</a></li>
   			{{/if}}

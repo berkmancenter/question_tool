@@ -1,12 +1,8 @@
 .timesectionlabel {
 	font-size: 18px;
-	border-radius: 5px;
 	font-weight: 600;
-	color: white;
-	padding: 5px 10px 5px 10px;
-	background-color: #888888;
-	display: inline-block;
-	margin: 0.75em;
+	color: #888888;
+	margin: 20px 0 10px 0;
 }
 
 #creatediv {
@@ -18,7 +14,7 @@
 }
 
 #instancenameinput {
-	width: 90%;
+	width: 100%;
 	padding: 0 25px;
 	margin: 0 auto;
 	border-radius: 5px 5px 0px 0px;
@@ -32,7 +28,7 @@
 }
 
 #instancedescriptioninput {
-	width: 90%;
+	width: 100%;
 	padding: 0 25px;
 	margin: 0 auto;
 	border-width: 0;
@@ -110,7 +106,6 @@ input {
 #instancebottominputcontainer {
 	height: 360px;
 	display: none;
-	width: 90%;
 	background-color: #f9f9f9;
 	padding: 30px 25px 20px 25px;
 	margin: 0 auto;

@@ -1,7 +1,7 @@
 <template name="list">
 	<div class="wrapper" id="main-wrapper">
 		{{> nav list=true title=tablename }}
-		<p class="description">{{{description}}}</p>
+		<div class="description"><p><strong>Description:</strong> {{{description}}}</p></div>
 		<div id="hiddenName">{{tablename}}</div>
 		<div id="navUnPresent">Unhide</div>
 		{{#if admin}}
@@ -32,10 +32,12 @@
 				<p>Click and drag two questions together to combine.</p>
 			</div>
 		{{/if}}
-		<div class="container">
-			{{#each question}}
-				{{> question_div}}
-			{{/each}}
+    <div class="masonary-wrapper">
+  		<div class="container">
+  			{{#each question}}
+  				{{> question_div}}
+  			{{/each}}
+  		</div>
 		</div>
 		{{> footer}}
 	</div>

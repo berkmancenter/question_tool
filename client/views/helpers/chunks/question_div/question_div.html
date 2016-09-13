@@ -1,87 +1,67 @@
 <template name="question_div">
-    <div id="{{_id}}" class="question {{#if popular}}popularquestion{{else}}{{age_marker}}{{/if}} {{#if isDisabled}}hiddenQuestion{{/if}}">
-        <div id="votearea">
-            <div class="voteright" id="{{_id}}">
-                <a class="voteClick {{shade}}" href="{{votelink}}">{{votes}}</a> Vote
-            </div>
-            <div class="questionbadgecontainer">
-                {{#if popular}}
-                <img src="/star.png" class="starimage">
-                <span class="populartext">Popular</span> {{else}} {{#if stale}}
-                <img src="/stalequestion.png" class="starimage">
-                <span class="stalequestiontext">Stale</span> {{/if}} {{/if}} {{#if new}}
-                <img src="/newquestion.png" class="starimage">
-                <span class="newquestiontext">New</span> {{/if}}
-                <div class="facebookbutton"></div>
-                <div class="twitterbutton"></div>
-            </div>
+  <div class="question-wrapper">
+    <div id="{{_id}}" class="question {{#if popular}}popular-question{{else}}{{age_marker}}{{/if}} {{#if isDisabled}}hidden-question{{/if}}">
+      <p class="questiontext">{{{text}}}</p>
+      <!-- {{# if hasAnswers}}
+        {{> answers_list}}
+      {{/if}} -->
+      {{# if hasAnswers}}
+      <p class="hiddenMessage link" id="{{_id}}">show replies</p>
+      {{/if}}
+      <div class="replybottom" id="down{{_id}}">
+        <textarea id="text{{_id}}" class="replyarea" placeholder="Type a response..." maxlength="{{responseLength}}"></textarea>
+        <div style="margin: 8px 0">
+          <span class="replycounter">
+            {{replyCount}}/{{responseLength}}
+          </span>
+          <span class="replybottombutton link" id="{{_id}}">
+            Reply
+          </span>
+          <span class="anon-reply-bottom-button link" id="{{_id}}">
+            Anonymous Reply
+          </span>
         </div>
-        <p class="questiontext">
-            {{{text}}}
-        </p>
-        {{#each answer}} {{#if isHidden}} {{else}}
-        <div class="answercontainer">
-            {{#if poster}} {{#if email}}
-            <a href="mailto:{{email}}" class="answerposter">{{poster}}:</a> {{else}}
-            <span class="answerposter">{{poster}}: </span> {{/if}} {{/if}}
-            <span class="answertext">{{{text}}}</span>
-        </div>
-        {{/if}} {{/each}} {{#if hasHidden}}
-        <div class="hiddenanswers">
-            {{#each answer}} {{#if isHidden}}
-            <div class="answercontainer">
-                {{#if poster}} {{#if email}}
-                <a href="mailto:{{email}}" class="answerposter">{{poster}}:</a> {{else}}
-                <span class="answerposter">{{poster}}:</span> {{/if}} {{/if}}
-                <span class="answertext">{{{text}}}</span>
-            </div>
-            {{/if}} {{/each}}
-        </div>
-        <p class="hiddenMessage" id="{{numberHidden}}">Show {{numberHidden}} more {{replyText}}...</p>
-        <p class="hiddenMessageHide" id="{{numberHidden}}">Hide {{replyText}}...</p>
+      </div>
+      <div class="question-toolbar">
+        <span class="vote-and-options">
+          <a class="voteright {{shade}}" id="{{_id}}"><span class="triangle"></span> {{votes}}</a>
+          <span class="replybutton link" id="reply{{_id}}">Reply</span>
+          {{#if adminButtons}}
+          <span class="adminquestionhide link" id="{{_id}}">
+            {{#if isDisabled}}Unhide{{else}}Hide{{/if}}
+          </span>
+          <span class="adminquestionmodify link" id="{{_id}}">
+            Modify
+          </span>
+          {{/if}}
+        </span>
+        <span class="sharing">
+          {{#if popular}}
+          <span class="image-icon popular-icon"></span>
+          {{else}}
+            {{#if stale}}
+              <span class="image-icon stale-icon"></span>
+            {{/if}}
+          {{/if}}
+          {{#if new}}
+            <span class="image-icon new-icon"></span>
+          {{/if}}
+          <span class="image-icon facebookbutton link"></span>
+          <span class="image-icon twitterbutton link"></span>
+        </span>
+      </div>
+      <div class="asked-by">
+        {{#if poster}}
+        <span class="poser">
+          {{#if email}}
+            <a href="mailto:{{email}}">{{poster}}</a>
+          {{else}}
+            {{poster}}
+          {{/if}}
+        </span>
         {{/if}}
-        <div class="quesitonbottom">
-            <div class="bottomleft">
-                {{#if poster}} {{#if email}}
-                <a href="mailto:{{email}}">
-                    <p class="postername">
-                        {{poster}}
-                    </p>
-                </a>
-                {{else}}
-                <p class="postername">
-                    {{poster}}
-                </p>
-                {{/if}} {{/if}}
-                <span class="question-time">{{f_time}}</span>
-            </div>
-            <div class="bottomright">
-                <div class="replybutton" id="reply{{_id}}">
-                    Reply
-                </div>
-            </div>
-        </div>
-        <div class="replybottom" id="down{{_id}}">
-            <div class="replycounter">
-                {{replyCount}}/{{responseLength}}
-            </div>
-            <textarea id="text{{_id}}" class="replyarea" placeholder="Type a response..." maxlength="{{responseLength}}"></textarea>
-            <div class="replybottombutton" id="{{_id}}">
-                Reply
-            </div>
-            <div class="anon-reply-bottom-button" id="{{_id}}">
-                Anonymous Reply
-            </div>
-        </div>
-        {{#if adminButtons}}
-        <div class="adminbottom">
-            <div class="adminquestionhide" id="{{_id}}">
-                {{#if isDisabled}}Unhide{{else}}Hide{{/if}}
-            </div>
-            <div class="adminquestionmodify" id="{{_id}}">
-                Modify
-            </div>
-        </div>
-        {{/if}}
+        asked <span class="smallcaps">{{f_time}}</span>
+      </div>
     </div>
+  </div>
 </template>

@@ -1,9 +1,16 @@
+textarea, input {
+  -webkit-box-sizing: border-box;
+  -moz-box-sizing: border-box;
+  box-sizing: border-box;
+}
+
 html, body {
 	height: 100%;
 }
 
 body {
   font-family: 'Source Sans Pro';
+  font-size: 14px;
 	background-color: #f2f4f5;
 	margin: 0;
 	padding: 0;
@@ -50,12 +57,23 @@ a {
 	padding: 5px;
 }
 
+.masonary-wrapper {
+  padding-left: 20px;
+  padding-right: 20px;
+  margin: 0 auto;
+}
+
 .container {
-	margin: 0 1em;
-	-webkit-column-width: 20em;
-	-moz-column-width: 20em;
-	column-width: 20em;
-	padding-bottom: 63px;
+  -webkit-column-width: 18em;
+  -moz-column-width: 18em;
+  column-width: 18em;
+
+	// -webkit-columns: 4 16em;
+	// -moz-columns: 4 16em;
+	// columns: 4 16em;
+  column-gap: 1em;
+  margin: 0;
+	padding: 0 0 70px 0;
 }
 
 .formcontainer {
@@ -65,16 +83,13 @@ a {
 	border-radius: 5px;
 	height: auto;
 	display: block;
-	margin: 0px auto;
-	width: 30%;
+	width: 35%;
 	margin-top: 120px;
-	margin-bottom: 100px;
+	margin-bottom: 120px;
 	z-index: 9999999999999999;
 	position: fixed;
-	top: 50%;
-	left: 50%;
-	margin-left: -15%;
-	margin-top: -260px;
+	top: 0;
+	left: 32%;
 
   .errorIcon {
 		margin-top: 4px;
@@ -258,24 +273,16 @@ a {
 	color: #999999;
 	font-weight: 400;
 	font-size: 12px;
-	padding-left: 3px;
-	margin-top: 6px;
-	margin-right: 6px;
-	position: absolute;
-	right: 0.9em;
-	bottom: 0.9em;
+	float: right;
 }
 
 .modaltopmessage {
 	color: #777777;
 	font-weight: 300;
-	text-align: center;
-	font-size: 13px;
 	display: block;
 	margin: 0px auto;
-	padding: 0px;
+	padding: 15px 15px 0 15px;
 	line-height: 1em;
-	width: 70%;
 	margin-top: 10px;
 	margin-bottom: 35px;
 }
@@ -365,7 +372,7 @@ a {
 }
 
 #checkarea1 {
-	padding-top: 0.8em;
+	padding-top: 13px;
 }
 
 #buttonarea {
@@ -390,6 +397,7 @@ a {
 }
 
 #checkarea2 {
+  padding-top: 13px;
 	width: 180px;
 	float: left;
 }
@@ -414,18 +422,16 @@ a {
 	margin: 0 1em;
 }
 
-.question {
-	&:hover {
-		.adminquestionhide {
-			border: 2px solid #999999;
-			color: #999999;
-		}
+.instance-wrapper {
+  display: inline-block;
+  width: 100%;
+  cursor: auto;
 
-		.adminquestionmodify {
-			border: 2px solid #999999;
-			color: #999999;
-		}
-	}
+  &, div, span, a {
+    -webkit-column-break-inside: avoid;
+    page-break-inside: avoid;
+    break-inside: avoid;
+  }
 }
 
 .instance {
@@ -439,30 +445,6 @@ a {
 			border: 2px solid #999999;
 			color: #999999;
 		}
-	}
-}
-
-.superadminrenamebutton {
-	&:hover {
-		background-color: #e3e3e3;
-	}
-}
-
-.superadmindeletebutton {
-	&:hover {
-		background-color: #e3e3e3;
-	}
-}
-
-.adminquestionhide {
-	&:hover {
-		background-color: #e3e3e3;
-	}
-}
-
-.adminquestionmodify {
-	&:hover {
-		background-color: #e3e3e3;
 	}
 }
 
@@ -513,4 +495,12 @@ a {
 
 #recent {
 	padding-bottom: 45px;
+}
+
+.posted-by-text {
+  color: #999;
+}
+
+.instance-bottom {
+  margin-top: 2px;
 }

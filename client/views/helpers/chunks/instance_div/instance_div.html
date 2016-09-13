@@ -1,46 +1,48 @@
 <template name="instance_div">
-  <div id="{{_id}}" class="instance {{#if isFavorite}}favorite-instance {{else}} {{#if today}}today-instance{{/if}} {{#if week}}week-instance{{/if}} {{#if month}}month-instance{{/if}} {{/if}}">
-    {{#if currentUser}}
-      {{#if isAdmin}}
-        <div class="instancebadgecontainer">
-          <img src="/admin.png" class="adminimage">
-          <span class="admintext">Admin</span>
-        </div>
-      {{else}}
-        {{#if isMod}}
-          <div class="instancebadgecontainer">
-            <img src="/mod.png" class="modimage">
-            <p class="populartext">Mod</p>
-          </div>
+  <div class="instance-wrapper">
+    <div id="{{_id}}" class="instance {{#if isFavorite}}favorite-instance {{else}} {{#if today}}today-instance{{/if}} {{#if week}}week-instance{{/if}} {{#if month}}month-instance{{/if}} {{/if}}">
+      {{#if currentUser}}
+        <div>
+        {{#if isAdmin}}
+          <span class="instancebadgecontainer">
+            <img src="/admin.png" class="adminimage">
+            <span class="admintext">Admin</span>
+          </span>
+        {{else}}
+          {{#if isMod}}
+            <span class="instancebadgecontainer">
+              <img src="/mod.png" class="modimage">
+              <p class="popular-icon">Mod</p>
+            </span>
+          {{/if}}
         {{/if}}
+          <span class="favoritebutton {{#if isFavorite}}buttonFavorite{{/if}}" id="{{_id}}"></span>
+        </div>
       {{/if}}
-      <div class="favoritebutton {{#if isFavorite}}buttonFavorite{{/if}}" id="{{_id}}"></div>
-    {{/if}}
-    <p class="instancename">
-      <a class="divLink" href="/list/{{slug}}"></a>{{tablename}}
-    </p>
-    <div class="answercontainer">
-      <span class="instancedescription">
-				{{description}}
-			</span>
-    </div>
-    <div class="instance-bottom">
-      <p class="postername">
-        {{author}}
+      <p class="instancename">
+        <a class="divLink" href="/list/{{slug}}"></a>{{tablename}}
       </p>
-      <span class="time">{{lasttouch}}</span>
-    </div>
-    {{#if superadmin}}
-      <div class="adminbottom">
-        <!--<a class="hideQuestion" id="{{_id}}">Hide</a>
-				<a href="{{modifylink}}">Modify</a>-->
-        <div class="superadminrenamebutton" id="{{_id}}">
-          Rename
-        </div>
-        <div class="superadmindeletebutton" id="{{_id}}">
-          Delete
-        </div>
+      <div class="answercontainer">
+        <span class="instancedescription">
+  				{{description}}
+  			</span>
       </div>
-    {{/if}}
+      <div class="instance-bottom">
+        <span class="posted-by-text">posted by</span> <span class="postername">{{author}}</span>
+        <span class="time">{{lasttouch}}</span>
+      </div>
+      {{#if superadmin}}
+        <div class="adminbottom">
+          <!--<a class="hideQuestion" id="{{_id}}">Hide</a>
+  				<a href="{{modifylink}}">Modify</a>-->
+          <div class="superadminrenamebutton" id="{{_id}}">
+            Rename
+          </div>
+          <div class="superadmindeletebutton" id="{{_id}}">
+            Delete
+          </div>
+        </div>
+      {{/if}}
+    </div>
   </div>
 </template>

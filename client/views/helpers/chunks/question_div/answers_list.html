@@ -1,0 +1,37 @@
+<template name="answers_list">
+<div class="answers">
+  {{#each answer}} {{#if isHidden}} {{else}}
+  <div class="question-answer">
+    {{#if poster}}
+      {{#if email}}
+        <a href="mailto:{{email}}" class="answerposter">{{poster}}:</a>
+      {{else}}
+        <span class="answerposter">{{poster}}: </span>
+      {{/if}}
+    {{/if}}
+    <span class="answertext">{{{text}}}</span>
+  </div>
+  {{/if}} {{/each}}
+
+  {{#if hasHidden}}
+  <div class="hiddenanswers">
+    {{#each answer}}
+      {{#if isHidden}}
+        <div class="question-answer">
+          {{#if poster}}
+            {{#if email}}
+              <a href="mailto:{{email}}" class="answerposter">{{poster}}:</a>
+            {{else}}
+              <span class="answerposter">{{poster}}:</span>
+            {{/if}}
+          {{/if}}
+          <span class="answertext">{{{text}}}</span>
+        </div>
+      {{/if}}
+    {{/each}}
+  </div>
+  <p class="hiddenMessage" id="{{_id}}">show {{numberHidden}} {{replyText}}</p>
+  <p class="hiddenMessageHide" id="{{_id}}">hide {{replyText}}</p>
+  {{/if}}
+</div>
+</template>

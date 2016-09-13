@@ -177,7 +177,7 @@ Template.home.events({
 	"click #navCreate": function(event, template) {
 		if(Meteor.user()) {
 			var parentNode = document.getElementById("main-wrapper");
-			var nextNode = document.getElementById("recent");
+			var nextNode = document.getElementById("mwrapper");
 			dropDownTemplate = Blaze.render(Template.create, parentNode, nextNode);
 			var questionDiv = document.getElementById("toparea");
 			if(questionDiv.style.display == "none" || !questionDiv.style.display) {

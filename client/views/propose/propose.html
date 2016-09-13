@@ -1,7 +1,7 @@
 <template name="propose">
 		<div id="toparea" style="text-align: center;">
 			<div id="questiondiv">
-				<textarea id="questioninput" maxlength="{{questionLength}}" placeholder="Type your question here..."></textarea>
+	      <textarea id="questioninput" maxlength="{{questionLength}}" placeholder="Type your question here..."></textarea>
 				<div id="topinputcontainer">
 					{{#if currentUser}}
 						<input id="questionnameinput" spellcheck="false" type="text" placeholder="Name..." value="{{currentUser.profile.name}}">
@@ -54,17 +54,17 @@
 							</div>
 						{{/if}}
 					</div>
+          <div class="countarea">
+						<span id="darkcounter">{{count}}</span>/{{questionLength}}
+					</div>
 					<div id="buttonarea">
 						Ask a question!
 					</div>
-					<div class="countarea">
-						<span id="darkcounter">{{count}}</span>/{{questionLength}}
-					</div>
 				</div>
 			</div>
-			<!--<a href="/propose">Post a question</a> :: 
+			<!--<a href="/propose">Post a question</a> ::
 			<a href="/">Choose a different instance</a> ::
-			<a href="/report">Archived questions</a> :: 
+			<a href="/report">Archived questions</a> ::
 			<a href="/rss/{{tablename}}"><img src="/rss.gif" alt="xml icon" /></a>-->
 		</div>
 </template>

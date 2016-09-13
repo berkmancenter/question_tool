@@ -146,30 +146,31 @@ Template.list.helpers({
 				var newDiff = (Session.get("timeval") - questions[i].timeorder)/1000;
 				if(staleDiff > Session.get("stale_length")) {
 					questions[i].stale = true;
-					questions[i].age_marker = "stalequestion";
+					questions[i].age_marker = "stale-question";
 				} else if(newDiff < Session.get("new_length")) {
 					questions[i].new = true;
-					questions[i].age_marker = "newquestion";
+					questions[i].age_marker = "new-question";
 				}
 				// Finds the answers for the given question ID
 				var answers = Answers.find({
 					qid: questions[i]._id
-				});
-				if(answers.fetch().length > 0) {
-					if(answers.fetch().length > 3) {
+				}).fetch();
+				if(answers.length > 0) {
+					// if(answers.length > 3) {
 						questions[i].hasHidden = true;
-						questions[i].numberHidden = answers.fetch().length - 3;
-						if(answers.fetch().length == 4) {
+						questions[i].numberHidden = answers.length;
+						if(answers.length === 1) {
 							questions[i].replyText = "reply";
 						} else {
 							questions[i].replyText = "replies";
 						}
-					}
-					questions[i].answer = answers.fetch();
+					// }
+          answers.reverse()
+					questions[i].answer = answers;
 					for(var a = 0; a < questions[i].answer.length; a++) {
-						if(a > 2) {
+						// if(a > 2) {
 							questions[i].answer[a].isHidden = true;
-						}
+						// }
 						questions[i].answer[a].text = questions[i].answer[a].text.replace(/\B(@\S+)/g, "<strong>$1</strong>");
 						var urlRegex = /(https?:\/\/(?:www\.|(?!www))[^\s\.]+\.[^\s]{2,}|www\.[^\s]+\.[^\s]{2,})/g;
 						questions[i].answer[a].text = questions[i].answer[a].text.replace(urlRegex, function(url) {
@@ -341,7 +342,7 @@ Template.list.events({
 		if(theArea.style.display == "none" || !theArea.style.display) {
 			document.getElementById("reply" + theID).innerHTML = "Close";
 			$("#down" + theID).slideDown(400, function() {
-				$(this).css("display", "flex")
+				$(this).css("display", "block")
 			});
 			$('#text' + theID).focus();
 		} else {
@@ -509,7 +510,7 @@ Template.list.events({
 		popupwindow("https://www.facebook.com/sharer/sharer.php?u=" + encodeURIComponent(window.location.origin + "/list/" + Session.get("slug")), "Share Question Tool!", 600, 400);
 	},
 	"click .twitterbutton": function(event, template) {
-		var questionDiv = event.target.parentElement.parentElement;
+		var questionDiv = event.target.parentElement.parentElement.parentElement;
 		var questionText = questionDiv.getElementsByClassName("questiontext")[0].innerHTML.trim();
 		if(questionText.length > 35) {
 			questionText = questionText.substring(0, 34);
@@ -552,9 +553,12 @@ Template.list.events({
 		$(".admincontainer").slideDown();
 	},
 	"click .hiddenMessage": function(event, template) {
-		$(event.currentTarget).prev().slideDown();
-		event.currentTarget.style.display = "none";
-		$(event.currentTarget).next().css("display", "block");
+    var parentNode = document.getElementById("nav");
+    popoverTemplate = Blaze.renderWithData(Template.answers, event.currentTarget.id, parentNode);
+
+		// $(event.currentTarget).prev().slideDown();
+		// event.currentTarget.style.display = "none";
+		// $(event.currentTarget).next().css("display", "block");
 		/*var replyText = "replies";
 		if(event.target.id == 1) {
 			replyText = "reply";
