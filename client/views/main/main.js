@@ -197,7 +197,7 @@ Template.home.events({
 			}
 			//Router.go('/create');
 		} else {
-			var parentNode = document.getElementById("banner");
+			var parentNode = document.getElementById("nav");
 			popoverTemplate = Blaze.render(Template.register, parentNode);
 		}
 	},
@@ -209,7 +209,7 @@ Template.home.events({
 		event.stopPropogation();
 	},
 	"click .superadminrenamebutton": function(event, template) {
-		var parentNode = document.getElementById("banner");
+		var parentNode = document.getElementById("nav");
 		var tablename = Instances.findOne({
 			_id: event.currentTarget.id
 		}).tablename;

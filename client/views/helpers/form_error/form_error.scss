@@ -1,0 +1,24 @@
+.error {
+	font-weight: 700;
+	width: 98%;
+	border: 2px solid #e74c3c;
+	background-color: #e74c3c;
+	display: block;
+	margin: 0px auto;
+	padding: 0px;
+	padding-left: 12px;
+	margin-bottom: 15px;
+	border-radius: 5px;
+	font-size: 14px;
+	color: white;
+	font-weight: normal;
+	text-align: left;
+}
+
+.errorIcon {
+	width: 14px;
+	height: 14px;
+	float: left;
+	margin-top: 1px;
+	margin-right: 8px;
+}

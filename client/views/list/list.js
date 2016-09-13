@@ -3,15 +3,6 @@ Meteor.setInterval( function () {
 	Session.set("timeval", new Date().getTime());
 }, 1000);
 
-reconnect_interval = 30000;
-reconnect = Meteor.setInterval( function () { 
-	Meteor.reconnect(); 
-}, reconnect_interval );
-
-disconnect = Meteor.setInterval( function () { 
-	Meteor.disconnect();
-}, Session.get("disconnect_interval") );
-
 Template.list.onCreated(function () {
 	Session.set("responseName", "");
 	Session.set("responseEmail", "");
@@ -44,7 +35,6 @@ Template.list.onCreated(function () {
 	}
 	Session.set("stale_length",  Template.instance().data.stale_length);
 	Session.set("new_length",  Template.instance().data.new_length);
-	Session.set("disconnect_interval", 11000);
 });
 
 Template.list.onRendered(function() {
@@ -162,7 +152,7 @@ Template.list.helpers({
 					questions[i].age_marker = "newquestion";
 				}
 				// Finds the answers for the given question ID
-				var answers = Answers.find({ 
+				var answers = Answers.find({
 					qid: questions[i]._id
 				});
 				if(answers.fetch().length > 0) {
@@ -204,7 +194,7 @@ Template.list.helpers({
 				/*if(questions[i].votes == 1) {
 					questions[i].votes = "1 vote";
 				} else {
-					questions[i].votes = questions[i].votes + " votes"; 
+					questions[i].votes = questions[i].votes + " votes";
 				}*/
 				if(i < Session.get("threshhold")) {
 					questions[i].popular = true;
@@ -272,7 +262,6 @@ Template.list.helpers({
 Template.list.events({
 	// When the vote button is clicked...
 	"click .voteright": function(event, template) {
-		Meteor.reconnect();
 		// Retrieves the user's IP address from the server
 		Meteor.call('getIP', function (error, result) {
 			var ip = result;
@@ -295,12 +284,9 @@ Template.list.events({
 				});
 			}
 		});
-		setTimeout(function() { 
-			Meteor.disconnect();
-		}, 1500);
 	},
 	// When the admin hide button is clicked...
-	"click .adminquestionhide": function(event, template) {	
+	"click .adminquestionhide": function(event, template) {
 		// Call the server-side hide method to hide the question
 		if(Questions.findOne({ _id: event.currentTarget.id}).state === "disabled") {
 			Meteor.call('unhideThis', event.currentTarget.id);
@@ -310,7 +296,7 @@ Template.list.events({
 		}
 	},
 	// When the admin unhide button is clicked...
-	"click #unhidebutton": function(event, template) {	
+	"click #unhidebutton": function(event, template) {
 		// Call the server-side unhide method to unhide all questions
 		Meteor.call('unhide', Session.get("id"));
 	},
@@ -325,11 +311,11 @@ Template.list.events({
 		}
 	},
 	"click #navAsk": function(event, template) {
-		var parentNode = document.getElementById("header");
+		var parentNode = document.getElementById("nav-wrapper");
 		dropDownTemplate = Blaze.render(Template.propose, parentNode);
 		var questionDiv = document.getElementById("toparea");
-		if(questionDiv.style.display == "none" || !questionDiv.style.display) { 
-			$("#navAsk").html("Close");
+		if(questionDiv.style.display == "none" || !questionDiv.style.display) {
+      toggleButtonText('#navAsk');
 			document.getElementById("navAsk").style.backgroundColor = "#ec4f4f";
 			$("#toparea").slideDown();
 			$('#questioninput').focus();
@@ -337,7 +323,7 @@ Template.list.events({
 			if(typeof currentError != "undefined") {
 				Blaze.remove(currentError);
 			}
-			$("#navAsk").html("Post");
+			toggleButtonText('#navAsk');
 			document.getElementById("navAsk").style.backgroundColor = "#27ae60";
 			$("#toparea").slideUp();
 			if(typeof dropDownTemplate != "undefined") {
@@ -356,7 +342,7 @@ Template.list.events({
 			document.getElementById("reply" + theID).innerHTML = "Close";
 			$("#down" + theID).slideDown(400, function() {
 				$(this).css("display", "flex")
-			}); 
+			});
 			$('#text' + theID).focus();
 		} else {
 			if(typeof replyError != "undefined") {
@@ -389,7 +375,6 @@ Template.list.events({
 		}
 	},
 	"click .replybottombutton": function(event, template) {
-		Meteor.reconnect();
 		// Retrieves data from form
 		var theID = event.target.id;
 		//var anonymous = document.getElementById("anonbox").checked;
@@ -477,9 +462,6 @@ Template.list.events({
 				});
 			}
 		});
-		setTimeout(function() { 
-			Meteor.disconnect();
-		}, 1500);
 	},
 	"keypress .replyemail": function(event, template) {
 		event.which = event.which || event.keyCode;
@@ -536,11 +518,11 @@ Template.list.events({
 		popupwindow("https://twitter.com/intent/tweet?text=" + encodeURIComponent(tweetText), "Share Question Tool!", 600, 400);
 	},
 	"click #modbutton": function(event, template) {
-		var parentNode = document.getElementById("banner");
+		var parentNode = document.getElementById("nav");
 		popoverTemplate = Blaze.render(Template.add, parentNode);
 	},
 	"click #renamebutton": function(event, template) {
-		var parentNode = document.getElementById("banner");
+		var parentNode = document.getElementById("nav");
 		popoverTemplate = Blaze.renderWithData(Template.rename, {
 			id: Session.get("id"),
 			tablename: Session.get("tablename"),
@@ -548,23 +530,23 @@ Template.list.events({
 		}, parentNode);
 	},
 	"click .adminquestionmodify": function(event, template) {
-		var parentNode = document.getElementById("banner");
+		var parentNode = document.getElementById("nav");
 		popoverTemplate = Blaze.renderWithData(Template.modify, event.currentTarget.id, parentNode);
 	},
 	"click #navPresent": function(event, template) {
-		$("#banner").slideUp();
+		$("#nav").slideUp();
 		$(".instancetitle").slideUp();
 		$(".description").slideUp();
-		$("#footercontainer").slideUp();
+		$("#footer").slideUp();
 		$("#navUnPresent").fadeIn();
 		$("#hiddenName").fadeIn();
 		$(".admincontainer").slideUp();
 	},
 	"click #navUnPresent": function(event, template) {
-		$("#banner").slideDown();
+		$("#nav").slideDown();
 		$(".instancetitle").slideDown();
 		$(".description").slideDown();
-		$("#footercontainer").slideDown();
+		$("#footer").slideDown();
 		$("#navUnPresent").fadeOut();
 		$("#hiddenName").fadeOut();
 		$(".admincontainer").slideDown();
@@ -600,7 +582,7 @@ function popupwindow(url, title, w, h) {
   var left = (screen.width/2)-(w/2);
   var top = (screen.height/2)-(h/2);
   return window.open(url, title, 'toolbar=no, location=no, directories=no, status=no, menubar=no, scrollbars=no, resizable=no, copyhistory=no, width='+w+', height='+h+', top='+top+', left='+left);
-} 
+}
 
 // Helper function that caluclates a standard deviation given an array
 // Source: http://derickbailey.com/
@@ -615,7 +597,7 @@ function standardDeviation(values) {
 	var stdDev = Math.sqrt(avgSquareDiff);
 	return stdDev;
 }
- 
+
 // Helper function that calculates the average given an array
 function average(data) {
 	var sum = data.reduce(function(sum, value) {
@@ -722,9 +704,9 @@ function enableDragging() {
 			  ondrop: function (event) {
 				  var id1 = event.relatedTarget.id;
 				  var id2 = event.target.id;
-				  var parentNode = document.getElementById("banner");
+				  var parentNode = document.getElementById("nav");
 				  Blaze.renderWithData(Template.combine, {
-					  first: id1, 
+					  first: id1,
 					  second: id2
 				  }, parentNode);
 				  //window.location.href="/combine/" + id1 + "/" + id2;
@@ -752,4 +734,11 @@ function showReplyError(reason, id) {
 	var parentNode = document.getElementById("down" + id);
 	var nextNode = document.getElementById("text" + id);
 	replyError = Blaze.renderWithData(Template.form_error, reason, parentNode, nextNode);
+}
+
+function toggleButtonText (selector) {
+  var oldText = $(selector).html();
+  var toggleText = $(selector).attr("data-toggle-text");
+  $(selector).attr("data-toggle-text", oldText);
+  $(selector).html(toggleText);
 }

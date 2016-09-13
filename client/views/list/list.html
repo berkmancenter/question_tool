@@ -1,8 +1,6 @@
 <template name="list">
-	<div class="wrapper">
-		<div class="header" id="header">
-			{{> userInfo list=true}}
-		</div>
+	<div class="wrapper" id="main-wrapper">
+		{{> nav list=true title=tablename }}
 		<p class="description">{{{description}}}</p>
 		<div id="hiddenName">{{tablename}}</div>
 		<div id="navUnPresent">Unhide</div>
@@ -10,7 +8,7 @@
 			<div class="admincontainer">
 				<h2>Admin Interface</h2>
 				<p>Click and drag two questions together to combine.</p>
-				<!--<a id="unhidebutton">Unhide all questions</a> :: 
+				<!--<a id="unhidebutton">Unhide all questions</a> ::
 				<a id="{{id}}" class="deletebutton">Delete this instance</a> ::
 				<a href="/add" class="modbutton">Add moderators</a> ::
 				<a href="/rename/{{id}}">Rename this instance</a>-->

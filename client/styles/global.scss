@@ -1,0 +1,516 @@
+html, body {
+	height: 100%;
+}
+
+body {
+  font-family: 'Source Sans Pro';
+	background-color: #f2f4f5;
+	margin: 0;
+	padding: 0;
+}
+
+a {
+	color: #888888;
+	text-decoration: none;
+}
+
+.wrapper {
+	min-height: 100%;
+	position: relative;
+}
+
+.adminbottom {
+	display: flex;
+	justify-content: space-between;
+}
+
+.header {
+	width: 100%;
+}
+
+.divLink {
+	position: absolute;
+	width: 100%;
+	height: 100%;
+	top: 0;
+	left: 0;
+	text-decoration: none;
+	z-index: 10;
+	opacity: 0;
+	filter: alpha(opacity=0);
+}
+
+.center {
+	background-color: #f5f5f0;
+	width: 80%;
+	text-align: left;
+	border-top: 1px solid #ccc;
+	border-left: 1px solid #ccc;
+	margin: 0 .5%;
+	padding: 5px;
+}
+
+.container {
+	margin: 0 1em;
+	-webkit-column-width: 20em;
+	-moz-column-width: 20em;
+	column-width: 20em;
+	padding-bottom: 63px;
+}
+
+.formcontainer {
+	display: none;
+	background-color: #FFF;
+	border: 2px solid #e9edf0;
+	border-radius: 5px;
+	height: auto;
+	display: block;
+	margin: 0px auto;
+	width: 30%;
+	margin-top: 120px;
+	margin-bottom: 100px;
+	z-index: 9999999999999999;
+	position: fixed;
+	top: 50%;
+	left: 50%;
+	margin-left: -15%;
+	margin-top: -260px;
+
+  .errorIcon {
+		margin-top: 4px;
+	}
+}
+
+#loginsubmitbutton {
+	width: 40%;
+	display: block;
+	height: 30px;
+	margin: 0px auto;
+	background-color: #2ecc71;
+	margin-top: 20px;
+	margin-bottom: 35px;
+	border-radius: 5px;
+	cursor: pointer;
+	text-align: center;
+	font-weight: 600;
+	color: white;
+	padding-top: 5px;
+
+  &:hover {
+		background-color: #4cd785;
+	}
+}
+
+#registersubmitbutton {
+	width: 40%;
+	display: block;
+	height: 30px;
+	margin: 0px auto;
+	background-color: #2ecc71;
+	margin-top: 20px;
+	margin-bottom: 35px;
+	border-radius: 5px;
+	cursor: pointer;
+	text-align: center;
+	font-weight: 600;
+	color: white;
+	padding-top: 5px;
+
+  &:hover {
+		background-color: #4cd785;
+	}
+}
+
+#shareclosebutton {
+	width: 40%;
+	display: block;
+	height: 30px;
+	margin: 0px auto;
+	background-color: #2ecc71;
+	margin-top: 20px;
+	margin-bottom: 35px;
+	border-radius: 5px;
+	cursor: pointer;
+	text-align: center;
+	font-weight: 600;
+	color: white;
+	padding-top: 5px;
+
+  &:hover {
+		background-color: #4cd785;
+	}
+}
+
+#modsdonebutton {
+	width: 40%;
+	display: block;
+	height: 30px;
+	margin: 0px auto;
+	background-color: #2ecc71;
+	margin-top: 20px;
+	margin-bottom: 35px;
+	border-radius: 5px;
+	cursor: pointer;
+	text-align: center;
+	font-weight: 600;
+	color: white;
+	padding-top: 5px;
+
+  &:hover {
+		background-color: #4cd785;
+	}
+}
+
+.combinesubmitbutton {
+	width: 40%;
+	display: block;
+	height: 30px;
+	margin: 0px auto;
+	background-color: #2ecc71;
+	margin-top: 20px;
+	margin-bottom: 35px;
+	border-radius: 5px;
+	cursor: pointer;
+	text-align: center;
+	font-weight: 600;
+	color: white;
+	padding-top: 5px;
+
+  &:hover {
+		background-color: #4cd785;
+	}
+}
+
+.renamesubmitbutton {
+	width: 40%;
+	display: block;
+	height: 30px;
+	margin: 0px auto;
+	background-color: #2ecc71;
+	margin-top: 20px;
+	margin-bottom: 35px;
+	border-radius: 5px;
+	cursor: pointer;
+	text-align: center;
+	font-weight: 600;
+	color: white;
+	padding-top: 5px;
+
+  &:hover {
+		background-color: #4cd785;
+	}
+}
+
+.modifysubmitbutton {
+	width: 40%;
+	display: block;
+	height: 30px;
+	margin: 0px auto;
+	background-color: #2ecc71;
+	margin-top: 20px;
+	margin-bottom: 35px;
+	border-radius: 5px;
+	cursor: pointer;
+	text-align: center;
+	font-weight: 600;
+	color: white;
+	padding-top: 5px;
+
+  &:hover {
+		background-color: #4cd785;
+	}
+}
+
+.formtitle {
+	font-weight: 600;
+	color: #333333;
+	text-align: center;
+	font-size: 24px;
+	font-weight: normal;
+	margin-bottom: 0px;
+}
+
+.inputcontainer {
+	width: 80%;
+	display: block;
+	margin: 0px auto;
+}
+
+.input {
+	display: block;
+	width: 100%;
+	padding-left: 2%;
+	margin: 0px auto;
+	border: 2px solid #e9edf0;
+	border-radius: 5px;
+	outline: 0;
+	height: 35px;
+	margin-bottom: 25px;
+	font-weight: 400;
+	font-size: 16px;
+
+  &:focus {
+		border: 2px solid #7ec3f1;
+	}
+}
+
+.time {
+	color: #999999;
+	font-weight: 400;
+	font-size: 12px;
+	padding-left: 3px;
+	margin-top: 6px;
+	margin-right: 6px;
+	position: absolute;
+	right: 0.9em;
+	bottom: 0.9em;
+}
+
+.modaltopmessage {
+	color: #777777;
+	font-weight: 300;
+	text-align: center;
+	font-size: 13px;
+	display: block;
+	margin: 0px auto;
+	padding: 0px;
+	line-height: 1em;
+	width: 70%;
+	margin-top: 10px;
+	margin-bottom: 35px;
+}
+
+.modalbottommessage {
+	color: #666666;
+	margin: 0px;
+	padding: 0px;
+	font-weight: 400;
+	text-align: center;
+	font-size: 14px;
+}
+
+.modalemphasis {
+	color: #333333;
+	text-decoration: underline;
+	cursor: pointer;
+	display: inline;
+
+  &:hover {
+		color: #666666;
+	}
+}
+
+#darker {
+	background-color: black;
+	position: fixed;
+	top: 0;
+	bottom: 0;
+	right: 0;
+	left: 0;
+	opacity: .9;
+	overflow: hidden;
+	z-index: 999999999999999;
+	cursor: pointer;
+}
+
+.checkbox {
+	height: 17px;
+	width: 20px;
+	margin-left: 6px;
+	background-color: white;
+	border-radius: 2px;
+	border: 1px solid #999999;
+	cursor: pointer;
+	padding-top: 3px;
+	float: left;
+	margin-right: 0px;
+	padding-right: 0px;
+}
+
+.checked {
+	width: 14px;
+	height: 14px;
+	margin: 0px auto;
+	background-color: #27b0d8;
+	border-radius: 2px;
+	display: none;
+}
+
+.checkboxlabel {
+	margin-top: 3px;
+	padding: 0px;
+	text-align: left;
+	font-weight: 400;
+	color: #888888;
+	font-size: 12px;
+}
+
+.anonchecked {
+	background-color: #27ae60;
+}
+
+.checkarealeft {
+	width: auto;
+	float: left;
+}
+
+.checkarearight {
+	width: auto;
+	float: left;
+	margin-left: 5px;
+}
+
+#checkareas {
+	flex-grow: 1;
+}
+
+#checkarea1 {
+	padding-top: 0.8em;
+}
+
+#buttonarea {
+	width: 150px;
+	height: 25px;
+	margin-right: 5px;
+	margin-left: 5px;
+	margin-top: 10px;
+	margin-bottom: 10px;
+	background-color: #27ae60;
+	color: white;
+	border-radius: 2px;
+	font-size: 14px;
+	font-weight: 600;
+	text-align: center;
+	padding-top: 5px;
+	cursor: pointer;
+
+  &:hover {
+		background-color: #2ecc71;
+	}
+}
+
+#checkarea2 {
+	width: 180px;
+	float: left;
+}
+
+#toparea {
+	background-color: #27b0d8;
+	height: auto;
+	display: none;
+	padding-bottom: 65px;
+	padding-top: 55px;
+}
+
+.hiddeninput {
+	display: none;
+}
+
+.visibleinput {
+	display: inline-block;
+}
+
+#rightInfo {
+	margin: 0 1em;
+}
+
+.question {
+	&:hover {
+		.adminquestionhide {
+			border: 2px solid #999999;
+			color: #999999;
+		}
+
+		.adminquestionmodify {
+			border: 2px solid #999999;
+			color: #999999;
+		}
+	}
+}
+
+.instance {
+	&:hover {
+		.superadminrenamebutton {
+			border: 2px solid #999999;
+			color: #999999;
+		}
+
+		.superadmindeletebutton {
+			border: 2px solid #999999;
+			color: #999999;
+		}
+	}
+}
+
+.superadminrenamebutton {
+	&:hover {
+		background-color: #e3e3e3;
+	}
+}
+
+.superadmindeletebutton {
+	&:hover {
+		background-color: #e3e3e3;
+	}
+}
+
+.adminquestionhide {
+	&:hover {
+		background-color: #e3e3e3;
+	}
+}
+
+.adminquestionmodify {
+	&:hover {
+		background-color: #e3e3e3;
+	}
+}
+
+.plusbutton {
+	display: inline-block;
+	width: 25px;
+	height: 25px;
+	border-radius: 2px;
+	cursor: pointer;
+	background-color: #33a136;
+	margin-top: 15px;
+	color: white;
+	font-size: 20px;
+	padding-top: 0px;
+	text-align: center;
+	font-weight: 600;
+	margin-left: 10px;
+
+  &:hover {
+		background-color: #55c958;
+	}
+}
+
+.removebutton {
+	display: inline-block;
+	width: 25px;
+	height: 25px;
+	border-radius: 2px;
+	cursor: pointer;
+	background-color: red;
+	margin-top: 15px;
+	color: white;
+	font-size: 18px;
+	padding-top: 0px;
+	text-align: center;
+	margin-left: 10px;
+	font-weight: 600;
+}
+
+.plusbuttoncontainer {
+	width: 51px;
+	height: 50px;
+	border-right: 1px solid #e3e3e3;
+	border-bottom: 1px solid #e3e3e3;
+	background-color: white;
+	border-bottom: 1px solid #e3e3e3;
+}
+
+#recent {
+	padding-bottom: 45px;
+}
