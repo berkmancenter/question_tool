@@ -35,6 +35,36 @@ Template.list.onCreated(function () {
 	}
 	Session.set("stale_length",  Template.instance().data.stale_length);
 	Session.set("new_length",  Template.instance().data.new_length);
+	this.visibleQuestions = new Mongo.Collection(null);
+	this.state = new ReactiveDict();
+
+	this.getQuestions = function() {
+		return questions = Questions.find({instanceid: Session.get("id")});
+	  };
+
+	this.syncQuestions = (questions) => {
+	  this.visibleQuestions.remove({}); //Lazy hack to avoid having to check for question presence one by one
+	  questions.forEach(question => this.visibleQuestions.insert(question));
+	  this.state.set('hasChanges', false);
+	};
+
+	this.autorun((computation) => {
+		// Grab the questions from the server. Need to define getQuestions as the questions we want.
+		const questions = Questions.find({instanceid: Session.get("id")}).fetch();
+		// If Tracker re-runs there must have been changes to the questions so we now set the state to let the user know
+		if (!computation.firstRun) {
+		  this.state.set('hasChanges', true);
+		} else {
+			//Sync the questions with the visible questions the first time we run.
+		  this.syncQuestions(questions);
+		}
+	});
+
+	// When the user requests it, we should sync the visible todos to
+	// reflect the true state of the world
+	this.onShowChanges = function() {
+	  this.syncQuestions(this.getQuestions());
+	};
 });
 
 Template.list.onRendered(function() {
@@ -64,17 +94,19 @@ Template.list.helpers({
 	moderator: function() {
 		return Session.get("mod");
 	},
+	hasChanges: function() { 
+		return Template.instance().state.get('hasChanges');
+	},
 	// Retrieves, orders, and modifies the questions for the chosen table
 	question: function() {
 		// Finds the questions from the Questions DB
 		if(Session.get("search") == "all") {
-			//console.log(Session.get("tablename"));
-			var questions = Questions.find({
+			var questions = Template.instance().visibleQuestions.find({
 				instanceid: Session.get("id")
 			}).fetch();
 		} else {
 			var re = new RegExp(Session.get("search"), "i");
-			var questions = Questions.find({
+			var questions = Template.instance().visibleQuestions.find({
 				instanceid: Session.get("id"),
 				"$or": [{
 					text: {
@@ -579,7 +611,10 @@ Template.list.events({
 		$(event.currentTarget).html("Show " + numberHidden + " {{numberHidden}} more " + replyText + "...");
 		$(event.currentTarget).attr('class', 'hiddenMessage');
 		Tracker.flush();*/
-	}
+	},
+	"click .new-posts": function(event, template) {
+		Template.instance().onShowChanges();
+	},
 });
 
 function popupwindow(url, title, w, h) {

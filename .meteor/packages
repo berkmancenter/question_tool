@@ -33,3 +33,7 @@ check@1.2.3
 standard-minifier-css@1.2.0
 standard-minifier-js@1.2.0
 shell-server
+reactive-dict
+ecmascript
+es5-shim
+msavin:mongol
