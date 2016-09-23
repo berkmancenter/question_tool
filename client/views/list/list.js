@@ -52,7 +52,7 @@ Template.list.onCreated(function () {
 		// Grab the questions from the server. Need to define getQuestions as the questions we want.
 		const questions = Questions.find({instanceid: Session.get("id")}).fetch();
 		// If Tracker re-runs there must have been changes to the questions so we now set the state to let the user know
-		if (!computation.firstRun) {
+		if (!computation.firstRun && this.state.get('presentMode') != true) {
 		  this.state.set('hasChanges', true);
 		} else {
 			//Sync the questions with the visible questions the first time we run.
@@ -574,6 +574,7 @@ Template.list.events({
 		$("#navUnPresent").fadeIn();
 		$("#hiddenName").fadeIn();
 		$(".admincontainer").slideUp();
+		Template.instance().state.set('presentMode', true);
 	},
 	"click #navUnPresent": function(event, template) {
 		$("#nav").slideDown();
@@ -583,6 +584,7 @@ Template.list.events({
 		$("#navUnPresent").fadeOut();
 		$("#hiddenName").fadeOut();
 		$(".admincontainer").slideDown();
+		Template.instance().state.set('presentMode', true);
 	},
 	"click .hiddenMessage": function(event, template) {
     var parentNode = document.getElementById("nav");
