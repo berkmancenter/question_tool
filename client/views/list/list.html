@@ -1,5 +1,6 @@
 <template name="list">
 	<div class="wrapper" id="main-wrapper">
+
 		{{> nav list=true title=tablename }}
 		<div class="description"><p><strong>Description:</strong> {{{description}}}</p></div>
 		<div id="hiddenName">{{tablename}}</div>
@@ -32,13 +33,14 @@
 				<p>Click and drag two questions together to combine.</p>
 			</div>
 		{{/if}}
+		{{#if hasChanges}}<div class="new-posts">Download New Posts</div>{{/if}}
     <div class="masonary-wrapper">
   		<div class="container">
   			{{#each question}}
   				{{> question_div}}
   			{{/each}}
   		</div>
-		</div>
+	</div>
 		{{> footer}}
 	</div>
 </template>
