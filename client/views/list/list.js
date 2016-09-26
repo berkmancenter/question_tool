@@ -295,26 +295,26 @@ Template.list.helpers({
 Template.list.events({
 	// When the vote button is clicked...
 	"click .voteright": function(event, template) {
+		var ip;
 		// Retrieves the user's IP address from the server
 		Meteor.call('getIP', function (error, result) {
-			var ip = result;
-			if (!error) {
-				// Calls server-side "vote" method to update the Questions and Vote DBs
-				Meteor.call('vote', event.currentTarget.id, ip, Session.get("id"), function(error, result) {
-					// If the result is an object, there was an error
-					if(typeof result === 'object') {
-						// Store an object of the error names and codes
-						var errorCodes = {
-							"lasttouch": "There was an error retrieving the time. Please return to the list and try again.",
-							"votes": "There was an error incrementing the votes. Please return to the list and try again.",
-							"qid": "There was an error with the question ID. Please return to the list and try again.",
-							"ip": "There was an error with your IP address. Please return to the list and try again.",
-							"tablename": "There was an error with the table name. Please return to the list and try again."
-						}
-						// Alerts the error if one exists
-						showProposeError(errorCodes[result[0].name]);
-					}
-				});
+			ip = result;
+			if (error) { return false; };
+		});
+		// Calls server-side "vote" method to update the Questions and Vote DBs
+		Meteor.call('vote', event.currentTarget.id, ip, Session.get("id"), function(error, result) {
+			// If the result is an object, there was an error
+			if(typeof result === 'object') {
+				// Store an object of the error names and codes
+				var errorCodes = {
+					"lasttouch": "There was an error retrieving the time. Please return to the list and try again.",
+					"votes": "There was an error incrementing the votes. Please return to the list and try again.",
+					"qid": "There was an error with the question ID. Please return to the list and try again.",
+					"ip": "There was an error with your IP address. Please return to the list and try again.",
+					"tablename": "There was an error with the table name. Please return to the list and try again."
+				}
+				// Alerts the error if one exists
+				showProposeError(errorCodes[result[0].name]);
 			}
 		});
 	},
