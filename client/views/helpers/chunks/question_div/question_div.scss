@@ -5,9 +5,10 @@ $hidden-question-color: #FF0000;
 $popular-question-color: #f1c40f;
 
 .question-wrapper {
-  display: inline-block;
-  width: 100%;
+  display: flex;
+  width: 22em;
   cursor: auto;
+  margin: 0 0.5em;
 
   &, div, span, a {
     -webkit-column-break-inside: avoid;
@@ -23,6 +24,7 @@ $popular-question-color: #f1c40f;
 	padding: 8px 12px;
   margin-bottom: 12px;
   border-radius: $border-radius;
+  width: 22em;
 
   .image-icon {
     width: 14px;

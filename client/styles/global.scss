@@ -64,16 +64,12 @@ a {
 }
 
 .container {
-  -webkit-column-width: 18em;
-  -moz-column-width: 18em;
-  column-width: 18em;
-
-	// -webkit-columns: 4 16em;
-	// -moz-columns: 4 16em;
-	// columns: 4 16em;
-  column-gap: 1em;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  align-items: stretch;
   margin: 0;
-	padding: 0 0 70px 0;
+	padding: 0 0 4em 0;
 }
 
 .formcontainer {
@@ -423,8 +419,8 @@ a {
 }
 
 .instance-wrapper {
-  display: inline-block;
-  width: 100%;
+  width: 22em;
+  margin: 0 0.5em;
   cursor: auto;
 
   &, div, span, a {
