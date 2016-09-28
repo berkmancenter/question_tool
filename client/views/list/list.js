@@ -35,6 +35,49 @@ Template.list.onCreated(function () {
 	}
 	Session.set("stale_length",  Template.instance().data.stale_length);
 	Session.set("new_length",  Template.instance().data.new_length);
+	this.visibleQuestions = new Mongo.Collection(null);
+	this.visibleAnswers = new Mongo.Collection('visibleAnswers', {connection: null}); // need to implement this
+	this.state = new ReactiveDict();
+
+	this.getQuestions = function() {
+		return questions = Questions.find({instanceid: Session.get("id")});
+	  };
+
+	this.getAnswers = function() {
+		return answers = Answers.find({});
+	};
+
+	this.syncQuestions = (questions) => {
+	  this.visibleQuestions.remove({}); //Lazy hack to avoid having to check for question presence one by one
+	  questions.forEach(question => this.visibleQuestions.insert(question));
+	  this.state.set('hasChanges', false);
+	};
+
+	this.syncAnswers = (answers) => {
+		this.visibleAnswers.remove({});
+		answers.forEach(answer => this.visibleAnswers.insert(answer));
+		this.state.set('hasChanges', false)
+	};
+
+	this.autorun((computation) => {
+		// Grab the questions from the server. Need to define getQuestions as the questions we want.
+		const questions = Questions.find({instanceid: Session.get("id")}).fetch();
+		const answers = Answers.find({instanceid: Session.get("id")}).fetch();
+		// If Tracker re-runs there must have been changes to the questions so we now set the state to let the user know
+		if (!computation.firstRun && this.state.get('presentMode') != true) {
+		  this.state.set('hasChanges', true);
+		} else {
+		  this.syncQuestions(questions);
+		  this.syncAnswers(answers);
+		}
+	});
+
+	// When the user requests it, we should sync the visible todos to
+	// reflect the true state of the world
+	this.onShowChanges = function() {
+	  this.syncQuestions(this.getQuestions());
+	  this.syncAnswers(this.getAnswers());
+	};
 });
 
 Template.list.onRendered(function() {
@@ -64,17 +107,19 @@ Template.list.helpers({
 	moderator: function() {
 		return Session.get("mod");
 	},
+	hasChanges: function() { 
+		return Template.instance().state.get('hasChanges');
+	},
 	// Retrieves, orders, and modifies the questions for the chosen table
 	question: function() {
 		// Finds the questions from the Questions DB
 		if(Session.get("search") == "all") {
-			//console.log(Session.get("tablename"));
-			var questions = Questions.find({
+			var questions = Template.instance().visibleQuestions.find({
 				instanceid: Session.get("id")
 			}).fetch();
 		} else {
 			var re = new RegExp(Session.get("search"), "i");
-			var questions = Questions.find({
+			var questions = Template.instance().visibleQuestions.find({
 				instanceid: Session.get("id"),
 				"$or": [{
 					text: {
@@ -152,7 +197,7 @@ Template.list.helpers({
 					questions[i].age_marker = "new-question";
 				}
 				// Finds the answers for the given question ID
-				var answers = Answers.find({
+				var answers = Template.instance().visibleAnswers.find({
 					qid: questions[i]._id
 				}).fetch();
 				if(answers.length > 0) {
@@ -263,26 +308,26 @@ Template.list.helpers({
 Template.list.events({
 	// When the vote button is clicked...
 	"click .voteright": function(event, template) {
+		var ip;
 		// Retrieves the user's IP address from the server
 		Meteor.call('getIP', function (error, result) {
-			var ip = result;
-			if (!error) {
-				// Calls server-side "vote" method to update the Questions and Vote DBs
-				Meteor.call('vote', event.currentTarget.id, ip, Session.get("id"), function(error, result) {
-					// If the result is an object, there was an error
-					if(typeof result === 'object') {
-						// Store an object of the error names and codes
-						var errorCodes = {
-							"lasttouch": "There was an error retrieving the time. Please return to the list and try again.",
-							"votes": "There was an error incrementing the votes. Please return to the list and try again.",
-							"qid": "There was an error with the question ID. Please return to the list and try again.",
-							"ip": "There was an error with your IP address. Please return to the list and try again.",
-							"tablename": "There was an error with the table name. Please return to the list and try again."
-						}
-						// Alerts the error if one exists
-						showProposeError(errorCodes[result[0].name]);
-					}
-				});
+			ip = result;
+			if (error) { return false; };
+		});
+		// Calls server-side "vote" method to update the Questions and Vote DBs
+		Meteor.call('vote', event.currentTarget.id, ip, Session.get("id"), function(error, result) {
+			// If the result is an object, there was an error
+			if(typeof result === 'object') {
+				// Store an object of the error names and codes
+				var errorCodes = {
+					"lasttouch": "There was an error retrieving the time. Please return to the list and try again.",
+					"votes": "There was an error incrementing the votes. Please return to the list and try again.",
+					"qid": "There was an error with the question ID. Please return to the list and try again.",
+					"ip": "There was an error with your IP address. Please return to the list and try again.",
+					"tablename": "There was an error with the table name. Please return to the list and try again."
+				}
+				// Alerts the error if one exists
+				showProposeError(errorCodes[result[0].name]);
 			}
 		});
 	},
@@ -542,6 +587,7 @@ Template.list.events({
 		$("#navUnPresent").fadeIn();
 		$("#hiddenName").fadeIn();
 		$(".admincontainer").slideUp();
+		Template.instance().state.set('presentMode', true);
 	},
 	"click #navUnPresent": function(event, template) {
 		$("#nav").slideDown();
@@ -551,6 +597,7 @@ Template.list.events({
 		$("#navUnPresent").fadeOut();
 		$("#hiddenName").fadeOut();
 		$(".admincontainer").slideDown();
+		Template.instance().state.set('presentMode', true);
 	},
 	"click .hiddenMessage": function(event, template) {
     var parentNode = document.getElementById("nav");
@@ -579,7 +626,10 @@ Template.list.events({
 		$(event.currentTarget).html("Show " + numberHidden + " {{numberHidden}} more " + replyText + "...");
 		$(event.currentTarget).attr('class', 'hiddenMessage');
 		Tracker.flush();*/
-	}
+	},
+	"click .new-posts": function(event, template) {
+		Template.instance().onShowChanges();
+	},
 });
 
 function popupwindow(url, title, w, h) {
