@@ -36,11 +36,16 @@ Template.list.onCreated(function () {
 	Session.set("stale_length",  Template.instance().data.stale_length);
 	Session.set("new_length",  Template.instance().data.new_length);
 	this.visibleQuestions = new Mongo.Collection(null);
+	this.visibleAnswers = new Mongo.Collection('visibleAnswers', {connection: null}); // need to implement this
 	this.state = new ReactiveDict();
 
 	this.getQuestions = function() {
 		return questions = Questions.find({instanceid: Session.get("id")});
 	  };
+
+	this.getAnswers = function() {
+		return answers = Answers.find({});
+	};
 
 	this.syncQuestions = (questions) => {
 	  this.visibleQuestions.remove({}); //Lazy hack to avoid having to check for question presence one by one
@@ -48,15 +53,22 @@ Template.list.onCreated(function () {
 	  this.state.set('hasChanges', false);
 	};
 
+	this.syncAnswers = (answers) => {
+		this.visibleAnswers.remove({});
+		answers.forEach(answer => this.visibleAnswers.insert(answer));
+		this.state.set('hasChanges', false)
+	};
+
 	this.autorun((computation) => {
 		// Grab the questions from the server. Need to define getQuestions as the questions we want.
 		const questions = Questions.find({instanceid: Session.get("id")}).fetch();
+		const answers = Answers.find({instanceid: Session.get("id")}).fetch();
 		// If Tracker re-runs there must have been changes to the questions so we now set the state to let the user know
 		if (!computation.firstRun && this.state.get('presentMode') != true) {
 		  this.state.set('hasChanges', true);
 		} else {
-			//Sync the questions with the visible questions the first time we run.
 		  this.syncQuestions(questions);
+		  this.syncAnswers(answers);
 		}
 	});
 
@@ -64,6 +76,7 @@ Template.list.onCreated(function () {
 	// reflect the true state of the world
 	this.onShowChanges = function() {
 	  this.syncQuestions(this.getQuestions());
+	  this.syncAnswers(this.getAnswers());
 	};
 });
 
@@ -184,7 +197,7 @@ Template.list.helpers({
 					questions[i].age_marker = "new-question";
 				}
 				// Finds the answers for the given question ID
-				var answers = Answers.find({
+				var answers = Template.instance().visibleAnswers.find({
 					qid: questions[i]._id
 				}).fetch();
 				if(answers.length > 0) {
