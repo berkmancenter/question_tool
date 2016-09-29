@@ -600,7 +600,7 @@ Template.list.events({
 		Template.instance().state.set('presentMode', true);
 	},
 	"click .hiddenMessage": function(event, template) {
-    var parentNode = document.getElementById("nav");
+    var parentNode = document.getElementById("main-wrapper");
     popoverTemplate = Blaze.renderWithData(Template.answers, event.currentTarget.id, parentNode);
 
 		// $(event.currentTarget).prev().slideDown();
