@@ -596,7 +596,6 @@ Template.list.events({
 		$("#footer").slideDown();
 		$("#navUnPresent").fadeOut();
 		$("#hiddenName").fadeOut();
-		$(".admincontainer").slideDown();
 		Template.instance().state.set('presentMode', true);
 	},
 	"click .hiddenMessage": function(event, template) {
