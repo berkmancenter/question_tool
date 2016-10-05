@@ -5,7 +5,7 @@ Template.share.onRendered(function() {
 
 Template.share.helpers({
 	shareLink: function() {
-		return window.location.origin + "/list/" + Session.get("tablename");
+		return window.location.origin + "/list/" + Session.get("tablename").toLowerCase();
 	}
 });
 
