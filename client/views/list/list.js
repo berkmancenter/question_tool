@@ -314,6 +314,8 @@ Template.list.events({
 			ip = result;
 			if (error) { return false; };
 		});
+		//Find Vote in DOM and increment it client side
+		event.target.parentNode.innerHTML = "<span class='triangle'></span>" + (parseInt(event.target.parentNode.innerText) + 1);
 		// Calls server-side "vote" method to update the Questions and Vote DBs
 		Meteor.call('vote', event.currentTarget.id, ip, Session.get("id"), function(error, result) {
 			// If the result is an object, there was an error
