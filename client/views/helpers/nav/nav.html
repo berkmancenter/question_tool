@@ -1,7 +1,7 @@
 <template name="nav">
   <div id="nav-wrapper">
   	<div id="nav" class="{{#if this.list}}{{#if currentUser}}loggedinlistbanner{{else}}loggedoutlistbanner{{/if}}{{else}}homebanner{{/if}}">
-  		<h1 id="tablename" class="hidden-xs hidden-sm">
+  		<h1 id="tablename" class="hidden-xs hidden-sm hidden-md">
   			{{this.title}}
   		</h1>
   		<input id="searchbar" class="{{#if this.list}}listsearchbar{{else}}homesearchbar{{/if}}" type="text" placeholder="Search...">
@@ -21,7 +21,7 @@
   		{{#if currentUser}}
   			{{#if this.list}}
   				<li><a id="navAsk" class="link" data-toggle-text="Close">+ Post</a></li>
-  				<li><a id="navPresent" class="link hidden-xs hidden-sm"></a></li>
+  				<li><a id="navPresent" class="link hidden-xs hidden-sm">&nbsp;</a></li>
   			{{else}}
   				<li><a id="navCreate" class="link" data-toggle-text="Close">+ Create</a></li>
   			{{/if}}

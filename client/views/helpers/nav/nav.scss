@@ -44,7 +44,7 @@ $nav-text-color: #eee;
 	background-position: 10px center;
 	background-size: 16px 16px;
 	outline: 0;
-  font-weight: 400;
+  	font-weight: 400;
 }
 
 #navbuttons {
@@ -71,20 +71,21 @@ $nav-text-color: #eee;
 
 #navoptions {
 	list-style-type: none;
-	margin-top: 11px;
-  margin-bottom: 0;
+	margin: 10px 0 0 0;
 	padding: 0;
-	float: left;
-
-  li {
-    margin-left: 8px;
-		float: left;
-
-    a {
-      padding: 6px 12px;
-      display: block;
-    }
+	min-width: 11em;
+	ul {
+		white-space: no-wrap;
 	}
+
+	  li {
+	    	margin-left: 0.3em;
+	    	display: inline-block;
+		    a {
+		      	padding: 6px 12px;
+		      	display: inline-block;
+		    }
+		}
 }
 
 #navCreate, #navAsk {
@@ -100,7 +101,6 @@ $nav-text-color: #eee;
 	width: 18px;
 	height: 20px;
 	background-color: #5d6a7b;
-	float: right;
 	padding: 3px 15px 5px 15px;
 	border-radius: 5px;
 	background-image: url('/present.png');
