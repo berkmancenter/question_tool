@@ -1,3 +1,5 @@
+var clientVotes = [];
+
 Meteor.setInterval( function () {
 	// Sets Session variable "timeval" to current time in ms every 2 seconds
 	Session.set("timeval", new Date().getTime());
@@ -315,6 +317,7 @@ Template.list.events({
 			if (error) { return false; };
 		});
 		//Find Vote in DOM and increment it client side
+		clientVotes.push(event.target.parentNode);
 		event.target.parentNode.innerHTML = "<span class='triangle'></span>" + (parseInt(event.target.parentNode.innerText) + 1);
 		// Calls server-side "vote" method to update the Questions and Vote DBs
 		Meteor.call('vote', event.currentTarget.id, ip, Session.get("id"), function(error, result) {
@@ -629,6 +632,9 @@ Template.list.events({
 		Tracker.flush();*/
 	},
 	"click .new-posts": function(event, template) {
+		for(i = 0; i < clientVotes.length; i++) {
+			clientVotes[i].innerHTML = "<span class='triangle'></span>";
+		}
 		Template.instance().onShowChanges();
 	},
 });
