@@ -70,21 +70,21 @@ Template.create.events({
 		tablename = tablename.charAt(0).toUpperCase() + tablename.slice(1);
 		//var password = document.getElementsByName("pword1")[0].value;
 		//var passwordConfirm = document.getElementsByName("pword2")[0].value;
-		var threshholdSelect = document.getElementsByName("threshold")[0];
-		var threshhold = threshholdSelect[threshholdSelect.selectedIndex].value;
-		var lengthSelect = document.getElementsByName("new_length")[0];
-		var redLength = lengthSelect[lengthSelect.selectedIndex].value;
-		var staleSelect = document.getElementsByName("stale_length")[0];
-		var stale = staleSelect[staleSelect.selectedIndex].value;
-		var questionSelect = document.getElementsByName("max_question")[0];
-		var maxQuestion = questionSelect[questionSelect.selectedIndex].value;
-		var responseSelect = document.getElementsByName("max_response")[0];
-		var maxResponse = responseSelect[responseSelect.selectedIndex].value;
-		var description = document.getElementById("instancedescriptioninput").value;
-		var admin = Meteor.user().emails[0].address;
-		var hiddenSelector = document.getElementsByName("visibility")[0];
-		var isHidden = (hiddenSelector[hiddenSelector.selectedIndex].value == "hidden");
-		var author = Meteor.user().profile.name;
+		var threshholdSelect = document.getElementsByName("threshold")[0],
+			threshhold = threshholdSelect[threshholdSelect.selectedIndex].value,
+			lengthSelect = document.getElementsByName("new_length")[0],
+			redLength = lengthSelect[lengthSelect.selectedIndex].value,
+			staleSelect = document.getElementsByName("stale_length")[0],
+			stale = staleSelect[staleSelect.selectedIndex].value,
+			questionSelect = document.getElementsByName("max_question")[0],
+			maxQuestion = questionSelect[questionSelect.selectedIndex].value,
+			responseSelect = document.getElementsByName("max_response")[0],
+			maxResponse = responseSelect[responseSelect.selectedIndex].value,
+			description = document.getElementById("instancedescriptioninput").value,
+			admin = Meteor.user().emails[0].address,
+			hiddenSelector = document.getElementsByName("visibility")[0],
+			isHidden = (hiddenSelector[hiddenSelector.selectedIndex].value == "hidden"),
+			author = Meteor.user().profile.name;
 		// Ensures that the table description is capitalized
 		description = description.charAt(0).toUpperCase() + description.slice(1);
 		description = UniHTML.purify(description, {withoutTags: ['a', 'img', 'ol', 'ul' , 'span' , 'br' , 'table' , 'caption' , 'col' , 'colgroup' , 'tbody' , 'td' , 'tfoot' , 'th' , 'thread' , 'tr' , 'li' ]});
@@ -121,6 +121,9 @@ Template.create.events({
 			} else {
 				// Redirects to the newly-created table's list page
 				Blaze.remove(dropDownTemplate);
+				$("#navCreate").html("+ Create");
+				document.getElementById("navCreate").style.backgroundColor = "#27ae60";
+				$("#toparea").slideUp();
 			}
 		});
 	},
