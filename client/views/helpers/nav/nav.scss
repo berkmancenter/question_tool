@@ -3,18 +3,18 @@ $nav-text-color: #eee;
 
 #nav {
 	background: $nav-bg-color;
-  color: $nav-text-color;
+  	color: $nav-text-color;
 	min-height: 54px;
 	display: flex;
 	flex-direction: row;
 	text-decoration: none;
 	font-size: 15px;
 	line-height: 20px;
-  font-weight: 600;
+  	font-weight: 600;
 	margin-bottom: 0;
 	padding-bottom: 0;
-  padding-left: 54px;
-  padding-right: 54px;
+  	padding-left: 54px;
+  	padding-right: 54px;
 
   a {
     color: $nav-text-color;
@@ -71,25 +71,25 @@ $nav-text-color: #eee;
 
 #navoptions {
 	list-style-type: none;
-	margin: 10px 0 0 0;
+	margin: 0.3em 0 0 0;
 	padding: 0;
 	min-width: 11em;
 	ul {
 		white-space: no-wrap;
 	}
-
 	  li {
 	    	margin-left: 0.3em;
+	    	margin-top: 0.3em;
 	    	display: inline-block;
 		    a {
+		    	display: inline-block;
+		    	border-radius: 5px;
 		      	padding: 6px 12px;
-		      	display: inline-block;
 		    }
 		}
 }
 
 #navCreate, #navAsk {
-	border-radius: 5px;
 	background-color: #27ae60;
 
   &:hover {
@@ -100,13 +100,13 @@ $nav-text-color: #eee;
 #navPresent {
 	width: 18px;
 	height: 20px;
-	background-color: #5d6a7b;
 	padding: 3px 15px 5px 15px;
-	border-radius: 5px;
 	background-image: url('/present.png');
 	background-size: 18px 18px;
 	background-repeat: no-repeat;
 	background-position: 12px 8px;
+
+	background-color: #5d6a7b;
 
   &:hover {
 		background-color: #737f8e;
@@ -119,14 +119,12 @@ $nav-text-color: #eee;
 	height: 22px;
 	background-color: #5d6a7b;
 	padding: 6px 15px 5px 15px;
-	border-radius: 5px;
 	margin: 0.5em auto;
 	color: #fff;
 }
 
 #navLogout {
 	background-color: #5d6a7b;
-	border-radius: 5px;
 
   &:hover {
 		background-color: #738092;
@@ -134,7 +132,6 @@ $nav-text-color: #eee;
 }
 
 #navLogin {
-	border-radius: 5px;
 	background-color: #ec4f4f;
 
   &:hover {
@@ -143,7 +140,6 @@ $nav-text-color: #eee;
 }
 
 #navRegister {
-	border-radius: 5px;
 	background-color: #5d6a7b;
 
   &:hover {
