@@ -1,5 +1,5 @@
 SyncedCron.add({
-  name: 'EMail Administrator when 30 Day Deletion is Approaching',
+  name: 'E-mail Administrator when 30 Day Deletion is Approaching',
   schedule: function(parser) {
     // parser is a later.parse object
     return parser.text('every 1 day');
