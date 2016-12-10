@@ -96,8 +96,14 @@ Template.create.events({
 		var modsInput = document.getElementsByClassName("instancemodsinput");
 		var mods = [];
 		for(var m = 0; m < modsInput.length; m++) {
-			if(modsInput[m].value) {
-				mods.push(modsInput[m].value.trim());
+			if(modsInput[m].checkValidity()){
+				if(modsInput[m].value) {
+					mods.push(modsInput[m].value.trim());
+				}
+			}
+			else{
+				showCreateError(modsInput[m].value + " is not a valid email.");
+				return false;
 			}
 		}
 		//console.log(mods);
@@ -119,11 +125,11 @@ Template.create.events({
 				showCreateError(errorCodes[result[0].name]);
 				return false;
 			} else {
-				// Redirects to the newly-created table's list page
 				Blaze.remove(dropDownTemplate);
 				$("#navCreate").html("+ Create");
 				document.getElementById("navCreate").style.backgroundColor = "#27ae60";
 				$("#toparea").slideUp();
+				console.log(result);
 			}
 		});
 	},
