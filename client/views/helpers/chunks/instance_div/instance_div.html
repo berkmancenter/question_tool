@@ -4,15 +4,13 @@
       {{#if currentUser}}
         <div>
         {{#if isAdmin}}
-          <span class="instancebadgecontainer">
-            <img src="/admin.png" class="adminimage">
-            <span class="admintext">Admin</span>
+          <span class="instancebadgecontainer admin-container">
+            <i class="fa fa-user"></i> Admin
           </span>
         {{else}}
           {{#if isMod}}
-            <span class="instancebadgecontainer">
-              <img src="/mod.png" class="modimage">
-              <p class="popular-icon">Mod</p>
+            <span class="instancebadgecontainer mod-container">
+              <i class="fa fa-users"></i> Mod
             </span>
           {{/if}}
         {{/if}}
@@ -22,15 +20,14 @@
       <p class="instancename">
         <a class="divLink" href="/list/{{slug}}"></a>{{tablename}}
       </p>
-      <div class="answercontainer">
+      <div class="descriptioncontainer">
         <span class="instancedescription">
   				{{description}}
   			</span>
       </div>
       <div class="instance-bottom">
         <span class="posted-by-text">posted by</span> <span class="postername">{{author}}</span>
-        <span class="time">{{lasttouch}}</span>
-      </div>
+        <span class="time"> {{lasttouch}}</span>
       {{#if superadmin}}
         <div class="adminbottom">
           <!--<a class="hideQuestion" id="{{_id}}">Hide</a>
@@ -43,6 +40,7 @@
           </div>
         </div>
       {{/if}}
+      </div>
     </div>
   </div>
 </template>
