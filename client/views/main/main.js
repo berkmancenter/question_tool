@@ -152,7 +152,7 @@ Template.home.events({
 		}
 	},
 	// When the submit button is clicked
-	"keyup #searchbar": function(event, template) {
+	"keyup .searchbar": function(event, template) {
 		if(event.target.value) {
 			Session.set("search", event.target.value);
 		} else {
