@@ -150,6 +150,8 @@ $screen-xs: 480px;
 }
 
 #navUnPresent {
+	border-radius: 5px;
+	cursor: pointer;
 	display: none;
 	width: 3em;
 	height: 22px;
