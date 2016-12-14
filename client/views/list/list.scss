@@ -1,3 +1,4 @@
+$screen-sm: 768px;
 .instancetitle {
 	margin-left: 10%;
 	margin-right: 10%;
@@ -35,9 +36,14 @@
 	resize: none;
 }
 
+.anon-input-box{
+	@media screen and (max-width: $screen-sm){
+		width: 100% !important;
+	}
+}
 #questionnameinput {
 	float: left;
-	width: 330px;
+	width: 50%;
 	padding: 0;
 	margin: 0;
 	border-width: 0;
@@ -52,7 +58,7 @@
 
 #questionpasswordinput {
 	float: left;
-	width: 330px;
+	width: 50%;
 	padding: 0;
 	margin: 0;
 	border-width: 0;
@@ -69,7 +75,7 @@
 
 #questionconfirminput {
 	float: left;
-	width: 329px;
+	width: 50%;
 	padding: 0;
 	margin: 0;
 	border-width: 0;
@@ -85,7 +91,7 @@
 
 #questionemailinput {
 	float: right;
-	width: 329px;
+	width: 50%;
 	padding: 0;
 	margin: 0;
 	border-width: 0;
