@@ -13,18 +13,12 @@
 				<a id="{{id}}" class="deletebutton">Delete this instance</a> ::
 				<a href="/add" class="modbutton">Add moderators</a> ::
 				<a href="/rename/{{id}}">Rename this instance</a>-->
-				<div class="adminbutton" id="unhidebutton">
-					Unhide all
-				</div>
-				<div class="adminbutton deletebutton" id="{{id}}">
-					Delete instance
-				</div>
-				<div class="adminbutton" id="modbutton">
-					Add moderators
-				</div>
-				<div class="adminbutton" id="renamebutton">
-					Rename instance
-				</div>
+				<ul id="admin-button-list">
+					<li id="unhidebutton">Unhide all</li>
+					<li id="deletebutton">Delete instance</li>
+					<li id="modbutton">Add moderators</li>
+					<li id="renamebutton">Rename instance</li>
+				</ul>
 			</div>
 		{{/if}}
 		{{#if moderator}}

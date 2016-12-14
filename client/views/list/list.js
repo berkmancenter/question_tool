@@ -355,7 +355,7 @@ Template.list.events({
 		// Call the server-side unhide method to unhide all questions
 		Meteor.call('unhide', Session.get("id"));
 	},
-	"click .deletebutton": function(event, template) {
+	"click #deletebutton": function(event, template) {
 		var check = confirm("Are you sure you would like to delete the instance?");
 		if(check) {
 			Meteor.call('adminRemove', event.currentTarget.id, function(error, result) {

@@ -109,6 +109,7 @@ input {
 }
 
 #instancebottominputcontainer {
+	flex-direction: column;
 	height: 30em;
 	display: none;
 	background-color: #f9f9f9;

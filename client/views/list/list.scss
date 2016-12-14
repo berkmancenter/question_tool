@@ -109,19 +109,19 @@
 }
 
 .admincontainer {
+	flex-direction: column;
 	width: 76%;
+	height: auto;
 	background-color: #e3e3e3;
 	border: 2px solid #CCCCCC;
-	display: block;
-	margin: 25px auto;
-	padding: 1.5% 2% 1.5% 2%;
+	margin: 1em auto;
+	padding: 1em;
 	border-radius: 5px;
-	padding-bottom: 50px;
 	display: none;
 
   h2 {
 		color: #333333;
-		font-size: 20px;
+		font-size: 1.4em;
 		font-weight: 700;
 		margin: 0px;
 		padding: 0px;
@@ -130,7 +130,8 @@
   p {
 		color: #444444;
 		font-weight: 400;
-		font-size: 16px;
+		font-size: 1em;
+		margin-bottom:1em;
 	}
 }
 
@@ -149,22 +150,26 @@
 	padding-bottom: 15px;
 }
 
-.adminbutton {
-	display: block;
-	float: left;
-	background-color: #666666;
-	border: 2px solid #999999;
-	border-radius: 5px;
-	color: white;
-	text-decoration: none;
-	cursor: pointer;
-	margin-right: 10px;
-	padding: 5px 10px 5px 10px;
-	font-weight: 400;
-	font-size: 14px;
 
-  &:hover {
-		background-color: #888888;
+#admin-button-list {
+	list-style: none;
+	li {
+		display: inline-block;
+		float: left;
+		background-color: #666666;
+		border: 2px solid #999999;
+		border-radius: 5px;
+		color: white;
+		text-decoration: none;
+		cursor: pointer;
+		margin: 0.3em;
+		padding: 5px 10px 5px 10px;
+		font-weight: 400;
+		font-size: 1em;
+
+	  &:hover {
+			background-color: #888888;
+		}
 	}
 }
 

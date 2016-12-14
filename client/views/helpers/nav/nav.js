@@ -18,7 +18,7 @@ Template.nav.events({
 	},
 	"click #navAdmin": function(event, template) {
 		if( $(".admincontainer").css('display') == 'none') {
-			$(".admincontainer").slideDown();
+			$(".admincontainer").css("display", "flex").hide().slideDown();
 		}
 		else {
 			$(".admincontainer").slideUp();

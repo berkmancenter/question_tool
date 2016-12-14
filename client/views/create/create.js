@@ -9,7 +9,7 @@ Template.create.events({
 		var checked = event.target.firstElementChild;
 		if(checked.style.display == "none" || !checked.style.display) {
 			if(event.target.id == "advancedbox") {
-				$("#instancebottominputcontainer").slideDown();
+				$("#instancebottominputcontainer").css("display", "flex").hide().slideDown();
 			}
 			checked.style.display = "block";
 		} else {
