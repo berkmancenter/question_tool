@@ -121,6 +121,18 @@ $screen-xs: 480px;
 	}
 }
 
+#navAdmin {
+	background-color: #e67e22;
+
+	&:hover {
+		background-color: #f39c12;
+	}
+
+	.fa {
+		font-size: 1em !important;
+	}
+}
+
 #navPresent {
 	width: 18px;
 	height: 20px;

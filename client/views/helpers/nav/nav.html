@@ -13,17 +13,17 @@
             <li class="no-bg"><a id="navProfile">Hi, {{currentUser.profile.name}}!</a></li>
             {{/if}}
           {{/if}}
-    			<li><a id="navHome" class="link" title="Home"><i class="fa fa-home"></i></a></li>
     			{{#if this.list}}
+            <li><a id="navHome" class="link" title="Home"><i class="fa fa-home"></i></a></li>
     				<li><a id="navShare" class="link" title="Share"><i class="fa fa-share-alt-square"></i></a></li>
-            {{#if admin}}
-      				<li><a id="navAdmin" class="link">Admin</a></li>
-      			{{/if}}
     			{{/if}}
     		</ul>
         <ul id="navoptions">
     		{{#if currentUser}}
     			{{#if this.list}}
+            {{#if admin}}
+              <li><a id="navAdmin" class="link"><i class="fa fa-cog"></i> Admin</a></li>
+            {{/if}}
     				<li><a id="navAsk" class="link" data-toggle-text="Close" title="Post a question">+<i class="fa fa-question"></i></a></li>
     				<li><a id="navPresent" class="link hidden-xs hidden-sm" title="Present">&nbsp;</a></li>
     			{{else}}
