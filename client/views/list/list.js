@@ -25,13 +25,10 @@ Template.list.onCreated(function () {
 	Session.set("questionLength",  Template.instance().data.max_question);
 	Session.set("responseLength",  Template.instance().data.max_response);
 	Session.set("threshhold",  Template.instance().data.threshhold);
-	Session.set("mod", false);
 	if(Meteor.user()) {
 		if( Template.instance().data.admin == Meteor.user().emails[0].address) {
-			Session.set("admin", true);
 			enableDragging();
 		} else if( Template.instance().data.moderators.indexOf(Meteor.user().emails[0].address) > -1) {
-			Session.set("mod", true);
 			enableDragging();
 		}
 	}
@@ -114,6 +111,17 @@ Template.list.helpers({
 	},
 	// Retrieves, orders, and modifies the questions for the chosen table
 	question: function() {
+		table_admin = false;
+		table_mod = false;
+		if(Meteor.user()){
+			user_email = Meteor.user().emails[0].address;
+			if(this.admin === user_email){
+				table_admin = true;
+			}
+			else if(this.moderators.indexOf(user_email) !== -1){
+				table_mod = true;
+			}
+		}
 		// Finds the questions from the Questions DB
 		if(Session.get("search") == "all") {
 			var questions = Template.instance().visibleQuestions.find({
@@ -160,7 +168,7 @@ Template.list.helpers({
 		});
 		// Loops through the retrieved questions and sets properties
 		for(var i = 0; i < questions.length; i++) {
-			if(questions[i].state != "disabled" || Session.get("admin") || Session.get("mod")) {
+			if(questions[i].state != "disabled" || table_mod || table_admin) {
 				var urlRegex = /(https?:\/\/(?:www\.|(?!www))[^\s\.]+\.[^\s]{2,}|www\.[^\s]+\.[^\s]{2,})/g;
 				questions[i].text = questions[i].text.replace(urlRegex, function(url) {
 					if(url.charAt(url.length-1) == ")") {
@@ -178,7 +186,7 @@ Template.list.helpers({
 						return '<a target="_blank" class="questionLink" rel="nofollow" href="' + fullURL + '">' + url + '</a>)';
 					}
 				});
-				questions[i].adminButtons = (Session.get("admin") || Session.get("mod"));
+				questions[i].adminButtons = (table_admin || table_mod);
 				// Sets the answer and modify links
 				questions[i].answerlink = "/answer/" + questions[i]._id;
 				questions[i].modifylink = "/modify/" + questions[i]._id;
