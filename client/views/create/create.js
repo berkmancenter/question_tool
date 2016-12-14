@@ -37,7 +37,7 @@ Template.create.events({
 	},
 	"click .instancemodsplus": function(event, template) {
 		var spacers = document.getElementsByClassName("emptyinputspacer");
-		if(spacers.length <= 4) {
+		if(spacers.length < 4) {
 			var lastDiv = spacers[spacers.length-1];
 			$(".instancemodsinput").removeClass("lastmodinput");
 			$(".plusbuttoncontainer").removeClass("lastmodinput");
