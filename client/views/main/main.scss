@@ -15,6 +15,7 @@ $screen-md: 992px;
 	@media screen and (min-width: $screen-md){
 		width: 55vw;
 	}
+
 }
 
 #instancenameinput {
@@ -130,6 +131,9 @@ input {
   select {
 		margin-top: 16px;
 		float: right;
+		background-color: white;
+		border-radius: 5px;
+		border-color: #ccc;
 	}
 }
 
