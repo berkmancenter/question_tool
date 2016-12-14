@@ -37,11 +37,6 @@ Template.nav.events({
 	}
 });
 
-Template.nav.helpers({
-	admin: function() {
-		return Session.get("admin");
-	}
-});
 
 function showError(reason, parentElement, nextElement) {
 	if(typeof currentError != "undefined") {

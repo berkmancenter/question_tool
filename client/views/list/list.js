@@ -104,7 +104,7 @@ Template.list.helpers({
 	},
 	// Sets the template admin boolean to the Session admin variable
 	admin: function() {
-		return Session.get("admin");
+		return Meteor.user() && Meteor.user().emails[0].address === this.admin;
 	},
 	moderator: function() {
 		return Session.get("mod");
