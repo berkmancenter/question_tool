@@ -183,7 +183,11 @@ Template.list.helpers({
 				questions[i].answerlink = "/answer/" + questions[i]._id;
 				questions[i].modifylink = "/modify/" + questions[i]._id;
 				// Gets and formats the question date
-				questions[i].f_time = timeSince(questions[i].timeorder) + " Ago";
+				temp_f_time = timeSince(questions[i].timeorder)
+				temp_slice = temp_f_time.indexOf("econds") != -1 ? "A few seconds" : temp_f_time;
+				// econds instead of Seconds/seconds because if capitalization changes, this doesn't break
+				questions[i].f_time = temp_slice + " ago";
+				questions[i].readable_time = new Date(questions[i].timeorder).toLocaleString();
 				var avg = (Math.max.apply(Math, voteArray) + Math.min.apply(Math, voteArray)) / 2;
 				// Uses standard deviation to set the shade of the vote box
 				var stddev = standardDeviation(voteArray) + .001;

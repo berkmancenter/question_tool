@@ -233,26 +233,26 @@ function timeSince(date) {
 
     var interval = Math.floor(seconds / 31536000);
     if (interval >= 1) {
-        intervalType = 'Year';
+        intervalType = 'year';
     } else {
         interval = Math.floor(seconds / 2592000);
         if (interval >= 1) {
-            intervalType = 'Month';
+            intervalType = 'month';
         } else {
             interval = Math.floor(seconds / 86400);
             if (interval >= 1) {
-                intervalType = 'Day';
+                intervalType = 'day';
             } else {
                 interval = Math.floor(seconds / 3600);
                 if (interval >= 1) {
-                    intervalType = "Hour";
+                    intervalType = "hour";
                 } else {
                     interval = Math.floor(seconds / 60);
                     if (interval >= 1) {
-                        intervalType = "Minute";
+                        intervalType = "minute";
                     } else {
                         interval = seconds;
-                        intervalType = "Second";
+                        intervalType = "second";
                     }
                 }
             }

@@ -37,17 +37,17 @@
         </span>
         <span class="sharing">
           {{#if popular}}
-          <span class="image-icon popular-icon"></span>
+          <span class="image-icon popular-icon" title="Popular"></span>
           {{else}}
             {{#if stale}}
-              <span class="image-icon stale-icon"></span>
+              <span class="image-icon stale-icon" title="Stale"></span>
             {{/if}}
           {{/if}}
           {{#if new}}
-            <span class="image-icon new-icon"></span>
+            <span class="image-icon new-icon" title="New"></span>
           {{/if}}
-          <span class="image-icon facebookbutton link"></span>
-          <span class="image-icon twitterbutton link"></span>
+          <span class="image-icon facebookbutton link" title="Share on Facebook"></span>
+          <span class="image-icon twitterbutton link" title="Share on Twitter"></span>
         </span>
       </div>
       <div class="asked-by">
@@ -60,7 +60,7 @@
           {{/if}}
         </span>
         {{/if}}
-        asked <span class="smallcaps">{{f_time}}</span>
+        asked <span class="smallcaps" title="{{readable_time}}">{{f_time}}</span>
       </div>
     </div>
   </div>
