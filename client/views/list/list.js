@@ -62,10 +62,14 @@ Template.list.onCreated(function () {
 		// Grab the questions from the server. Need to define getQuestions as the questions we want.
 		const questions = Questions.find({instanceid: Session.get("id")}).fetch();
 		const answers = Answers.find({instanceid: Session.get("id")}).fetch();
+		const client = Template.instance().visibleQuestions.find({instanceid: Session.get("id")}).fetch();
+		const updatedQs = hasUpdates(questions, client);
 		// If Tracker re-runs there must have been changes to the questions so we now set the state to let the user know
-		if (!computation.firstRun && this.state.get('presentMode') != true) {
+		if (!computation.firstRun && this.state.get('presentMode') != true && updatedQs) {
 		  this.state.set('hasChanges', true);
-		} else {
+		} 
+		else if (!updatedQs && !computation.firstRun){ this.state.set('hasChanges', false); }
+		else {
 		  this.syncQuestions(questions);
 		  this.syncAnswers(answers);
 		}
@@ -802,4 +806,16 @@ function toggleButtonText (selector) {
   var toggleText = $(selector).attr("data-toggle-text");
   $(selector).attr("data-toggle-text", oldText);
   $(selector).html(toggleText);
+}
+
+function hasUpdates(questions, client){
+	console.log("Check");
+	console.log(questions.length);
+	console.log(client);
+	if(questions.length !== client.length) return true;
+	for(var i=0; i<questions.length; i++){
+		if(client[i]._id !== questions[i]._id)
+			return true;
+	}
+	return false;
 }
