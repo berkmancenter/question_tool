@@ -809,9 +809,6 @@ function toggleButtonText (selector) {
 }
 
 function hasUpdates(questions, client){
-	console.log("Check");
-	console.log(questions.length);
-	console.log(client);
 	if(questions.length !== client.length) return true;
 	for(var i=0; i<questions.length; i++){
 		if(client[i]._id !== questions[i]._id)
