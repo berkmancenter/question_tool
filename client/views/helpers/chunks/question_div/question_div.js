@@ -29,5 +29,9 @@ Template.question_div.helpers({
   	var base = 'repl';
   	var add = count > 1 ? 'ies' : 'y';
   	return count + ' ' + base + add;
+  },
+
+  voteCount: function () {
+  	return Votes.find({ qid: this._id }).fetch().length;
   }
 });

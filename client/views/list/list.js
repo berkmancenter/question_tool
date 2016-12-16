@@ -322,21 +322,12 @@ Template.list.helpers({
 Template.list.events({
 	// When the vote button is clicked...
 	"click .voteright": function(event, template) {
-		var ip;
-		// Retrieves the user's IP address from the server
-		Meteor.call('getIP', function (error, result) {
-			ip = result;
-			if (error) { return false; };
-		});
-		//Find Vote in DOM and increment it client side
-		//No need to verify IP on client side because it will get checked by the server anyway
-		Template.instance().visibleQuestions.update({ _id: event.currentTarget.id }, { $inc: { votes: 1 } });
-		// Calls server-side "vote" method to update the Questions and Vote DBs
-		Meteor.call('vote', event.currentTarget.id, ip, Session.get("id"), function(error, result) {
+		Meteor.call('vote', event.currentTarget.id, Session.get("id"), function(error, result) {
 			// If the result is an object, there was an error
 			if(typeof result === 'object') {
 				// Store an object of the error names and codes
 				var errorCodes = {
+					"votedbefore": "It appears that you have already voted up this question.",
 					"lasttouch": "There was an error retrieving the time. Please return to the list and try again.",
 					"votes": "There was an error incrementing the votes. Please return to the list and try again.",
 					"qid": "There was an error with the question ID. Please return to the list and try again.",
