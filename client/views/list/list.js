@@ -25,13 +25,9 @@ Template.list.onCreated(function () {
 	Session.set("questionLength",  Template.instance().data.max_question);
 	Session.set("responseLength",  Template.instance().data.max_response);
 	Session.set("threshhold",  Template.instance().data.threshhold);
-	if(Meteor.user()) {
-		if( Template.instance().data.admin == Meteor.user().emails[0].address) {
-			enableDragging();
-		} else if( Template.instance().data.moderators.indexOf(Meteor.user().emails[0].address) > -1) {
-			enableDragging();
-		}
-	}
+	if( Meteor.user() && (Template.instance().data.admin == Meteor.user().emails[0].address || Template.instance().data.moderators.indexOf(Meteor.user().emails[0].address) > -1)) {
+		enableDragging();
+	} 
 	Session.set("stale_length",  Template.instance().data.stale_length);
 	Session.set("new_length",  Template.instance().data.new_length);
 	this.visibleQuestions = new Mongo.Collection(null);
@@ -39,7 +35,12 @@ Template.list.onCreated(function () {
 	this.state = new ReactiveDict();
 
 	this.getQuestions = function() {
-		return questions = Questions.find({instanceid: Session.get("id")});
+		var admin_mod = Meteor.user() && (Template.instance().data.admin == Meteor.user().emails[0].address || Template.instance().data.moderators.indexOf(Meteor.user().emails[0].address) > -1)
+		var query = { instanceid: Session.get("id") };
+		if(!admin_mod){
+			query.state = "normal";
+		}
+		return questions = Questions.find(query);
 	  };
 
 	this.getAnswers = function() {
@@ -60,7 +61,12 @@ Template.list.onCreated(function () {
 
 	this.autorun((computation) => {
 		// Grab the questions from the server. Need to define getQuestions as the questions we want.
-		const questions = Questions.find({instanceid: Session.get("id")}).fetch();
+		const admin_mod = Meteor.user() && (Template.instance().data.admin == Meteor.user().emails[0].address || Template.instance().data.moderators.indexOf(Meteor.user().emails[0].address) > -1)
+		const query = { instanceid: Session.get("id") };
+		if(!admin_mod){
+			query.state = "normal";
+		}
+		const questions = Questions.find(query).fetch();
 		const answers = Answers.find({instanceid: Session.get("id")}).fetch();
 		const client = Template.instance().visibleQuestions.find({instanceid: Session.get("id")}).fetch();
 		const updatedQs = hasUpdates(questions, client);
