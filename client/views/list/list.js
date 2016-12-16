@@ -329,8 +329,8 @@ Template.list.events({
 			if (error) { return false; };
 		});
 		//Find Vote in DOM and increment it client side
-		clientVotes.push(event.target.parentNode);
-		event.target.parentNode.innerHTML = "<span class='triangle'></span>" + (parseInt(event.target.parentNode.innerText) + 1);
+		//No need to verify IP on client side because it will get checked by the server anyway
+		Template.instance().visibleQuestions.update({ _id: event.currentTarget.id }, { $inc: { votes: 1 } });
 		// Calls server-side "vote" method to update the Questions and Vote DBs
 		Meteor.call('vote', event.currentTarget.id, ip, Session.get("id"), function(error, result) {
 			// If the result is an object, there was an error
@@ -644,9 +644,6 @@ Template.list.events({
 		Tracker.flush();*/
 	},
 	"click .new-posts": function(event, template) {
-		for(i = 0; i < clientVotes.length; i++) {
-			clientVotes[i].innerHTML = "<span class='triangle'></span>";
-		}
 		Template.instance().onShowChanges();
 	},
 });
