@@ -21,7 +21,13 @@ Template.question_div.helpers({
     var answers = Answers.find({
       qid: this._id
     })
-
     return answers.fetch().length > 0
+  },
+
+  answersCount: function () {
+  	var count = Answers.find({ qid: this._id }).fetch().length;
+  	var base = 'repl';
+  	var add = count > 1 ? 'ies' : 'y';
+  	return count + ' ' + base + add;
   }
 });

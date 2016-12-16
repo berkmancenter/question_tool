@@ -6,7 +6,7 @@
         {{> answers_list}}
       {{/if}} -->
       {{#if hasAnswers}}
-      <p class="hiddenMessage link" id="{{_id}}">show replies</p>
+      <p class="hiddenMessage link" id="{{_id}}">show {{answersCount}}</p>
       {{/if}}
       <div class="replybottom" id="down{{_id}}">
         <textarea id="text{{_id}}" class="replyarea" placeholder="Type a response..." maxlength="{{responseLength}}"></textarea>
