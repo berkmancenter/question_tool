@@ -33,5 +33,13 @@ Template.question_div.helpers({
 
   voteCount: function () {
   	return Votes.find({ qid: this._id }).fetch().length;
+  },
+
+  date_format: function(timeorder){
+    return moment(timeorder).format('LLL');
+  },
+
+  time_format: function(timeorder){
+    return moment(timeorder).fromNow();
   }
 });

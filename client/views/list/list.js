@@ -200,12 +200,6 @@ Template.list.helpers({
 				// Sets the answer and modify links
 				questions[i].answerlink = "/answer/" + questions[i]._id;
 				questions[i].modifylink = "/modify/" + questions[i]._id;
-				// Gets and formats the question date
-				temp_f_time = timeSince(questions[i].timeorder)
-				temp_slice = temp_f_time.indexOf("econds") != -1 ? "A few seconds" : temp_f_time;
-				// econds instead of Seconds/seconds because if capitalization changes, this doesn't break
-				questions[i].f_time = temp_slice + " ago";
-				questions[i].readable_time = new Date(questions[i].timeorder).toLocaleString();
 				var avg = (Math.max.apply(Math, voteArray) + Math.min.apply(Math, voteArray)) / 2;
 				// Uses standard deviation to set the shade of the vote box
 				var stddev = standardDeviation(voteArray) + .001;
@@ -678,49 +672,6 @@ function average(data) {
 	return avg;
 }
 
-// Helper function that gets the time since a date
-function timeSince(date) {
-    if (typeof date !== 'object') {
-        date = new Date(date);
-    }
-
-    var seconds = Math.floor((new Date() - date) / 1000);
-    var intervalType;
-
-    var interval = Math.floor(seconds / 31536000);
-    if (interval >= 1) {
-        intervalType = 'Year';
-    } else {
-        interval = Math.floor(seconds / 2592000);
-        if (interval >= 1) {
-            intervalType = 'Month';
-        } else {
-            interval = Math.floor(seconds / 86400);
-            if (interval >= 1) {
-                intervalType = 'Day';
-            } else {
-                interval = Math.floor(seconds / 3600);
-                if (interval >= 1) {
-                    intervalType = "Hour";
-                } else {
-                    interval = Math.floor(seconds / 60);
-                    if (interval >= 1) {
-                        intervalType = "Minute";
-                    } else {
-                        interval = seconds;
-                        intervalType = "Second";
-                    }
-                }
-            }
-        }
-    }
-
-    if (interval > 1 || interval === 0) {
-        intervalType += 's';
-    }
-
-    return interval + ' ' + intervalType;
-};
 
 function enableDragging() {
 	Meteor.call('adminCheck', Session.get("id"), function(error, result) {
