@@ -1,0 +1,42 @@
+.replycontainer {
+	
+}
+
+
+.replytitle {
+	font-size: 2em;
+	margin-top: 0.5em;
+	padding: 1em;
+	background-color: #eee;
+	text-align: left !important;
+	.reply-letter{
+		font-weight: bold;
+		font-size: 1.1em;
+	}
+	.reply-question-text{
+		font-size: 0.9em;
+	}
+	.reply-question-asker{
+		font-size: 0.7em;
+		opacity: 0.7;
+	}
+	.reply-question-time{
+		font-size: 0.7em;
+	}
+
+}
+
+.question-answer{
+	font-size: 1.1em;
+	padding: 0.5em;
+	border-radius: 5px;
+	border: 1px solid #bbb;
+	position: relative;
+	line-height: 1.3em;
+}
+
+.answerdate{
+	font-size: 0.7em;
+	font-weight: 600;
+	float: right;
+}

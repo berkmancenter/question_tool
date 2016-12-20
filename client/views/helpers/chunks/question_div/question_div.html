@@ -14,9 +14,11 @@
           <span class="replycounter">
             {{replyCount}}/{{responseLength}}
           </span>
+          {{#if currentUser}}
           <span class="replybottombutton link" id="{{_id}}">
             Reply
           </span>
+          {{/if}}
           <span class="anon-reply-bottom-button link" id="{{_id}}">
             Anonymous Reply
           </span>

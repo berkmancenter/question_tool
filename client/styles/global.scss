@@ -86,6 +86,8 @@ a {
 	position: fixed;
 	top: 0;
 	left: 32%;
+	max-height: calc(100vh - 200px);
+    overflow-y: auto;
 
   .errorIcon {
 		margin-top: 4px;

@@ -15,6 +15,16 @@ Template.answers.onRendered(function() {
 });
 
 Template.answers.helpers({
+  question: function() {
+    var id = Template.currentData();
+    return Questions.findOne({ _id: id });
+  },
+  date_format: function(timeorder){
+    return moment(timeorder).format('LLL');
+  },
+  time_format: function(timeorder){
+    return moment(timeorder).fromNow();
+  },
 	answers: function() {
     var id = Template.currentData();
 

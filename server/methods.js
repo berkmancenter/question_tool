@@ -83,7 +83,8 @@ Meteor.methods({
 				email: email,
 				ip: result,
 				instanceid: instanceid,
-				qid: currentURL
+				qid: currentURL,
+				timeorder: new Date().getTime() - 1000
 			}, function(error, id) {
 				// If error, set keys to the error object
 				if(error) {

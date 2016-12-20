@@ -1,21 +1,30 @@
 <template name="answers">
 	<div id="darker">
 	</div>
-	<div class="formcontainer">
+	<div class="formcontainer replycontainer">
 		{{> close_button}}
-		<h1 class="formtitle">Answers</h1>
+		<div class="formtitle replytitle">
+    <span class="reply-letter">Q:</span>
+    <span class="reply-question-text">{{question.text}}</span>
+    <br>
+    <span class="reply-question-asker">— {{question.poster}} <span class="reply-question-time">({{date_format question.timeorder}})</span></span>
+    </div>
 		<div class="modaltopmessage">
       <div class="modalanswers answers">
         {{#each answers}}
         <div class="question-answer">
-          {{#if poster}}
+        {{#if poster}}
+          <span class="answerposter">  
             {{#if email}}
-              <a href="mailto:{{email}}" class="answerposter">{{poster}}:</a>
+              <a href="mailto:{{email}}">{{poster}}:</a>
             {{else}}
-              <span class="answerposter">{{poster}}: </span>
-            {{/if}}
+              {{poster}}:
+            {{/if}}    
+          </span>
+          <span class="answerdate" title="{{date_format timeorder}}">{{#if timeorder}}{{time_format timeorder}}{{/if}}</span>
+          <br>
           {{/if}}
-          <span class="answertext">{{{text}}}</span>
+          <span class="answertext"> {{{text}}}</span>
         </div>
         {{/each}}
       </div>
