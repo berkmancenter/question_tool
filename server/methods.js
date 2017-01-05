@@ -83,7 +83,8 @@ Meteor.methods({
 				email: email,
 				ip: result,
 				instanceid: instanceid,
-				qid: currentURL
+				qid: currentURL,
+				timeorder: new Date().getTime() - 1000
 			}, function(error, id) {
 				// If error, set keys to the error object
 				if(error) {
@@ -621,8 +622,9 @@ Meteor.methods({
 		}
 	},
 	// Method that registers a vote on a question
-	vote: function(questionid, ip, instanceid) {
+	vote: function(questionid, instanceid) {
 		var keys = "";
+		var ip = this.connection.clientAddress
 		// Ensures that the user hasn't already voted from their IP address
 		var votes = Votes.find({
 			qid: questionid,
@@ -657,6 +659,9 @@ Meteor.methods({
 					});
 				}				
 			});
+		}
+		else {
+			keys = "votedbefore";
 		}
 		return keys;
 	},

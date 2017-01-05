@@ -18,7 +18,7 @@ Template.nav.events({
 	},
 	"click #navAdmin": function(event, template) {
 		if( $(".admincontainer").css('display') == 'none') {
-			$(".admincontainer").slideDown();
+			$(".admincontainer").css("display", "flex").hide().slideDown();
 		}
 		else {
 			$(".admincontainer").slideUp();
@@ -37,11 +37,6 @@ Template.nav.events({
 	}
 });
 
-Template.nav.helpers({
-	admin: function() {
-		return Session.get("admin");
-	}
-});
 
 function showError(reason, parentElement, nextElement) {
 	if(typeof currentError != "undefined") {

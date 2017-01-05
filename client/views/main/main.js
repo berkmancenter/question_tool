@@ -15,6 +15,9 @@ Template.home.onRendered(function() {
 });
 
 Template.home.helpers({
+	time_format: function(lasttouch){
+		return moment(lasttouch).fromNow();
+	},
 	toolAdmin: function() {
 		Meteor.call('admin', Meteor.user().emails[0].address, function(error, result) {
 			if(result) {
@@ -112,7 +115,6 @@ Template.home.helpers({
 			} else if((new Date().getTime() - instances[i].lasttouch) <= 2678400000) {
 				instances[i].month = true;
 			}
-			instances[i].lasttouch = timeSince(instances[i].lasttouch);
 		}
 		if(instances.length < 1) {
 			showCreateError("Nothing found.");
@@ -152,7 +154,7 @@ Template.home.events({
 		}
 	},
 	// When the submit button is clicked
-	"keyup #searchbar": function(event, template) {
+	"keyup .searchbar": function(event, template) {
 		if(event.target.value) {
 			Session.set("search", event.target.value);
 		} else {
@@ -222,49 +224,6 @@ Template.home.events({
 	}
 });
 
-// Helper function that gets the time since a date
-function timeSince(date) {
-    if (typeof date !== 'object') {
-        date = new Date(date);
-    }
-
-    var seconds = Math.floor((new Date() - date) / 1000);
-    var intervalType;
-
-    var interval = Math.floor(seconds / 31536000);
-    if (interval >= 1) {
-        intervalType = 'Year';
-    } else {
-        interval = Math.floor(seconds / 2592000);
-        if (interval >= 1) {
-            intervalType = 'Month';
-        } else {
-            interval = Math.floor(seconds / 86400);
-            if (interval >= 1) {
-                intervalType = 'Day';
-            } else {
-                interval = Math.floor(seconds / 3600);
-                if (interval >= 1) {
-                    intervalType = "Hour";
-                } else {
-                    interval = Math.floor(seconds / 60);
-                    if (interval >= 1) {
-                        intervalType = "Minute";
-                    } else {
-                        interval = seconds;
-                        intervalType = "Second";
-                    }
-                }
-            }
-        }
-    }
-
-    if (interval > 1 || interval === 0) {
-        intervalType += 's';
-    }
-
-    return interval + ' ' + intervalType;
-}
 
 function showCreateError(reason) {
 	if(typeof currentError != "undefined") {

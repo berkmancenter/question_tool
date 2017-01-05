@@ -1,42 +1,49 @@
 <template name="nav">
   <div id="nav-wrapper">
   	<div id="nav" class="{{#if this.list}}{{#if currentUser}}loggedinlistbanner{{else}}loggedoutlistbanner{{/if}}{{else}}homebanner{{/if}}">
-  		<h1 id="tablename" class="hidden-xs hidden-sm hidden-md">
+  		<h1 id="tablename" class="hidden-xs hidden-sm">
   			{{this.title}}
   		</h1>
-  		<input id="searchbar" class="{{#if this.list}}listsearchbar{{else}}homesearchbar{{/if}}" type="text" placeholder="Search...">
-  		<ul id="navbuttons" class="hidden-xs hidden-sm">
-        {{#if currentUser}}
-        <li class="no-bg"><a id="navProfile">Hi, {{currentUser.profile.name}}!</a></li>
-        {{/if}}
-  			<li><a id="navHome" class="link hidden-xs hidden-sm">Home</a></li>
-  			{{#if this.list}}
-  				<li><a id="navShare" class="link">Share</a></li>
-          {{#if admin}}
-    				<li><a id="navAdmin" class="link">Admin</a></li>
+  		<input id="searchbar" class="{{#if this.list}}listsearchbar{{else}}homesearchbar{{/if}} hidden-xs hidden-sm searchbar" type="text" placeholder="Search...">
+    		<ul id="navbuttons">
+          {{#if currentUser}}
+            {{#if this.list}}
+            <li class="no-bg hidden-xs hidden-sm"><a id="navProfile">Hi, {{currentUser.profile.name}}!</a></li>
+            {{ else }}
+            <li class="no-bg"><a id="navProfile">Hi, {{currentUser.profile.name}}!</a></li>
+            {{/if}}
+          {{/if}}
+    			{{#if this.list}}
+            <li><a id="navHome" class="link" title="Home"><i class="fa fa-home"></i></a></li>
+    				<li><a id="navShare" class="link" title="Share"><i class="fa fa-share-alt-square"></i></a></li>
     			{{/if}}
-  			{{/if}}
-  		</ul>
-      <ul id="navoptions">
-  		{{#if currentUser}}
-  			{{#if this.list}}
-  				<li><a id="navAsk" class="link" data-toggle-text="Close">+ Post</a></li>
-  				<li><a id="navPresent" class="link hidden-xs hidden-sm">&nbsp;</a></li>
-  			{{else}}
-  				<li><a id="navCreate" class="link" data-toggle-text="Close">+ Create</a></li>
-  			{{/if}}
-  			<li><a id="navLogout" class="link">Log out</a></li>
-  		{{else}}
-  			{{#if this.list}}
-  				<li><a id="navAsk" class="link" data-toggle-text="Close">+ Post</a></li>
-  				<li><a id="navPresent" class="link hidden-xs hidden-sm"></a></li>
-  			{{else}}
-  				<li><a id="navCreate" class="link" data-toggle-text="Close">+ Create</a></li>
-  			{{/if}}
-        <li><a id="navLogin" class="link">Sign in</a></li>
-  			<li><a id="navRegister" class="link">Sign up</a></li>
-  		{{/if}}
-      </ul>
+    		</ul>
+        <ul id="navoptions">
+    		{{#if currentUser}}
+    			{{#if this.list}}
+            {{#if admin}}
+              <li><a id="navAdmin" class="link"><i class="fa fa-cog"></i> Admin</a></li>
+            {{/if}}
+    				<li><a id="navAsk" class="link" data-toggle-text="Close" title="Post a question">+<i class="fa fa-question"></i></a></li>
+    				<li><a id="navPresent" class="link hidden-xs hidden-sm" title="Present">&nbsp;</a></li>
+    			{{else}}
+    				<li><a id="navCreate" class="link" data-toggle-text="Close">+ Create</a></li>
+    			{{/if}}
+    			<li><a id="navLogout" class="link" title="Log out"><i class="fa fa-sign-out"></i></a></li>
+    		{{else}}
+    			{{#if this.list}}
+    				<li><a id="navAsk" class="link" data-toggle-text="Close" title="Post a question">+<i class="fa fa-question"></i></a></li>
+    				<li><a id="navPresent" class="link hidden-sm hidden-xs" title="Present">&nbsp;</a></li>
+    			{{else}}
+    				<!--li><a id="navCreate" class="link" data-toggle-text="Close">+ Create</a></li-->
+    			{{/if}}
+          <li><a id="navLogin" class="link">Sign in</a></li>
+    			<li><a id="navRegister" class="link">Sign up</a></li>
+    		{{/if}}
+        </ul>
   	</div>
+    <div id="mobile-nav">
+      <input id="mobile-searchbar" class="{{#if this.list}}listsearchbar{{else}}homesearchbar{{/if}} hidden-md hidden-lg searchbar" type="text" placeholder="Search...">
+    </div>
   </div>
 </template>

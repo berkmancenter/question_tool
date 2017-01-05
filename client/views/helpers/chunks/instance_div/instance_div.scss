@@ -1,25 +1,14 @@
-.adminimage {
-	width: 14px;
-	height: 14px;
-	display: inline-block;
-}
-
-.admintext {
-	color: #f1c40f;
-	font-weight: 700;
-	display: inline-block;
-}
 
 .buttonFavorite {
 	background-image: url('/heart_filled.png') !important;
 }
 
-.description {
-	display: block;
-	margin: 0 auto;
-	padding: 0 20px;
+
+.instancedescription {
+	font-weight: 300;
+	text-decoration: none;
 	color: #999999;
-	font-weight: 600;
+	font-size: 14px;
 }
 
 .favorite-instance {
@@ -38,13 +27,26 @@
 	position: relative;
 }
 
+.instance-bottom{
+	position: absolute;
+	bottom: 0.5em;
+	right: 0.5em;
+	left: 0.5em;
+	.posted-by-text {
+	  color: #999;
+	}
+}
+
+
 .instance {
 	background-color: #FFF;
 	border-radius: 4px;
-  border: 1px solid #e9edf0;
+  	border: 1px solid #e9edf0;
 	padding: 8px 12px;
-  margin-bottom: 12px;
+  	margin-bottom: 12px;
 	position: relative;
+	word-break: break-all;
+	min-height: 10em;
 }
 
 .instancename {
@@ -54,14 +56,14 @@
 	margin: 0 0 1px 0;
 }
 
-.modimage {
-	width: 20px;
-	height: 20px;
-	float: left;
-	margin-right: 4px;
-	margin-top: -1px;
-	padding-top: 0;
+.instancebadgecontainer {
+	font-weight: bold;
 }
 
-.instancebadgecontainer {
+.mod-container{
+	color: #754B75;
+}
+
+.admin-container{
+	color: #f39c12;
 }

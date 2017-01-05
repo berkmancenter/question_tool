@@ -1,25 +1,29 @@
 $nav-bg-color: #293340;
 $nav-text-color: #eee;
+$screen-sm: 768px;
+$screen-xs: 480px;
 
 #nav {
 	background: $nav-bg-color;
-  color: $nav-text-color;
+  	color: $nav-text-color;
 	min-height: 54px;
 	display: flex;
 	flex-direction: row;
 	text-decoration: none;
 	font-size: 15px;
 	line-height: 20px;
-  font-weight: 600;
+  	font-weight: 600;
 	margin-bottom: 0;
 	padding-bottom: 0;
-  padding-left: 54px;
-  padding-right: 54px;
+  	padding-left: 54px;
+  	padding-right: 54px;
 
   a {
     color: $nav-text-color;
   }
+
 }
+
 
 #tablename {
   display: inline;
@@ -27,12 +31,9 @@ $nav-text-color: #eee;
 	margin-top: 16px;
 }
 
-#searchbar {
+#searchbar, #mobile-searchbar {
 	height: 32px;
-	flex-grow: 1;
 	background-color: #fff;
-	margin-top: 10px;
-	margin-left: 1em;
 	border-radius: 5px;
 	border: 0;
 	outline: 0;
@@ -42,54 +43,77 @@ $nav-text-color: #eee;
 	background-image: url('/search.png');
 	background-repeat: no-repeat;
 	background-position: 10px center;
-	background-size: 16px 16px;
 	outline: 0;
   	font-weight: 400;
 }
 
+#searchbar {
+	flex-grow: 1;
+	margin-top: 10px;
+	margin-left: 1em;
+	background-size: 16px 16px;
+}
+
+#mobile-searchbar {
+	width: 100%;
+	background-size: 14px 14px;
+}
+
+#mobile-nav {
+	@media screen and (max-width: $screen-sm){
+		background-color: $nav-bg-color;
+		padding: 0.5em;
+	}
+}
 #navbuttons {
 	list-style-type: none;
 	margin: 0 0 0 10px;
 	padding: 0;
 	float: left;
-
   li {
 		float: left;
-
-    a {
-      display: block;
-      padding: 17px 10px;
-    }
+	    a {
+	      display: inline-block;
+	      padding: 1em 1em;
+		    .fa {
+		    	font-size:1.4em;
+		    }
+	    }
 
     &:hover {
-			&:not(.no-bg) {
-        background-color: lighten($nav-bg-color, 10);
-      }
-		}
+		&:not(.no-bg) {
+        	background-color: lighten($nav-bg-color, 10);
+      	}
 	}
+
+	}
+
 }
 
 #navoptions {
 	list-style-type: none;
-	margin: 10px 0 0 0;
+	margin: 0.5em 0 0 0;
 	padding: 0;
-	min-width: 11em;
 	ul {
 		white-space: no-wrap;
 	}
-
 	  li {
 	    	margin-left: 0.3em;
+	    	margin-top: 0.3em;
 	    	display: inline-block;
 		    a {
-		      	padding: 6px 12px;
-		      	display: inline-block;
+		    	display: inline-block;
+		    	border-radius: 5px;
+		      	padding: 0.3em 0.5em;
+
+		      	.fa {
+		      		font-size: 1.2em;
+		      	}
 		    }
 		}
 }
 
 #navCreate, #navAsk {
-	border-radius: 5px;
 	background-color: #27ae60;
 
   &:hover {
@@ -97,16 +121,28 @@ $nav-text-color: #eee;
 	}
 }
 
+#navAdmin {
+	background-color: #e67e22;
+
+	&:hover {
+		background-color: #f39c12;
+	}
+
+	.fa {
+		font-size: 1em !important;
+	}
+}
+
 #navPresent {
 	width: 18px;
 	height: 20px;
-	background-color: #5d6a7b;
 	padding: 3px 15px 5px 15px;
-	border-radius: 5px;
 	background-image: url('/present.png');
-	background-size: 18px 18px;
+	background-size: 1.2em 1.2em;
 	background-repeat: no-repeat;
-	background-position: 12px 8px;
+	background-position: 0.5em 0.4em;
+
+	background-color: #5d6a7b;
 
   &:hover {
 		background-color: #737f8e;
@@ -114,19 +150,19 @@ $nav-text-color: #eee;
 }
 
 #navUnPresent {
+	border-radius: 5px;
+	cursor: pointer;
 	display: none;
 	width: 3em;
 	height: 22px;
 	background-color: #5d6a7b;
 	padding: 6px 15px 5px 15px;
-	border-radius: 5px;
 	margin: 0.5em auto;
 	color: #fff;
 }
 
 #navLogout {
 	background-color: #5d6a7b;
-	border-radius: 5px;
 
   &:hover {
 		background-color: #738092;
@@ -134,7 +170,6 @@ $nav-text-color: #eee;
 }
 
 #navLogin {
-	border-radius: 5px;
 	background-color: #ec4f4f;
 
   &:hover {
@@ -143,7 +178,6 @@ $nav-text-color: #eee;
 }
 
 #navRegister {
-	border-radius: 5px;
 	background-color: #5d6a7b;
 
   &:hover {

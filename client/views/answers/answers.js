@@ -15,6 +15,16 @@ Template.answers.onRendered(function() {
 });
 
 Template.answers.helpers({
+  question: function() {
+    var id = Template.currentData();
+    return Questions.findOne({ _id: id });
+  },
+  date_format: function(timeorder){
+    return moment(timeorder).format('LLL');
+  },
+  time_format: function(timeorder){
+    return moment(timeorder).fromNow();
+  },
 	answers: function() {
     var id = Template.currentData();
 
@@ -25,26 +35,18 @@ Template.answers.helpers({
     answers.reverse()
     for(var a = 0; a < answers.length; a++) {
       answers[a].text = answers[a].text.replace(/\B(@\S+)/g, "<strong>$1</strong>");
-      var urlRegex = /(https?:\/\/(?:www\.|(?!www))[^\s\.]+\.[^\s]{2,}|www\.[^\s]+\.[^\s]{2,})/g;
+      var urlRegex = /(https?:\/\/)?(www\.)?[-a-zA-Z0-9@:%._\+~#=]{2,256}\.[a-z]{2,6}\b([-a-zA-Z0-9@:%_\+.~#?&//=]*)/gi;
       answers[a].text = answers[a].text.replace(urlRegex, function(url) {
-        if(url.charAt(url.length-1) == ")") {
-          url = url.substring(0, url.length-1);
-          var hasPeren = true;
-        }
         if(url.indexOf("http://") == -1) {
           var fullURL = "http://" + url;
         } else {
           fullURL = url;
         }
-        if(!hasPeren) {
-          return '<a target="_blank" class="questionLink" rel="nofollow" href="' + fullURL + '">' + url + '</a>';
-        } else {
-          return '<a target="_blank" class="questionLink" rel="nofollow" href="' + fullURL + '">' + url + '</a>)';
-        }
+        return '<a target="_blank" class="questionLink" rel="nofollow" href="' + fullURL + '">' + url + '</a>';
       });
     }
 
-		return answers
+		return answers;
 	}
 });
 

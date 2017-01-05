@@ -25,16 +25,9 @@ Template.list.onCreated(function () {
 	Session.set("questionLength",  Template.instance().data.max_question);
 	Session.set("responseLength",  Template.instance().data.max_response);
 	Session.set("threshhold",  Template.instance().data.threshhold);
-	Session.set("mod", false);
-	if(Meteor.user()) {
-		if( Template.instance().data.admin == Meteor.user().emails[0].address) {
-			Session.set("admin", true);
-			enableDragging();
-		} else if( Template.instance().data.moderators.indexOf(Meteor.user().emails[0].address) > -1) {
-			Session.set("mod", true);
-			enableDragging();
-		}
-	}
+	if( Meteor.user() && (Template.instance().data.admin == Meteor.user().emails[0].address || Template.instance().data.moderators.indexOf(Meteor.user().emails[0].address) > -1)) {
+		enableDragging();
+	} 
 	Session.set("stale_length",  Template.instance().data.stale_length);
 	Session.set("new_length",  Template.instance().data.new_length);
 	this.visibleQuestions = new Mongo.Collection(null);
@@ -42,7 +35,12 @@ Template.list.onCreated(function () {
 	this.state = new ReactiveDict();
 
 	this.getQuestions = function() {
-		return questions = Questions.find({instanceid: Session.get("id")});
+		var admin_mod = Meteor.user() && (Template.instance().data.admin == Meteor.user().emails[0].address || Template.instance().data.moderators.indexOf(Meteor.user().emails[0].address) > -1)
+		var query = { instanceid: Session.get("id") };
+		if(!admin_mod){
+			query.state = "normal";
+		}
+		return questions = Questions.find(query);
 	  };
 
 	this.getAnswers = function() {
@@ -63,12 +61,21 @@ Template.list.onCreated(function () {
 
 	this.autorun((computation) => {
 		// Grab the questions from the server. Need to define getQuestions as the questions we want.
-		const questions = Questions.find({instanceid: Session.get("id")}).fetch();
+		const admin_mod = Meteor.user() && (Template.instance().data.admin == Meteor.user().emails[0].address || Template.instance().data.moderators.indexOf(Meteor.user().emails[0].address) > -1)
+		const query = { instanceid: Session.get("id") };
+		if(!admin_mod){
+			query.state = "normal";
+		}
+		const questions = Questions.find(query).fetch();
 		const answers = Answers.find({instanceid: Session.get("id")}).fetch();
+		const client = Template.instance().visibleQuestions.find({instanceid: Session.get("id")}).fetch();
+		const updatedQs = hasUpdates(questions, client);
 		// If Tracker re-runs there must have been changes to the questions so we now set the state to let the user know
-		if (!computation.firstRun && this.state.get('presentMode') != true) {
+		if (!computation.firstRun && this.state.get('presentMode') != true && updatedQs) {
 		  this.state.set('hasChanges', true);
-		} else {
+		} 
+		else if (!updatedQs && !computation.firstRun){ this.state.set('hasChanges', false); }
+		else {
 		  this.syncQuestions(questions);
 		  this.syncAnswers(answers);
 		}
@@ -104,7 +111,7 @@ Template.list.helpers({
 	},
 	// Sets the template admin boolean to the Session admin variable
 	admin: function() {
-		return Session.get("admin");
+		return Meteor.user() && Meteor.user().emails[0].address === this.admin;
 	},
 	moderator: function() {
 		return Session.get("mod");
@@ -114,6 +121,17 @@ Template.list.helpers({
 	},
 	// Retrieves, orders, and modifies the questions for the chosen table
 	question: function() {
+		table_admin = false;
+		table_mod = false;
+		if(Meteor.user()){
+			user_email = Meteor.user().emails[0].address;
+			if(this.admin === user_email){
+				table_admin = true;
+			}
+			else if(this.moderators.indexOf(user_email) !== -1){
+				table_mod = true;
+			}
+		}
 		// Finds the questions from the Questions DB
 		if(Session.get("search") == "all") {
 			var questions = Template.instance().visibleQuestions.find({
@@ -160,7 +178,7 @@ Template.list.helpers({
 		});
 		// Loops through the retrieved questions and sets properties
 		for(var i = 0; i < questions.length; i++) {
-			if(questions[i].state != "disabled" || Session.get("admin") || Session.get("mod")) {
+			if(questions[i].state != "disabled" || table_mod || table_admin) {
 				var urlRegex = /(https?:\/\/(?:www\.|(?!www))[^\s\.]+\.[^\s]{2,}|www\.[^\s]+\.[^\s]{2,})/g;
 				questions[i].text = questions[i].text.replace(urlRegex, function(url) {
 					if(url.charAt(url.length-1) == ")") {
@@ -178,12 +196,10 @@ Template.list.helpers({
 						return '<a target="_blank" class="questionLink" rel="nofollow" href="' + fullURL + '">' + url + '</a>)';
 					}
 				});
-				questions[i].adminButtons = (Session.get("admin") || Session.get("mod"));
+				questions[i].adminButtons = (table_admin || table_mod);
 				// Sets the answer and modify links
 				questions[i].answerlink = "/answer/" + questions[i]._id;
 				questions[i].modifylink = "/modify/" + questions[i]._id;
-				// Gets and formats the question date
-				questions[i].f_time = timeSince(questions[i].timeorder) + " Ago";
 				var avg = (Math.max.apply(Math, voteArray) + Math.min.apply(Math, voteArray)) / 2;
 				// Uses standard deviation to set the shade of the vote box
 				var stddev = standardDeviation(voteArray) + .001;
@@ -310,21 +326,12 @@ Template.list.helpers({
 Template.list.events({
 	// When the vote button is clicked...
 	"click .voteright": function(event, template) {
-		var ip;
-		// Retrieves the user's IP address from the server
-		Meteor.call('getIP', function (error, result) {
-			ip = result;
-			if (error) { return false; };
-		});
-		//Find Vote in DOM and increment it client side
-		clientVotes.push(event.target.parentNode);
-		event.target.parentNode.innerHTML = "<span class='triangle'></span>" + (parseInt(event.target.parentNode.innerText) + 1);
-		// Calls server-side "vote" method to update the Questions and Vote DBs
-		Meteor.call('vote', event.currentTarget.id, ip, Session.get("id"), function(error, result) {
+		Meteor.call('vote', event.currentTarget.id, Session.get("id"), function(error, result) {
 			// If the result is an object, there was an error
 			if(typeof result === 'object') {
 				// Store an object of the error names and codes
 				var errorCodes = {
+					"votedbefore": "It appears that you have already voted up this question.",
 					"lasttouch": "There was an error retrieving the time. Please return to the list and try again.",
 					"votes": "There was an error incrementing the votes. Please return to the list and try again.",
 					"qid": "There was an error with the question ID. Please return to the list and try again.",
@@ -351,7 +358,7 @@ Template.list.events({
 		// Call the server-side unhide method to unhide all questions
 		Meteor.call('unhide', Session.get("id"));
 	},
-	"click .deletebutton": function(event, template) {
+	"click #deletebutton": function(event, template) {
 		var check = confirm("Are you sure you would like to delete the instance?");
 		if(check) {
 			Meteor.call('adminRemove', event.currentTarget.id, function(error, result) {
@@ -632,9 +639,6 @@ Template.list.events({
 		Tracker.flush();*/
 	},
 	"click .new-posts": function(event, template) {
-		for(i = 0; i < clientVotes.length; i++) {
-			clientVotes[i].innerHTML = "<span class='triangle'></span>";
-		}
 		Template.instance().onShowChanges();
 	},
 });
@@ -668,49 +672,6 @@ function average(data) {
 	return avg;
 }
 
-// Helper function that gets the time since a date
-function timeSince(date) {
-    if (typeof date !== 'object') {
-        date = new Date(date);
-    }
-
-    var seconds = Math.floor((new Date() - date) / 1000);
-    var intervalType;
-
-    var interval = Math.floor(seconds / 31536000);
-    if (interval >= 1) {
-        intervalType = 'Year';
-    } else {
-        interval = Math.floor(seconds / 2592000);
-        if (interval >= 1) {
-            intervalType = 'Month';
-        } else {
-            interval = Math.floor(seconds / 86400);
-            if (interval >= 1) {
-                intervalType = 'Day';
-            } else {
-                interval = Math.floor(seconds / 3600);
-                if (interval >= 1) {
-                    intervalType = "Hour";
-                } else {
-                    interval = Math.floor(seconds / 60);
-                    if (interval >= 1) {
-                        intervalType = "Minute";
-                    } else {
-                        interval = seconds;
-                        intervalType = "Second";
-                    }
-                }
-            }
-        }
-    }
-
-    if (interval > 1 || interval === 0) {
-        intervalType += 's';
-    }
-
-    return interval + ' ' + intervalType;
-};
 
 function enableDragging() {
 	Meteor.call('adminCheck', Session.get("id"), function(error, result) {
@@ -802,4 +763,13 @@ function toggleButtonText (selector) {
   var toggleText = $(selector).attr("data-toggle-text");
   $(selector).attr("data-toggle-text", oldText);
   $(selector).html(toggleText);
+}
+
+function hasUpdates(questions, client){
+	if(questions.length !== client.length) return true;
+	for(var i=0; i<questions.length; i++){
+		if(client[i]._id !== questions[i]._id)
+			return true;
+	}
+	return false;
 }

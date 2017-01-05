@@ -21,7 +21,25 @@ Template.question_div.helpers({
     var answers = Answers.find({
       qid: this._id
     })
-
     return answers.fetch().length > 0
+  },
+
+  answersCount: function () {
+  	var count = Answers.find({ qid: this._id }).fetch().length;
+  	var base = 'repl';
+  	var add = count > 1 ? 'ies' : 'y';
+  	return count + ' ' + base + add;
+  },
+
+  voteCount: function () {
+  	return Votes.find({ qid: this._id }).fetch().length;
+  },
+
+  date_format: function(timeorder){
+    return moment(timeorder).format('LLL');
+  },
+
+  time_format: function(timeorder){
+    return moment(timeorder).fromNow();
   }
 });
