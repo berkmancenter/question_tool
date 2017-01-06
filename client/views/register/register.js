@@ -12,6 +12,9 @@ Template.register.events({
 		}
 	},
 	"click #registersubmitbutton": function(event, template) {
+    console.log(Meteor.status())
+    Meteor.reconnect();
+    console.log(Meteor.status())
 		var email = document.getElementById("loginemail").value;
 		var loginName = document.getElementById("loginname").value;
 		var password1 = document.getElementById("passwordbox").value;
