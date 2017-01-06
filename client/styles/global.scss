@@ -430,19 +430,6 @@ a {
   }
 }
 
-.instance {
-	&:hover {
-		.superadminrenamebutton {
-			border: 2px solid #999999;
-			color: #999999;
-		}
-
-		.superadmindeletebutton {
-			border: 2px solid #999999;
-			color: #999999;
-		}
-	}
-}
 
 .plusbutton {
 	display: inline-block;
