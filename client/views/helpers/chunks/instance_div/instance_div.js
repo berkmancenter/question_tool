@@ -4,5 +4,8 @@ Template.instance_div.helpers ({
 	},
 	time_format: function(lasttouch){
 		return moment(lasttouch).fromNow(true);
+	},
+	date_format: function(lasttouch){
+		return moment(lasttouch).format('LLL');
 	}
 });
