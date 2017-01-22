@@ -29,6 +29,7 @@ Template.register.events({
 			var em_error = "Enter a valid email address";
 			if(email.length == 0) em_error = "Enter an email address.";
 			else if(email.length < 7 || email.length > 50) em_error += " between 7 and 50 characters.";
+			else em_error += ".";
 			showError(em_error, "inputcontainer", "loginemail");
 			return false;
 		} else if(!$('#passwordbox')[0].checkValidity()){
