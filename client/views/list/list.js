@@ -361,7 +361,7 @@ Template.list.events({
 	"click #deletebutton": function(event, template) {
 		var check = confirm("Are you sure you would like to delete the instance?");
 		if(check) {
-			Meteor.call('adminRemove', event.currentTarget.id, function(error, result) {
+			Meteor.call('adminRemove', event.currentTarget.parentNode.dataset.tableId, function(error, result) {
 				if(!error) {
 					Router.go('/');
 				}
