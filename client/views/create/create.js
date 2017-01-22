@@ -159,6 +159,6 @@ function showCreateError(reason) {
 		document.getElementById("buttonarea").disabled = false;
 	}
 	var parentNode = document.getElementById("creatediv");
-	var nextNode = document.getElementById("instancebottominputcontainer");
+	var nextNode = document.getElementById("instancetopinputcontainer");
 	currentError = Blaze.renderWithData(Template.form_error, reason, parentNode, nextNode);
 }
