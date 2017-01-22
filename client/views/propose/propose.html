@@ -1,7 +1,7 @@
 <template name="propose">
 		<div id="toparea" style="text-align: center;">
 			<div id="questiondiv">
-	      <textarea id="questioninput" maxlength="{{questionLength}}" placeholder="Type your question here..."></textarea>
+	      <textarea id="questioninput" maxlength="{{questionLength}}" placeholder="Enter text here..."></textarea>
 				<div id="topinputcontainer">
 					{{#if currentUser}}
 						<input id="questionnameinput" spellcheck="false" type="text" placeholder="Name..." value="{{currentUser.profile.name}}">
@@ -58,7 +58,7 @@
 						<span id="darkcounter">{{count}}</span>/{{questionLength}}
 					</div>
 					<div id="buttonarea">
-						Ask a question!
+						Post!
 					</div>
 				</div>
 			</div>
