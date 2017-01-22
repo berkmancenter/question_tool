@@ -578,7 +578,7 @@ Meteor.methods({
 		}
 		return result;
 	},
-	rename: function(id, name) {
+	rename: function(id, name, desc) {
 		if(Meteor.user()) {
 			var email = Meteor.user().emails[0].address;
 		} else {
@@ -590,19 +590,16 @@ Meteor.methods({
 		});
 		var hasAccess = false;
 		var originalName = originalInstance.tablename;
-		if(email) {
-			if(email === originalInstance.admin) {
-				hasAccess = true;
-			} else if(email === process.env.SUPERADMIN_EMAIL) {
-				hasAccess = true;
-			}
-		}
+		if(email && (email === originalInstance.admin || email === process.env.SUPERADMIN_EMAIL)) {
+			hasAccess = true;
+		} 
 		if(hasAccess) {
 			Instances.update({
 				_id: id
 			}, {
 				$set: {
-					tablename: name
+					tablename: name,
+					description: desc
 				}
 			}, function(error, count, status) {
 				if(!error) {

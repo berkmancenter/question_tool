@@ -4,24 +4,17 @@ Template.rename.onRendered(function() {
 	$("#darker").hide().fadeIn(400);
 });
 
-Template.rename.helpers({
-	renamename: function() {
-		return Template.instance().data.tablename;
-	},
-	renameid: function() {
-		return Template.instance().data.id;
-	}
-});
-
 Template.rename.events({
-	// When the submit button is clicked...
 	"click .renamesubmitbutton": function(event, template) {
-		// Checks whether the proper password was submitted
-		var newName = document.getElementById("namebox").value;
-		if(newName == Template.instance().data.tablename) {
+		var newName = document.getElementById("namebox").value,
+			newDesc = document.getElementById("descriptionbox").value,
+			table = Template.instance().data.table;
+		newDesc = newDesc.charAt(0).toUpperCase() + newDesc.slice(1);
+		newDesc = UniHTML.purify(newDesc, {withoutTags: ['a', 'img', 'ol', 'ul' , 'span' , 'br' , 'table' , 'caption' , 'col' , 'colgroup' , 'tbody' , 'td' , 'tfoot' , 'th' , 'thread' , 'tr' , 'li' ]});
+		if(newName == table.tablename && newDesc == table.description) {
 			return false;
 		}
-		Meteor.call('rename', Template.instance().data.id, newName, function (error, result) { 
+		Meteor.call('rename', table._id, newName, newDesc, function (error, result) { 
 			if(result == 2) {
 				showRenameError("Insufficient permissions.");
 			} else if (result == 1) {
