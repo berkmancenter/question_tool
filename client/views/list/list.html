@@ -3,8 +3,11 @@
 
 		{{> nav list=true title=tablename admin=admin }}
 		<div class="description"><p><strong>Description:</strong> {{{description}}}</p></div>
-		<div id="hiddenName">{{tablename}}</div>
-		<div id="navUnPresent">Unhide</div>
+		<div id="presentationNav">
+			<div class="pres"><span id="presName">{{tablename}}</span></div>
+			<div class="pres"><span id="presDesc">{{{description}}}</span></div>
+			<div class="pres"><span id="navUnPresent"><i class="fa fa-times"></i> Exit</span></div>
+		</div>
 		{{#if admin}}
 			<div class="admincontainer">
 				<h2>Admin Interface</h2>

@@ -596,8 +596,7 @@ Template.list.events({
 		$(".instancetitle").slideUp();
 		$(".description").slideUp();
 		$("#footer").slideUp();
-		$("#navUnPresent").fadeIn();
-		$("#hiddenName").fadeIn();
+		$("#presentationNav").fadeIn();
 		$(".admincontainer").slideUp();
 		Template.instance().state.set('presentMode', true);
 	},
@@ -606,8 +605,7 @@ Template.list.events({
 		$(".instancetitle").slideDown();
 		$(".description").slideDown();
 		$("#footer").slideDown();
-		$("#navUnPresent").fadeOut();
-		$("#hiddenName").fadeOut();
+		$("#presentationNav").fadeOut();
 		Template.instance().state.set('presentMode', true);
 	},
 	"click .hiddenMessage": function(event, template) {
