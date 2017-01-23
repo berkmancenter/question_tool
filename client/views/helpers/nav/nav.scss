@@ -2,7 +2,21 @@ $nav-bg-color: #293340;
 $nav-text-color: #eee;
 $screen-sm: 768px;
 $screen-xs: 480px;
+$screen-md: 992px;
+$screen-sm-max: ($screen-md - 1);
 
+
+
+.mobiletitle{
+	background: $nav-bg-color;
+  	color: $nav-text-color;
+  	padding-top: 1em;
+  	text-align: center;
+  	h1{
+  		margin: 0 !important;
+  		font-size: 22px;
+  	}
+}
 #nav {
 	background: $nav-bg-color;
   	color: $nav-text-color;
@@ -60,7 +74,7 @@ $screen-xs: 480px;
 }
 
 #mobile-nav {
-	@media screen and (max-width: $screen-sm){
+	@media screen and (max-width: $screen-sm-max){
 		background-color: $nav-bg-color;
 		padding: 0.5em;
 	}

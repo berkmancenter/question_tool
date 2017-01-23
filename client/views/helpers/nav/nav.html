@@ -1,5 +1,8 @@
 <template name="nav">
   <div id="nav-wrapper">
+    <div class="mobiletitle hidden-md hidden-lg">
+      <h1 class="hidden-md hidden-lg">{{this.title}}</h1>
+    </div>
   	<div id="nav" class="{{#if this.list}}{{#if currentUser}}loggedinlistbanner{{else}}loggedoutlistbanner{{/if}}{{else}}homebanner{{/if}}">
   		<h1 id="tablename" class="hidden-xs hidden-sm">
   			{{this.title}}
@@ -18,6 +21,7 @@
     				<li><a id="navShare" class="link" title="Share"><i class="fa fa-share-alt-square"></i></a></li>
     			{{/if}}
     		</ul>
+        <div>
         <ul id="navoptions">
     		{{#if currentUser}}
     			{{#if this.list}}
@@ -41,6 +45,7 @@
     			<li><a id="navRegister" class="link">Sign up</a></li>
     		{{/if}}
         </ul>
+        </div>
   	</div>
     <div id="mobile-nav">
       <input id="mobile-searchbar" class="{{#if this.list}}listsearchbar{{else}}homesearchbar{{/if}} hidden-md hidden-lg searchbar" type="text" placeholder="Search...">
