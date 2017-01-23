@@ -581,9 +581,9 @@ Template.list.events({
 	},
 	"click #renamebutton": function(event, template) {
 		var parentNode = document.getElementById("nav");
+		var table = Template.instance().data;
 		popoverTemplate = Blaze.renderWithData(Template.rename, {
-			id: Session.get("id"),
-			tablename: Session.get("tablename"),
+			table: table,
 			isList: true
 		}, parentNode);
 	},
