@@ -208,19 +208,18 @@ Template.home.events({
 		if(check) {
 			Meteor.call('adminRemove', event.currentTarget.id);
 		}
-		event.stopPropogation();
+		event.stopPropagation();
 	},
 	"click .superadminrenamebutton": function(event, template) {
 		var parentNode = document.getElementById("nav");
-		var tablename = Instances.findOne({
+		var table = Instances.findOne({
 			_id: event.currentTarget.id
-		}).tablename;
+		});
 		popoverTemplate = Blaze.renderWithData(Template.rename, {
-			id: event.currentTarget.id,
-			tablename: tablename,
+			table: table,
 			isList: false
 		}, parentNode);
-		event.stopPropogation();
+		event.stopPropagation();
 	}
 });
 
