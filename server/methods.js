@@ -159,7 +159,7 @@ Meteor.methods({
 				Questions.insert({
 					instanceid: id,
 					tablename: tablename,
-					text: "Welcome to the live question tool. Feel free to post questions. Vote by clicking on the 'vote' button. To reply, press the button in the bottom-right.",
+					text: "Welcome to the Q&A tool. Please post on this instance. Vote by clicking on the upvote icon to raise a post's prominence. Reply or share a post on facebook and twitter by clicking on the respective icons.",
 					poster: "the system",
 					timeorder: new Date().getTime() - 1000,
 					lasttouch: new Date().getTime() - 1000,
