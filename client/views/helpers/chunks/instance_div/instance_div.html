@@ -1,5 +1,5 @@
 <template name="instance_div">
-  <div class="instance-wrapper" title="Open instance">
+  <div class="instance-wrapper">
     <div id="{{_id}}" class="instance {{#if isFavorite}}favorite-instance {{else}} {{#if today}}today-instance{{/if}} {{#if week}}week-instance{{/if}} {{#if month}}month-instance{{/if}} {{/if}}">
       {{#if currentUser}}
         <div>
@@ -17,26 +17,26 @@
           <span class="favoritebutton {{#if isFavorite}}buttonFavorite{{/if}}" id="{{_id}}" title="{{#if isFavorite}}Remove from favorites{{else}}Add to favorites{{/if}}"></span>
         </div>
       {{/if}}
+      <a href="/list/{{slug}}" title="Open instance">
       <p class="instancename">
-        <a class="divLink" href="/list/{{slug}}"></a>{{tablename}}
+        {{tablename}}
       </p>
       <div class="descriptioncontainer">
         <span class="instancedescription">
   				{{strip_desc description}}
   			</span>
       </div>
+      </a>
       <div class="instance-bottom">
         <span class="posted-by-text">posted by</span> <span class="postername">{{author}}</span>
-        <span class="time"> {{time_format lasttouch}}</span>
+        <span class="time" title="{{date_format lasttouch}}"> {{time_format lasttouch}}</span>
       {{#if superadmin}}
         <div class="adminbottom">
-          <!--<a class="hideQuestion" id="{{_id}}">Hide</a>
-  				<a href="{{modifylink}}">Modify</a>-->
           <div class="superadminrenamebutton" id="{{_id}}">
-            Rename
+            <i class="fa fa-pencil-square"></i> Rename
           </div>
           <div class="superadmindeletebutton" id="{{_id}}">
-            Delete
+            <i class="fa fa-trash"></i> Delete
           </div>
         </div>
       {{/if}}

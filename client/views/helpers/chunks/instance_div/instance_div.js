@@ -7,5 +7,8 @@ Template.instance_div.helpers ({
 	},
 	strip_desc: function(description){
 		return jQuery('<p>' + description + '</p>').text();
+	},
+	date_format: function(lasttouch){
+		return moment(lasttouch).format('LLL');
 	}
 });
