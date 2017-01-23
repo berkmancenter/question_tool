@@ -26,6 +26,9 @@ Template.rename.events({
 					});
 					window.location.href = "/list/" + instance.slug;
 				}
+				else{
+					Blaze.remove(popoverTemplate);
+				}
 			}
 		});
 	},
