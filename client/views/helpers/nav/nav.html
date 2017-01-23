@@ -2,6 +2,9 @@
   <div id="nav-wrapper">
     <div class="mobiletitle hidden-md hidden-lg">
       <h1 class="hidden-md hidden-lg">{{this.title}}</h1>
+      {{#if currentUser}}
+          <a class="mobileprofile" id="navProfile hidden-md hidden-lg">Hi, {{currentUser.profile.name}}!</a>
+      {{/if}}
     </div>
   	<div id="nav" class="{{#if this.list}}{{#if currentUser}}loggedinlistbanner{{else}}loggedoutlistbanner{{/if}}{{else}}homebanner{{/if}}">
   		<h1 id="tablename" class="hidden-xs hidden-sm">
@@ -10,11 +13,7 @@
   		<input id="searchbar" class="{{#if this.list}}listsearchbar{{else}}homesearchbar{{/if}} hidden-xs hidden-sm searchbar" type="text" placeholder="Search...">
     		<ul id="navbuttons">
           {{#if currentUser}}
-            {{#if this.list}}
             <li class="no-bg hidden-xs hidden-sm"><a id="navProfile">Hi, {{currentUser.profile.name}}!</a></li>
-            {{ else }}
-            <li class="no-bg"><a id="navProfile">Hi, {{currentUser.profile.name}}!</a></li>
-            {{/if}}
           {{/if}}
     			{{#if this.list}}
             <li><a id="navHome" class="link" title="Home"><i class="fa fa-home"></i></a></li>

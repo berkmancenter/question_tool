@@ -6,7 +6,11 @@ $screen-md: 992px;
 $screen-sm-max: ($screen-md - 1);
 
 
-
+.mobileprofile{
+	color: $nav-text-color;
+	font-weight: 600;
+	font-size: 1.1em;
+}
 .mobiletitle{
 	background: $nav-bg-color;
   	color: $nav-text-color;
