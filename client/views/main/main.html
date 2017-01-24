@@ -4,12 +4,14 @@
     <div class="masonary-wrapper" id="mwrapper">
       <div id="recent">
         {{#if currentUser.profile.favorites}}
+          {{#if hasFaves currentUser.profile.favorites}}
           <div class="timesectionlabel">Favorites:</div>
           <div id="favorites" class="container">
             {{#each instanceList}}
               {{#if isFavorite}} {{> instance_div}} {{/if}}
             {{/each}}
           </div>
+          {{/if}}
         {{/if}}
         {{#if hasToday}}
           <div class="timesectionlabel">Used today:</div>

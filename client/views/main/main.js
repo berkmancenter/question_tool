@@ -15,6 +15,18 @@ Template.home.onRendered(function() {
 });
 
 Template.home.helpers({
+	hasFaves: function(faves) {
+		// removing favorites results in a favorites array with empty elements
+		// so to make sure there is never an empty "favorites" section, we have to check
+		var res = false;
+		for(var i=0; i<faves.length; i++){
+			if(faves[i]){
+				res = true;
+				break;
+			}
+		}
+		return res;
+	},
 	time_format: function(lasttouch){
 		return moment(lasttouch).fromNow();
 	},
