@@ -1,7 +1,4 @@
 
-.buttonFavorite {
-	background-image: url('/heart_filled.png') !important;
-}
 
 .adminbottom{
 	background-color: #eee;
@@ -36,16 +33,11 @@
 	border: 2px solid #ec4f4f;
 }
 
-.favoritebutton {
-  float: right;
-	background-image: url('/heart_empty.png');
-	background-size: contain;
-	background-repeat: no-repeat;
-	width: 18px;
-	height: 18px;
+.favebtn{
+	float: right;
+	color: #ec4f4f;
 	cursor: pointer;
-	z-index: 20;
-	position: relative;
+	font-size: 1.3em;
 }
 
 .instance-bottom{

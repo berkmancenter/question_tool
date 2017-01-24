@@ -163,18 +163,12 @@ Template.home.events({
 		//return Users.find({name: {$regex: re}});
 	},
 	"click .favoritebutton": function(event, template) {
-		var style = event.target.currentStyle || window.getComputedStyle(event.target, false),
-		bi = style.backgroundImage.slice(4, -1).replace(/['"]+/g, '');
 		event.stopPropagation();
-		if(bi == (event.target.baseURI + "heart_empty.png")) {
-			event.target.style.backgroundImage = "url('" + event.target.baseURI + "heart_filled.png')";
-			event.target.parentElement.style.border = "2px solid #ec4f4f";
-			Meteor.call('addFavorite', event.target.id);
-		} else {
-			event.target.style.backgroundImage = "url('" + event.target.baseURI + "heart_empty.png')";
-			event.target.parentElement.style.border = "2px solid #e9edf0";
-			Meteor.call('removeFavorite', event.target.id);
-		}
+		Meteor.call('addFavorite', event.target.parentElement.id);
+	},
+	"click .unfavoritebutton": function(event, template) {
+		event.stopPropagation();
+		Meteor.call('removeFavorite', event.target.parentElement.id);
 	},
 	"click #navCreate": function(event, template) {
 		if(Meteor.user()) {

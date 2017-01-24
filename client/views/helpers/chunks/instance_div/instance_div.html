@@ -14,7 +14,7 @@
             </span>
           {{/if}}
         {{/if}}
-          <span class="favoritebutton {{#if isFavorite}}buttonFavorite{{/if}}" id="{{_id}}" title="{{#if isFavorite}}Remove from favorites{{else}}Add to favorites{{/if}}"></span>
+          <span class="favebtn {{#if isFavorite}}unfavoritebutton{{else}}favoritebutton{{/if}}" id="{{_id}}" title="{{#if isFavorite}}Remove from favorites{{else}}Add to favorites{{/if}}"><i class="fa fa-{{#if isFavorite}}heart{{else}}heart-o{{/if}}"></i></span>
         </div>
       {{/if}}
       <a href="/list/{{slug}}" title="Open instance">
