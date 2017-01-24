@@ -593,6 +593,7 @@ Template.list.events({
 	},
 	"click #navPresent": function(event, template) {
 		$("#nav").slideUp();
+		$("#mobile-nav").slideUp();
 		$(".instancetitle").slideUp();
 		$(".description").slideUp();
 		$("#footer").slideUp();
@@ -602,6 +603,7 @@ Template.list.events({
 	},
 	"click #navUnPresent": function(event, template) {
 		$("#nav").slideDown();
+		$("#mobile-nav").slideDown();
 		$(".instancetitle").slideDown();
 		$(".description").slideDown();
 		$("#footer").slideDown();
