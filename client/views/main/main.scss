@@ -1,10 +1,18 @@
 $screen-md: 992px;
 .timesectionlabel {
-	font-size: 18px;
+	font-size: 1.4em;
 	font-weight: 600;
-	color: #888888;
-	margin: 20px 0 10px 0;
+	color: #404F64;
+	margin-bottom: 0.5em;
 }
+
+.sec-wrapper{
+	padding: 1.5em;
+	&:nth-child(even){
+		background-color: #DCE2E4;
+	}
+}
+
 
 #creatediv {
 	display: block;
