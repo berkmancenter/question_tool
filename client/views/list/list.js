@@ -361,7 +361,7 @@ Template.list.events({
 	"click #deletebutton": function(event, template) {
 		var check = confirm("Are you sure you would like to delete the instance?");
 		if(check) {
-			Meteor.call('adminRemove', event.currentTarget.id, function(error, result) {
+			Meteor.call('adminRemove', event.currentTarget.parentNode.dataset.tableId, function(error, result) {
 				if(!error) {
 					Router.go('/');
 				}
@@ -581,9 +581,9 @@ Template.list.events({
 	},
 	"click #renamebutton": function(event, template) {
 		var parentNode = document.getElementById("nav");
+		var table = Template.instance().data;
 		popoverTemplate = Blaze.renderWithData(Template.rename, {
-			id: Session.get("id"),
-			tablename: Session.get("tablename"),
+			table: table,
 			isList: true
 		}, parentNode);
 	},
@@ -592,22 +592,18 @@ Template.list.events({
 		popoverTemplate = Blaze.renderWithData(Template.modify, event.currentTarget.id, parentNode);
 	},
 	"click #navPresent": function(event, template) {
-		$("#nav").slideUp();
-		$("#mobile-nav").slideUp();
-		$(".instancetitle").slideUp();
-		$(".description").slideUp();
-		$("#footer").slideUp();
-		$("#presentationNav").fadeIn();
-		$(".admincontainer").slideUp();
+		present();
 		Template.instance().state.set('presentMode', true);
+		$(document).on("keydown", (e) => {
+			if(e.keyCode === 27){
+				unPresent();
+				$(document).off("keydown");
+				Template.instance().state.set('presentMode', false);
+			}
+		});
 	},
 	"click #navUnPresent": function(event, template) {
-		$("#nav").slideDown();
-		$("#mobile-nav").slideDown();
-		$(".instancetitle").slideDown();
-		$(".description").slideDown();
-		$("#footer").slideDown();
-		$("#presentationNav").fadeOut();
+		unPresent();
 		Template.instance().state.set('presentMode', true);
 	},
 	"click .hiddenMessage": function(event, template) {
@@ -642,6 +638,25 @@ Template.list.events({
 		Template.instance().onShowChanges();
 	},
 });
+
+function present(){
+		$("#nav-wrapper").slideUp();
+		$("#mobile-nav").slideUp();
+		$(".instancetitle").slideUp();
+		$(".description").slideUp();
+		$("#footer").slideUp();
+		$("#presentationNav").fadeIn();
+		$(".admincontainer").slideUp();
+}
+
+function unPresent(){
+		$("#nav-wrapper").slideDown();
+		$("#mobile-nav").slideDown();
+		$(".instancetitle").slideDown();
+		$(".description").slideDown();
+		$("#footer").slideDown();
+		$("#presentationNav").fadeOut();
+}
 
 function popupwindow(url, title, w, h) {
   var left = (screen.width/2)-(w/2);
