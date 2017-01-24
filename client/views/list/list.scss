@@ -114,13 +114,52 @@ $screen-sm: 768px;
 	font-size: 14px;
 	display: block;
 }
+#presentationNav{
+	display: none;
+	margin-bottom: 1em;
+	padding: 1em;
+	color: #293340;
+		.pres{
+				display: inline-block;
+				width: 33.33%;
+				&:nth-child(1){
+					float: left;
+				}
+				&:nth-child(2){
+					margin-top:0.5em;
+					text-align: center;
+				}
+				&:nth-child(3){
+					float: right;
+					text-align:right;
+				}
+			}
+		#presName{
+			font-size: 1.7em;
+			font-weight: bold;
+		}
+		#presDesc{
+			font-size: 1.2em;
+		}
+
+}
+
+
+#navUnPresent {
+	border-radius: 5px;
+	cursor: pointer;
+	width: 3em;
+	height: 22px;
+	background-color: #5d6a7b;
+	padding: 0.3em 1em 0.4em 1em;
+	margin: 0.5em auto;
+	color: #fff;
+	font-size: 1.2em;
+}
 
 #hiddenName {
-	display: none;
 	text-align: center;
-	padding-top: 10px;
 	color: #333333;
-	font-size: 24px;
 	font-weight: 700;
 }
 
