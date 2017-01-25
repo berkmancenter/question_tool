@@ -352,39 +352,42 @@ Meteor.methods({
 				}
 			}
 		}
-		var question2 = Questions.findOne({
-			_id: id2
-		});
+
 		// Updates the text of the FIRST question
-		Questions.update({
-			_id: id1
-		}, {
-			$set: {
-				lasttouch: new Date().getTime() - 1000,
-				text: question
-			}, 
-			$inc: {
-				votes: question2.votes
-			}
-		}, function(error, count, status) {
-			if(error) {
-				return false;
-			} else {
-				// Sets the QID of the answers to the second question to the first QID of the first question (combining them)
-				Answers.update({
-					qid: id2
-				}, {
-					$set: {
-						qid: id1
-					}
-				}, function(error, count, status) {
-					if(error) {
-						return false;
-					} else {
-						
-					}
-				});
-			}		
+		Questions.update({ _id: id1 }, 
+			{
+				$set: { lasttouch: new Date().getTime() - 1000, text: question }
+			},
+			function(error, count, status) {
+				if(error) {
+					return false;
+				} else {
+					// Sets the QID of the answers to the second question to the first QID of the first question (combining them)
+					Answers.update({
+						qid: id2
+					}, {
+						$set: {
+							qid: id1
+						}
+					}, {
+						multi: true
+					});
+
+					// Migrate votes
+					// 1. Get all the unique votes for both questions
+					var votes = Votes.aggregate([
+						{ $match: { qid: {$in: [id1, id2] } } },
+						{ $group: { _id: "$ip" } }
+					]);
+					// 2. Remove Q1's votes
+					Votes.remove({ qid: id1 });
+					// 3. Insert unique combined votes
+					Array.from(votes).forEach(function(ip){
+						Votes.insert({ qid: id1, ip: ip._id, instanceid: instanceid });
+					});
+					// 4. Update votes count
+					Questions.update({ _id: id1 }, { $set: { votes: votes.length } });
+				}		
 		});
 	},
 	// Method that adds a new question to the database
