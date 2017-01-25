@@ -124,20 +124,17 @@ $screen-md-max:              ($screen-lg-min - 1);
 
 // for xs and sm
 
-@media (max-width: $screen-xs-max) {
+@media (max-width: $screen-sm-max) {
   #nav {
     padding-left: 0;
-    padding-right: 0;
+    padding-right: 0.5em;
+    justify-content: flex-end;
   }
 
   #navButtons {
     float: left !important;
   }
 
-  .masonary-wrapper {
-    padding-left: 10px;
-    padding-right: 10px;
-  }
 
   .formcontainer {
     width: 90%;

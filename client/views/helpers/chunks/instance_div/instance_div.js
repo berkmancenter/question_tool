@@ -4,5 +4,11 @@ Template.instance_div.helpers ({
 	},
 	time_format: function(lasttouch){
 		return moment(lasttouch).fromNow(true);
+	},
+	strip_desc: function(description){
+		return jQuery('<p>' + description + '</p>').text();
+	},
+	date_format: function(lasttouch){
+		return moment(lasttouch).format('LLL');
 	}
 });

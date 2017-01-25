@@ -2,9 +2,12 @@
 	<div class="wrapper" id="main-wrapper">
 
 		{{> nav list=true title=tablename admin=admin }}
-		<div class="description"><p><strong>Description:</strong> {{{description}}}</p></div>
-		<div id="hiddenName">{{tablename}}</div>
-		<div id="navUnPresent">Unhide</div>
+		<div class="description" title="Description">{{{description}}}</div>
+		<div id="presentationNav">
+			<div class="pres"><span id="presName">{{tablename}}</span></div>
+			<div class="pres"><span id="presDesc">{{{description}}}</span></div>
+			<div class="pres"><span id="navUnPresent"><i class="fa fa-times"></i> Exit</span></div>
+		</div>
 		{{#if admin}}
 			<div class="admincontainer">
 				<h2>Admin Interface</h2>
@@ -13,11 +16,11 @@
 				<a id="{{id}}" class="deletebutton">Delete this instance</a> ::
 				<a href="/add" class="modbutton">Add moderators</a> ::
 				<a href="/rename/{{id}}">Rename this instance</a>-->
-				<ul id="admin-button-list">
+				<ul id="admin-button-list" data-table-id="{{id}}">
 					<li id="unhidebutton">Unhide all</li>
 					<li id="deletebutton">Delete instance</li>
 					<li id="modbutton">Add moderators</li>
-					<li id="renamebutton">Rename instance</li>
+					<li id="renamebutton">Edit instance</li>
 				</ul>
 			</div>
 		{{/if}}

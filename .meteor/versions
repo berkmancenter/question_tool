@@ -60,6 +60,8 @@ matb33:collection-hooks@0.8.4
 mdg:validation-error@0.5.1
 meteor@1.2.17
 meteor-base@1.0.4
+meteorhacks:aggregate@1.3.0
+meteorhacks:collection-utils@1.2.0
 meteorhacks:fast-render@2.16.0
 meteorhacks:inject-data@2.0.0
 meteorhacks:meteorx@1.4.1
@@ -75,6 +77,7 @@ modules-runtime@0.7.6
 momentjs:moment@2.17.1
 mongo@1.1.12
 mongo-id@1.0.5
+mongo-livedata@1.0.12
 msavin:mongol@2.0.1
 npm-bcrypt@0.9.1
 npm-mongo@1.5.49

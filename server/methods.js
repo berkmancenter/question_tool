@@ -159,7 +159,7 @@ Meteor.methods({
 				Questions.insert({
 					instanceid: id,
 					tablename: tablename,
-					text: "Welcome to the live question tool. Feel free to post questions. Vote by clicking on the 'vote' button. To reply, press the button in the bottom-right.",
+					text: "Welcome to the Q&A tool. Please post on this instance. Vote by clicking on the upvote icon to raise a post's prominence. Reply or share a post on facebook and twitter by clicking on the respective icons.",
 					poster: "the system",
 					timeorder: new Date().getTime() - 1000,
 					lasttouch: new Date().getTime() - 1000,
@@ -352,39 +352,42 @@ Meteor.methods({
 				}
 			}
 		}
-		var question2 = Questions.findOne({
-			_id: id2
-		});
+
 		// Updates the text of the FIRST question
-		Questions.update({
-			_id: id1
-		}, {
-			$set: {
-				lasttouch: new Date().getTime() - 1000,
-				text: question
-			}, 
-			$inc: {
-				votes: question2.votes
-			}
-		}, function(error, count, status) {
-			if(error) {
-				return false;
-			} else {
-				// Sets the QID of the answers to the second question to the first QID of the first question (combining them)
-				Answers.update({
-					qid: id2
-				}, {
-					$set: {
-						qid: id1
-					}
-				}, function(error, count, status) {
-					if(error) {
-						return false;
-					} else {
-						
-					}
-				});
-			}		
+		Questions.update({ _id: id1 }, 
+			{
+				$set: { lasttouch: new Date().getTime() - 1000, text: question }
+			},
+			function(error, count, status) {
+				if(error) {
+					return false;
+				} else {
+					// Sets the QID of the answers to the second question to the first QID of the first question (combining them)
+					Answers.update({
+						qid: id2
+					}, {
+						$set: {
+							qid: id1
+						}
+					}, {
+						multi: true
+					});
+
+					// Migrate votes
+					// 1. Get all the unique votes for both questions
+					var votes = Votes.aggregate([
+						{ $match: { qid: {$in: [id1, id2] } } },
+						{ $group: { _id: "$ip" } }
+					]);
+					// 2. Remove Q1's votes
+					Votes.remove({ qid: id1 });
+					// 3. Insert unique combined votes
+					Array.from(votes).forEach(function(ip){
+						Votes.insert({ qid: id1, ip: ip._id, instanceid: instanceid });
+					});
+					// 4. Update votes count
+					Questions.update({ _id: id1 }, { $set: { votes: votes.length } });
+				}		
 		});
 	},
 	// Method that adds a new question to the database
@@ -578,7 +581,7 @@ Meteor.methods({
 		}
 		return result;
 	},
-	rename: function(id, name) {
+	rename: function(id, name, desc) {
 		if(Meteor.user()) {
 			var email = Meteor.user().emails[0].address;
 		} else {
@@ -590,19 +593,16 @@ Meteor.methods({
 		});
 		var hasAccess = false;
 		var originalName = originalInstance.tablename;
-		if(email) {
-			if(email === originalInstance.admin) {
-				hasAccess = true;
-			} else if(email === process.env.SUPERADMIN_EMAIL) {
-				hasAccess = true;
-			}
-		}
+		if(email && (email === originalInstance.admin || email === process.env.SUPERADMIN_EMAIL)) {
+			hasAccess = true;
+		} 
 		if(hasAccess) {
 			Instances.update({
 				_id: id
 			}, {
 				$set: {
-					tablename: name
+					tablename: name,
+					description: desc
 				}
 			}, function(error, count, status) {
 				if(!error) {
@@ -738,18 +738,18 @@ Meteor.methods({
 		}
 	},
 	register: function(email, password, profileName) {
-		var re = /^([\w-]+(?:\.[\w-]+)*)@((?:[\w-]+\.)*\w[\w-]{0,66})\.([a-z]{2,6}(?:\.[a-z]{2})?)$/i;
+		var re = /^[a-zA-Z0-9.!#$%&’*+/=?^_`{|}~-]+@[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,253}[a-zA-Z0-9])?(?:\.[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,253}[a-zA-Z0-9])?)*$/i;
 		if(!email || !profileName) {
 			return 1;
 		} else if(!re.test(email)) {
 			return 2;
 		} else if(Meteor.users.findOne({ "emails.address" : email })) {
 			return 3;
-		} else if(profileName.length >= 30) {
+		} else if(profileName.length > 30) {
 			return 4;
-		} else if(email.length >= 50 || email.length <= 7) {
+		} else if(email.length > 50 || email.length < 7) {
 			return 5;
-		} else if(password.length >= 30 || password.length <= 6) {
+		} else if(password.length > 30 || password.length < 6) {
 			return 6;
 		} else {
 			return Accounts.createUser({

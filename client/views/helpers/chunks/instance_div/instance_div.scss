@@ -1,6 +1,24 @@
 
-.buttonFavorite {
-	background-image: url('/heart_filled.png') !important;
+
+.adminbottom{
+	background-color: #eee;
+	padding: 0.2em;
+	padding-left: 0.4em;
+	padding-right: 0.4em;
+	border-radius: 5px;
+	margin-top: 0.3em;
+}
+
+.adminbottom div{
+	text-transform: uppercase;
+	font-weight: bold;
+	color: #2c3e50;
+	font-size: 0.85em;
+	cursor: pointer;
+	transition-duration: 0.3s;
+	&:hover{
+		opacity: 0.7;
+	}
 }
 
 
@@ -15,16 +33,11 @@
 	border: 2px solid #ec4f4f;
 }
 
-.favoritebutton {
-  float: right;
-	background-image: url('/heart_empty.png');
-	background-size: contain;
-	background-repeat: no-repeat;
-	width: 18px;
-	height: 18px;
+.favebtn{
+	float: right;
+	color: #ec4f4f;
 	cursor: pointer;
-	z-index: 20;
-	position: relative;
+	font-size: 1.3em;
 }
 
 .instance-bottom{
@@ -45,7 +58,7 @@
 	padding: 8px 12px;
   	margin-bottom: 12px;
 	position: relative;
-	word-break: break-all;
+	word-break: break-word;
 	min-height: 10em;
 }
 

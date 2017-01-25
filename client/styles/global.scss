@@ -58,8 +58,7 @@ a {
 }
 
 .masonary-wrapper {
-  padding-left: 20px;
-  padding-right: 20px;
+  padding: 0;
   margin: 0 auto;
 }
 
@@ -396,6 +395,7 @@ a {
 #checkarea2 {
 	width: 180px;
 	float: left;
+	padding-top: 13px;
 }
 
 #toparea {
@@ -430,19 +430,6 @@ a {
   }
 }
 
-.instance {
-	&:hover {
-		.superadminrenamebutton {
-			border: 2px solid #999999;
-			color: #999999;
-		}
-
-		.superadmindeletebutton {
-			border: 2px solid #999999;
-			color: #999999;
-		}
-	}
-}
 
 .plusbutton {
 	display: inline-block;
