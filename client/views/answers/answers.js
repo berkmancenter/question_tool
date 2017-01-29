@@ -1,17 +1,17 @@
 Template.answers.onCreated(function () {
-	// Checks whether the user has a valid table cookie
-	Meteor.call('cookieCheck', Session.get("tablename"), function (error, result) {
-		if(!result) {
-			// If not, redirect back to the chooser page
-			window.location.href = "/";
-		}
-	});
+  // Checks whether the user has a valid table cookie
+  Meteor.call('cookieCheck', Session.get("tablename"), function (error, result) {
+    if(!result) {
+      // If not, redirect back to the chooser page
+      window.location.href = "/";
+    }
+  });
 });
 
 Template.answers.onRendered(function() {
-	// When the template is rendered, sets the document title
-	$(".formcontainer").hide().fadeIn(400);
-	$("#darker").hide().fadeIn(400);
+  // When the template is rendered, sets the document title
+  $(".formcontainer").hide().fadeIn(400);
+  $("#darker").hide().fadeIn(400);
 });
 
 Template.answers.helpers({
@@ -25,7 +25,7 @@ Template.answers.helpers({
   time_format: function(timeorder){
     return moment(timeorder).fromNow();
   },
-	answers: function() {
+  answers: function() {
     var id = Template.currentData();
 
     var answers = Answers.find({
@@ -46,15 +46,15 @@ Template.answers.helpers({
       });
     }
 
-		return answers;
-	}
+    return answers;
+  }
 });
 
 Template.answers.events({
-	"click #darker": function(event, template) {
-		$(".formcontainer").fadeOut(400);
-		$("#darker").fadeOut(400, function() {
-			Blaze.remove(popoverTemplate);
-		});
-	}
+  "click #darker": function(event, template) {
+    $(".formcontainer").fadeOut(400);
+    $("#darker").fadeOut(400, function() {
+      Blaze.remove(popoverTemplate);
+    });
+  }
 });
