@@ -41,3 +41,4 @@ ryanswapp:interactjs
 fortawesome:fontawesome
 momentjs:moment
 meteorhacks:aggregate
+dispatch:mocha-phantomjs
