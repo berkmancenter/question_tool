@@ -1,3 +1,3 @@
-Template.form_error.onRendered(function() {
-  $(".error").hide().fadeIn(400);
+Template.form_error.onRendered(() => {
+  $('.error').hide().fadeIn(400);
 });

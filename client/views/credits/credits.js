@@ -1,11 +1,10 @@
-Template.credits.onRendered(function() {
+Template.credits.onRendered(() => {
   // Sets the document title when the template is rendered
-  $(".formcontainer").hide().fadeIn(400);
-
+  $('.formcontainer').hide().fadeIn(400);
 });
 
 Template.credits.events({
-  "click .closecontainer": function(event, template) {
+  'click .closecontainer': function (event, template) {
     Blaze.remove(popoverTemplate);
-  }
+  },
 });

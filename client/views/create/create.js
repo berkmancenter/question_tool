@@ -1,124 +1,124 @@
-Template.create.onRendered(function() {
-  document.getElementById("allowanoncheck").style.display = "block";
+Template.create.onRendered(() => {
+  document.getElementById('allowanoncheck').style.display = 'block';
 });
 
 Template.create.events({
-  "click .checkbox": function(event, template) {
-    //console.log(event);
-    //return false;
-    var checked = event.target.firstElementChild;
-    if(checked.style.display == "none" || !checked.style.display) {
-      if(event.target.id == "advancedbox") {
-        $("#instancebottominputcontainer").css("display", "flex").hide().slideDown();
+  'click .checkbox': function (event, template) {
+    // console.log(event);
+    // return false;
+    const checked = event.target.firstElementChild;
+    if (checked.style.display == 'none' || !checked.style.display) {
+      if (event.target.id == 'advancedbox') {
+        $('#instancebottominputcontainer').css('display', 'flex').hide().slideDown();
       }
-      checked.style.display = "block";
+      checked.style.display = 'block';
     } else {
-      checked.style.display = "none";
-      if(event.target.id == "advancedbox") {
-        $("#instancebottominputcontainer").slideUp();
+      checked.style.display = 'none';
+      if (event.target.id == 'advancedbox') {
+        $('#instancebottominputcontainer').slideUp();
       }
     }
   },
-  "click .checked": function(event, template) {
-    //console.log(event);
-    //return false;
-    var checked = event.target;
-    if(checked.style.display == "none" || !checked.style.display) {
-      if(event.target.id == "advancedcheck") {
-        $("#instancebottominputcontainer").slideDown();
+  'click .checked': function (event, template) {
+    // console.log(event);
+    // return false;
+    const checked = event.target;
+    if (checked.style.display == 'none' || !checked.style.display) {
+      if (event.target.id == 'advancedcheck') {
+        $('#instancebottominputcontainer').slideDown();
       }
-      checked.style.display = "block";
+      checked.style.display = 'block';
     } else {
-      if(event.target.id == "advancedcheck") {
-        $("#instancebottominputcontainer").slideUp();
+      if (event.target.id == 'advancedcheck') {
+        $('#instancebottominputcontainer').slideUp();
       }
-      checked.style.display = "none";
+      checked.style.display = 'none';
     }
   },
-  "click .instancemodsplus": function(event, template) {
-    var spacers = document.getElementsByClassName("emptyinputspacer");
-    if(spacers.length < 4) {
-      var lastDiv = spacers[spacers.length-1];
-      $(".instancemodsinput").removeClass("lastmodinput");
-      $(".plusbuttoncontainer").removeClass("lastmodinput");
-      $(".instancemodsplus").remove();
-      $('<input class="instancemodsinput lastmodinput" type="text" placeholder="Moderator email..."><div class="emptyinputspacer lastinputspacer"><div class="plusbuttoncontainer"><div class="instancemodsplus">+</div></div></div>').insertAfter(".lastinputspacer").last();
-      $(".lastinputspacer").first().removeClass("lastinputspacer");
-      $('#instancebottominputcontainer').height(function (index, height) {
-          return (height + 50);
+  'click .instancemodsplus': function (event, template) {
+    const spacers = document.getElementsByClassName('emptyinputspacer');
+    if (spacers.length < 4) {
+      const lastDiv = spacers[spacers.length - 1];
+      $('.instancemodsinput').removeClass('lastmodinput');
+      $('.plusbuttoncontainer').removeClass('lastmodinput');
+      $('.instancemodsplus').remove();
+      $('<input class="instancemodsinput lastmodinput" type="text" placeholder="Moderator email..."><div class="emptyinputspacer lastinputspacer"><div class="plusbuttoncontainer"><div class="instancemodsplus">+</div></div></div>').insertAfter('.lastinputspacer').last();
+      $('.lastinputspacer').first().removeClass('lastinputspacer');
+      $('#instancebottominputcontainer').height((index, height) => {
+        return (height + 50);
       });
     } else {
       showCreateError("You've reached the maximum # of moderators (4).");
       return false;
     }
   },
-  "click #buttonarea": function(event, template) {
-    if(!Meteor.user()) {
+  'click #buttonarea': function (event, template) {
+    if (!Meteor.user()) {
       return false;
     }
-    //document.getElementById("buttonarea").disabled = true;
-    var anonElement = document.getElementById("allowanoncheck");
-    var anonymous;
-    if(anonElement.style.display) {
-      anonymous = (anonElement.style.display != "none");
+    // document.getElementById("buttonarea").disabled = true;
+    const anonElement = document.getElementById('allowanoncheck');
+    let anonymous;
+    if (anonElement.style.display) {
+      anonymous = (anonElement.style.display != 'none');
     } else {
       anonymous = false;
     }
     // Retrieve data from the form
-    var tablename = document.getElementById("instancenameinput").value;
+    let tablename = document.getElementById('instancenameinput').value;
     // Ensures that the table name is capitalzied
     tablename = tablename.charAt(0).toUpperCase() + tablename.slice(1);
-    //var password = document.getElementsByName("pword1")[0].value;
-    //var passwordConfirm = document.getElementsByName("pword2")[0].value;
-    var threshholdSelect = document.getElementsByName("threshold")[0],
+    // var password = document.getElementsByName("pword1")[0].value;
+    // var passwordConfirm = document.getElementsByName("pword2")[0].value;
+    let threshholdSelect = document.getElementsByName('threshold')[0],
       threshhold = threshholdSelect[threshholdSelect.selectedIndex].value,
-      lengthSelect = document.getElementsByName("new_length")[0],
+      lengthSelect = document.getElementsByName('new_length')[0],
       redLength = lengthSelect[lengthSelect.selectedIndex].value,
-      staleSelect = document.getElementsByName("stale_length")[0],
+      staleSelect = document.getElementsByName('stale_length')[0],
       stale = staleSelect[staleSelect.selectedIndex].value,
-      questionSelect = document.getElementsByName("max_question")[0],
+      questionSelect = document.getElementsByName('max_question')[0],
       maxQuestion = questionSelect[questionSelect.selectedIndex].value,
-      responseSelect = document.getElementsByName("max_response")[0],
+      responseSelect = document.getElementsByName('max_response')[0],
       maxResponse = responseSelect[responseSelect.selectedIndex].value,
-      description = document.getElementById("instancedescriptioninput").value,
+      description = document.getElementById('instancedescriptioninput').value,
       admin = Meteor.user().emails[0].address,
-      hiddenSelector = document.getElementsByName("visibility")[0],
-      isHidden = (hiddenSelector[hiddenSelector.selectedIndex].value == "hidden"),
+      hiddenSelector = document.getElementsByName('visibility')[0],
+      isHidden = (hiddenSelector[hiddenSelector.selectedIndex].value == 'hidden'),
       author = Meteor.user().profile.name;
     // Ensures that the table description is capitalized
     description = description.charAt(0).toUpperCase() + description.slice(1);
-    description = UniHTML.purify(description, {withoutTags: ['a', 'img', 'ol', 'ul' , 'span' , 'br' , 'table' , 'caption' , 'col' , 'colgroup' , 'tbody' , 'td' , 'tfoot' , 'th' , 'thread' , 'tr' , 'li' ]});
+    description = UniHTML.purify(description, { withoutTags: ['a', 'img', 'ol', 'ul', 'span', 'br', 'table', 'caption', 'col', 'colgroup', 'tbody', 'td', 'tfoot', 'th', 'thread', 'tr', 'li'] });
     // If the passwords don't match, alert the user
-    /*if(password != passwordConfirm) {
+    /* if(password != passwordConfirm) {
       alert("Passwords do not match. Please try again.");
       return false;
     }*/
-    var modsInput = document.getElementsByClassName("instancemodsinput");
-    var mods = [];
-    for(var m = 0; m < modsInput.length; m++) {
-      if(modsInput[m].checkValidity()){
-        if(modsInput[m].value) {
+    const modsInput = document.getElementsByClassName('instancemodsinput');
+    const mods = [];
+    for (let m = 0; m < modsInput.length; m++) {
+      if (modsInput[m].checkValidity()) {
+        if (modsInput[m].value) {
           mods.push(modsInput[m].value.trim());
         }
       }
-      else{
-        showCreateError(modsInput[m].value + " is not a valid email.");
+      else {
+        showCreateError(modsInput[m].value + ' is not a valid email.');
         return false;
       }
     }
-    //console.log(mods);
+    // console.log(mods);
     // Calls the 'create' function on the server to add Instance to the DB
-    Meteor.call('create', tablename, threshhold, redLength, stale, description, mods,/*passwordConfirm,*/ admin, maxQuestion, maxResponse, anonymous, isHidden, author, function (error, result) {
+    Meteor.call('create', tablename, threshhold, redLength, stale, description, mods, /* passwordConfirm,*/ admin, maxQuestion, maxResponse, anonymous, isHidden, author, (error, result) => {
       // If the result is an object, there was an error
-      if(typeof result === 'object') {
+      if (typeof result === 'object') {
         // Store an object of the error names and codes
-        var errorCodes = {
-          "tablename": "Please enter a valid instance name using only letters and numbers, no spaces.",
-          "threshhold": "Please enter a valid # of 'featured' questions using the drop down menu.",
-          "new_length": "Please enter a valid value using the 'new questions' drop down menu.",
-          "stale_length": "Please enter a valid value using the 'old questions' drop down menu.",
-          "description": "Please enter a valid description under 255 characters.",
-          "modlength": "You have entered too many moderators. Please try again."/*,
+        const errorCodes = {
+          'tablename': 'Please enter a valid instance name using only letters and numbers, no spaces.',
+          'threshhold': "Please enter a valid # of 'featured' questions using the drop down menu.",
+          'new_length': "Please enter a valid value using the 'new questions' drop down menu.",
+          'stale_length': "Please enter a valid value using the 'old questions' drop down menu.",
+          'description': 'Please enter a valid description under 255 characters.',
+          'modlength': 'You have entered too many moderators. Please try again.', /* ,
           "password": "Please enter a valid password using letters, numbers, *, #, @, and between 4 and 10 characters."*/
         };
         // Alert the error
@@ -126,39 +126,39 @@ Template.create.events({
         return false;
       } else {
         Blaze.remove(dropDownTemplate);
-        $("#navCreate").html("+ Create");
-        document.getElementById("navCreate").style.backgroundColor = "#27ae60";
-        $("#toparea").slideUp();
+        $('#navCreate').html('+ Create');
+        document.getElementById('navCreate').style.backgroundColor = '#27ae60';
+        $('#toparea').slideUp();
         console.log(result);
       }
     });
   },
-  "keypress #instancedescriptioninput": function(event, template) {
+  'keypress #instancedescriptioninput': function (event, template) {
     event.which = event.which || event.keyCode;
-    if(event.which == 13) {
+    if (event.which == 13) {
       event.preventDefault();
-      document.getElementById("buttonarea").click();
+      document.getElementById('buttonarea').click();
     }
   },
-  "keypress .instancemodsinput": function(event, template) {
+  'keypress .instancemodsinput': function (event, template) {
     event.which = event.which || event.keyCode;
-    if(event.which == 13) {
+    if (event.which == 13) {
       event.preventDefault();
-      var last = document.getElementsByClassName("lastinputspacer")[0];
-      var lastPlus = last.children[0].children[0];
+      let last = document.getElementsByClassName('lastinputspacer')[0];
+      const lastPlus = last.children[0].children[0];
       lastPlus.click();
-      last = document.getElementsByClassName("lastinputspacer")[0];
+      last = document.getElementsByClassName('lastinputspacer')[0];
       last.previousSibling.focus();
     }
-  }
+  },
 });
 
 function showCreateError(reason) {
-  if(typeof currentError != "undefined") {
+  if (typeof currentError != 'undefined') {
     Blaze.remove(currentError);
-    document.getElementById("buttonarea").disabled = false;
+    document.getElementById('buttonarea').disabled = false;
   }
-  var parentNode = document.getElementById("creatediv");
-  var nextNode = document.getElementById("instancetopinputcontainer");
+  const parentNode = document.getElementById('creatediv');
+  const nextNode = document.getElementById('instancetopinputcontainer');
   currentError = Blaze.renderWithData(Template.form_error, reason, parentNode, nextNode);
 }

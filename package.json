@@ -10,6 +10,30 @@
     "parserOptions": {
       "allowImportExportEverywhere": true
     },
+    "env": {
+      "meteor": true,
+      "browser": true,
+      "jquery": true
+    },
+    "globals": {
+      // 1. Table names
+      "Instances": false,
+      "Questions": false,
+      "Answers": false,
+      "Votes": false,
+      // 2. Template names
+      "currentError": true,
+      "popoverTemplate": false,
+      "dropDownTemplate": false,
+      "replyError": false,
+      // 3. Package global vars
+      "moment": false,
+      "Iron": false,
+      "UniHTML": false,
+      "interact": false,
+      "SimpleSchema": false,
+      "SyncedCron": false
+    },
     "plugins": [
       "meteor"
     ],
