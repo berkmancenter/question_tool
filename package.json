@@ -34,8 +34,7 @@
     "plugins": [
     ],
     "extends": [
-      "airbnb",
-      "plugin:meteor/recommended"
+      "airbnb"
     ],
     "settings": {
       "import/resolver": "meteor"
