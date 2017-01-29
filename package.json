@@ -3,8 +3,7 @@
     "lint": "eslint .",
     "pretest": "npm run lint --silent",
     "test": "meteor test --once --driver-package dispatch:mocha-phantomjs",
-    "test:watch": "TEST_WATCH=1 meteor test --driver-package dispatch:mocha-phantomjs",
-    "start": "meteor"
+    "test:watch": "TEST_WATCH=1 meteor test --driver-package dispatch:mocha-phantomjs"
   },
   "eslintConfig": {
     "parser": "babel-eslint",
