@@ -1,3 +1,4 @@
+/* eslint-disable func-names, no-unused-vars */
 Template.nav.events({
   'click #navLogout': function (event, template) {
     Meteor.logout();
@@ -17,10 +18,9 @@ Template.nav.events({
     popoverTemplate = Blaze.render(Template.register, parentNode);
   },
   'click #navAdmin': function (event, template) {
-    if ($('.admincontainer').css('display') == 'none') {
+    if ($('.admincontainer').css('display') === 'none') {
       $('.admincontainer').css('display', 'flex').hide().slideDown();
-    }
-    else {
+    } else {
       $('.admincontainer').slideUp();
     }
   },
@@ -37,12 +37,5 @@ Template.nav.events({
   },
 });
 
+/* eslint-enable func-names, no-unused-vars */
 
-function showError(reason, parentElement, nextElement) {
-  if (typeof currentError != 'undefined') {
-    Blaze.remove(currentError);
-  }
-  const parentNode = document.getElementsByClassName(parentElement)[0];
-  const nextNode = document.getElementById(nextElement);
-  currentError = Blaze.renderWithData(Template.form_error, reason, parentNode, nextNode);
-}

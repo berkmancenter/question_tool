@@ -16,14 +16,14 @@
       "jquery": true
     },
     "globals": {
-      "Instances": false,
-      "Questions": false,
-      "Answers": false,
-      "Votes": false,
+      "Instances": true,
+      "Questions": true,
+      "Answers": true,
+      "Votes": true,
       "currentError": true,
-      "popoverTemplate": false,
-      "dropDownTemplate": false,
-      "replyError": false,
+      "popoverTemplate": true,
+      "dropDownTemplate": true,
+      "replyError": true,
       "moment": false,
       "Iron": false,
       "UniHTML": false,
@@ -39,6 +39,15 @@
     "settings": {
       "import/resolver": "meteor"
     },
-    "rules": {}
+    "rules": {
+      "no-plusplus": 0,
+      "consistent-return": 1,
+      "prefer-template": 0,
+      "no-underscore-dangle": 0,
+      "no-param-reassign": 0,
+      "max-len": 1,
+      "no-alert": 1,
+      "no-mixed-operators": 1
+    }
   }
 }

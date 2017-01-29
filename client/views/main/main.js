@@ -1,3 +1,12 @@
+function showCreateError(reason) {
+  if (typeof currentError !== 'undefined') {
+    Blaze.remove(currentError);
+  }
+  const parentNode = document.getElementById('recent');
+  const nextNode = document.getElementById('questionscontainer');
+  currentError = Blaze.renderWithData(Template.form_error, reason, parentNode, nextNode);
+}
+
 Template.home.onCreated(() => {
   Session.set('search', '');
 });
@@ -51,7 +60,6 @@ Template.home.helpers({
   },
   hasWeek() {
     const instances = Template.instance().data;
-    let hw;
     for (let i = 0; i < instances.length; i++) {
       if (instances[i].lasttouch > (new Date().getTime() - 604800000)) {
         if (instances[i].lasttouch < (new Date().getTime() - 86400000)) {
@@ -74,11 +82,12 @@ Template.home.helpers({
   },
   instanceList() {
     const re = new RegExp(Session.get('search'), 'i');
-    if (Session.get('search') == 'all') {
-      var instances = Template.instance().data;
+    let instances;
+    if (Session.get('search') === 'all') {
+      instances = Template.instance().data;
     } else {
-      var instances = Instances.find({
-        '$or': [{
+      instances = Instances.find({
+        $or: [{
           tablename: {
             $regex: re,
           },
@@ -93,20 +102,18 @@ Template.home.helpers({
         }],
       }).fetch();
     }
-    instances.sort((a, b) => {
-      return b.lasttouch - a.lasttouch;
-    });
+    instances.sort((a, b) => (b.lasttouch - a.lasttouch));
     for (let i = 0; i < instances.length; i++) {
       if (Meteor.user()) {
         if (Meteor.user().profile.favorites) {
-          if (Meteor.user().profile.favorites.indexOf(instances[i]._id) != -1) {
+          if (Meteor.user().profile.favorites.indexOf(instances[i]._id) !== -1) {
             instances[i].isFavorite = true;
           }
         }
-        if (instances[i].admin == Meteor.user().emails[0].address) {
+        if (instances[i].admin === Meteor.user().emails[0].address) {
           instances[i].isAdmin = true;
         } else if (instances[i].moderators) {
-          if (instances[i].moderators.indexOf(Meteor.user().emails[0].address) != -1) {
+          if (instances[i].moderators.indexOf(Meteor.user().emails[0].address) !== -1) {
             instances[i].isMod = true;
           }
         }
@@ -130,41 +137,15 @@ Template.home.helpers({
     }
     if (instances.length < 1) {
       showCreateError('Nothing found.');
-    }
-    else {
-      if (typeof currentError != 'undefined') {
-        Blaze.remove(currentError);
-      }
+    } else if (typeof currentError !== 'undefined') {
+      Blaze.remove(currentError);
     }
     return instances;
   },
 });
 
+/* eslint-disable func-names, no-unused-vars */
 Template.home.events({
-  'click .deletebutton': function (event, template) {
-    const check = confirm('Are you sure you would like to delete the instance?');
-    if (check) {
-      Meteor.call('adminRemove', event.currentTarget.id);
-    }
-  },
-  'click .renamebutton': function (event, template) {
-    if (event.currentTarget.children[0].id == 'rename') {
-      event.currentTarget.children[0].innerHTML = 'Done';
-      event.currentTarget.children[0].id = 'done';
-      var tableNode = event.currentTarget.parentNode.parentNode.children[0];
-      const tableName = tableNode.children[0].children[0].innerHTML;
-      tableNode.children[0].style.display = 'none';
-      tableNode.children[1].className = 'visibleinput';
-    } else if (event.currentTarget.children[0].id == 'done') {
-      var tableNode = event.currentTarget.parentNode.parentNode.children[0];
-      tableNode.children[0].style.display = 'inline';
-      tableNode.children[1].className = 'hiddeninput';
-      Meteor.call('rename', event.currentTarget.id, tableNode.children[1].value, (error, result) => {
-        event.currentTarget.children[0].innerHTML = 'Rename';
-      });
-      event.currentTarget.children[0].id = 'rename';
-    }
-  },
   // When the submit button is clicked
   'keyup .searchbar': function (event, template) {
     if (event.target.value) {
@@ -183,29 +164,30 @@ Template.home.events({
     Meteor.call('removeFavorite', event.target.parentElement.id);
   },
   'click #navCreate': function (event, template) {
+    let parentNode;
     if (Meteor.user()) {
-      var parentNode = document.getElementById('main-wrapper');
       const nextNode = document.getElementById('mwrapper');
-      dropDownTemplate = Blaze.render(Template.create, parentNode, nextNode);
       const questionDiv = document.getElementById('toparea');
-      if (questionDiv.style.display == 'none' || !questionDiv.style.display) {
+      parentNode = document.getElementById('main-wrapper');
+      dropDownTemplate = Blaze.render(Template.create, parentNode, nextNode);
+      if (questionDiv.style.display === 'none' || !questionDiv.style.display) {
         $('#navCreate').html('Close');
         document.getElementById('navCreate').style.backgroundColor = '#ec4f4f';
         $('#toparea').slideDown();
       } else {
-        if (typeof currentError != 'undefined') {
+        if (typeof currentError !== 'undefined') {
           Blaze.remove(currentError);
         }
         $('#navCreate').html('+ Create');
         document.getElementById('navCreate').style.backgroundColor = '#27ae60';
         $('#toparea').slideUp();
-        if (typeof dropDownTemplate != 'undefined') {
+        if (typeof dropDownTemplate !== 'undefined') {
           Blaze.remove(dropDownTemplate);
         }
       }
       // Router.go('/create');
     } else {
-      var parentNode = document.getElementById('nav');
+      parentNode = document.getElementById('nav');
       popoverTemplate = Blaze.render(Template.register, parentNode);
     }
   },
@@ -228,13 +210,4 @@ Template.home.events({
     event.stopPropagation();
   },
 });
-
-
-function showCreateError(reason) {
-  if (typeof currentError != 'undefined') {
-    Blaze.remove(currentError);
-  }
-  const parentNode = document.getElementById('recent');
-  const nextNode = document.getElementById('questionscontainer');
-  currentError = Blaze.renderWithData(Template.form_error, reason, parentNode, nextNode);
-}
+/* eslint-enable func-names, no-unused-vars */

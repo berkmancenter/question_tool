@@ -1,3 +1,4 @@
+/* eslint-disable func-names, no-unused-vars */
 Template.close_button.events({
   'click .closecontainer': function (event, template) {
     $('.formcontainer').fadeOut(400);
@@ -6,3 +7,4 @@ Template.close_button.events({
     });
   },
 });
+/* eslint-disable func-names, no-unused-vars */

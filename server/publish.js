@@ -12,25 +12,10 @@ Meteor.publish('instances', () => {
 });
 
 // Only publishes to the user the questions that are associated with the selected table and are not disabled
-Meteor.publish('questions', (instanceid) => {
-  return Questions.find({
-    instanceid,
-    //state: {
-    //  $ne : 'disabled'
-    //}
-  });
-});
+Meteor.publish('questions', instanceid => (Questions.find({ instanceid })));
 
 // Only publishes to the user the answers that are associated with the selected table
-Meteor.publish('answers', (instanceid) => {
-  return Answers.find({
-    instanceid,
-  });
-});
+Meteor.publish('answers', instanceid => (Answers.find({ instanceid })));
 
 // Only publishes to the user the votes that are associated with the selected table
-Meteor.publish('votes', (instanceid) => {
-  return Votes.find({
-    instanceid,
-  });
-});
+Meteor.publish('votes', instanceid => (Votes.find({ instanceid })));

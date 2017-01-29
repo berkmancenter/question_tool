@@ -1,3 +1,12 @@
+function showModsError(reason) {
+  if (typeof currentError !== 'undefined') {
+    Blaze.remove(currentError);
+  }
+  const parentNode = document.getElementsByClassName('formcontainer')[0];
+  const nextNode = document.getElementsByClassName('inputcontainer')[0];
+  currentError = Blaze.renderWithData(Template.form_error, reason, parentNode, nextNode);
+}
+
 Template.add.onCreated(() => {
   // Checks whether the user has a valid table cookie
   Meteor.call('listCookieCheck', Session.get('id'), (error, result) => {
@@ -5,8 +14,8 @@ Template.add.onCreated(() => {
       // If not, return the user to the chooser page
       window.location.href = '/';
     } else {
-      Meteor.call('adminCheck', Session.get('id'), (error, result) => {
-        if (!result) {
+      Meteor.call('adminCheck', Session.get('id'), (e, r) => {
+        if (!r) {
           // If not, return the user to the chooser page
           window.location.href = '/';
         }
@@ -38,6 +47,7 @@ Template.add.helpers({
   },
 });
 
+/* eslint-disable func-names, no-unused-vars, consistent-return */
 Template.add.events({
   'click .plusbutton': function (event, template) {
     const row = event.currentTarget.parentElement;
@@ -50,9 +60,9 @@ Template.add.events({
     for (let i = 0; i < buttons.length; i++) {
       buttons[i].style.display = 'none';
     }
-    let line = document.createElement('div'),
-      input = document.createElement('input'),
-      plus = document.createElement('div');
+    const line = document.createElement('div');
+    const input = document.createElement('input');
+    const plus = document.createElement('div');
     line.className = 'modline';
     input.type = 'text';
     input.style.clear = 'both';
@@ -79,7 +89,6 @@ Template.add.events({
       }
     }
     Meteor.call('addMods', mods, Session.get('id'), (error, result) => {
-      console.log(Meteor.user().emails[0].address);
       for (let m = 0; m < mods.length; m++) {
         Meteor.call('sendEmail',
                     mods[m],
@@ -92,21 +101,20 @@ Template.add.events({
         // Alert the error
         showModsError('Please enter valid email addresses.');
         return false;
-      } else {
-        let boxes = document.getElementsByClassName('newmod');
-        boxes = boxes[boxes.length - 1];
-        boxes.value = '';
-        $('.formcontainer').fadeOut(400);
-        $('#darker').fadeOut(400, () => {
-          Blaze.remove(popoverTemplate);
-        });
       }
+      let boxes = document.getElementsByClassName('newmod');
+      boxes = boxes[boxes.length - 1];
+      boxes.value = '';
+      $('.formcontainer').fadeOut(400);
+      $('#darker').fadeOut(400, () => {
+        Blaze.remove(popoverTemplate);
+      });
     });
   },
   // If the enter key is pressed, submit the form
   'keypress .modbox': function (event, template) {
-    event.which = event.which || event.keyCode;
-    if (event.which == 13) {
+    event.which = event.which || event.keyCode; // eslint-disable-line no-param-reassign
+    if (event.which === 13) {
       event.preventDefault();
       document.getElementsByClassName('plusbutton')[0].click();
       const fields = document.getElementsByClassName('modbox');
@@ -120,12 +128,4 @@ Template.add.events({
     });
   },
 });
-
-function showModsError(reason) {
-  if (typeof currentError != 'undefined') {
-    Blaze.remove(currentError);
-  }
-  const parentNode = document.getElementsByClassName('formcontainer')[0];
-  const nextNode = document.getElementsByClassName('inputcontainer')[0];
-  currentError = Blaze.renderWithData(Template.form_error, reason, parentNode, nextNode);
-}
+/* eslint-enable func-names, no-unused-vars, consistent-return */

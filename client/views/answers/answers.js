@@ -35,12 +35,12 @@ Template.answers.helpers({
     answers.reverse();
     for (let a = 0; a < answers.length; a++) {
       answers[a].text = answers[a].text.replace(/\B(@\S+)/g, '<strong>$1</strong>');
+      // eslint-disable-next-line max-len
       const urlRegex = /(https?:\/\/)?(www\.)?[-a-zA-Z0-9@:%._\+~#=]{2,256}\.[a-z]{2,6}\b([-a-zA-Z0-9@:%_\+.~#?&//=]*)/gi;
       answers[a].text = answers[a].text.replace(urlRegex, (url) => {
-        if (url.indexOf('http://') == -1) {
-          var fullURL = 'http://' + url;
-        } else {
-          fullURL = url;
+        let fullURL = url;
+        if (url.indexOf('http://') === -1 || url.indexOf('https://') === -1) {
+          fullURL = 'http://' + url;
         }
         return '<a target="_blank" class="questionLink" rel="nofollow" href="' + fullURL + '">' + url + '</a>';
       });
@@ -50,6 +50,7 @@ Template.answers.helpers({
   },
 });
 
+/* eslint-disable func-names, no-unused-vars */
 Template.answers.events({
   'click #darker': function (event, template) {
     $('.formcontainer').fadeOut(400);
@@ -58,3 +59,4 @@ Template.answers.events({
     });
   },
 });
+/* eslint-enable func-names, no-unused-vars */

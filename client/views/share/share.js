@@ -9,6 +9,7 @@ Template.share.helpers({
   },
 });
 
+/* eslint-disable func-names, no-unused-vars */
 Template.share.events({
   'click #shareclosebutton': function (event, template) {
     $('.formcontainer').fadeOut(400);
@@ -17,3 +18,4 @@ Template.share.events({
     });
   },
 });
+/* eslint-enable func-names, no-unused-vars */

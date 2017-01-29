@@ -5,9 +5,8 @@ Template.question_div.helpers({
   responseLength() {
     if (Session.get('responseLength')) {
       return Session.get('responseLength');
-    } else {
-      return 150;
     }
+    return 150;
   },
 
   isDisabled() {

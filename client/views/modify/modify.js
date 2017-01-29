@@ -1,3 +1,12 @@
+function showModifyError(reason) {
+  if (typeof currentError !== 'undefined') {
+    Blaze.remove(currentError);
+  }
+  const parentNode = document.getElementsByClassName('formcontainer')[0];
+  const nextNode = document.getElementsByClassName('inputcontainer')[0];
+  currentError = Blaze.renderWithData(Template.form_error, reason, parentNode, nextNode);
+}
+
 Template.modify.onCreated(() => {
   // Checks whether the user has a valid table cookie
   Meteor.call('cookieCheck', Session.get('tablename'), (error, result) => {
@@ -6,8 +15,8 @@ Template.modify.onCreated(() => {
       window.location.href = '/';
     } else {
       // Checks whether the user has proper admin privileges
-      Meteor.call('adminCheck', Session.get('id'), (error, result) => {
-        if (!result) {
+      Meteor.call('adminCheck', Session.get('id'), (e, r) => {
+        if (!r) {
           // If not, redirects back to the list page
           window.location.href = '/list';
         }
@@ -33,6 +42,7 @@ Template.modify.helpers({
   },
 });
 
+/* eslint-disable func-names, no-unused-vars */
 Template.modify.events({
   // When the submit button is clicked...
   'click .modifysubmitbutton': function (event, template) {
@@ -57,7 +67,7 @@ Template.modify.events({
   // If the enter key is pressed, submit the form
   'keypress #modifybox': function (event, template) {
     event.which = event.which || event.keyCode;
-    if (event.which == 13) {
+    if (event.which === 13) {
       event.preventDefault();
       document.getElementById('submitbutton').click();
     }
@@ -69,12 +79,4 @@ Template.modify.events({
     });
   },
 });
-
-function showModifyError(reason) {
-  if (typeof currentError != 'undefined') {
-    Blaze.remove(currentError);
-  }
-  const parentNode = document.getElementsByClassName('formcontainer')[0];
-  const nextNode = document.getElementsByClassName('inputcontainer')[0];
-  currentError = Blaze.renderWithData(Template.form_error, reason, parentNode, nextNode);
-}
+/* eslint-enable func-names, no-unused-vars */

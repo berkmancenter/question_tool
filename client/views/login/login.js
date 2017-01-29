@@ -1,8 +1,18 @@
+function showError(reason, parentElement, nextElement) {
+  if (typeof currentError !== 'undefined') {
+    Blaze.remove(currentError);
+  }
+  const parentNode = document.getElementsByClassName(parentElement)[0];
+  const nextNode = document.getElementById(nextElement);
+  currentError = Blaze.renderWithData(Template.form_error, reason, parentNode, nextNode);
+}
+
 Template.login.onRendered(() => {
   $('.formcontainer').hide().fadeIn(400);
   $('#darker').hide().fadeIn(400);
 });
 
+/* eslint-disable func-names, no-unused-vars */
 Template.login.events({
   'click #loginsubmitbutton': function (event, template) {
     const email = document.getElementById('loginemail').value;
@@ -16,15 +26,6 @@ Template.login.events({
     }
     Meteor.loginWithPassword(email, password, (error) => {
       if (!error) {
-        /* if(template.data) {
-          window.location.href = "/" + template.data;
-        } else {
-          window.location.href = "/";
-        }*/
-        /* $(".formcontainer").fadeOut(400);
-        $("#darker").fadeOut(400, function() {
-          Blaze.remove(popoverTemplate);
-        });*/
         window.location.reload();
       } else {
         showError(error.reason, 'inputcontainer', 'loginemail');
@@ -42,19 +43,12 @@ Template.login.events({
     });
   },
   'keypress #passwordbox': function (event, template) {
+    // eslint-disable-next-line no-param-reassign
     event.which = event.which || event.keyCode;
-    if (event.which == 13) {
+    if (event.which === 13) {
       event.preventDefault();
       document.getElementById('loginsubmitbutton').click();
     }
   },
 });
-
-function showError(reason, parentElement, nextElement) {
-  if (typeof currentError != 'undefined') {
-    Blaze.remove(currentError);
-  }
-  const parentNode = document.getElementsByClassName(parentElement)[0];
-  const nextNode = document.getElementById(nextElement);
-  currentError = Blaze.renderWithData(Template.form_error, reason, parentNode, nextNode);
-}
+/* eslint-enable func-names, no-unused-vars */

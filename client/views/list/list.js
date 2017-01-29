@@ -1,4 +1,150 @@
-const clientVotes = [];
+function present() {
+  $('#nav-wrapper').slideUp();
+  $('#mobile-nav').slideUp();
+  $('.instancetitle').slideUp();
+  $('.description').slideUp();
+  $('#footer').slideUp();
+  $('#presentationNav').fadeIn();
+  $('.admincontainer').slideUp();
+}
+
+function unPresent() {
+  $('#nav-wrapper').slideDown();
+  $('#mobile-nav').slideDown();
+  $('.instancetitle').slideDown();
+  $('.description').slideDown();
+  $('#footer').slideDown();
+  $('#presentationNav').fadeOut();
+}
+
+// Helper function that calculates the average given an array
+function average(data) {
+  const sum = data.reduce((s, v) => (s + v), 0);
+  const avg = sum / data.length;
+  return avg;
+}
+
+function popupwindow(url, title, w, h) {
+  const left = (screen.width / 2) - (w / 2);
+  const top = (screen.height / 2) - (h / 2);
+  return window.open(url, title, 'toolbar=no, location=no, directories=no, status=no, menubar=no, scrollbars=no, resizable=no, copyhistory=no, width=' + w + ', height=' + h + ', top=' + top + ', left=' + left);
+}
+
+// Helper function that caluclates a standard deviation given an array
+// Source: http://derickbailey.com/
+function standardDeviation(values) {
+  const avg = average(values);
+  const squareDiffs = values.map((value) => {
+    const diff = value - avg;
+    const sqrDiff = diff * diff;
+    return sqrDiff;
+  });
+  const avgSquareDiff = average(squareDiffs);
+  const stdDev = Math.sqrt(avgSquareDiff);
+  return stdDev;
+}
+
+function enableDragging() {
+  Meteor.call('adminCheck', Session.get('id'), (error, result) => {
+    function dragMoveListener(event) {
+      const target = event.target;
+      const x = (parseFloat(target.getAttribute('data-x')) || 0) + event.dx;
+      const y = (parseFloat(target.getAttribute('data-y')) || 0) + event.dy;
+      // Translates the question div to the current mouse position
+      target.style.webkitTransform = target.style.transform = 'translate(' + x + 'px, ' + y + 'px)';
+      // Sets the z-index to 99999 so the question div floats above others
+      target.style.cssText += 'z-index:99999!important;';
+      target.style.backgroundColor = '#e3e3e3';
+      target.setAttribute('data-x', x);
+      target.setAttribute('data-y', y);
+    }
+    // If yes, enable draggable question divs
+    if (result) {
+      interact('.question')
+      .ignoreFrom('textarea')
+      .draggable({
+        // Divs have inertia and continue moving when mouse is released
+        inertia: true,
+        restrict: {
+          restriction: '#recent',
+          endOnly: true,
+          elementRect: { top: 0, left: 0, bottom: 0, right: 0 },
+        },
+        onmove: dragMoveListener,
+        onend(event) {
+          // When the question div is dropped, return to original position
+          event.target.style.cssText = '-webkit-transform: translate(0px, 0px);z-index:0!important;';
+          event.target.setAttribute('data-x', 0);
+          event.target.setAttribute('data-y', 0);
+        },
+      });
+
+      // Sets options for drop interaction
+      interact('.question').dropzone({
+        // Active when one .quesiton div is dropped on another
+        accept: '.question',
+        // The two divs need over 75% overlapping for the drop to be registered
+        overlap: 0.2,
+        ondropactivate(event) { // eslint-disable-line no-unused-vars
+        },
+        ondragenter(event) {
+          event.target.style.backgroundColor = '#e3e3e3';
+        },
+        ondragleave(event) {
+          event.target.style.backgroundColor = 'white';
+        },
+        // When dropped on top of another div, redirect to the /combine page
+        ondrop(event) {
+          const id1 = event.relatedTarget.id;
+          const id2 = event.target.id;
+          const parentNode = document.getElementById('nav');
+          Blaze.renderWithData(Template.combine, {
+            first: id1,
+            second: id2,
+          }, parentNode);
+          // window.location.href="/combine/" + id1 + "/" + id2;
+        },
+        ondropdeactivate(event) { // eslint-disable-line no-unused-vars
+        },
+      });
+    }
+  });
+}
+
+function showProposeError(reason) {
+  if (typeof currentError !== 'undefined') {
+    Blaze.remove(currentError);
+  }
+  const parentNode = document.getElementById('questiondiv');
+  const nextNode = document.getElementById('questioninput');
+  currentError = Blaze.renderWithData(Template.form_error, reason, parentNode, nextNode);
+}
+
+function showReplyError(reason, id) {
+  if (typeof replyError !== 'undefined') {
+    Blaze.remove(replyError);
+  }
+  const parentNode = document.getElementById('down' + id);
+  const nextNode = document.getElementById('text' + id);
+  replyError = Blaze.renderWithData(Template.form_error, reason, parentNode, nextNode);
+}
+
+function toggleButtonText(selector) {
+  const oldText = $(selector).html();
+  const toggleText = $(selector).attr('data-toggle-text');
+  $(selector).attr('data-toggle-text', oldText);
+  $(selector).html(toggleText);
+}
+
+function hasUpdates(questions, client) {
+  if (questions.length !== client.length) return true;
+  for (let i = 0; i < questions.length; i++) {
+    if (client[i]._id !== questions[i]._id) {
+      return true;
+    }
+  }
+  return false;
+}
 
 Meteor.setInterval(() => {
   // Sets Session variable "timeval" to current time in ms every 2 seconds
@@ -24,8 +170,9 @@ Template.list.onCreated(function () {
   }
   Session.set('questionLength', Template.instance().data.max_question);
   Session.set('responseLength', Template.instance().data.max_response);
-  Session.set('threshhold', Template.instance().data.threshhold);
-  if (Meteor.user() && (Template.instance().data.admin == Meteor.user().emails[0].address || Template.instance().data.moderators.indexOf(Meteor.user().emails[0].address) > -1)) {
+  Session.set('threshold', Template.instance().data.threshhold);
+  // eslint-disable-next-line max-len
+  if (Meteor.user() && (Template.instance().data.admin === Meteor.user().emails[0].address || Template.instance().data.moderators.indexOf(Meteor.user().emails[0].address) > -1)) {
     enableDragging();
   }
   Session.set('stale_length', Template.instance().data.stale_length);
@@ -34,18 +181,17 @@ Template.list.onCreated(function () {
   this.visibleAnswers = new Mongo.Collection('visibleAnswers', { connection: null }); // need to implement this
   this.state = new ReactiveDict();
 
-  this.getQuestions = function () {
-    const admin_mod = Meteor.user() && (Template.instance().data.admin == Meteor.user().emails[0].address || Template.instance().data.moderators.indexOf(Meteor.user().emails[0].address) > -1);
+  this.getQuestions = () => {
+    // eslint-disable-next-line max-len
+    const adminMod = Meteor.user() && (Template.instance().data.admin === Meteor.user().emails[0].address || Template.instance().data.moderators.indexOf(Meteor.user().emails[0].address) > -1);
     const query = { instanceid: Session.get('id') };
-    if (!admin_mod) {
+    if (!adminMod) {
       query.state = 'normal';
     }
     return Questions.find(query);
   };
 
-  this.getAnswers = function () {
-    return Answers.find({});
-  };
+  this.getAnswers = () => (Answers.find({}));
 
   this.syncQuestions = (questions) => {
     this.visibleQuestions.remove({}); // Lazy hack to avoid having to check for question presence one by one
@@ -61,9 +207,9 @@ Template.list.onCreated(function () {
 
   this.autorun((computation) => {
     // Grab the questions from the server. Need to define getQuestions as the questions we want.
-    const admin_mod = Meteor.user() && (Template.instance().data.admin == Meteor.user().emails[0].address || Template.instance().data.moderators.indexOf(Meteor.user().emails[0].address) > -1);
+    const adminMod = Meteor.user() && (Template.instance().data.admin === Meteor.user().emails[0].address || Template.instance().data.moderators.indexOf(Meteor.user().emails[0].address) > -1);
     const query = { instanceid: Session.get('id') };
-    if (!admin_mod) {
+    if (!adminMod) {
       query.state = 'normal';
     }
     const questions = Questions.find(query).fetch();
@@ -71,11 +217,11 @@ Template.list.onCreated(function () {
     const client = Template.instance().visibleQuestions.find({ instanceid: Session.get('id') }).fetch();
     const updatedQs = hasUpdates(questions, client);
     // If Tracker re-runs there must have been changes to the questions so we now set the state to let the user know
-    if (!computation.firstRun && this.state.get('presentMode') != true && updatedQs) {
+    if (!computation.firstRun && this.state.get('presentMode') !== true && updatedQs) {
       this.state.set('hasChanges', true);
-    }
-    else if (!updatedQs && !computation.firstRun) { this.state.set('hasChanges', false); }
-    else {
+    } else if (!updatedQs && !computation.firstRun) {
+      this.state.set('hasChanges', false);
+    } else {
       this.syncQuestions(questions);
       this.syncAnswers(answers);
     }
@@ -83,7 +229,7 @@ Template.list.onCreated(function () {
 
   // When the user requests it, we should sync the visible todos to
   // reflect the true state of the world
-  this.onShowChanges = function () {
+  this.onShowChanges = () => {
     this.syncQuestions(this.getQuestions());
     this.syncAnswers(this.getAnswers());
   };
@@ -121,27 +267,27 @@ Template.list.helpers({
   },
   // Retrieves, orders, and modifies the questions for the chosen table
   question() {
-    var tableAdmin = false,
-      tableMod = false;
+    let tableAdmin = false;
+    let tableMod = false;
+    let questions;
     if (Meteor.user()) {
-      var userEmail = Meteor.user().emails[0].address;
+      const userEmail = Meteor.user().emails[0].address;
       if (this.admin === userEmail) {
         tableAdmin = true;
-      }
-      else if (this.moderators.indexOf(userEmail) !== -1) {
+      } else if (this.moderators.indexOf(userEmail) !== -1) {
         tableMod = true;
       }
     }
     // Finds the questions from the Questions DB
-    if (Session.get('search') == 'all') {
-      var questions = Template.instance().visibleQuestions.find({
+    if (Session.get('search') === 'all') {
+      questions = Template.instance().visibleQuestions.find({
         instanceid: Session.get('id'),
       }).fetch();
     } else {
       const re = new RegExp(Session.get('search'), 'i');
-      var questions = Template.instance().visibleQuestions.find({
+      questions = Template.instance().visibleQuestions.find({
         instanceid: Session.get('id'),
-        '$or': [{
+        $or: [{
           text: {
             $regex: re,
           },
@@ -152,19 +298,15 @@ Template.list.helpers({
         }],
       }).fetch();
     }
-    const threshhold = Session.get('threshhold');
-    let voteAverage = 0;
     let maxVote = 0;
     const voteArray = [];
     // Finds the average # of votes and stores votes in an array
-    for (var i = 0; i < questions.length; i++) {
+    for (let i = 0; i < questions.length; i++) {
       if (questions[i].votes > maxVote) {
         maxVote = questions[i].votes;
       }
-      voteAverage += questions[i].votes;
       voteArray.push(questions[i].votes);
     }
-    voteAverage /= questions.length;
     // Sorts the questions depending on # of votes (descending)
     questions.sort((a, b) => {
       // console.log(((new Date().getTime() - a.lasttouch) / 60000).floor());
@@ -172,35 +314,33 @@ Template.list.helpers({
         return -1;
       } else if (a.votes < b.votes) {
         return 1;
-      } else {
-        return 0;
       }
+      return 0;
     });
     // Loops through the retrieved questions and sets properties
-    for (var i = 0; i < questions.length; i++) {
-      if (questions[i].state != 'disabled' || tableMod || tableAdmin) {
-        var urlRegex = /(https?:\/\/(?:www\.|(?!www))[^\s\.]+\.[^\s]{2,}|www\.[^\s]+\.[^\s]{2,})/g;
+    for (let i = 0; i < questions.length; i++) {
+      if (questions[i].state !== 'disabled' || tableMod || tableAdmin) {
+        const urlRegex = /(https?:\/\/(?:www\.|(?!www))[^\s\.]+\.[^\s]{2,}|www\.[^\s]+\.[^\s]{2,})/g;
         questions[i].text = questions[i].text.replace(urlRegex, (url) => {
-          if (url.charAt(url.length - 1) == ')') {
+          let hasPeren = false;
+          if (url.charAt(url.length - 1) === ')') {
             url = url.substring(0, url.length - 1);
-            var hasPeren = true;
+            hasPeren = true;
           }
-          if (url.indexOf('http://') == -1) {
-            var fullURL = 'http://' + url;
-          } else {
-            fullURL = url;
+          let fullURL = url;
+          if (url.indexOf('http://') === -1 || url.indexOf('https://') === -1) {
+            fullURL = 'http://' + url;
           }
           if (!hasPeren) {
             return '<a target="_blank" class="questionLink" rel="nofollow" href="' + fullURL + '">' + url + '</a>';
-          } else {
-            return '<a target="_blank" class="questionLink" rel="nofollow" href="' + fullURL + '">' + url + '</a>)';
           }
+          return '<a target="_blank" class="questionLink" rel="nofollow" href="' + fullURL + '">' + url + '</a>)';
         });
         questions[i].adminButtons = (tableAdmin || tableMod);
         // Sets the answer and modify links
         questions[i].answerlink = '/answer/' + questions[i]._id;
         questions[i].modifylink = '/modify/' + questions[i]._id;
-        const avg = (Math.max.apply(Math, voteArray) + Math.min.apply(Math, voteArray)) / 2;
+        const avg = (Math.max(...voteArray) + Math.min(...voteArray)) / 2;
         // Uses standard deviation to set the shade of the vote box
         const stddev = standardDeviation(voteArray) + 0.001;
         questions[i].shade = 'vc' + Math.round(3 + ((questions[i].votes - avg) / stddev));
@@ -235,39 +375,28 @@ Template.list.helpers({
             questions[i].answer[a].isHidden = true;
             // }
             questions[i].answer[a].text = questions[i].answer[a].text.replace(/\B(@\S+)/g, '<strong>$1</strong>');
-            var urlRegex = /(https?:\/\/(?:www\.|(?!www))[^\s\.]+\.[^\s]{2,}|www\.[^\s]+\.[^\s]{2,})/g;
             questions[i].answer[a].text = questions[i].answer[a].text.replace(urlRegex, (url) => {
-              if (url.charAt(url.length - 1) == ')') {
+              let hasPeren = false;
+              let fullURL = url;
+              if (url.charAt(url.length - 1) === ')') {
                 url = url.substring(0, url.length - 1);
-                var hasPeren = true;
+                hasPeren = true;
               }
-              if (url.indexOf('http://') == -1) {
-                var fullURL = 'http://' + url;
-              } else {
-                fullURL = url;
+              if (url.indexOf('http://') === -1 || url.indexOf('https://') === -1) {
+                fullURL = 'http://' + url;
               }
               if (!hasPeren) {
                 return '<a target="_blank" class="questionLink" rel="nofollow" href="' + fullURL + '">' + url + '</a>';
-              } else {
-                return '<a target="_blank" class="questionLink" rel="nofollow" href="' + fullURL + '">' + url + '</a>)';
               }
+              return '<a target="_blank" class="questionLink" rel="nofollow" href="' + fullURL + '">' + url + '</a>)';
             });
           }
         }
-        // If question is one of the first [threshhold] questions, it's "active"
-        /* if(questions[i].votes == 1) {
-          questions[i].votes = "1 vote";
-        } else {
-          questions[i].votes = questions[i].votes + " votes";
-        }*/
-        if (i < Session.get('threshhold')) {
+        if (i < Session.get('threshold')) {
           questions[i].popular = true;
         } else {
           questions[i].popular = false;
         }
-      } else if (questions[i].state == 'disabled') {
-        // If the question is disabled, don't display
-        // questions[i].disabled = true;
       }
     }
     questions.sort((a, b) => {
@@ -276,6 +405,8 @@ Template.list.helpers({
       const bDiff = Math.floor(((new Date().getTime() - b.timeorder) / 60000));
       let aIndex = a.votes;
       let bIndex = b.votes;
+      let aAnswerLength = 0;
+      let bAnswerLength = 0;
       if (aDiff < 5) {
         aIndex += (maxVote * (5 - aDiff));
       }
@@ -292,25 +423,19 @@ Template.list.helpers({
         return -1;
       } else if (aIndex < bIndex) {
         return 1;
-      } else {
-        if (!a.answer) {
-          var aAnswerLength = 0;
-        } else {
-          var aAnswerLength = a.answer.length;
-        }
-        if (!b.answer) {
-          var bAnswerLength = 0;
-        } else {
-          var bAnswerLength = b.answer.length;
-        }
-        if (aAnswerLength > bAnswerLength) {
-          return -1;
-        } else if (aAnswerLength < bAnswerLength) {
-          return 1;
-        } else {
-          return 0;
-        }
       }
+      if (a.answer) {
+        aAnswerLength = a.answer.length;
+      }
+      if (b.answer) {
+        bAnswerLength = b.answer.length;
+      }
+      if (aAnswerLength > bAnswerLength) {
+        return -1;
+      } else if (aAnswerLength < bAnswerLength) {
+        return 1;
+      }
+      return 0;
     });
     // Return the questions object to be displayed in the template
     return questions;
@@ -323,6 +448,7 @@ Template.list.helpers({
   },
 });
 
+/* eslint-disable func-names, no-unused-vars */
 Template.list.events({
   // When the vote button is clicked...
   'click .voteright': function (event, template) {
@@ -331,12 +457,12 @@ Template.list.events({
       if (typeof result === 'object') {
         // Store an object of the error names and codes
         const errorCodes = {
-          'votedbefore': 'It appears that you have already voted up this question.',
-          'lasttouch': 'There was an error retrieving the time. Please return to the list and try again.',
-          'votes': 'There was an error incrementing the votes. Please return to the list and try again.',
-          'qid': 'There was an error with the question ID. Please return to the list and try again.',
-          'ip': 'There was an error with your IP address. Please return to the list and try again.',
-          'tablename': 'There was an error with the table name. Please return to the list and try again.',
+          votedbefore: 'It appears that you have already voted up this question.',
+          lasttouch: 'There was an error retrieving the time. Please return to the list and try again.',
+          votes: 'There was an error incrementing the votes. Please return to the list and try again.',
+          qid: 'There was an error with the question ID. Please return to the list and try again.',
+          ip: 'There was an error with your IP address. Please return to the list and try again.',
+          tablename: 'There was an error with the table name. Please return to the list and try again.',
         };
         // Alerts the error if one exists
         showProposeError(errorCodes[result[0].name]);
@@ -348,8 +474,7 @@ Template.list.events({
     // Call the server-side hide method to hide the question
     if (Questions.findOne({ _id: event.currentTarget.id }).state === 'disabled') {
       Meteor.call('unhideThis', event.currentTarget.id);
-    }
-    else {
+    } else {
       Meteor.call('hide', event.currentTarget.id);
     }
   },
@@ -372,19 +497,19 @@ Template.list.events({
     const parentNode = document.getElementById('nav-wrapper');
     dropDownTemplate = Blaze.render(Template.propose, parentNode);
     const questionDiv = document.getElementById('toparea');
-    if (questionDiv.style.display == 'none' || !questionDiv.style.display) {
+    if (questionDiv.style.display === 'none' || !questionDiv.style.display) {
       toggleButtonText('#navAsk');
       document.getElementById('navAsk').style.backgroundColor = '#ec4f4f';
       $('#toparea').slideDown();
       $('#questioninput').focus();
     } else {
-      if (typeof currentError != 'undefined') {
+      if (typeof currentError !== 'undefined') {
         Blaze.remove(currentError);
       }
       toggleButtonText('#navAsk');
       document.getElementById('navAsk').style.backgroundColor = '#27ae60';
       $('#toparea').slideUp();
-      if (typeof dropDownTemplate != 'undefined') {
+      if (typeof dropDownTemplate !== 'undefined') {
         Blaze.remove(dropDownTemplate);
       }
     }
@@ -396,14 +521,14 @@ Template.list.events({
     $('.replybutton').html('Reply');
     const theID = event.target.id.substring(5);
     const theArea = document.getElementById('down' + theID);
-    if (theArea.style.display == 'none' || !theArea.style.display) {
+    if (theArea.style.display === 'none' || !theArea.style.display) {
       document.getElementById('reply' + theID).innerHTML = 'Close';
       $('#down' + theID).slideDown(400, function () {
         $(this).css('display', 'block');
       });
       $('#text' + theID).focus();
     } else {
-      if (typeof replyError != 'undefined') {
+      if (typeof replyError !== 'undefined') {
         Blaze.remove(replyError);
       }
       document.getElementById('reply' + theID).innerHTML = 'Reply';
@@ -412,7 +537,7 @@ Template.list.events({
   },
   'click .checkbox': function (event, template) {
     const checked = event.target.firstElementChild;
-    if (checked.style.display == 'none' || !checked.style.display) {
+    if (checked.style.display === 'none' || !checked.style.display) {
       checked.style.display = 'block';
       if (Meteor.user()) {
         $('.replyname').val('Anonymous');
@@ -424,7 +549,7 @@ Template.list.events({
     // console.log(event);
     // return false;
     const checked = event.target;
-    if (checked.style.display == 'block') {
+    if (checked.style.display === 'block') {
       if (Meteor.user()) {
         $('.replyname').val(Meteor.user().profile.name);
         $('.replyemail').val(Meteor.user().emails[0].address);
@@ -447,29 +572,28 @@ Template.list.events({
           posterName = 'Anonymous';
         }
         // Calls a server-side method to answer a question and update DBs
-        Meteor.call('answer', Session.get('id'), answer, posterName, email, result, theID, (error, result) => {
+        Meteor.call('answer', Session.get('id'), answer, posterName, email, result, theID, (e, r) => {
           // If the result is an object, there was an error
-          if (typeof result === 'object') {
+          if (typeof r === 'object') {
             // Store an object of the error names and codes
             const errorCodes = {
-              'text': 'Please enter an answer.',
-              'poster': 'Please enter a valid name.',
-              'email': 'Please enter a valid email address.',
-              'ip': 'There was an error with your IP address. Try again.',
-              'instanceid': 'There was an error with the instance id. Try again.',
-              'qid': 'There was an error with the question ID.',
+              text: 'Please enter an answer.',
+              poster: 'Please enter a valid name.',
+              email: 'Please enter a valid email address.',
+              ip: 'There was an error with your IP address. Try again.',
+              instanceid: 'There was an error with the instance id. Try again.',
+              qid: 'There was an error with the question ID.',
             };
             // Alert the error
-            showReplyError(errorCodes[result[0].name], theID);
+            showReplyError(errorCodes[r[0].name], theID);
             return false;
-          } else {
-            if (typeof replyError != 'undefined') {
-              Blaze.remove(replyError);
-            }
-            document.getElementById('reply' + theID).innerHTML = 'Reply';
-            document.getElementById('text' + theID).value = '';
-            $('#down' + theID).slideUp();
           }
+          if (typeof replyError !== 'undefined') {
+            Blaze.remove(replyError);
+          }
+          document.getElementById('reply' + theID).innerHTML = 'Reply';
+          document.getElementById('text' + theID).value = '';
+          $('#down' + theID).slideUp();
         });
       }
     });
@@ -494,41 +618,41 @@ Template.list.events({
           posterName = 'Anonymous';
         }
         // Calls a server-side method to answer a question and update DBs
-        Meteor.call('answer', Session.get('id'), answer, posterName, email, result, theID, (error, result) => {
+        Meteor.call('answer', Session.get('id'), answer, posterName, email, result, theID, (e, r) => {
           // If the result is an object, there was an error
-          if (typeof result === 'object') {
+          if (typeof r === 'object') {
             // Store an object of the error names and codes
             const errorCodes = {
-              'text': 'Please enter an answer.',
-              'poster': 'Please enter a valid name.',
-              'email': 'Please enter a valid email address.',
-              'ip': 'There was an error with your IP address. Try again.',
-              'instanceid': 'There was an error with the instance id. Try again.',
-              'qid': 'There was an error with the question ID.',
+              text: 'Please enter an answer.',
+              poster: 'Please enter a valid name.',
+              email: 'Please enter a valid email address.',
+              ip: 'There was an error with your IP address. Try again.',
+              instanceid: 'There was an error with the instance id. Try again.',
+              qid: 'There was an error with the question ID.',
             };
             // Alert the error
-            showReplyError(errorCodes[result[0].name], theID);
+            showReplyError(errorCodes[r[0].name], theID);
             return false;
-          } else {
-            if (typeof replyError != 'undefined') {
-              Blaze.remove(replyError);
-            }
-            document.getElementById('reply' + theID).innerHTML = 'Reply';
-            document.getElementById('text' + theID).value = '';
-            $('#down' + theID).slideUp();
           }
+          if (typeof replyError !== 'undefined') {
+            Blaze.remove(replyError);
+          }
+          document.getElementById('reply' + theID).innerHTML = 'Reply';
+          document.getElementById('text' + theID).value = '';
+          $('#down' + theID).slideUp();
         });
       }
     });
   },
   'keypress .replyemail': function (event, template) {
+    // eslint-disable-next-line no-param-reassign
     event.which = event.which || event.keyCode;
-    if (event.which == 13) {
+    if (event.which === 13) {
       event.preventDefault();
       const theID = event.target.id.substring(5);
       const buttons = document.getElementsByClassName('replybottombutton');
       for (let b = 0; b < buttons.length; b++) {
-        if (buttons[b].id == theID) {
+        if (buttons[b].id === theID) {
           buttons[b].click();
         }
       }
@@ -551,15 +675,16 @@ Template.list.events({
   'keyup .replyarea': function (event, template) {
     const urlRegex = /(https?:\/\/(?:www\.|(?!www))[^\s\.]+\.[^\s]{2,}|www\.[^\s]+\.[^\s]{2,})/g;
     const found = event.target.value.match(urlRegex);
+    let total = 0;
     if (found) {
       let totalURL = 0;
       for (let f = 0; f < found.length; f++) {
         totalURL += found[f].length;
       }
-      var total = (event.target.value.length - totalURL) + found.length;
+      total = (event.target.value.length - totalURL) + found.length;
       $(event.target).attr('maxlength', Number(Session.get('responseLength') + totalURL - found.length));
     } else {
-      var total = event.target.value.length;
+      total = event.target.value.length;
     }
     Session.set('replyCount', total);
   },
@@ -614,7 +739,7 @@ Template.list.events({
     // event.currentTarget.style.display = "none";
     // $(event.currentTarget).next().css("display", "block");
     /* var replyText = "replies";
-    if(event.target.id == 1) {
+    if(event.target.id === 1) {
       replyText = "reply";
     }
     $(event.currentTarget).html("Hide " + replyText + "...");
@@ -627,7 +752,7 @@ Template.list.events({
     $(event.currentTarget).prev().css('display', 'block');
     /* var numberHidden = event.currentTarget.id;
     var replyText = "replies";
-    if(numberHidden == 1) {
+    if(numberHidden === 1) {
       replyText = "reply";
     }
     $(event.currentTarget).html("Show " + numberHidden + " {{numberHidden}} more " + replyText + "...");
@@ -638,153 +763,4 @@ Template.list.events({
     Template.instance().onShowChanges();
   },
 });
-
-function present() {
-  $('#nav-wrapper').slideUp();
-  $('#mobile-nav').slideUp();
-  $('.instancetitle').slideUp();
-  $('.description').slideUp();
-  $('#footer').slideUp();
-  $('#presentationNav').fadeIn();
-  $('.admincontainer').slideUp();
-}
-
-function unPresent() {
-  $('#nav-wrapper').slideDown();
-  $('#mobile-nav').slideDown();
-  $('.instancetitle').slideDown();
-  $('.description').slideDown();
-  $('#footer').slideDown();
-  $('#presentationNav').fadeOut();
-}
-
-function popupwindow(url, title, w, h) {
-  const left = (screen.width / 2) - (w / 2);
-  const top = (screen.height / 2) - (h / 2);
-  return window.open(url, title, 'toolbar=no, location=no, directories=no, status=no, menubar=no, scrollbars=no, resizable=no, copyhistory=no, width=' + w + ', height=' + h + ', top=' + top + ', left=' + left);
-}
-
-// Helper function that caluclates a standard deviation given an array
-// Source: http://derickbailey.com/
-function standardDeviation(values) {
-  const avg = average(values);
-  const squareDiffs = values.map((value) => {
-    const diff = value - avg;
-    const sqrDiff = diff * diff;
-    return sqrDiff;
-  });
-  const avgSquareDiff = average(squareDiffs);
-  const stdDev = Math.sqrt(avgSquareDiff);
-  return stdDev;
-}
-
-// Helper function that calculates the average given an array
-function average(data) {
-  const sum = data.reduce((sum, value) => {
-    return sum + value;
-  }, 0);
-  const avg = sum / data.length;
-  return avg;
-}
-
-
-function enableDragging() {
-  Meteor.call('adminCheck', Session.get('id'), (error, result) => {
-    // If yes, enable draggable question divs
-    if (result) {
-      interact('.question')
-      .ignoreFrom('textarea')
-      .draggable({
-        // Divs have inertia and continue moving when mouse is released
-        inertia: true,
-        restrict: {
-          restriction: '#recent',
-          endOnly: true,
-          elementRect: { top: 0, left: 0, bottom: 0, right: 0 },
-        },
-        onmove: dragMoveListener,
-        onend(event) {
-          // When the question div is dropped, return to original position
-          event.target.style.cssText = '-webkit-transform: translate(0px, 0px);z-index:0!important;';
-          event.target.setAttribute('data-x', 0);
-          event.target.setAttribute('data-y', 0);
-        },
-      });
-
-      function dragMoveListener(event) {
-        let target = event.target,
-          x = (parseFloat(target.getAttribute('data-x')) || 0) + event.dx,
-          y = (parseFloat(target.getAttribute('data-y')) || 0) + event.dy;
-        // Translates the question div to the current mouse position
-        target.style.webkitTransform = target.style.transform = 'translate(' + x + 'px, ' + y + 'px)';
-        // Sets the z-index to 99999 so the question div floats above others
-        target.style.cssText += 'z-index:99999!important;';
-        target.style.backgroundColor = '#e3e3e3';
-        target.setAttribute('data-x', x);
-        target.setAttribute('data-y', y);
-      }
-      // Sets options for drop interaction
-      interact('.question').dropzone({
-        // Active when one .quesiton div is dropped on another
-        accept: '.question',
-        // The two divs need over 75% overlapping for the drop to be registered
-        overlap: 0.2,
-        ondropactivate(event) {
-        },
-        ondragenter(event) {
-          event.target.style.backgroundColor = '#e3e3e3';
-        },
-        ondragleave(event) {
-          event.target.style.backgroundColor = 'white';
-        },
-        // When dropped on top of another div, redirect to the /combine page
-        ondrop(event) {
-          const id1 = event.relatedTarget.id;
-          const id2 = event.target.id;
-          const parentNode = document.getElementById('nav');
-          Blaze.renderWithData(Template.combine, {
-            first: id1,
-            second: id2,
-          }, parentNode);
-          // window.location.href="/combine/" + id1 + "/" + id2;
-        },
-        ondropdeactivate(event) {
-        },
-      });
-    }
-  });
-}
-
-function showProposeError(reason) {
-  if (typeof currentError != 'undefined') {
-    Blaze.remove(currentError);
-  }
-  const parentNode = document.getElementById('questiondiv');
-  const nextNode = document.getElementById('questioninput');
-  currentError = Blaze.renderWithData(Template.form_error, reason, parentNode, nextNode);
-}
-
-function showReplyError(reason, id) {
-  if (typeof replyError != 'undefined') {
-    Blaze.remove(replyError);
-  }
-  const parentNode = document.getElementById('down' + id);
-  const nextNode = document.getElementById('text' + id);
-  replyError = Blaze.renderWithData(Template.form_error, reason, parentNode, nextNode);
-}
-
-function toggleButtonText(selector) {
-  const oldText = $(selector).html();
-  const toggleText = $(selector).attr('data-toggle-text');
-  $(selector).attr('data-toggle-text', oldText);
-  $(selector).html(toggleText);
-}
-
-function hasUpdates(questions, client) {
-  if (questions.length !== client.length) return true;
-  for (let i = 0; i < questions.length; i++) {
-    if (client[i]._id !== questions[i]._id)
-      return true;
-  }
-  return false;
-}
+/* eslint-enable func-names, no-unused-vars */

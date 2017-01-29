@@ -6,8 +6,8 @@ Template.combine.onCreated(() => {
       window.location.href = '/';
     } else {
       // Checks whether the current user has admin privileges
-      Meteor.call('adminCheck', Session.get('id'), (error, result) => {
-        if (!result) {
+      Meteor.call('adminCheck', Session.get('id'), (e, r) => {
+        if (!r) {
           // If not, redirects back to the list page
           window.location.href = '/list';
         }
@@ -36,6 +36,7 @@ Template.combine.helpers({
   },
 });
 
+/* eslint-disable func-names, no-unused-vars */
 Template.combine.events({
   // When the submit button is clicked...
   'click .combinesubmitbutton': function (event, template) {
@@ -48,8 +49,8 @@ Template.combine.events({
       // If successful
       if (!error) {
         // Hides the second question (combined -> first)
-        Meteor.call('hide', id2, (error, result) => {
-          if (!error) {
+        Meteor.call('hide', id2, (e, r) => {
+          if (!e) {
             // If successful, fade the modal out
             window.location.reload();
           }
@@ -59,8 +60,9 @@ Template.combine.events({
   },
   // When enter button is pressed, submit the form
   'keypress #modifybox': function (event, template) {
+    // eslint-disable-next-line no-param-reassign
     event.which = event.which || event.keyCode;
-    if (event.which == 13) {
+    if (event.which === 13) {
       event.preventDefault();
       document.getElementById('submitbutton').click();
     }
@@ -76,3 +78,5 @@ Template.combine.events({
     window.location.reload();
   },
 });
+
+/* eslint-enable func-names, no-unused-vars */
