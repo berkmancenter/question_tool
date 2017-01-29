@@ -43,7 +43,7 @@
       "no-plusplus": 0,
       "consistent-return": 1,
       "prefer-template": 0,
-      "no-underscore-dangle": 0,
+      "no-underscore-dangle": 1,
       "no-param-reassign": 0,
       "max-len": 1,
       "no-alert": 1,
