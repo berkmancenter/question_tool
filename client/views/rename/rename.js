@@ -1,3 +1,5 @@
+import { Instances } from '/lib/common.js';
+
 function showRenameError(reason) {
   if (typeof currentError !== 'undefined') {
     Blaze.remove(currentError);

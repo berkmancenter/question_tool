@@ -1,3 +1,5 @@
+import { Instances } from '/lib/common.js';
+
 function showCreateError(reason) {
   if (typeof currentError !== 'undefined') {
     Blaze.remove(currentError);
@@ -167,9 +169,9 @@ Template.home.events({
     let parentNode;
     if (Meteor.user()) {
       const nextNode = document.getElementById('mwrapper');
-      const questionDiv = document.getElementById('toparea');
       parentNode = document.getElementById('main-wrapper');
       dropDownTemplate = Blaze.render(Template.create, parentNode, nextNode);
+      const questionDiv = document.getElementById('toparea');
       if (questionDiv.style.display === 'none' || !questionDiv.style.display) {
         $('#navCreate').html('Close');
         document.getElementById('navCreate').style.backgroundColor = '#ec4f4f';

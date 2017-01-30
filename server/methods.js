@@ -1,4 +1,7 @@
 /* eslint-disable no-unused-vars */
+
+import { Answers, Questions, Instances, Votes } from '../lib/common.js';
+
 Meteor.methods({
   // A method that returns the current connection's IP address
   getIP() {
@@ -108,7 +111,7 @@ Meteor.methods({
     return keys;
   },
   // A method that adds an instance to the databases
-  create(tablename, threshhold, redLength, stale, description, mods, admin, maxQuestion, maxResponse, anonymous, isHidden, author) {
+  create(tablename, threshold, redLength, stale, description, mods, admin, maxQuestion, maxResponse, anonymous, isHidden, author) {
     if (!Meteor.user()) {
       return false;
     }
@@ -124,7 +127,7 @@ Meteor.methods({
     // Inserts the instance into the instances database
     Instances.insert({
       tablename,
-      threshhold,
+      threshold,
       new_length: redLength,
       stale_length: stale,
       description,

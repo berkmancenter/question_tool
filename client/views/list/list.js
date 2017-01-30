@@ -1,3 +1,5 @@
+import { Answers, Questions } from '/lib/common.js';
+
 function present() {
   $('#nav-wrapper').slideUp();
   $('#mobile-nav').slideUp();
@@ -170,7 +172,8 @@ Template.list.onCreated(function () {
   }
   Session.set('questionLength', Template.instance().data.max_question);
   Session.set('responseLength', Template.instance().data.max_response);
-  Session.set('threshold', Template.instance().data.threshhold);
+  const thresh = Template.instance().data.threshold ? Template.instance().data.threshold : Template.instance().data.threshhold;
+  Session.set('threshold', thresh);
   // eslint-disable-next-line max-len
   if (Meteor.user() && (Template.instance().data.admin === Meteor.user().emails[0].address || Template.instance().data.moderators.indexOf(Meteor.user().emails[0].address) > -1)) {
     enableDragging();

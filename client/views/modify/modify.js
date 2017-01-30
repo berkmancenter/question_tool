@@ -1,3 +1,5 @@
+import { Questions } from '/lib/common.js';
+
 function showModifyError(reason) {
   if (typeof currentError !== 'undefined') {
     Blaze.remove(currentError);

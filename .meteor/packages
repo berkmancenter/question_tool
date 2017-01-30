@@ -42,3 +42,5 @@ fortawesome:fontawesome
 momentjs:moment
 meteorhacks:aggregate
 dispatch:mocha-phantomjs
+practicalmeteor:chai
+xolvio:cleaner

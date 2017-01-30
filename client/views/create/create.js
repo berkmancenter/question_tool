@@ -79,7 +79,7 @@ Template.create.events({
     tablename = tablename.charAt(0).toUpperCase() + tablename.slice(1);
 
     const thresholdSelect = document.getElementsByName('threshold')[0];
-    const threshhold = thresholdSelect[thresholdSelect.selectedIndex].value;
+    const threshold = thresholdSelect[thresholdSelect.selectedIndex].value;
     const lengthSelect = document.getElementsByName('new_length')[0];
     const redLength = lengthSelect[lengthSelect.selectedIndex].value;
     const staleSelect = document.getElementsByName('stale_length')[0];
@@ -116,13 +116,13 @@ Template.create.events({
     }
     // console.log(mods);
     // Calls the 'create' function on the server to add Instance to the DB
-    Meteor.call('create', tablename, threshhold, redLength, stale, description, mods, /* passwordConfirm,*/ admin, maxQuestion, maxResponse, anonymous, isHidden, author, (error, result) => {
+    Meteor.call('create', tablename, threshold, redLength, stale, description, mods, /* passwordConfirm,*/ admin, maxQuestion, maxResponse, anonymous, isHidden, author, (error, result) => {
       // If the result is an object, there was an error
       if (typeof result === 'object') {
         // Store an object of the error names and codes
         const errorCodes = {
           tablename: 'Please enter a valid instance name using only letters and numbers, no spaces.',
-          threshhold: "Please enter a valid # of 'featured' questions using the drop down menu.",
+          threshold: "Please enter a valid # of 'featured' questions using the drop down menu.",
           new_length: "Please enter a valid value using the 'new questions' drop down menu.",
           stale_length: "Please enter a valid value using the 'old questions' drop down menu.",
           description: 'Please enter a valid description under 255 characters.',

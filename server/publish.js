@@ -1,3 +1,5 @@
+import { Questions, Answers, Votes, Instances } from '../lib/common.js';
+
 // Only publishes to the user the instances that have been updated within 30 days
 Meteor.publish('instances', () => {
   const time = (new Date().getTime() - 2592000000);

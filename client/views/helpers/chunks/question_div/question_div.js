@@ -1,3 +1,5 @@
+import { Questions, Votes, Answers } from '/lib/common.js';
+
 Template.question_div.helpers({
   replyCount() {
     return Session.get('replyCount');

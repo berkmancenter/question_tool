@@ -16,10 +16,6 @@
       "jquery": true
     },
     "globals": {
-      "Instances": true,
-      "Questions": true,
-      "Answers": true,
-      "Votes": true,
       "currentError": true,
       "popoverTemplate": true,
       "dropDownTemplate": true,
@@ -31,8 +27,7 @@
       "SimpleSchema": false,
       "SyncedCron": false
     },
-    "plugins": [
-    ],
+    "plugins": [],
     "extends": [
       "airbnb"
     ],
@@ -49,5 +44,9 @@
       "no-alert": 1,
       "no-mixed-operators": 1
     }
+  },
+  "dependencies": {
+    "bcrypt": "^1.0.2",
+    "meteor": "^1.4.1.1"
   }
 }

@@ -1,3 +1,5 @@
+import { Questions, Answers } from '/lib/common.js';
+
 Template.answers.onCreated(() => {
   // Checks whether the user has a valid table cookie
   Meteor.call('cookieCheck', Session.get('tablename'), (error, result) => {
