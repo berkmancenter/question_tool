@@ -88,10 +88,8 @@ Template.create.events({
     const maxQuestion = questionSelect[questionSelect.selectedIndex].value;
     const responseSelect = document.getElementsByName('max_response')[0];
     const maxResponse = responseSelect[responseSelect.selectedIndex].value;
-    const admin = Meteor.user().emails[0].address;
     const hiddenSelector = document.getElementsByName('visibility')[0];
     const isHidden = (hiddenSelector[hiddenSelector.selectedIndex].value === 'hidden');
-    const author = Meteor.user().profile.name;
     let description = document.getElementById('instancedescriptioninput').value;
 
     // Ensures that the table description is capitalized
@@ -116,7 +114,7 @@ Template.create.events({
     }
     // console.log(mods);
     // Calls the 'create' function on the server to add Instance to the DB
-    Meteor.call('create', tablename, threshold, redLength, stale, description, mods, /* passwordConfirm,*/ admin, maxQuestion, maxResponse, anonymous, isHidden, author, (error, result) => {
+    Meteor.call('create', tablename, threshold, redLength, stale, description, mods, maxQuestion, maxResponse, anonymous, isHidden, (error, result) => {
       // If the result is an object, there was an error
       if (typeof result === 'object') {
         // Store an object of the error names and codes

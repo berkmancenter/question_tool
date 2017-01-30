@@ -24,18 +24,19 @@ Meteor.methods({
     const table = Instances.findOne({
       _id: instanceid,
     });
-    return table !== null;
+    return table !== undefined;
   },
   // A method that checks whether the email matches the admin of the supplied tablename
   adminCheck(instanceid) {
     let user;
     const table = Instances.findOne({ _id: instanceid });
-    if (Meteor.user()) {
-      user = Meteor.user().emails[0].address;
+    if (table === undefined) { return false; }
+    if (this.userId) {
+      user = Meteor.users.findOne({ _id: this.userId }).emails[0].address;
     } else {
       return false;
     }
-    return ((user === table.admin) || (table.moderators.indexOf(user) !== -1)) && (user && table.admin);
+    return ((user === table.admin) || (table.moderators.indexOf(user) !== -1));
   },
   touch(instanceid) {
     Instances.update(
@@ -58,14 +59,14 @@ Meteor.methods({
     });
   },
   // A method that adds an answer to the databases
-  answer(instanceid, answer, posterName, email, result, currentURL) {
+  answer(instanceid, answer, posterName, email, ip, questionID) {
     let keys = '';
     answer.replace(/<(?:.|\n)*?>/gm, '');
     // Retrieves the current quesetion from the DB (if one exists)
-    const quesiton = Questions.findOne({
-      _id: currentURL,
+    const question = Questions.findOne({
+      _id: questionID,
     });
-    if (quesiton === null) {
+    if (question === undefined) {
       return false;
     }
     // Inserts the answer into the answer databse
@@ -73,9 +74,9 @@ Meteor.methods({
       text: answer,
       poster: posterName,
       email,
-      ip: result,
+      ip,
       instanceid,
-      qid: currentURL,
+      qid: question._id,
       timeorder: new Date().getTime() - 1000,
     }, (error, id) => {
       // If error, set keys to the error object
@@ -84,7 +85,7 @@ Meteor.methods({
       } else {
         // If successful, update lasttouch of the question
         Questions.update({
-          _id: currentURL,
+          _id: question._id,
         }, {
           $set: {
             lasttouch: new Date().getTime() - 1000,
@@ -107,12 +108,13 @@ Meteor.methods({
         });
       }
     });
-    // Return keys (will be error.invalidKeys object if error exists)
+    // Return keys (will be error.invalidKeys array if error exists)
     return keys;
   },
   // A method that adds an instance to the databases
-  create(tablename, threshold, redLength, stale, description, mods, admin, maxQuestion, maxResponse, anonymous, isHidden, author) {
-    if (!Meteor.user()) {
+  create(tablename, threshold, newLength, stale, description, mods, maxQuestion, maxResponse, anonymous, isHidden) {
+    const usr = Meteor.users.findOne({ _id: this.userId });
+    if (usr === undefined) {
       return false;
     }
     let keys;
@@ -128,18 +130,17 @@ Meteor.methods({
     Instances.insert({
       tablename,
       threshold,
-      new_length: redLength,
+      new_length: newLength,
       stale_length: stale,
       description,
       moderators: mods,
-      /* password: passwordConfirm,*/
       lasttouch: new Date().getTime() - 1000,
-      admin,
+      admin: usr.emails[0].address,
       max_question: maxQuestion,
       max_response: maxResponse,
       anonymous,
       hidden: isHidden,
-      author,
+      author: usr.profile.name,
     }, (error, id) => {
       // If error, set keys to the error object
       if (error) {
