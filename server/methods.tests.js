@@ -239,5 +239,85 @@ if (Meteor.isServer) {
         assert.equal(created[0].name, 'description');
       });
     });
+
+    describe('#unhide()', function () {
+      const unhide = Meteor.server.method_handlers.unhide;
+
+      beforeEach(function () {
+        const temp_quest = Object.assign({}, test_quest);
+        delete temp_quest._id;
+        Questions.insert(temp_quest);
+        Questions.update({ instanceid: test_table._id }, { $set: { state: 'disabled' } }, { multi: true });
+      });
+
+      it('should unhide all questions in an instance if the user is an admin.', function () {
+        unhide.apply({ userId: test_admin._id }, [test_table._id]);
+        let all_visible = true;
+        Questions.find({ instanceid: test_table._id }).forEach((question) => {
+          if (question.state === 'disabled') {
+            all_visible = false;
+          }
+        });
+        assert.isTrue(all_visible);
+      });
+
+      it('should unhide all questions in an instance if the user is a mod.', function () {
+        unhide.apply({ userId: test_mod._id }, [test_table._id]);
+        let all_visible = true;
+        Questions.find({ instanceid: test_table._id }).forEach((question) => {
+          if (question.state === 'disabled') {
+            all_visible = false;
+          }
+        });
+        assert.isTrue(all_visible);
+      });
+
+      it('should return false and not unhide any questions if the user is unauthorized.', function () {
+        const hidden_logged_in = unhide.apply({ userId: test_user._id }, [test_table._id]);
+        let all_hidden_logged_in = true;
+        Questions.find({ instanceid: test_table._id }).forEach((question) => {
+          if (question.state !== 'disabled') {
+            all_hidden_logged_in = false;
+          }
+        });
+        const hidden_logged_out = unhide.apply({}, [test_table._id]);
+        let all_hidden_logged_out = true;
+        Questions.find({ instanceid: test_table._id }).forEach((question) => {
+          if (question.state !== 'disabled') {
+            all_hidden_logged_out = false;
+          }
+        });
+        assert.isFalse(hidden_logged_in);
+        assert.isFalse(hidden_logged_out);
+        assert.isTrue(all_hidden_logged_in);
+        assert.isTrue(all_hidden_logged_out);
+      });
+    });
+
+    describe('#unhideThis()', function () {
+      const unhideThis = Meteor.server.method_handlers.unhideThis;
+
+      beforeEach(function () {
+        Questions.update({ _id: test_quest._id }, { $set: { state: 'disabled' } });
+      });
+
+      it('should unhide a question if the user is an admin.', function () {
+        unhideThis.apply({ userId: test_admin._id }, [test_quest._id]);
+        assert.equal(Questions.findOne({ _id: test_quest._id }).state, 'normal');
+      });
+
+      it('should unhide a question if the user is a mod.', function () {
+        unhideThis.apply({ userId: test_mod._id }, [test_quest._id]);
+        assert.equal(Questions.findOne({ _id: test_quest._id }).state, 'normal');
+      });
+
+      it('should return false and not unhide if the user is unauthorized.', function () {
+        const hidden_logged_in = unhideThis.apply({ userId: test_user._id }, [test_quest._id]);
+        const hidden_logged_out = unhideThis.apply({}, [test_quest._id]);
+        assert.isFalse(hidden_logged_in);
+        assert.isFalse(hidden_logged_out);
+        assert.equal(Questions.findOne({ _id: test_quest._id }).state, 'disabled');
+      });
+    });
   });
 }

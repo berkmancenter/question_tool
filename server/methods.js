@@ -172,12 +172,12 @@ Meteor.methods({
   },
   // Method that unhides every question in a given table
   unhide(instanceid) {
-    if (Meteor.user()) {
-      const email = Meteor.user().emails[0].address;
+    if (this.userId) {
+      const email = Meteor.users.findOne({ _id: this.userId }).emails[0].address;
       const instance = Instances.findOne({
         _id: instanceid,
       });
-      if (email === instance.admin) {
+      if (email === instance.admin || instance.moderators.indexOf(email) !== -1) {
         // Sets state to normal for every question with tablename table
         Questions.update({
           instanceid,
@@ -198,20 +198,16 @@ Meteor.methods({
     return false;
   },
   unhideThis(id) {
-    if (Meteor.user()) {
-      const email = Meteor.user().emails[0].address;
+    if (this.userId) {
+      const email = Meteor.users.findOne({ _id: this.userId }).emails[0].address;
       const question = Questions.findOne({
         _id: id,
       });
       const table = Instances.findOne({
         _id: question.instanceid,
       });
-      if (email !== table.admin) {
-        if (table.moderators) {
-          if (table.moderators.indexOf(email) === -1) {
-            return false;
-          }
-        }
+      if (email !== table.admin && table.moderators && table.moderators.indexOf(email) === -1) {
+        return false;
       }
       Questions.update({
         _id: id,
