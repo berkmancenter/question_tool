@@ -91,18 +91,24 @@ Template.add.events({
       }
     }
     Meteor.call('addMods', mods, Session.get('id'), (error, result) => {
+      // If the result is an object, there was an error
+      if (typeof result === 'object') {
+        // Alert the error
+        for (let i = 0; i < result.length; i++) {
+          if (result[i].name === 'moderators') {
+            showModsError('You can only assign 4 moderators per instance.');
+            return false;
+          }
+        }
+        showModsError('Please enter valid email addresses.');
+        return false;
+      }
       for (let m = 0; m < mods.length; m++) {
         Meteor.call('sendEmail',
                     mods[m],
                     Meteor.user().emails[0].address,
                     'You have been added as a moderator on Question Tool',
                     Meteor.user().profile.name + ' added you as a moderator of ' + Session.get('tablename') + ' at ' + Iron.Location.get().originalUrl + ' on Question Tool. You are able to modify, combine, and hide questions. You must use this email address when registering to be considered a moderator.');
-      }
-      // If the result is an object, there was an error
-      if (typeof result === 'object') {
-        // Alert the error
-        showModsError('Please enter valid email addresses.');
-        return false;
       }
       let boxes = document.getElementsByClassName('newmod');
       boxes = boxes[boxes.length - 1];

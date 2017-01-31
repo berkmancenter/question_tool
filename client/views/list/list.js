@@ -563,42 +563,33 @@ Template.list.events({
   'click .replybottombutton': function (event, template) {
     // Retrieves data from form
     const theID = event.target.id;
-    // var anonymous = document.getElementById("anonbox").checked;
+    const anon = false;
     const answer = document.getElementById('text' + theID).value;
-    let posterName = Meteor.user().profile.name;
-    const email = Meteor.user().emails[0].address;
-    // Gets the user's IP address from the server
-    Meteor.call('getIP', (error, result) => {
-      if (!error) {
-        // If a name isn't specified, call them "Anonymous"
-        if (!posterName) {
-          posterName = 'Anonymous';
-        }
-        // Calls a server-side method to answer a question and update DBs
-        Meteor.call('answer', Session.get('id'), answer, posterName, email, result, theID, (e, r) => {
-          // If the result is an object, there was an error
-          if (typeof r === 'object') {
-            // Store an object of the error names and codes
-            const errorCodes = {
-              text: 'Please enter an answer.',
-              poster: 'Please enter a valid name.',
-              email: 'Please enter a valid email address.',
-              ip: 'There was an error with your IP address. Try again.',
-              instanceid: 'There was an error with the instance id. Try again.',
-              qid: 'There was an error with the question ID.',
-            };
-            // Alert the error
-            showReplyError(errorCodes[r[0].name], theID);
-            return false;
-          }
-          if (typeof replyError !== 'undefined') {
-            Blaze.remove(replyError);
-          }
-          document.getElementById('reply' + theID).innerHTML = 'Reply';
-          document.getElementById('text' + theID).value = '';
-          $('#down' + theID).slideUp();
-        });
+
+    // Calls a server-side method to answer a question and update DBs
+    Meteor.call('answer', Session.get('id'), answer, theID, anon, (e, r) => {
+      // If the result is an object, there was an error
+      if (typeof r === 'object') {
+        // Store an object of the error names and codes
+        const errorCodes = {
+          text: 'Please enter an answer.',
+          poster: 'Please enter a valid name.',
+          email: 'Please enter a valid email address.',
+          ip: 'There was an error with your IP address. Try again.',
+          instanceid: 'There was an error with the instance id. Try again.',
+          qid: 'There was an error with the question ID.',
+          anonymous: 'The admin has disabled anonymous posting.',
+        };
+        // Alert the error
+        showReplyError(errorCodes[r[0].name], theID);
+        return false;
       }
+      if (typeof replyError !== 'undefined') {
+        Blaze.remove(replyError);
+      }
+      document.getElementById('reply' + theID).innerHTML = 'Reply';
+      document.getElementById('text' + theID).value = '';
+      $('#down' + theID).slideUp();
     });
   },
 
@@ -607,44 +598,32 @@ Template.list.events({
     const theID = event.target.id;
     // var anonymous = document.getElementById("anonbox").checked;
     const answer = document.getElementById('text' + theID).value;
-    let posterName = 'Anonymous';
-    const email = '';
-    if (!Session.get('anonymous')) {
-      showReplyError('The admin has disabled anonymous posting.', theID);
-      return false;
-    }
-    // Gets the user's IP address from the server
-    Meteor.call('getIP', (error, result) => {
-      if (!error) {
-        // If a name isn't specified, call them "Anonymous"
-        if (!posterName) {
-          posterName = 'Anonymous';
-        }
-        // Calls a server-side method to answer a question and update DBs
-        Meteor.call('answer', Session.get('id'), answer, posterName, email, result, theID, (e, r) => {
-          // If the result is an object, there was an error
-          if (typeof r === 'object') {
-            // Store an object of the error names and codes
-            const errorCodes = {
-              text: 'Please enter an answer.',
-              poster: 'Please enter a valid name.',
-              email: 'Please enter a valid email address.',
-              ip: 'There was an error with your IP address. Try again.',
-              instanceid: 'There was an error with the instance id. Try again.',
-              qid: 'There was an error with the question ID.',
-            };
-            // Alert the error
-            showReplyError(errorCodes[r[0].name], theID);
-            return false;
-          }
-          if (typeof replyError !== 'undefined') {
-            Blaze.remove(replyError);
-          }
-          document.getElementById('reply' + theID).innerHTML = 'Reply';
-          document.getElementById('text' + theID).value = '';
-          $('#down' + theID).slideUp();
-        });
+
+    const anon = true;
+    // Calls a server-side method to answer a question and update DBs
+    Meteor.call('answer', Session.get('id'), answer, theID, anon, (e, r) => {
+      // If the result is an object, there was an error
+      if (typeof r === 'object') {
+        // Store an object of the error names and codes
+        const errorCodes = {
+          text: 'Please enter an answer.',
+          poster: 'Please enter a valid name.',
+          email: 'Please enter a valid email address.',
+          ip: 'There was an error with your IP address. Try again.',
+          instanceid: 'There was an error with the instance id. Try again.',
+          qid: 'There was an error with the question ID.',
+          anonymous: 'The admin has disabled anonymous posting.',
+        };
+        // Alert the error
+        showReplyError(errorCodes[r[0].name], theID);
+        return false;
       }
+      if (typeof replyError !== 'undefined') {
+        Blaze.remove(replyError);
+      }
+      document.getElementById('reply' + theID).innerHTML = 'Reply';
+      document.getElementById('text' + theID).value = '';
+      $('#down' + theID).slideUp();
     });
   },
   'keypress .replyemail': function (event, template) {

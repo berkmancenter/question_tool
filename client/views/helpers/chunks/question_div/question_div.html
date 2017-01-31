@@ -35,6 +35,12 @@
           <span class="adminquestionmodify link" id="{{_id}}">
             Modify
           </span>
+          {{ else }}
+            {{#if isPoster}}
+            <span class="adminquestionmodify link" id="{{_id}}">
+              Modify
+            </span>
+            {{/if}}
           {{/if}}
         </span>
         <span class="sharing">

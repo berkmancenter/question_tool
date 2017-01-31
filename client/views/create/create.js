@@ -124,7 +124,7 @@ Template.create.events({
           new_length: "Please enter a valid value using the 'new questions' drop down menu.",
           stale_length: "Please enter a valid value using the 'old questions' drop down menu.",
           description: 'Please enter a valid description under 255 characters.',
-          modlength: 'You have entered too many moderators. Please try again.',
+          moderators: 'You have entered too many moderators. Please try again.',
         };
         // Alert the error
         showCreateError(errorCodes[result[0].name]);

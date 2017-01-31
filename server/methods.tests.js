@@ -35,29 +35,19 @@ if (Meteor.isServer) {
       },
     };
 
-    const table_default = {
+    const test_table = {
+      tablename: Random.hexString(10),
       threshold: 2,
       new_length: 30,
       stale_length: 900,
       max_question: 250,
       max_response: 200,
-      anonymous: true,
-      hidden: false,
-    };
-
-    const test_table = {
-      tablename: Random.hexString(10),
-      threshold: table_default.threshold,
-      new_length: table_default.new_length,
-      stale_length: table_default.stale_length,
-      max_question: table_default.max_question,
-      max_response: table_default.max_response,
       description: Random.hexString(300),
       moderators: [test_mod.email],
       lasttouch: new Date().getTime() - 1000,
       admin: test_admin.email,
-      anonymous: table_default.anonymous,
-      hidden: table_default.hidden,
+      anonymous: true,
+      hidden: false,
       author: test_admin.profile.name,
     };
 
@@ -66,6 +56,7 @@ if (Meteor.isServer) {
       poster: test_user.profile.name,
       email: test_user.email,
       ip: '127.0.0.1',
+      posterLoggedIn: true,
       timeorder: new Date().getTime() - 1000,
       lasttouch: new Date().getTime() - 1000,
       state: 'normal',
@@ -80,56 +71,76 @@ if (Meteor.isServer) {
       timeorder: new Date().getTime() - 1000,
     };
 
-    before(function () {
-      // 1. Clean out test database
+    const prep = function (options) {
+      // options: users, question, answer
+
+      this.test_table = Object.assign({}, test_table);
+      const inst = Instances.insert(this.test_table);
+      let quest;
+      this.test_table._id = inst;
+
+      if (options && options.users) {
+        this.test_user = Object.assign({}, test_user);
+        this.test_admin = Object.assign({}, test_admin);
+        this.test_mod = Object.assign({}, test_mod);
+        const uid = Accounts.createUser(this.test_user);
+        const aid = Accounts.createUser(this.test_admin);
+        const mid = Accounts.createUser(this.test_mod);
+        this.test_user._id = uid;
+        this.test_admin._id = aid;
+        this.test_mod._id = mid;
+      }
+
+      if (options && options.question) {
+        this.test_quest = Object.assign({}, test_quest);
+        this.test_quest.instanceid = inst;
+        this.test_quest.tablename = Instances.findOne({ _id: inst }).tablename;
+        quest = Questions.insert(this.test_quest);
+        this.test_quest._id = quest;
+      }
+
+      if (options && options.answer) {
+        this.test_answer = Object.assign({}, test_answer);
+        this.test_answer.instanceid = inst;
+        this.test_answer.qid = quest;
+      }
+    };
+
+    beforeEach(function () {
       resetDatabase();
-
-      // 2. Insert test data
-      const uid = Accounts.createUser(test_user);
-      const aid = Accounts.createUser(test_admin);
-      const mid = Accounts.createUser(test_mod);
-      test_user._id = uid;
-      test_admin._id = aid;
-      test_mod._id = mid;
-
-      const inst = Instances.insert(test_table);
-      test_table._id = inst;
-
-      test_quest.instanceid = inst;
-      test_quest.tablename = Instances.findOne({ _id: inst }).tablename;
-      const quest = Questions.insert(test_quest);
-      test_quest._id = quest;
-
-      test_answer.instanceid = inst;
-      test_answer.qid = quest;
     });
 
     describe('#getTable()', function () {
       it('should return the instance whose name is passed.', function () {
-        const table = Meteor.call('getTable', test_table.tablename);
-        assert.equal(table._id, test_table._id);
+        prep.call(this);
+        const table = Meteor.call('getTable', this.test_table.tablename);
+        assert.equal(table._id, this.test_table._id);
       });
 
       it('should return same instance regardless of case.', function () {
-        const table_upper = Meteor.call('getTable', test_table.tablename.toUpperCase());
-        const table_lower = Meteor.call('getTable', test_table.tablename.toLowerCase());
+        prep.call(this);
+        const table_upper = Meteor.call('getTable', this.test_table.tablename.toUpperCase());
+        const table_lower = Meteor.call('getTable', this.test_table.tablename.toLowerCase());
         assert.equal(table_upper._id, table_lower._id);
       });
 
       it('should return undefined if the instance does not exist.', function () {
-        const not_table = Meteor.call('getTable', test_table.tablename + 'not');
+        prep.call(this);
+        const not_table = Meteor.call('getTable', this.test_table.tablename + 'not');
         assert.isUndefined(not_table);
       });
     });
 
     describe('#listCookieCheck()', function () {
       it('should return true if the table exists.', function () {
-        const present = Meteor.call('listCookieCheck', test_table._id);
+        prep.call(this);
+        const present = Meteor.call('listCookieCheck', this.test_table._id);
         assert.isTrue(present);
       });
 
       it('should return false if the table does not exist.', function () {
-        const present = Meteor.call('listCookieCheck', test_table._id + 'not');
+        prep.call(this);
+        const present = Meteor.call('listCookieCheck', this.test_table._id + 'not');
         assert.isFalse(present);
       });
     });
@@ -137,104 +148,131 @@ if (Meteor.isServer) {
     describe('#adminCheck()', function () {
       const adminCheck = Meteor.server.method_handlers.adminCheck;
       it('should return true if logged in user is the admin of an instance.', function () {
-        const is_admin = adminCheck.apply({ userId: test_admin._id }, [test_table._id]);
+        prep.call(this, { users: true });
+        const is_admin = adminCheck.apply({ userId: this.test_admin._id }, [this.test_table._id]);
         assert.isTrue(is_admin);
       });
 
       it('should return true if logged in user is a moderator of an instance.', function () {
-        const is_mod = adminCheck.apply({ userId: test_mod._id }, [test_table._id]);
+        prep.call(this, { users: true });
+        const is_mod = adminCheck.apply({ userId: this.test_mod._id }, [this.test_table._id]);
         assert.isTrue(is_mod);
       });
 
       it('should return false if the instance does not exist.', function () {
-        const is_admin = adminCheck.apply({ userId: test_admin._id }, [test_table._id + 'not']);
+        prep.call(this, { users: true });
+        const is_admin = adminCheck.apply({ userId: this.test_admin._id }, [this.test_table._id + 'not']);
         assert.isFalse(is_admin);
       });
 
       it('should return false if user is neither an admin nor a moderator of an instance.', function () {
-        const is_admin_mod = adminCheck.apply({ userId: test_user._id }, [test_table._id]);
+        prep.call(this, { users: true });
+        const is_admin_mod = adminCheck.apply({ userId: this.test_user._id }, [this.test_table._id]);
         assert.isFalse(is_admin_mod);
       });
 
       it('should return false if no user is logged in.', function () {
-        const is_admin_mod = adminCheck.apply({}, [test_table._id]);
+        prep.call(this);
+        const is_admin_mod = adminCheck.apply({}, [this.test_table._id]);
         assert.isFalse(is_admin_mod);
       });
     });
 
     describe('#touch()', function () {
       it('should update an instance\'s lasttouch to now.', function () {
-        Meteor.call('touch', test_table._id);
-        const new_touch = Instances.findOne({ _id: test_table._id }).lasttouch;
-        assert.isAbove(new_touch, test_table.lasttouch);
-        test_table.lasttouch = new_touch;
+        prep.call(this);
+        Meteor.call('touch', this.test_table._id);
+        const new_touch = Instances.findOne({ _id: this.test_table._id }).lasttouch;
+        assert.isAbove(new_touch, this.test_table.lasttouch);
       });
     });
 
     describe('#answer()', function () {
+      const answer = Meteor.server.method_handlers.answer;
+      const invocation = function (anon) {
+        const res = { connection: { clientAddress: this.test_answer.ip } };
+        if (!anon) { res.userId = this.test_user._id; }
+        return res;
+      };
+
       it('should add an answer to a pre-existing question.', function () {
-        Meteor.call('answer', test_table._id, test_answer.text, test_user.profile.name, test_user.email, test_answer.ip, test_quest._id);
-        assert.equal(Answers.find({ qid: test_quest._id }).count(), 1);
+        prep.call(this, { question: true, answer: true, users: true });
+        answer.apply(invocation.call(this, false), [this.test_table._id, this.test_answer.text, this.test_quest._id, false]);
+        assert.equal(Answers.find({ qid: this.test_quest._id }).count(), 1);
       });
 
       it('should return false if the question does not exist.', function () {
-        const res = Meteor.call('answer', test_table._id, test_answer.text, test_user.profile.name, test_user.email, test_answer.ip, test_quest._id + 'not');
+        prep.call(this, { question: true, answer: true, users: true });
+        const res = answer.apply(invocation.call(this, false), [this.test_table._id, this.test_answer.text, this.test_quest._id + 'not', false]);
         assert.isFalse(res);
       });
 
       it('should return an error if answer is too long.', function () {
+        prep.call(this, { question: true, answer: true, users: true });
         const long_ans = Random.hexString(300);
-        const error = Meteor.call('answer', test_table._id, long_ans, test_user.profile.name, test_user.email, test_answer.ip, test_quest._id);
+        const error = answer.apply(invocation.call(this, false), [this.test_table._id, long_ans, this.test_quest._id, false]);
         assert.isArray(error);
         assert.equal(error[0].name, 'text');
+      });
+
+      it('should post answer as anonymous if the logged in user specifies it.', function () {
+        prep.call(this, { question: true, answer: true, users: true });
+        answer.apply(invocation.call(this, false), [this.test_table._id, this.test_answer.text, this.test_quest._id, true]);
+        const ans = Answers.findOne({ qid: this.test_quest._id });
+        assert.equal(ans.poster, 'Anonymous');
+        assert.isUndefined(ans.email);
+      });
+
+      it('should post answer as anonymous if the user is not logged in.', function () {
+        prep.call(this, { question: true, answer: true });
+        answer.apply(invocation.call(this, true), [this.test_table._id, this.test_answer.text, this.test_quest._id, false]);
+        const ans = Answers.findOne({ qid: this.test_quest._id });
+        assert.equal(ans.poster, 'Anonymous');
+        assert.isUndefined(ans.email);
       });
     });
 
     describe('#create()', function () {
       const create = Meteor.server.method_handlers.create;
-      const t = {
-        tablename: Random.hexString(10),
-        threshold: table_default.threshold,
-        new_length: table_default.new_length,
-        stale_length: table_default.stale_length,
-        desc: Random.hexString(300),
-        moderators: [],
-        max_question: table_default.max_question,
-        max_response: table_default.max_response,
-        anonymous: table_default.anonymous,
-        hidden: table_default.hidden,
-      };
 
-      it('shoud create a new instance and fill with a question if all the fields are correct.', function () {
-        const created = create.apply({ userId: test_user._id }, [t.tablename, t.threshold, t.new_length, t.stale_length, t.desc, t.moderators, t.max_question, t.max_response, t.anonymous, t.hidden]);
-        assert.equal(created, t.tablename);
-        assert.equal(Instances.find({ tablename: created }).count(), 1);
-        assert.equal(Questions.find({ tablename: created }).count(), 1);
+      it('should create a new instance and return its ID if all the fields are correct.', function () {
+        prep.call(this, { users: true });
+        this.t = Object.assign({}, this.test_table);
+        const created = create.apply({ userId: this.test_user._id }, [this.t.tablename, this.t.threshold, this.t.new_length, this.t.stale_length, this.t.description, this.t.moderators, this.t.max_question, this.t.max_response, this.t.anonymous, this.t.hidden]);
+        assert.isString(created);
       });
 
       it('should return false if no user is logged in.', function () {
-        const created = create.apply({}, [t.tablename, t.threshold, t.new_length, t.stale_length, t.desc, t.moderators, t.max_question, t.max_response, t.anonymous, t.hidden]);
+        prep.call(this);
+        this.t = Object.assign({}, this.test_table);
+        const created = create.apply({}, [this.t.tablename, this.t.threshold, this.t.new_length, this.t.stale_length, this.t.description, this.t.moderators, this.t.max_question, this.t.max_response, this.t.anonymous, this.t.hidden]);
         assert.isFalse(created);
       });
 
       it('should return an error if more than 4 moderators are registered.', function () {
+        prep.call(this, { users: true });
+        this.t = Object.assign({}, this.test_table);
         const mods = [];
         for (let i = 0; i < 5; i++) {
-          mods.push(test_mod.email);
+          mods.push(this.test_mod.email);
         }
-        const created = create.apply({ userId: test_user._id }, [t.tablename, t.threshold, t.new_length, t.stale_length, t.desc, mods, t.max_question, t.max_response, t.anonymous, t.hidden]);
+        const created = create.apply({ userId: this.test_user._id }, [this.t.tablename, this.t.threshold, this.t.new_length, this.t.stale_length, this.t.description, mods, this.t.max_question, this.t.max_response, this.t.anonymous, this.t.hidden]);
         assert.isArray(created);
-        assert.equal(created[0].name, 'modlength');
+        assert.equal(created[0].name, 'moderators');
       });
 
       it('should return an error if the tablename doesn\'t contains non-alphanumeric chars.', function () {
-        const created = create.apply({ userId: test_user._id }, [t.tablename + '-', t.threshold, t.new_length, t.stale_length, t.desc, t.moderators, t.max_question, t.max_response, t.anonymous, t.hidden]);
+        prep.call(this, { users: true });
+        this.t = Object.assign({}, this.test_table);
+        const created = create.apply({ userId: this.test_user._id }, [this.t.tablename + '-', this.t.threshold, this.t.new_length, this.t.stale_length, this.t.description, this.t.moderators, this.t.max_question, this.t.max_response, this.t.anonymous, this.t.hidden]);
         assert.isArray(created);
         assert.equal(created[0].name, 'tablename');
       });
 
       it('should return an error if the description is more than 500 chars.', function () {
-        const created = create.apply({ userId: test_user._id }, [t.tablename, t.threshold, t.new_length, t.stale_length, Random.hexString(501), t.moderators, t.max_question, t.max_response, t.anonymous, t.hidden]);
+        prep.call(this, { users: true });
+        this.t = Object.assign({}, this.test_table);
+        const created = create.apply({ userId: this.test_user._id }, [this.t.tablename, this.t.threshold, this.t.new_length, this.t.stale_length, Random.hexString(501), this.t.moderators, this.t.max_question, this.t.max_response, this.t.anonymous, this.t.hidden]);
         assert.isArray(created);
         assert.equal(created[0].name, 'description');
       });
@@ -243,17 +281,19 @@ if (Meteor.isServer) {
     describe('#unhide()', function () {
       const unhide = Meteor.server.method_handlers.unhide;
 
-      beforeEach(function () {
-        const temp_quest = Object.assign({}, test_quest);
+      const disable = function () {
+        prep.call(this, { users: true, question: true });
+        const temp_quest = Object.assign({}, this.test_quest);
         delete temp_quest._id;
         Questions.insert(temp_quest);
-        Questions.update({ instanceid: test_table._id }, { $set: { state: 'disabled' } }, { multi: true });
-      });
+        Questions.update({ instanceid: this.test_table._id }, { $set: { state: 'disabled' } }, { multi: true });
+      };
 
       it('should unhide all questions in an instance if the user is an admin.', function () {
-        unhide.apply({ userId: test_admin._id }, [test_table._id]);
+        disable.call(this);
+        unhide.apply({ userId: this.test_admin._id }, [this.test_table._id]);
         let all_visible = true;
-        Questions.find({ instanceid: test_table._id }).forEach((question) => {
+        Questions.find({ instanceid: this.test_table._id }).forEach((question) => {
           if (question.state === 'disabled') {
             all_visible = false;
           }
@@ -262,9 +302,10 @@ if (Meteor.isServer) {
       });
 
       it('should unhide all questions in an instance if the user is a mod.', function () {
-        unhide.apply({ userId: test_mod._id }, [test_table._id]);
+        disable.call(this);
+        unhide.apply({ userId: this.test_mod._id }, [this.test_table._id]);
         let all_visible = true;
-        Questions.find({ instanceid: test_table._id }).forEach((question) => {
+        Questions.find({ instanceid: this.test_table._id }).forEach((question) => {
           if (question.state === 'disabled') {
             all_visible = false;
           }
@@ -273,23 +314,28 @@ if (Meteor.isServer) {
       });
 
       it('should return false and not unhide any questions if the user is unauthorized.', function () {
-        const hidden_logged_in = unhide.apply({ userId: test_user._id }, [test_table._id]);
+        disable.call(this);
+        const hidden_logged_in = unhide.apply({ userId: test_user._id }, [this.test_table._id]);
         let all_hidden_logged_in = true;
-        Questions.find({ instanceid: test_table._id }).forEach((question) => {
+        Questions.find({ instanceid: this.test_table._id }).forEach((question) => {
           if (question.state !== 'disabled') {
             all_hidden_logged_in = false;
           }
         });
-        const hidden_logged_out = unhide.apply({}, [test_table._id]);
+        assert.isFalse(hidden_logged_in);
+        assert.isTrue(all_hidden_logged_in);
+      });
+
+      it('should return false and not unhide any questions if the user is logged out.', function () {
+        disable.call(this);
+        const hidden_logged_out = unhide.apply({}, [this.test_table._id]);
         let all_hidden_logged_out = true;
-        Questions.find({ instanceid: test_table._id }).forEach((question) => {
+        Questions.find({ instanceid: this.test_table._id }).forEach((question) => {
           if (question.state !== 'disabled') {
             all_hidden_logged_out = false;
           }
         });
-        assert.isFalse(hidden_logged_in);
         assert.isFalse(hidden_logged_out);
-        assert.isTrue(all_hidden_logged_in);
         assert.isTrue(all_hidden_logged_out);
       });
     });
@@ -297,26 +343,155 @@ if (Meteor.isServer) {
     describe('#unhideThis()', function () {
       const unhideThis = Meteor.server.method_handlers.unhideThis;
 
-      beforeEach(function () {
-        Questions.update({ _id: test_quest._id }, { $set: { state: 'disabled' } });
-      });
+      const disable = function () {
+        prep.call(this, { users: true, question: true });
+        Questions.update({ _id: this.test_quest._id }, { $set: { state: 'disabled' } });
+      };
 
       it('should unhide a question if the user is an admin.', function () {
-        unhideThis.apply({ userId: test_admin._id }, [test_quest._id]);
-        assert.equal(Questions.findOne({ _id: test_quest._id }).state, 'normal');
+        disable.call(this);
+        unhideThis.apply({ userId: this.test_admin._id }, [this.test_quest._id]);
+        assert.equal(Questions.findOne({ _id: this.test_quest._id }).state, 'normal');
       });
 
       it('should unhide a question if the user is a mod.', function () {
-        unhideThis.apply({ userId: test_mod._id }, [test_quest._id]);
-        assert.equal(Questions.findOne({ _id: test_quest._id }).state, 'normal');
+        disable.call(this);
+        unhideThis.apply({ userId: this.test_mod._id }, [this.test_quest._id]);
+        assert.equal(Questions.findOne({ _id: this.test_quest._id }).state, 'normal');
       });
 
       it('should return false and not unhide if the user is unauthorized.', function () {
-        const hidden_logged_in = unhideThis.apply({ userId: test_user._id }, [test_quest._id]);
-        const hidden_logged_out = unhideThis.apply({}, [test_quest._id]);
+        disable.call(this);
+        const hidden_logged_in = unhideThis.apply({ userId: this.test_user._id }, [this.test_quest._id]);
+        assert.equal(Questions.findOne({ _id: this.test_quest._id }).state, 'disabled');
         assert.isFalse(hidden_logged_in);
+
+        const hidden_logged_out = unhideThis.apply({}, [this.test_quest._id]);
+        assert.equal(Questions.findOne({ _id: this.test_quest._id }).state, 'disabled');
         assert.isFalse(hidden_logged_out);
-        assert.equal(Questions.findOne({ _id: test_quest._id }).state, 'disabled');
+      });
+    });
+
+    describe('#addMods()', function () {
+      const mods = [];
+      const addMods = Meteor.server.method_handlers.addMods;
+
+      before(function () {
+        for (let i = 0; i < 3; i++) {
+          mods.push(Random.hexString(5) + '@mods.us');
+        }
+      });
+
+      it('should add moderators if the user is an admin and fields are correct.', function () {
+        prep.call(this, { users: true });
+        const added = addMods.apply({ userId: this.test_admin._id }, [mods, this.test_table._id]);
+        assert.isTrue(added);
+        assert.equal(Instances.findOne({ _id: this.test_table._id }).moderators.length, 4);
+      });
+
+      it('should return false and not add moderators if the user is a mod.', function () {
+        prep.call(this, { users: true });
+        const added = addMods.apply({ userId: this.test_mod._id }, [mods, this.test_table._id]);
+        assert.isFalse(added);
+        assert.equal(Instances.findOne({ _id: this.test_table._id }).moderators.length, 1);
+      });
+
+      it('should return false and not add moderators if the user is not logged in.', function () {
+        prep.call(this);
+        const added = addMods.apply({}, [mods, this.test_table._id]);
+        assert.isFalse(added);
+        assert.equal(Instances.findOne({ _id: this.test_table._id }).moderators.length, 1);
+      });
+
+      it('should return false and not add moderators if the user is a regular user.', function () {
+        prep.call(this, { users: true });
+        const added = addMods.apply({ userId: this.test_user._id }, [mods, this.test_table._id]);
+        assert.isFalse(added);
+        assert.equal(Instances.findOne({ _id: this.test_table._id }).moderators.length, 1);
+      });
+
+      it('should return an error and not add new mods if trying to make total moderators > 4.', function () {
+        prep.call(this, { users: true });
+        const extra_mods = mods.slice().push(Random.hexString(5) + '@mods.us');
+        const error = addMods.apply({ userId: this.test_admin._id }, [extra_mods, this.test_table._id]);
+        assert.isArray(error);
+        assert.equal(error[0].name, 'moderators');
+        assert.equal(Instances.findOne({ _id: this.test_table._id }).moderators.length, 1);
+      });
+
+      it('should return an error and not add new mods if any mod email is invalid.', function () {
+        prep.call(this, { users: true });
+        const invalid_mods = mods.slice();
+        invalid_mods[0] = Random.hexString(10);
+        const error = addMods.apply({ userId: this.test_admin._id }, [invalid_mods, this.test_table._id]);
+        assert.isArray(error);
+        assert.match(error[0].name, /^moderators*/);
+        assert.equal(Instances.findOne({ _id: this.test_table._id }).moderators.length, 1);
+      });
+    });
+
+    describe('#removeMods()', function () {
+      const removeMods = Meteor.server.method_handlers.removeMods;
+
+      it('should remove a moderator if the user is an admin.', function () {
+        prep.call(this, { users: true });
+        removeMods.apply({ userId: this.test_admin._id }, [this.test_mod.email, this.test_table._id]);
+        assert.equal(Instances.findOne({ _id: this.test_table._id }).moderators.length, 0);
+      });
+
+      it('should not remove a moderator if the user is a mod.', function () {
+        prep.call(this, { users: true });
+        removeMods.apply({ userId: this.test_mod._id }, [this.test_mod.email, this.test_table._id]);
+        assert.equal(Instances.findOne({ _id: this.test_table._id }).moderators.length, 1);
+      });
+
+      it('should not remove a moderator if the user is not logged in.', function () {
+        prep.call(this, { users: true });
+        removeMods.apply({}, [this.test_mod.email, this.test_table._id]);
+        assert.equal(Instances.findOne({ _id: this.test_table._id }).moderators.length, 1);
+      });
+    });
+
+    describe('#modify()', function () {
+      const modify = Meteor.server.method_handlers.modify;
+      const new_question = Random.hexString(20);
+
+      it('should modify a question if instance admin.', function () {
+        prep.call(this, { users: true, question: true });
+        modify.apply({ userId: this.test_admin._id }, [new_question, this.test_quest._id]);
+        assert.equal(Questions.findOne({ _id: this.test_quest._id }).text, new_question);
+      });
+
+      it('should modify a question if instance mod.', function () {
+        prep.call(this, { users: true, question: true });
+        modify.apply({ userId: this.test_mod._id }, [new_question, this.test_quest._id]);
+        assert.equal(Questions.findOne({ _id: this.test_quest._id }).text, new_question);
+      });
+
+      it('should modify a question if user is the original poster.', function () {
+        prep.call(this, { users: true, question: true });
+        modify.apply({ userId: this.test_user._id }, [new_question, this.test_quest._id]);
+        assert.equal(Questions.findOne({ _id: this.test_quest._id }).text, new_question);
+      });
+
+      it('should not modify a question if user is unauthorized.', function () {
+        prep.call(this, { question: true });
+        const temp_id = Accounts.createUser({ email: 'temp@users.us', password: 'temptemptemptemp', profile: { name: 'Temp McTemple' } });
+        modify.apply({ userId: temp_id }, [new_question, this.test_quest._id]);
+        assert.equal(Questions.findOne({ _id: this.test_quest._id }).text, this.test_quest.text);
+      });
+
+      it('should not modify a question if user is not logged in.', function () {
+        prep.call(this, { question: true });
+        modify.apply({}, [new_question, this.test_quest._id]);
+        assert.equal(Questions.findOne({ _id: this.test_quest._id }).text, this.test_quest.text);
+      });
+
+      it('should return an error if modification puts question over char limit.', function () {
+        prep.call(this, { users: true, question: true });
+        const error = modify.apply({ userId: this.test_admin._id }, [Random.hexString(600), this.test_quest._id]);
+        assert.isArray(error);
+        assert.equal(error[0].name, 'text');
       });
     });
   });

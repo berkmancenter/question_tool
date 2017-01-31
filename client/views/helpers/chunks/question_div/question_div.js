@@ -1,9 +1,15 @@
 import { Questions, Votes, Answers } from '/lib/common.js';
 
 Template.question_div.helpers({
+  isPoster() {
+    const quest = Questions.findOne({ _id: this._id });
+    return Meteor.user() && Meteor.user().emails[0].address === quest.email && quest.posterLoggedIn;
+  },
+
   replyCount() {
     return Session.get('replyCount');
   },
+
   responseLength() {
     if (Session.get('responseLength')) {
       return Session.get('responseLength');

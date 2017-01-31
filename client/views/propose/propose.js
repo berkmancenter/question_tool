@@ -205,42 +205,38 @@ Template.propose.events({
       });
     }
     // Calls server-side method to get the user's IP address
-    Meteor.call('getIP', (error, result) => {
-      if (!error) {
-        // Calls server-side "propose" method to add question to DB
-        Meteor.call('propose', Session.get('id'), Session.get('tablename'), question, posterName, posterEmail, result, (e, r) => {
-          // If returns an object, there was an error
-          if (typeof r === 'object') {
-            // Store an object of the error names and codes
-            const errorCodes = {
-              tablename: 'Table name is invalid. Please return to the list and try again.',
-              text: 'Posts must be between 10 and ' + Session.get('questionLength') + ' characters.',
-              poster: 'Please enter a valid name using less than 30 characters.',
-              ip: 'There was an error with your IP address. Please try again.',
-              timeorder: 'There was an error retrieving the current time. Please try again.',
-              lasttouch: 'There was an error retrieving the current time. Please try again.',
-              state: 'Question state is invalid. Please return to the list and try again.',
-              votes: '# of votes is invalid. Please return to the list and try again.',
-              email: 'Please enter a valid email address using less than 70 characters.',
-            };
-            // Alert the error message
-            showProposeError(errorCodes[r[0].name]);
-            return false;
-          }
-          // If successful, redirect back to the list page
-          // Router.go("/list");
-          if (typeof currentError !== 'undefined') {
-            Blaze.remove(currentError);
-          }
-          $('#toparea').slideUp();
-          $('#navAsk').click();
-          // $("#navAsk").html("+ Ask");
-          document.getElementById('navAsk').style.backgroundColor = '#27ae60';
-          document.getElementById('questioninput').value = '';
-          Blaze.remove(dropDownTemplate);
-          // $("html, body").animate({ scrollTop: $(document).height() }, "slow");
-        });
+    Meteor.call('propose', Session.get('id'), Session.get('tablename'), question, anonymous, posterName, posterEmail, (e, r) => {
+      // If returns an object, there was an error
+      if (typeof r === 'object') {
+        // Store an object of the error names and codes
+        const errorCodes = {
+          tablename: 'Table name is invalid. Please return to the list and try again.',
+          text: 'Posts must be between 10 and ' + Session.get('questionLength') + ' characters.',
+          poster: 'Please enter a valid name using less than 30 characters.',
+          ip: 'There was an error with your IP address. Please try again.',
+          timeorder: 'There was an error retrieving the current time. Please try again.',
+          lasttouch: 'There was an error retrieving the current time. Please try again.',
+          state: 'Question state is invalid. Please return to the list and try again.',
+          votes: '# of votes is invalid. Please return to the list and try again.',
+          email: 'Please enter a valid email address using less than 70 characters.',
+          anonymous: 'Admin of this instance has disabled anonymous posting.',
+        };
+        // Alert the error message
+        showProposeError(errorCodes[r[0].name]);
+        return false;
       }
+      // If successful, redirect back to the list page
+      // Router.go("/list");
+      if (typeof currentError !== 'undefined') {
+        Blaze.remove(currentError);
+      }
+      $('#toparea').slideUp();
+      $('#navAsk').click();
+      // $("#navAsk").html("+ Ask");
+      document.getElementById('navAsk').style.backgroundColor = '#27ae60';
+      document.getElementById('questioninput').value = '';
+      Blaze.remove(dropDownTemplate);
+      // $("html, body").animate({ scrollTop: $(document).height() }, "slow");
     });
   },
   'keyup #questioninput': function (event, template) {

@@ -55,7 +55,7 @@ Template.modify.events({
       return false;
     }
     // Calls the server-side "modify" method to update the DBs
-    Meteor.call('modify', question, event.currentTarget.id, Session.get('id'), (error, result) => {
+    Meteor.call('modify', question, event.currentTarget.id, (error, result) => {
       if (result) {
         // If successful, redirect back to the list page
         // window.location.href = "/list";

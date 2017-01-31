@@ -1,4 +1,4 @@
-/* eslint-disable no-unused-vars */
+/* eslint-disable no-unused-vars, camelcase */
 
 import { Answers, Questions, Instances, Votes } from '../lib/common.js';
 
@@ -59,10 +59,27 @@ Meteor.methods({
     });
   },
   // A method that adds an answer to the databases
-  answer(instanceid, answer, posterName, email, ip, questionID) {
+  answer(instanceid, answer, questionID, anonymous) {
     let keys = '';
     answer.replace(/<(?:.|\n)*?>/gm, '');
     // Retrieves the current quesetion from the DB (if one exists)
+    let posterName;
+    let email;
+
+    if (!anonymous && this.userId) {
+      const usr = Meteor.users.findOne({ _id: this.userId });
+      posterName = usr.profile.name;
+      email = usr.emails[0].address;
+    } else {
+      anonymous = true;
+      posterName = 'Anonymous';
+    }
+    const inst = Instances.findOne({ _id: instanceid });
+
+    if (!inst.anonymous && anonymous) {
+      return [{ name: 'anonymous' }];
+    }
+
     const question = Questions.findOne({
       _id: questionID,
     });
@@ -74,7 +91,7 @@ Meteor.methods({
       text: answer,
       poster: posterName,
       email,
-      ip,
+      ip: this.connection.clientAddress,
       instanceid,
       qid: question._id,
       timeorder: new Date().getTime() - 1000,
@@ -118,16 +135,7 @@ Meteor.methods({
       return false;
     }
     let keys;
-    if (mods.length > 4) {
-      const errors = [
-        {
-          name: 'modlength',
-        },
-      ];
-      return errors;
-    }
-    // Inserts the instance into the instances database
-    Instances.insert({
+    const table_id = Instances.insert({
       tablename,
       threshold,
       new_length: newLength,
@@ -165,14 +173,15 @@ Meteor.methods({
       }
     });
     // If error (keys is defined), return the keys (error.invalidKeys) object
-    if (keys) {
+    if (keys !== undefined) {
       return keys;
     }
-    return tablename;
+    return table_id;
   },
   // Method that unhides every question in a given table
   unhide(instanceid) {
     if (this.userId) {
+      let keys;
       const email = Meteor.users.findOne({ _id: this.userId }).emails[0].address;
       const instance = Instances.findOne({
         _id: instanceid,
@@ -188,12 +197,16 @@ Meteor.methods({
         }, {
           multi: true,
         }, (error, count, status) => {
-          if (!error) {
-            return true;
+          if (error) {
+            keys = error.invalidKeys;
           }
-          return false;
         });
+        if (keys) {
+          return keys;
+        }
+        return true;
       }
+      return false;
     }
     return false;
   },
@@ -225,9 +238,9 @@ Meteor.methods({
     return false;
   },
   addMods(mods, instanceid) {
-    if (Meteor.user()) {
+    if (this.userId) {
       let keys;
-      const email = Meteor.user().emails[0].address;
+      const email = Meteor.users.findOne({ _id: this.userId }).emails[0].address;
       const instance = Instances.findOne({
         _id: instanceid,
       });
@@ -256,8 +269,8 @@ Meteor.methods({
     return false;
   },
   removeMods(mod, instanceid) {
-    if (Meteor.user()) {
-      const email = Meteor.user().emails[0].address;
+    if (this.userId) {
+      const email = Meteor.users.findOne({ _id: this.userId }).emails[0].address;
       const instance = Instances.findOne({
         _id: instanceid,
       });
@@ -281,18 +294,21 @@ Meteor.methods({
     return false;
   },
   // Method that modifies a question
-  modify(question, id, instanceid) {
-    if (Meteor.user()) {
-      const email = Meteor.user().emails[0].address;
-      // Checks whether the user has the proper admin privileges
+  modify(question, id) {
+    let keys;
+    if (this.userId) {
+      const email = Meteor.users.findOne({ _id: this.userId }).emails[0].address;
+      const quest = Questions.findOne({ _id: id });
+      const instanceid = quest.instanceid;
       const instance = Instances.findOne({
         _id: instanceid,
       });
-      if (!email && !instance.admin) { return false; }
-      if (email !== instance.admin && (instance.moderators.indexOf(email) === -1)) {
+
+      if (!email || !instance || !instance.admin || !quest) { return false; }
+      if (email !== instance.admin && (instance.moderators.indexOf(email) === -1) && (quest.email !== email || !quest.posterLoggedIn)) {
         return false;
       }
-      // Updates the question with the proper ID to the new question text
+
       Questions.update({
         _id: id,
       }, {
@@ -302,9 +318,12 @@ Meteor.methods({
         },
       }, (error, count, status) => {
         if (error) {
-          return false;
+          keys = error.invalidKeys;
         }
       });
+      if (keys) {
+        return keys;
+      }
       return true;
     }
     return false;
@@ -358,24 +377,43 @@ Meteor.methods({
     return false;
   },
   // Method that adds a new question to the database
-  propose(instanceid, tablename, question, posterName, posterEmail, ip) {
+  propose(instanceid, tablename, question, anonymous, pName, pEmail) {
     let keys;
     question.replace(/<(?:.|\n)*?>/gm, '');
+    let posterName;
+    let posterEmail;
+    let logged_in = false;
+    if (!anonymous && this.userId) {
+      logged_in = true;
+      const usr = Meteor.users.findOne({ _id: this.userId });
+      posterName = usr.profile.name;
+      posterEmail = usr.emails[0].address;
+    } else if (anonymous || (!anonymous && (!pName && !pEmail))) {
+      anonymous = true;
+      posterName = 'Anonymous';
+      posterEmail = '';
+    } else if (!anonymous && (pName && pEmail)) {
+      posterName = pName;
+      posterEmail = pEmail;
+    }
     // Gets the current table
     const table = Instances.findOne({
       _id: instanceid,
     });
     if (table === null) {
       return false;
+    } else if (!table.anonymous && anonymous) {
+      return [{ name: 'anonymous' }];
     }
     // Update the lasttouch of the Instance
     Questions.insert({
       instanceid,
       tablename,
       text: question,
+      posterLoggedIn: logged_in,
       poster: posterName,
       email: posterEmail,
-      ip,
+      ip: this.connection.clientAddress,
       timeorder: new Date().getTime() - 1000,
       lasttouch: new Date().getTime() - 1000,
       state: 'normal',
