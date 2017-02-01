@@ -60,9 +60,10 @@ Template.combine.events({
       // If successful
       if (typeof result !== 'object') {
         window.location.reload();
-      }
-      else if (result[0].name === 'text'){
+      } else if (result[0].name === 'text') {
         showError('Question can\'t be longer than 500 characters.', 'inputcontainer', 'modifybox');
+      } else {
+        showError('An unexpected error occurred, please try again.', 'inputcontainer', 'modifybox');
       }
     });
   },

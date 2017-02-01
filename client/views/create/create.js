@@ -134,6 +134,7 @@ Template.create.events({
       $('#navCreate').html('+ Create');
       document.getElementById('navCreate').style.backgroundColor = '#27ae60';
       $('#toparea').slideUp();
+      window.location.href = Iron.Location.get().originalUrl + 'list/' + result;
     });
   },
   'keypress #instancedescriptioninput': function (event, template) {

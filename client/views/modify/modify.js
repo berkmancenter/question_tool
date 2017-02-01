@@ -17,10 +17,10 @@ Template.modify.onCreated(() => {
       window.location.href = '/';
     } else {
       // Checks whether the user has proper admin privileges
-      Meteor.call('adminCheck', Session.get('id'), (e, r) => {
+      Meteor.call('canModify', Template.instance().data, (e, r) => {
         if (!r) {
           // If not, redirects back to the list page
-          window.location.href = '/list';
+          window.location.href = '/';
         }
       });
     }
@@ -62,6 +62,7 @@ Template.modify.events({
         $('.formcontainer').fadeOut(400);
         $('#darker').fadeOut(400, () => {
           Blaze.remove(popoverTemplate);
+          window.location.reload();
         });
       }
     });

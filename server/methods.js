@@ -153,30 +153,31 @@ Meteor.methods({
       // If error, set keys to the error object
       if (error) {
         keys = error.invalidKeys;
-      } else {
-        // If successful, add the "starter" question to the questions database
-        Questions.insert({
-          instanceid: id,
-          tablename,
-          text: "Welcome to the Q&A tool. Please post on this instance. Vote by clicking on the upvote icon to raise a post's prominence. Reply or share a post on facebook and twitter by clicking on the respective icons.",
-          poster: 'the system',
-          timeorder: new Date().getTime() - 1000,
-          lasttouch: new Date().getTime() - 1000,
-          state: 'normal',
-          votes: 0,
-        }, (e, identification) => {
-          // If error, set keys to the error object
-          if (e) {
-            keys = e.invalidKeys;
-          }
-        });
+      }
+    });
+    if (keys) {
+      return keys;
+    }
+    Questions.insert({
+      instanceid: table_id,
+      tablename,
+      text: "Welcome to the Q&A tool. Please post on this instance. Vote by clicking on the upvote icon to raise a post's prominence. Reply or share a post on facebook and twitter by clicking on the respective icons.",
+      poster: 'the system',
+      timeorder: new Date().getTime() - 1000,
+      lasttouch: new Date().getTime() - 1000,
+      state: 'normal',
+      votes: 0,
+    }, (e, identification) => {
+      // If error, set keys to the error object
+      if (e) {
+        keys = e.invalidKeys;
       }
     });
     // If error (keys is defined), return the keys (error.invalidKeys) object
-    if (keys !== undefined) {
+    if (keys) {
       return keys;
     }
-    return table_id;
+    return Instances.findOne({ _id: table_id }).slug;
   },
   // Method that unhides every question in a given table
   unhide(instanceid) {
@@ -290,6 +291,14 @@ Meteor.methods({
         return false;
       }
       return true;
+    }
+    return false;
+  },
+  canModify(question) {
+    if (this.userId) {
+      const email = Meteor.users.findOne({ _id: this.userId }).emails[0].address;
+      const quest = Questions.findOne({ _id: question });
+      return quest.email === email && quest.posterLoggedIn;
     }
     return false;
   },

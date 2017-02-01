@@ -236,10 +236,11 @@ if (Meteor.isServer) {
       const create = Meteor.server.method_handlers.create;
       const t = Object.assign({}, test_table);
 
-      it('should create a new instance and return its ID if all the fields are correct.', function () {
+      it('should create a new instance, fill with a question, and return its ID if all the fields are correct.', function () {
         prep.call(this, { users: true });
         const created = create.apply({ userId: this.test_user._id }, [t.tablename, t.threshold, t.new_length, t.stale_length, t.description, t.moderators, t.max_question, t.max_response, t.anonymous, t.hidden]);
         assert.isString(created);
+        assert.equal(Questions.find({ instanceid: created }).count(), 1);
       });
 
       it('should return false if no user is logged in.', function () {
