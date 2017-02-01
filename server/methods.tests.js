@@ -234,45 +234,41 @@ if (Meteor.isServer) {
 
     describe('#create()', function () {
       const create = Meteor.server.method_handlers.create;
+      const t = Object.assign({}, test_table);
 
       it('should create a new instance and return its ID if all the fields are correct.', function () {
         prep.call(this, { users: true });
-        this.t = Object.assign({}, this.test_table);
-        const created = create.apply({ userId: this.test_user._id }, [this.t.tablename, this.t.threshold, this.t.new_length, this.t.stale_length, this.t.description, this.t.moderators, this.t.max_question, this.t.max_response, this.t.anonymous, this.t.hidden]);
+        const created = create.apply({ userId: this.test_user._id }, [t.tablename, t.threshold, t.new_length, t.stale_length, t.description, t.moderators, t.max_question, t.max_response, t.anonymous, t.hidden]);
         assert.isString(created);
       });
 
       it('should return false if no user is logged in.', function () {
         prep.call(this);
-        this.t = Object.assign({}, this.test_table);
-        const created = create.apply({}, [this.t.tablename, this.t.threshold, this.t.new_length, this.t.stale_length, this.t.description, this.t.moderators, this.t.max_question, this.t.max_response, this.t.anonymous, this.t.hidden]);
+        const created = create.apply({}, [t.tablename, t.threshold, t.new_length, t.stale_length, t.description, t.moderators, t.max_question, t.max_response, t.anonymous, t.hidden]);
         assert.isFalse(created);
       });
 
       it('should return an error if more than 4 moderators are registered.', function () {
         prep.call(this, { users: true });
-        this.t = Object.assign({}, this.test_table);
         const mods = [];
         for (let i = 0; i < 5; i++) {
           mods.push(this.test_mod.email);
         }
-        const created = create.apply({ userId: this.test_user._id }, [this.t.tablename, this.t.threshold, this.t.new_length, this.t.stale_length, this.t.description, mods, this.t.max_question, this.t.max_response, this.t.anonymous, this.t.hidden]);
+        const created = create.apply({ userId: this.test_user._id }, [t.tablename, t.threshold, t.new_length, t.stale_length, t.description, mods, t.max_question, t.max_response, t.anonymous, t.hidden]);
         assert.isArray(created);
         assert.equal(created[0].name, 'moderators');
       });
 
       it('should return an error if the tablename doesn\'t contains non-alphanumeric chars.', function () {
         prep.call(this, { users: true });
-        this.t = Object.assign({}, this.test_table);
-        const created = create.apply({ userId: this.test_user._id }, [this.t.tablename + '-', this.t.threshold, this.t.new_length, this.t.stale_length, this.t.description, this.t.moderators, this.t.max_question, this.t.max_response, this.t.anonymous, this.t.hidden]);
+        const created = create.apply({ userId: this.test_user._id }, [t.tablename + '-', t.threshold, t.new_length, t.stale_length, t.description, t.moderators, t.max_question, t.max_response, t.anonymous, t.hidden]);
         assert.isArray(created);
         assert.equal(created[0].name, 'tablename');
       });
 
       it('should return an error if the description is more than 500 chars.', function () {
         prep.call(this, { users: true });
-        this.t = Object.assign({}, this.test_table);
-        const created = create.apply({ userId: this.test_user._id }, [this.t.tablename, this.t.threshold, this.t.new_length, this.t.stale_length, Random.hexString(501), this.t.moderators, this.t.max_question, this.t.max_response, this.t.anonymous, this.t.hidden]);
+        const created = create.apply({ userId: this.test_user._id }, [t.tablename, t.threshold, t.new_length, t.stale_length, Random.hexString(501), t.moderators, t.max_question, t.max_response, t.anonymous, t.hidden]);
         assert.isArray(created);
         assert.equal(created[0].name, 'description');
       });
