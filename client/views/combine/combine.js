@@ -1,5 +1,14 @@
 import { Questions } from '/lib/common.js';
 
+function showError(reason, parentElement, nextElement) {
+  if (typeof currentError !== 'undefined') {
+    Blaze.remove(currentError);
+  }
+  const parentNode = document.getElementsByClassName(parentElement)[0];
+  const nextNode = document.getElementById(nextElement);
+  currentError = Blaze.renderWithData(Template.form_error, reason, parentNode, nextNode);
+}
+
 Template.combine.onCreated(() => {
   // Checks whether the user has a valid table cookie
   Meteor.call('cookieCheck', Session.get('tablename'), (error, result) => {
@@ -47,16 +56,13 @@ Template.combine.events({
     // Calls the combine function on the server to update the DBs
     const id2 = Template.instance().data.second;
     const id1 = Template.instance().data.first;
-    Meteor.call('combine', question, id1, id2, Session.get('id'), (error, result) => {
+    Meteor.call('combine', question, id1, id2, (error, result) => {
       // If successful
-      if (!error) {
-        // Hides the second question (combined -> first)
-        Meteor.call('hide', id2, (e, r) => {
-          if (!e) {
-            // If successful, fade the modal out
-            window.location.reload();
-          }
-        });
+      if (typeof result !== 'object') {
+        window.location.reload();
+      }
+      else if (result[0].name === 'text'){
+        showError('Question can\'t be longer than 500 characters.', 'inputcontainer', 'modifybox');
       }
     });
   },

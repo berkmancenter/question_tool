@@ -329,50 +329,45 @@ Meteor.methods({
     return false;
   },
   // Method that combines two questions and answers
-  combine(question, id1, id2, instanceid) {
-    if (Meteor.user()) {
-      const email = Meteor.user().emails[0].address;
+  combine(question, id1, id2) {
+    if (this.userId) {
+      const email = Meteor.users.findOne({ _id: this.userId }).emails[0].address;
       // Checks whether the user has proper admin privileges
+      const q1 = Questions.findOne({ _id: id1 });
+      const q2 = Questions.findOne({ _id: id2 });
+      if (q1.instanceid !== q2.instanceid) { return false; }
+      const instanceid = q1.instanceid;
       const instance = Instances.findOne({
         _id: instanceid,
       });
       if (email !== instance.admin && instance.moderators.indexOf(email) === -1) {
         return false;
       }
+      let keys;
       // Updates the text of the FIRST question
       Questions.update({ _id: id1 },
         {
           $set: { lasttouch: new Date().getTime() - 1000, text: question },
-        },
-        (error, count, status) => {
+        }, (error, count, status) => {
           if (error) {
-            return false;
+            keys = error.invalidKeys;
           }
-          // Sets the QID of the answers to the second question to the first QID of the first question (combining them)
-          Answers.update({
-            qid: id2,
-          }, {
-            $set: {
-              qid: id1,
-            },
-          }, {
-            multi: true,
-          });
-          // Migrate votes
-          // 1. Get all the unique votes for both questions
-          const votes = Votes.aggregate([
-            { $match: { qid: { $in: [id1, id2] } } },
-            { $group: { _id: '$ip' } },
-          ]);
-          // 2. Remove Q1's votes
-          Votes.remove({ qid: id1 });
-          // 3. Insert unique combined votes
-          Array.from(votes).forEach((ip) => {
-            Votes.insert({ qid: id1, ip: ip._id, instanceid });
-          });
-          // 4. Update votes count
-          Questions.update({ _id: id1 }, { $set: { votes: votes.length } });
-        });
+        }
+      );
+      if (keys) {
+        return keys;
+      }
+      Answers.update({ qid: id2 }, { $set: { qid: id1 } }, { multi: true });
+      const votes = Votes.aggregate([
+        { $match: { qid: { $in: [id1, id2] } } },
+        { $group: { _id: '$ip' } },
+      ]);
+      Votes.remove({ qid: id1 });
+      Array.from(votes).forEach((ip) => {
+        Votes.insert({ qid: id1, ip: ip._id, instanceid });
+      });
+      Questions.update({ _id: id1 }, { $set: { votes: votes.length } });
+      Questions.update({ _id: id2 }, { $set: { state: 'disabled' } });
     }
     return false;
   },

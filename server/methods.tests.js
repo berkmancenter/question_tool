@@ -6,7 +6,7 @@ import { Random } from 'meteor/random';
 import { Accounts } from 'meteor/accounts-base';
 import { assert } from 'meteor/practicalmeteor:chai';
 import { resetDatabase } from 'meteor/xolvio:cleaner';
-import { Instances, Questions, Answers } from '/lib/common.js';
+import { Instances, Questions, Answers, Votes } from '/lib/common.js';
 import './methods.js';
 
 if (Meteor.isServer) {
@@ -279,8 +279,9 @@ if (Meteor.isServer) {
 
       const disable = function () {
         prep.call(this, { users: true, question: true });
-        const temp_quest = Object.assign({}, this.test_quest);
-        delete temp_quest._id;
+        const temp_quest = Object.assign({}, test_quest);
+        temp_quest.instanceid = this.test_table._id;
+        temp_quest.tablename = this.test_table.tablename;
         Questions.insert(temp_quest);
         Questions.update({ instanceid: this.test_table._id }, { $set: { state: 'disabled' } }, { multi: true });
       };
@@ -488,6 +489,121 @@ if (Meteor.isServer) {
         const error = modify.apply({ userId: this.test_admin._id }, [Random.hexString(600), this.test_quest._id]);
         assert.isArray(error);
         assert.equal(error[0].name, 'text');
+      });
+    });
+
+    describe('#combine()', function () {
+      const combine = Meteor.server.method_handlers.combine;
+      const new_question = Random.hexString(200);
+      const separate = function () {
+        // Q1: this.test_quest, has 3 answers and 1 vote.
+        // Q2: this.second_quest, has 5 answers and 3 votes.
+
+        // 1. Make questions and users
+        prep.call(this, { users: true, question: true, answer: true });
+        this.second_quest = Object.assign({}, test_quest);
+        this.second_quest.instanceid = this.test_table._id;
+        this.second_quest.tablename = this.test_table.tablename;
+        const qid = Questions.insert(this.second_quest);
+        this.second_quest._id = qid;
+
+        // 2. Fill in answers for Q1 and Q2
+        for (let i = 0; i < 3; i++) {
+          Answers.insert(this.test_answer);
+        }
+        const second_answer = Object.assign({}, this.test_answer);
+        second_answer.qid = qid;
+        for (let i = 0; i < 5; i++) {
+          Answers.insert(second_answer);
+        }
+
+        // 3. Fill in votes for Q1 and Q2
+        const base_ip = '127.0.0.';
+        Questions.update({ _id: this.test_quest._id }, { $set: { votes: 1 } });
+        Questions.update({ _id: this.second_quest._id }, { $set: { votes: 3 } });
+        Votes.insert({ instanceid: this.test_table._id, qid: this.test_quest._id, ip: base_ip + '1' });
+        for (let i = 2; i < 5; i++) {
+          Votes.insert({ instanceid: this.test_table._id, qid: this.second_quest._id, ip: base_ip + i });
+        }
+      };
+
+      it('should combine answers and votes from the 2 questions into the first question if admin.', function () {
+        separate.call(this);
+        combine.apply({ userId: this.test_admin._id }, [new_question, this.test_quest._id, this.second_quest._id]);
+        const new_q1 = Questions.findOne({ _id: this.test_quest._id });
+        const new_q2 = Questions.findOne({ _id: this.second_quest._id });
+        assert.equal(new_q1.text, new_question);
+        assert.equal(new_q1.votes, 4);
+        assert.equal(Votes.find({ qid: this.test_quest._id }).count(), 4);
+        assert.equal(Answers.find({ qid: this.test_quest._id }).count(), 8);
+        assert.equal(new_q2.state, 'disabled');
+      });
+
+      it('should combine answers and votes from the 2 questions into the first question if mod.', function () {
+        separate.call(this);
+        combine.apply({ userId: this.test_mod._id }, [new_question, this.test_quest._id, this.second_quest._id]);
+        const new_q1 = Questions.findOne({ _id: this.test_quest._id });
+        const new_q2 = Questions.findOne({ _id: this.second_quest._id });
+        assert.equal(new_q1.text, new_question);
+        assert.equal(new_q1.votes, 4);
+        assert.equal(Votes.find({ qid: this.test_quest._id }).count(), 4);
+        assert.equal(Answers.find({ qid: this.test_quest._id }).count(), 8);
+        assert.equal(new_q2.state, 'disabled');
+      });
+
+      it('should not combine answers/votes if unauthorized.', function () {
+        separate.call(this);
+        combine.apply({ userId: this.test_user._id }, [new_question, this.test_quest._id, this.second_quest._id]);
+        const new_q1 = Questions.findOne({ _id: this.test_quest._id });
+        const new_q2 = Questions.findOne({ _id: this.second_quest._id });
+        assert.notEqual(new_q1.text, new_question);
+        assert.equal(new_q1.votes, 1);
+        assert.equal(new_q2.votes, 3);
+        assert.equal(Votes.find({ qid: this.test_quest._id }).count(), 1);
+        assert.equal(Votes.find({ qid: this.second_quest._id }).count(), 3);
+        assert.equal(Answers.find({ qid: this.test_quest._id }).count(), 3);
+        assert.equal(Answers.find({ qid: this.second_quest._id }).count(), 5);
+        assert.notEqual(new_q2.state, 'disabled');
+      });
+
+      it('should not combine answers/votes if not logged in.', function () {
+        separate.call(this);
+        combine.apply({}, [new_question, this.test_quest._id, this.second_quest._id]);
+        const new_q1 = Questions.findOne({ _id: this.test_quest._id });
+        const new_q2 = Questions.findOne({ _id: this.second_quest._id });
+        assert.notEqual(new_q1.text, new_question);
+        assert.equal(new_q1.votes, 1);
+        assert.equal(new_q2.votes, 3);
+        assert.equal(Votes.find({ qid: this.test_quest._id }).count(), 1);
+        assert.equal(Votes.find({ qid: this.second_quest._id }).count(), 3);
+        assert.equal(Answers.find({ qid: this.test_quest._id }).count(), 3);
+        assert.equal(Answers.find({ qid: this.second_quest._id }).count(), 5);
+        assert.notEqual(new_q2.state, 'disabled');
+      });
+
+      it('should combine unique votes only.', function () {
+        separate.call(this);
+        // Make one of the votes in Q2 have the same IP of the Q1 vote.
+        Votes.update({ qid: this.second_quest._id }, { $set: { ip: '127.0.0.1' } });
+        combine.apply({ userId: this.test_admin._id }, [new_question, this.test_quest._id, this.second_quest._id]);
+        const new_q1 = Questions.findOne({ _id: this.test_quest._id });
+        assert.equal(new_q1.text, new_question);
+        assert.equal(new_q1.votes, 3);
+        assert.equal(Votes.find({ qid: this.test_quest._id }).count(), 3);
+      });
+
+      it('should return an error if the question exceeds the max length.', function () {
+        separate.call(this);
+        const error = combine.apply({ userId: this.test_admin._id }, [Random.hexString(501), this.test_quest._id, this.second_quest._id]);
+        assert.isArray(error);
+        assert.equal(error[0].name, 'text');
+      });
+
+      it('should return false if Q1 and Q2 don\'t belong to the same instance.', function () {
+        separate.call(this);
+        Questions.update({ _id: this.second_quest._id }, { $set: { instanceid: Random.hexString(20) } });
+        const res = combine.apply({ userId: this.test_admin._id }, [new_question, this.test_quest._id, this.second_quest._id]);
+        assert.isFalse(res);
       });
     });
   });
