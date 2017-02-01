@@ -91,7 +91,7 @@ if (Meteor.isServer) {
         this.test_mod._id = mid;
       }
 
-      if (options && options.question) {
+      if (options && (options.question || options.answer)) {
         this.test_quest = Object.assign({}, test_quest);
         this.test_quest.instanceid = inst;
         this.test_quest.tablename = Instances.findOne({ _id: inst }).tablename;
@@ -236,11 +236,12 @@ if (Meteor.isServer) {
       const create = Meteor.server.method_handlers.create;
       const t = Object.assign({}, test_table);
 
-      it('should create a new instance, fill with a question, and return its ID if all the fields are correct.', function () {
+      it('should create a new instance, fill with a question, and return its slug if all the fields are correct.', function () {
         prep.call(this, { users: true });
         const created = create.apply({ userId: this.test_user._id }, [t.tablename, t.threshold, t.new_length, t.stale_length, t.description, t.moderators, t.max_question, t.max_response, t.anonymous, t.hidden]);
         assert.isString(created);
-        assert.equal(Questions.find({ instanceid: created }).count(), 1);
+        const instanceid = Instances.findOne({ slug: created })._id;
+        assert.equal(Questions.find({ instanceid }).count(), 1);
       });
 
       it('should return false if no user is logged in.', function () {
@@ -605,6 +606,217 @@ if (Meteor.isServer) {
         Questions.update({ _id: this.second_quest._id }, { $set: { instanceid: Random.hexString(20) } });
         const res = combine.apply({ userId: this.test_admin._id }, [new_question, this.test_quest._id, this.second_quest._id]);
         assert.isFalse(res);
+      });
+    });
+
+    describe('#propose()', function () {
+      const propose = Meteor.server.method_handlers.propose;
+      const new_question = Random.hexString(200);
+
+      it('should add an anon question to an instance if called with no log in and anonymous.', function () {
+        prep.call(this, { answer: true });
+        const invocation_anon = { connection: { clientAddress: this.test_answer.ip } };
+        propose.apply(invocation_anon, [this.test_table._id, new_question, true, 'testName', 'testEmail@email.com']);
+        const quest = Questions.findOne({ instanceid: this.test_table._id, text: new_question });
+        assert.isDefined(quest);
+        assert.equal(quest.text, new_question);
+        assert.equal(quest.poster, 'Anonymous');
+        assert.isUndefined(quest.email);
+        assert.equal(quest.posterLoggedIn, false);
+      });
+
+      it('should add an anon question if called with log in but anonymous.', function () {
+        prep.call(this, { users: true, answer: true });
+        const inv = { connection: { clientAddress: this.test_answer.ip }, userId: this.test_user._id };
+        propose.apply(inv, [this.test_table._id, new_question, true, 'testName', 'testEmail@email.com']);
+        const quest = Questions.findOne({ instanceid: this.test_table._id, text: new_question });
+        assert.isDefined(quest);
+        assert.equal(quest.text, new_question);
+        assert.equal(quest.poster, 'Anonymous');
+        assert.isUndefined(quest.email);
+        assert.equal(quest.posterLoggedIn, false);
+      });
+
+      it('should add an anon question if called with no log in, no anon flag, and no both pName and pEmail.', function () {
+        prep.call(this, { answer: true });
+        const invocation_anon = { connection: { clientAddress: this.test_answer.ip } };
+        propose.apply(invocation_anon, [this.test_table._id, new_question, false, 'testName', '']);
+        const quest = Questions.findOne({ instanceid: this.test_table._id, text: new_question });
+        assert.isDefined(quest);
+        assert.equal(quest.text, new_question);
+        assert.equal(quest.poster, 'Anonymous');
+        assert.isUndefined(quest.email);
+        assert.equal(quest.posterLoggedIn, false);
+      });
+
+      it('should add a non-anon but non-loggedIn question if called with no log in without anon but with both pName and pEmail.', function () {
+        prep.call(this, { answer: true });
+        const invocation_anon = { connection: { clientAddress: this.test_answer.ip } };
+        propose.apply(invocation_anon, [this.test_table._id, new_question, false, 'testName', 'testEmail@email.com']);
+        const quest = Questions.findOne({ instanceid: this.test_table._id, text: new_question });
+        assert.isDefined(quest);
+        assert.equal(quest.text, new_question);
+        assert.equal(quest.poster, 'testName');
+        assert.equal(quest.email, 'testEmail@email.com');
+        assert.equal(quest.posterLoggedIn, false);
+      });
+
+      it('should add a non-anon, loggedIn question if called with sign in and flag anon is false.', function () {
+        prep.call(this, { users: true, answer: true });
+        const inv = { connection: { clientAddress: this.test_answer.ip }, userId: this.test_user._id };
+        propose.apply(inv, [this.test_table._id, new_question, false]);
+        const quest = Questions.findOne({ instanceid: this.test_table._id, text: new_question });
+        assert.isDefined(quest);
+        assert.equal(quest.text, new_question);
+        assert.equal(quest.poster, this.test_user.profile.name);
+        assert.equal(quest.email, this.test_user.email);
+        assert.equal(quest.posterLoggedIn, true);
+      });
+
+      it('should return an error if not anon, not logged in and pEmail is an invalid email.', function () {
+        prep.call(this, { answer: true });
+        const invocation_anon = { connection: { clientAddress: this.test_answer.ip } };
+        const error = propose.apply(invocation_anon, [this.test_table._id, new_question, false, 'testName', 'testEmail']);
+        assert.isArray(error);
+        assert.equal(error[0].name, 'email');
+      });
+
+      it('should return an error if the question is longer than it should be.', function () {
+        prep.call(this, { answer: true });
+        const invocation_anon = { connection: { clientAddress: this.test_answer.ip } };
+        const error = propose.apply(invocation_anon, [this.test_table._id, Random.hexString(501), true, '', '']);
+        assert.isArray(error);
+        assert.equal(error[0].name, 'text');
+      });
+
+      it('should return an error if trying to post as anonymous and instance does not allow anon.', function () {
+        prep.call(this, { answer: true });
+        const invocation_anon = { connection: { clientAddress: this.test_answer.ip } };
+        Instances.update({ _id: this.test_table._id }, { $set: { anonymous: false } });
+        const error = propose.apply(invocation_anon, [this.test_table._id, new_question, true, '', '']);
+        assert.isArray(error);
+        assert.equal(error[0].name, 'anonymous');
+      });
+    });
+
+    describe('#adminRemove()', function () {
+      const adminRemove = Meteor.server.method_handlers.adminRemove;
+
+      it('should remove a table and everything related to it if user is an admin.', function () {
+        prep.call(this, { users: true });
+        const res = adminRemove.apply({ userId: this.test_admin._id }, [this.test_table._id]);
+        assert.isTrue(res);
+        assert.isUndefined(Instances.findOne({ _id: this.test_table._id }));
+      });
+
+      it('should return false and not remove the table if the user is unauthorized.', function () {
+        prep.call(this, { users: true });
+        const res = adminRemove.apply({ userId: this.test_user._id }, [this.test_table._id]);
+        assert.isFalse(res);
+        assert.isDefined(Instances.findOne({ _id: this.test_table._id }));
+      });
+
+      it('should return false and not remove the table if the user is not logged in.', function () {
+        prep.call(this);
+        const res = adminRemove.apply({}, [this.test_table._id]);
+        assert.isFalse(res);
+        assert.isDefined(Instances.findOne({ _id: this.test_table._id }));
+      });
+    });
+
+    describe('#rename()', function () {
+      const rename = Meteor.server.method_handlers.rename;
+      const new_name = Random.hexString(20);
+      const new_desc = Random.hexString(300);
+
+      it('should edit the table\'s name and description if the user is an admin.', function () {
+        prep.call(this, { users: true });
+        rename.apply({ userId: this.test_admin._id }, [this.test_table._id, new_name, new_desc]);
+        const inst = Instances.findOne({ _id: this.test_table._id });
+        assert.equal(inst.tablename, new_name);
+        assert.equal(inst.description, new_desc);
+      });
+
+      it('should return false and not change the name/description if the user is a mod.', function () {
+        prep.call(this, { users: true });
+        const res = rename.apply({ userId: this.test_mod._id }, [this.test_table._id, new_name, new_desc]);
+        const old_name = this.test_table.tablename;
+        const old_desc = this.test_table.description;
+        const inst = Instances.findOne({ _id: this.test_table._id });
+        assert.isFalse(res);
+        assert.equal(old_name, inst.tablename);
+        assert.equal(old_desc, inst.description);
+      });
+
+      it('should return false and not change the name/description if the user is not an admin.', function () {
+        prep.call(this, { users: true });
+        const res = rename.apply({ userId: this.test_user._id }, [this.test_table._id, new_name, new_desc]);
+        const old_name = this.test_table.tablename;
+        const old_desc = this.test_table.description;
+        const inst = Instances.findOne({ _id: this.test_table._id });
+        assert.isFalse(res);
+        assert.equal(old_name, inst.tablename);
+        assert.equal(old_desc, inst.description);
+      });
+
+      it('should return false and not change the name/description if the user is not signed in.', function () {
+        prep.call(this);
+        const res = rename.apply({}, [this.test_table._id, new_name, new_desc]);
+        const old_name = this.test_table.tablename;
+        const old_desc = this.test_table.description;
+        const inst = Instances.findOne({ _id: this.test_table._id });
+        assert.isFalse(res);
+        assert.equal(old_name, inst.tablename);
+        assert.equal(old_desc, inst.description);
+      });
+
+      it('should return an error if the name doesn\'t fit the schema regex (is not alphanumeric between 4 and 30 chars).', function () {
+        prep.call(this, { users: true });
+        const error = rename.apply({ userId: this.test_admin._id }, [this.test_table._id, 'Invalid & Wrong', new_desc]);
+        assert.isArray(error);
+        assert.equal(error[0].name, 'tablename');
+      });
+
+      it('should return an error if the description is too long.', function () {
+        prep.call(this, { users: true });
+        const error = rename.apply({ userId: this.test_admin._id }, [this.test_table._id, new_name, Random.hexString(501)]);
+        assert.isArray(error);
+        assert.equal(error[0].name, 'description');
+      });
+    });
+
+    describe('#vote()', function () {
+      const vote = Meteor.server.method_handlers.vote;
+      const test_ip = '127.0.0.1';
+
+      it('should upvote a question if the user or their ip had not upvoted it before.', function () {
+        prep.call(this, { users: true, question: true });
+        vote.apply({ connection: { clientAddress: test_ip }, userId: this.test_user._id }, [this.test_quest._id]);
+        assert.equal(Questions.findOne({ _id: this.test_quest._id }).votes, 1);
+      });
+
+      it('should upvote a question if logged out and ip had not upvoted it before.', function () {
+        prep.call(this, { question: true });
+        vote.apply({ connection: { clientAddress: test_ip } }, [this.test_quest._id]);
+        assert.equal(Questions.findOne({ _id: this.test_quest._id }).votes, 1);
+      });
+
+      it('should return an error and not upvote if already upvoted from the same account.', function () {
+        prep.call(this, { users: true, question: true });
+        Votes.insert({ ip: '127.0.0.2', instanceid: this.test_table._id, qid: this.test_quest._id, uid: this.test_user._id });
+        Questions.update({ _id: this.test_quest._id }, { $set: { votes: 1 } });
+        const error = vote.apply({ connection: { clientAddress: test_ip }, userId: this.test_user._id }, [this.test_quest._id]);
+        assert.isArray(error);
+        assert.equal(error[0].name, 'votedbefore');
+      });
+
+      it('should return an error and not upvote if already upvoted from the same ip.', function () {
+        prep.call(this, { users: true, question: true });
+        Votes.insert({ ip: test_ip, instanceid: this.test_table._id, qid: this.test_quest._id });
+        Questions.update({ _id: this.test_quest._id }, { $set: { votes: 1 } });
+        const error = vote.apply({ connection: { clientAddress: test_ip }, userId: this.test_user._id }, [this.test_quest._id]);
+        assert.isArray(error);
+        assert.equal(error[0].name, 'votedbefore');
       });
     });
   });

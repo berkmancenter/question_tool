@@ -20,7 +20,7 @@ Template.combine.onCreated(() => {
       Meteor.call('adminCheck', Session.get('id'), (e, r) => {
         if (!r) {
           // If not, redirects back to the list page
-          window.location.href = '/list';
+          window.location.href = '/';
         }
       });
     }

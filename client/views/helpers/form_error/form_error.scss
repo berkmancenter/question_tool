@@ -1,18 +1,17 @@
 .error {
 	font-weight: 700;
-	width: 98%;
+	width: calc(100% - 2em);
 	border: 2px solid #e74c3c;
 	background-color: #e74c3c;
 	display: block;
-	margin: 0px auto;
-	padding: 0px;
-	padding-left: 12px;
+	margin: 0.3em;
+	padding: 0.3em;
 	margin-bottom: 15px;
 	border-radius: 5px;
 	font-size: 14px;
 	color: white;
 	font-weight: normal;
-	text-align: left;
+	text-align: left
 }
 
 .errorIcon {
@@ -21,4 +20,14 @@
 	float: left;
 	margin-top: 1px;
 	margin-right: 8px;
+}
+
+.error-dismiss {
+	float: right;
+	cursor: pointer;
+	transition-duration: 0.3s;
+
+	&:hover {
+		opacity: 0.7;
+	}
 }

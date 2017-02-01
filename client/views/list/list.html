@@ -31,8 +31,8 @@
 			</div>
 		{{/if}}
 		{{#if hasChanges}}<div class="new-posts"><i class="fa fa-refresh"></i> Refresh</div>{{/if}}
-    <div class="masonary-wrapper">
-  		<div class="container">
+    <div class="masonary-wrapper" id="list-wrapper">
+  		<div class="container" id="quest-container">
   			{{#each question}}
   				{{> question_div}}
   			{{/each}}

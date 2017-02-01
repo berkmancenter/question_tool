@@ -205,7 +205,7 @@ Template.propose.events({
       });
     }
     // Calls server-side method to get the user's IP address
-    Meteor.call('propose', Session.get('id'), Session.get('tablename'), question, anonymous, posterName, posterEmail, (e, r) => {
+    Meteor.call('propose', Session.get('id'), question, anonymous, posterName, posterEmail, (e, r) => {
       // If returns an object, there was an error
       if (typeof r === 'object') {
         // Store an object of the error names and codes

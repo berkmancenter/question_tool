@@ -113,12 +113,12 @@ function enableDragging() {
   });
 }
 
-function showProposeError(reason) {
+function showListError(reason) {
   if (typeof currentError !== 'undefined') {
     Blaze.remove(currentError);
   }
-  const parentNode = document.getElementById('questiondiv');
-  const nextNode = document.getElementById('questioninput');
+  const parentNode = document.getElementById('list-wrapper');
+  const nextNode = document.getElementById('quest-container');
   currentError = Blaze.renderWithData(Template.form_error, reason, parentNode, nextNode);
 }
 
@@ -455,7 +455,7 @@ Template.list.helpers({
 Template.list.events({
   // When the vote button is clicked...
   'click .voteright': function (event, template) {
-    Meteor.call('vote', event.currentTarget.id, Session.get('id'), (error, result) => {
+    Meteor.call('vote', event.currentTarget.id, (error, result) => {
       // If the result is an object, there was an error
       if (typeof result === 'object') {
         // Store an object of the error names and codes
@@ -468,7 +468,7 @@ Template.list.events({
           tablename: 'There was an error with the table name. Please return to the list and try again.',
         };
         // Alerts the error if one exists
-        showProposeError(errorCodes[result[0].name]);
+        showListError(errorCodes[result[0].name]);
       }
     });
   },

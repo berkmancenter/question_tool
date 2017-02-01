@@ -27,20 +27,21 @@ Template.rename.events({
       return false;
     }
     Meteor.call('rename', table._id, newName, newDesc, (error, result) => {
-      if (result === 2) {
-        showRenameError('Insufficient permissions.');
-      } else if (result === 1) {
-        showRenameError('Name is already taken.');
-      } else {
+      if (typeof result === 'object') {
+        const errors = {
+          description: 'Description should be at most 500 chars.',
+          tablename: 'Name can only contain 4 to 30 alphanumeric characters.',
+        };
+        showRenameError(errors[result[0].name]);
+      } else if (result) {
         const isList = template.data.isList;
         if (isList) {
-          const instance = Instances.findOne({
-            _id: Session.get('id'),
-          });
-          window.location.href = '/list/' + instance.slug;
+          window.location.href = '/list/' + Instances.findOne({ _id: Session.get('id') }).slug;
         } else {
           Blaze.remove(popoverTemplate);
         }
+      } else {
+        showRenameError('Insufficient permissions.');
       }
     });
   },
