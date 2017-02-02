@@ -819,5 +819,162 @@ if (Meteor.isServer) {
         assert.equal(error[0].name, 'votedbefore');
       });
     });
+
+    describe('#hideThis()', function () {
+      const hideThis = Meteor.server.method_handlers.hideThis;
+
+      it('should hide a question if the user is an admin of the instance.', function () {
+        prep.call(this, { users: true, question: true });
+        hideThis.apply({ userId: this.test_admin._id }, [this.test_quest._id]);
+        assert.equal(Questions.findOne({ _id: this.test_quest._id }).state, 'disabled');
+      });
+
+      it('should hide a question if the user is a mod of the instance.', function () {
+        prep.call(this, { users: true, question: true });
+        hideThis.apply({ userId: this.test_mod._id }, [this.test_quest._id]);
+        assert.equal(Questions.findOne({ _id: this.test_quest._id }).state, 'disabled');
+      });
+
+      it('should return false and not hide a question if user is unauthorized.', function () {
+        prep.call(this, { users: true, question: true });
+        const res = hideThis.apply({ userId: this.test_user._id }, [this.test_quest._id]);
+        assert.isFalse(res);
+        assert.notEqual(Questions.findOne({ _id: this.test_quest._id }).state, 'disabled');
+      });
+
+      it('should return false and not hide a question if user is not logged in.', function () {
+        prep.call(this, { question: true });
+        const res = hideThis.apply({}, [this.test_quest._id]);
+        assert.isFalse(res);
+        assert.notEqual(Questions.findOne({ _id: this.test_quest._id }).state, 'disabled');
+      });
+    });
+
+    describe('#addFavorite()', function () {
+      const addFavorite = Meteor.server.method_handlers.addFavorite;
+
+      it('should add an instance ID to a user\'s favorites.', function () {
+        prep.call(this, { users: true });
+        addFavorite.apply({ userId: this.test_user._id }, [this.test_table._id]);
+        assert.include(Meteor.users.findOne({ _id: this.test_user._id }).profile.favorites, this.test_table._id);
+      });
+
+      it('should return false if no user is logged in.', function () {
+        prep.call(this);
+        const res = addFavorite.apply({}, [this.test_table._id]);
+        assert.isFalse(res);
+      });
+
+      it('should return false and not add anything to favorites if the instance does not exist.', function () {
+        prep.call(this, { users: true });
+        const res = addFavorite.apply({ userId: this.test_user._id }, [Random.hexString(20)]);
+        assert.isFalse(res);
+        assert.isUndefined(Meteor.users.findOne({ _id: this.test_user._id }).profile.favorites);
+      });
+
+      it('should return false and not add the instance again if it was already favorited.', function () {
+        prep.call(this, { users: true });
+        Meteor.users.update({ _id: this.test_user._id }, { $push: { 'profile.favorites': this.test_table._id } });
+        const res = addFavorite.apply({ userId: this.test_user._id }, [this.test_table._id]);
+        assert.isFalse(res);
+        assert.equal(Meteor.users.findOne({ _id: this.test_user._id }).profile.favorites.length, 1);
+      });
+    });
+
+    describe('#removeFavorite()', function () {
+      const removeFavorite = Meteor.server.method_handlers.removeFavorite;
+      const fave = function () {
+        prep.call(this, { users: true });
+        Meteor.users.update({ _id: this.test_user._id }, { $push: { 'profile.favorites': this.test_table._id } });
+      };
+
+      it('should remove an instance from a user\'s favorites.', function () {
+        fave.call(this);
+        removeFavorite.apply({ userId: this.test_user._id }, [this.test_table._id]);
+        assert.equal(Meteor.users.findOne({ _id: this.test_user._id }).profile.favorites.indexOf(this.test_table._id), -1);
+      });
+
+      it('should return false if no user is signed in.', function () {
+        fave.call(this);
+        const res = removeFavorite.apply({}, [this.test_table._id]);
+        assert.isFalse(res);
+      });
+
+      it('should return false if this was not already favorited by the user.', function () {
+        prep.call(this, { users: true });
+        const res = removeFavorite.apply({ userId: this.userId }, [this.test_table._id]);
+        assert.isFalse(res);
+      });
+    });
+
+    describe('#register()', function () {
+      const register = Meteor.server.method_handlers.register;
+      const new_email = Random.hexString(5) + '@users.com';
+      const new_name = Random.hexString(20);
+      const new_pass = Random.hexString(10);
+
+      it('should register user and return their ID if all fields are correct.', function () {
+        const id = register.apply({}, [new_email, new_pass, new_name]);
+        assert.isString(id);
+        const usr = Meteor.users.findOne({ _id: id });
+        assert.isDefined(usr);
+        assert.equal(usr.emails[0].address, new_email);
+        assert.equal(usr.profile.name, new_name);
+      });
+
+      it('should return false and not create if user is already logged in.', function () {
+        const res = register.apply({ userId: Random.hexString(20) }, [new_email, new_pass, new_name]);
+        assert.isFalse(res);
+        assert.equal(Meteor.users.find().count(), 0);
+      });
+
+      it('should return an error if a user is already registered with that email.', function () {
+        prep.call(this, { users: true });
+        const error = register.apply({}, [this.test_user.email, new_pass, new_name]);
+        assert.isArray(error);
+        assert.equal(error[0].name, 'exists');
+      });
+
+      it('should return an error if an invalid email is submitted.', function () {
+        let error = register.apply({}, [Random.hexString(20), new_pass, new_name]);
+        assert.isArray(error);
+        assert.equal(error[0].name, 'email');
+
+        error = register.apply({}, [Random.hexString(50) + '@users.us', new_pass, new_name]);
+        assert.isArray(error);
+        assert.equal(error[0].name, 'email');
+
+        error = register.apply({}, [Random.hexString(2) + '@u.s', new_pass, new_name]);
+        assert.isArray(error);
+        assert.equal(error[0].name, 'email');
+      });
+
+      it('should return an error if one of the fields was not present.', function () {
+        const error = register.apply({}, [new_email, '', new_name]);
+        assert.isArray(error);
+        assert.equal(error[0].name, 'missingfield');
+      });
+
+      it('should return an error if the name is a reserved system name (the system, or system).', function () {
+        const error = register.apply({}, [new_email, new_pass, 'the system']);
+        assert.isArray(error);
+        assert.equal(error[0].name, 'systemname');
+      });
+
+      it('should return an error if the name is not less than or equal 30 chars.', function () {
+        const error = register.apply({}, [new_email, new_pass, Random.hexString(31)]);
+        assert.isArray(error);
+        assert.equal(error[0].name, 'name');
+      });
+
+      it('should return an error if the password is not between 6 and 30 chars.', function () {
+        let error = register.apply({}, [new_email, Random.hexString(5), new_name]);
+        assert.isArray(error);
+        assert.equal(error[0].name, 'password');
+        error = register.apply({}, [new_email, Random.hexString(31), new_name]);
+        assert.isArray(error);
+        assert.equal(error[0].name, 'password');
+      });
+    });
   });
 }

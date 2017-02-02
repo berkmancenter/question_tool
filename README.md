@@ -56,8 +56,9 @@ A user who is signed in can create an instance with a specific topic, after whic
 2. Check out the [code style guide](STYLEGUIDE.md).
 3. Create your feature branch: `git checkout -b my-new-feature`
 4. Commit your changes: `git commit -am 'Add some feature'`
-5. Push to the branch: `git push origin my-new-feature`
-6. Submit a pull request!
+5. [Write tests](TESTING.md) for your code and run other tests as well: `npm test`
+6. Push to the branch: `git push origin my-new-feature`
+7. Submit a pull request!
 
 ## History
 

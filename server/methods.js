@@ -515,7 +515,7 @@ Meteor.methods({
   },
   // Method that registers a vote on a question
   vote(questionid) {
-    let keys = '';
+    let keys;
     const ip = this.connection.clientAddress;
     // Ensures that the user hasn't already voted from their IP address
     let votes;
@@ -560,91 +560,82 @@ Meteor.methods({
     } else {
       keys = [{ name: 'votedbefore' }];
     }
-    return keys;
+    if (keys) {
+      return keys;
+    }
+    return true;
   },
   // Method that hides (sets state to disabled) a question with given ID
-  hide(id) {
-    if (Meteor.user()) {
-      const email = Meteor.user().emails[0].address;
-      const question = Questions.findOne({
-        _id: id,
-      });
-      const table = Instances.findOne({
-        _id: question.instanceid,
-      });
-      if (email !== table.admin && table.moderators && table.moderators.indexOf(email) === -1) {
-        return false;
+  hideThis(id) {
+    if (this.userId) {
+      const email = Meteor.users.findOne({ _id: this.userId }).emails[0].address;
+      const question = Questions.findOne({ _id: id });
+      const table = Instances.findOne({ _id: question.instanceid });
+      let success = true;
+      if (email === table.admin || (table.moderators && table.moderators.indexOf(email) !== -1)) {
+        Questions.update({ _id: id }, { $set: { state: 'disabled' } }, (error, count, status) => {
+          if (error) {
+            success = false;
+          }
+        });
+        return success;
       }
-      Questions.update({
-        _id: id,
-      }, {
-        $set: {
-          state: 'disabled',
-        },
-      }, (error, count, status) => {
-        if (error) {
-          return false;
-        }
-      });
+      return false;
     }
     return false;
   },
   addFavorite(id) {
-    if (Meteor.user()) {
-      Meteor.users.update({
-        _id: Meteor.user()._id,
-      }, {
-        $push: {
-          'profile.favorites': id,
-        },
+    if (this.userId) {
+      let success = true;
+      const faves = Meteor.users.findOne({ _id: this.userId }).profile.favorites;
+      if (!Instances.findOne({ _id: id })) { return false; }
+      if (faves && faves.indexOf(id) !== -1) { return false; }
+      Meteor.users.update({ _id: this.userId }, { $push: { 'profile.favorites': id } }, (error, count, status) => {
+        if (error) {
+          success = false;
+        }
       });
-    } else {
-      return false;
+      return success;
     }
-    return true;
+    return false;
   },
   removeFavorite(id) {
-    if (Meteor.user()) {
-      Meteor.users.update({
-        _id: Meteor.user()._id,
-      }, {
-        $pull: {
-          'profile.favorites': id,
-        },
+    if (this.userId) {
+      let success = true;
+      Meteor.users.update({ _id: this.userId }, { $pull: { 'profile.favorites': id } }, (error, count, status) => {
+        if (error) {
+          success = false;
+        }
       });
-    } else {
-      return false;
+      return success;
     }
-    return true;
+    return false;
   },
   superadmin() {
-    if (Meteor.user()) {
-      const email = Meteor.user().emails[0].address;
+    if (this.userId) {
+      const email = Meteor.users.findOne({ _id: this.userId }).emails[0].address;
       return email === process.env.SUPERADMIN_EMAIL;
     }
     return false;
   },
   register(email, password, profileName) {
+    if (this.userId) { return false; }
+    const system_names = ['the system', 'system'];
     const re = /^[a-zA-Z0-9.!#$%&’*+/=?^_`{|}~-]+@[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,253}[a-zA-Z0-9])?(?:\.[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,253}[a-zA-Z0-9])?)*$/i;
-    if (!email || !profileName) {
-      return 1;
-    } else if (!re.test(email)) {
-      return 2;
-    } else if (Meteor.users.findOne({ 'emails.address': email })) {
-      return 3;
+    if (!profileName || !email || !password) {
+      return [{ name: 'missingfield' }];
+    } else if (system_names.indexOf(profileName.toLowerCase()) !== -1) {
+      return [{ name: 'systemname' }];
+    } else if (!re.test(email) || email.length > 30 || email.length < 7) {
+      return [{ name: 'email' }];
+    } else if (Accounts.findUserByEmail(email)) {
+      return [{ name: 'exists' }];
     } else if (profileName.length > 30) {
-      return 4;
-    } else if (email.length > 50 || email.length < 7) {
-      return 5;
+      return [{ name: 'name' }];
     } else if (password.length > 30 || password.length < 6) {
-      return 6;
+      return [{ name: 'password' }];
     }
-    return Accounts.createUser({
-      email,
-      password,
-      profile: {
-        name: profileName,
-      },
-    });
+
+    return Accounts.createUser({ email, password, profile: { name: profileName } });
   },
 });

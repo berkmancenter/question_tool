@@ -1,9 +1,9 @@
-function showError(reason, parentElement, nextElement) {
+function showRegisterError(reason) {
   if (typeof currentError !== 'undefined') {
     Blaze.remove(currentError);
   }
-  const parentNode = document.getElementsByClassName(parentElement)[0];
-  const nextNode = document.getElementById(nextElement);
+  const parentNode = document.getElementsByClassName('inputcontainer')[0];
+  const nextNode = document.getElementById('loginemail');
   currentError = Blaze.renderWithData(Template.form_error, reason, parentNode, nextNode);
 }
 
@@ -33,7 +33,7 @@ Template.register.events({
       let nameError = 'Please enter a name';
       if (loginName.length > 0) nameError += ' between 3 and 30 characters.';
       else nameError += '.';
-      showError(nameError, 'inputcontainer', 'loginemail');
+      showRegisterError(nameError);
       return false;
     } else if (!$('#loginemail')[0].checkValidity()) {
       let emError = 'Enter a valid email address';
@@ -44,45 +44,43 @@ Template.register.events({
       } else {
         emError += '.';
       }
-      showError(emError, 'inputcontainer', 'loginemail');
+      showRegisterError(emError);
       return false;
     } else if (!$('#passwordbox')[0].checkValidity()) {
-      showError('Password must be between 6 and 30 characters', 'inputcontainer', 'loginemail');
+      showRegisterError('Password must be between 6 and 30 characters');
       return false;
     } else if (password1 !== password2) {
-      showError('Passwords do not match.', 'inputcontainer', 'loginemail');
+      showRegisterError('Passwords do not match.');
       return false;
     }
 
     // 3. Back-end call
     Meteor.call('register', email, password2, loginName, (error, result) => {
-      if (result === 3) {
-        showError('Account with email already exists.', 'inputcontainer', 'loginemail');
-        return false;
-      } else if (result === 4) {
-        showError('Enter a name using less than 30 characters.', 'inputcontainer', 'loginemail');
-        return false;
-      } else if (result === 5) {
-        showError('Email must be between 7 and 50 characters.', 'inputcontainer', 'loginemail');
-        return false;
-      } else if (result === 1) {
-        showError('Enter a name and email address.', 'inputcontainer', 'loginemail');
-        return false;
-      } else if (result === 2) {
-        showError('Enter a valid email address.', 'inputcontainer', 'loginemail');
-        return false;
-      } else if (result === 6) {
-        showError('Password must be between 6 and 30 characters.', 'inputcontainer', 'loginemail');
-        return false;
+      if (typeof result === 'object') {
+        const keys = {
+          missingfield: 'Email, name, and password are required.',
+          name: 'Name must be less than 30 characters.',
+          systemname: 'Name cannot be "System" or "The System".',
+          email: 'Enter a valid email between 7 & 50 characters.',
+          password: 'Password must be between 6 & 30 characters.',
+          exists: 'An account with that email already exists.',
+          unknown: 'An unknown error occurred. Please try again.',
+        };
+        showRegisterError(keys[result[0].name]);
+      } else if (!error) {
+        Meteor.loginWithPassword(email, password2, (e) => {
+          if (!e) {
+            $('.formcontainer').fadeOut(400);
+            $('#darker').fadeOut(400, () => {
+              Blaze.remove(popoverTemplate);
+            });
+          } else {
+            showRegisterError('Account registered, but an error occurred while logging in. Please try again.');
+          }
+        });
+      } else {
+        showRegisterError('An unknown error occurred. Please try again.');
       }
-      Meteor.loginWithPassword(email, password2, (e) => {
-        if (!e) {
-          $('.formcontainer').fadeOut(400);
-          $('#darker').fadeOut(400, () => {
-            Blaze.remove(popoverTemplate);
-          });
-        }
-      });
     });
   },
   'click #loginemphasis': function (event, template) {

@@ -169,31 +169,17 @@ Template.propose.events({
         return false;
       }
       Meteor.call('register', posterEmail, password2, posterName, (error, result) => {
-        let errorMessage;
-        switch (result) {
-          case 1:
-            errorMessage = 'Enter a name and email address.';
-            break;
-          case 2:
-            errorMessage = 'Enter a valid email address';
-            break;
-          case 3:
-            errorMessage = 'Account with email already exists.';
-            break;
-          case 4:
-            errorMessage = 'Enter a name using less than 30 characters.';
-            break;
-          case 5:
-            errorMessage = 'Email must be between 7 and 50 characters.';
-            break;
-          case 6:
-            errorMessage = 'Password must be between 6 and 30 characters.';
-            break;
-          default:
-            errorMessage = 'none';
-        }
-        if (errorMessage !== 'none') {
-          showProposeError(errorMessage);
+        if (typeof result === 'object') {
+          const keys = {
+            missingfield: 'Email, name, and password are required.',
+            name: 'Name must be less than 30 characters.',
+            systemname: 'Name cannot be "System" or "The System".',
+            email: 'Enter a valid email between 7 & 50 characters.',
+            password: 'Password must be between 6 & 30 characters.',
+            exists: 'An account with that email already exists.',
+            unknown: 'An unknown error occurred. Please try again.',
+          };
+          showProposeError(keys[result[0].name]);
           return false;
         }
         Meteor.loginWithPassword(posterEmail, password2, (e) => {
@@ -204,7 +190,6 @@ Template.propose.events({
         });
       });
     }
-    // Calls server-side method to get the user's IP address
     Meteor.call('propose', Session.get('id'), question, anonymous, posterName, posterEmail, (e, r) => {
       // If returns an object, there was an error
       if (typeof r === 'object') {

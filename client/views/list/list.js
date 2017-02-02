@@ -478,7 +478,7 @@ Template.list.events({
     if (Questions.findOne({ _id: event.currentTarget.id }).state === 'disabled') {
       Meteor.call('unhideThis', event.currentTarget.id);
     } else {
-      Meteor.call('hide', event.currentTarget.id);
+      Meteor.call('hideThis', event.currentTarget.id);
     }
   },
   // When the admin unhide button is clicked...
