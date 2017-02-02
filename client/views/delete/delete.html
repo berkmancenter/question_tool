@@ -1,0 +1,16 @@
+<template name="delete">
+	<div id="darker">
+	</div>
+	<div class="formcontainer deleteformcontainer">
+		{{> close_button}}
+		<h1 class="formtitle">Delete</h1>
+		<div class="deleteError"></div>
+		<div class="modaltopmessage deletetopmessage">
+			Are you sure you want to delete <strong>{{this.tablename}}?</strong><br>This cannot be undone.
+		</div>
+		<div class="deletebtn-wrapper">
+			<button class="deletebutton deletebtns">Yes, delete it forever</button>
+			<button class="cancelbutton deletebtns" autofocus>Cancel</button>
+		</div>
+	</div>
+</template>

@@ -1,4 +1,4 @@
-import { Answers, Questions } from '/lib/common.js';
+import { Answers, Questions, Instances } from '/lib/common.js';
 
 function present() {
   $('#nav-wrapper').slideUp();
@@ -487,14 +487,7 @@ Template.list.events({
     Meteor.call('unhide', Session.get('id'));
   },
   'click #deletebutton': function (event, template) {
-    const check = confirm('Are you sure you would like to delete the instance?');
-    if (check) {
-      Meteor.call('adminRemove', event.currentTarget.parentNode.dataset.tableId, (error, result) => {
-        if (!error) {
-          Router.go('/');
-        }
-      });
-    }
+    popoverTemplate = Blaze.renderWithData(Template.delete, Instances.findOne({ _id: $(event.target.parentElement).data('tableId') }), document.getElementById("nav"));
   },
   'click #navAsk': function (event, template) {
     const parentNode = document.getElementById('nav-wrapper');

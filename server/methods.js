@@ -450,6 +450,7 @@ Meteor.methods({
       const table = Instances.findOne({
         _id: instanceid,
       });
+      if (!table) { return false; }
       if (email && (email === table.admin || email === process.env.SUPERADMIN_EMAIL)) {
         const i_r = Instances.remove({ _id: instanceid });
         if (i_r !== 1) { return false; }

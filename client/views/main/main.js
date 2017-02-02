@@ -52,8 +52,10 @@ Template.home.helpers({
   hasToday() {
     const instances = Template.instance().data;
     let greatest = 0;
+    let faves = [];
+    if (Meteor.user() && Meteor.user().profile.favorites) { faves = Meteor.user().profile.favorites; }
     for (let i = 0; i < instances.length; i++) {
-      if (instances[i].lasttouch > greatest) {
+      if (instances[i].lasttouch > greatest && faves.indexOf(instances[i]._id) === -1) {
         greatest = instances[i].lasttouch;
       }
     }
@@ -61,9 +63,11 @@ Template.home.helpers({
     return ht;
   },
   hasWeek() {
+    let faves = [];
+    if (Meteor.user() && Meteor.user().profile.favorites) { faves = Meteor.user().profile.favorites; }
     const instances = Template.instance().data;
     for (let i = 0; i < instances.length; i++) {
-      if (instances[i].lasttouch > (new Date().getTime() - 604800000)) {
+      if (instances[i].lasttouch > (new Date().getTime() - 604800000) && faves.indexOf(instances[i]._id) === -1) {
         if (instances[i].lasttouch < (new Date().getTime() - 86400000)) {
           return true;
         }
@@ -74,8 +78,10 @@ Template.home.helpers({
   hasMonth() {
     const instances = Template.instance().data;
     let oldest = new Date().getTime();
+    let faves = [];
+    if (Meteor.user() && Meteor.user().profile.favorites) { faves = Meteor.user().profile.favorites; }
     for (let i = 0; i < instances.length; i++) {
-      if (instances[i].lasttouch < oldest) {
+      if (instances[i].lasttouch < oldest && faves.indexOf(instances[i]._id) === -1) {
         oldest = instances[i].lasttouch;
       }
     }
@@ -194,10 +200,7 @@ Template.home.events({
     }
   },
   'click .superadmindeletebutton': function (event, template) {
-    const check = confirm('Are you sure you would like to delete the instance?');
-    if (check) {
-      Meteor.call('adminRemove', event.currentTarget.id);
-    }
+    popoverTemplate = Blaze.renderWithData(Template.delete, Instances.findOne({ _id: $(event.target).data('instanceid') }), document.getElementById("nav"));
     event.stopPropagation();
   },
   'click .superadminrenamebutton': function (event, template) {
