@@ -620,18 +620,22 @@ Meteor.methods({
   },
   register(email, password, profileName) {
     if (this.userId) { return false; }
-    const system_names = ['the system', 'system'];
-    const re = /^[a-zA-Z0-9.!#$%&’*+/=?^_`{|}~-]+@[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,253}[a-zA-Z0-9])?(?:\.[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,253}[a-zA-Z0-9])?)*$/i;
+    const system_names = ['thesystem', 'system'];
+    const alphanumeric_name = profileName.replace(/[^a-z0-9]/gi, '');
+    const re_name = /^[a-z0-9-_\s]+$/i;
+    const re_email = /^[a-zA-Z0-9.!#$%&’*+/=?^_`{|}~-]+@[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,253}[a-zA-Z0-9])?(?:\.[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,253}[a-zA-Z0-9])?)*$/i;
     if (!profileName || !email || !password) {
       return [{ name: 'missingfield' }];
-    } else if (system_names.indexOf(profileName.toLowerCase()) !== -1) {
+    } else if (system_names.indexOf(alphanumeric_name.toLowerCase()) !== -1) {
       return [{ name: 'systemname' }];
-    } else if (!re.test(email) || email.length > 30 || email.length < 7) {
+    } else if (!re_email.test(email) || email.length > 30 || email.length < 7) {
       return [{ name: 'email' }];
     } else if (Accounts.findUserByEmail(email)) {
       return [{ name: 'exists' }];
-    } else if (profileName.length > 30) {
+    } else if (profileName.length > 30 || !re_name.test(profileName)) {
       return [{ name: 'name' }];
+    } else if (alphanumeric_name.length === 0) {
+      return [{ name: 'alphanumeric' }];
     } else if (password.length > 30 || password.length < 6) {
       return [{ name: 'password' }];
     }

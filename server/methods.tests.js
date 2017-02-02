@@ -967,6 +967,18 @@ if (Meteor.isServer) {
         assert.equal(error[0].name, 'name');
       });
 
+      it('should return an error if the name has invalid chars (anything that is not alphanumeric, a dash, a space, or an underscore).', function () {
+        const error = register.apply({}, [new_email, new_pass, 'Hello World * &']);
+        assert.isArray(error);
+        assert.equal(error[0].name, 'name');
+      });
+
+      it('should return an error if the name does not have any alphanumeric chars.', function () {
+        const error = register.apply({}, [new_email, new_pass, '__ ---- ']);
+        assert.isArray(error);
+        assert.equal(error[0].name, 'alphanumeric');
+      });
+
       it('should return an error if the password is not between 6 and 30 chars.', function () {
         let error = register.apply({}, [new_email, Random.hexString(5), new_name]);
         assert.isArray(error);

@@ -31,8 +31,13 @@ Template.register.events({
     // 2. Front-end validation
     if (!$('#loginname')[0].checkValidity()) {
       let nameError = 'Please enter a name';
-      if (loginName.length > 0) nameError += ' between 3 and 30 characters.';
-      else nameError += '.';
+      if (loginName.length === 0) {
+        nameError += '.';
+      } else if (loginName.length < 3 || loginName.length > 30) {
+        nameError += ' between 3 and 30 characters.';
+      } else {
+        nameError += ' with only letters, numbers, spaces, dashes, or underscores.';
+      }
       showRegisterError(nameError);
       return false;
     } else if (!$('#loginemail')[0].checkValidity()) {
@@ -65,6 +70,7 @@ Template.register.events({
           password: 'Password must be between 6 & 30 characters.',
           exists: 'An account with that email already exists.',
           unknown: 'An unknown error occurred. Please try again.',
+          alphanumeric: 'Name must have at least one alphanumeric character.',
         };
         showRegisterError(keys[result[0].name]);
       } else if (!error) {
