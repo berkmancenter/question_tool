@@ -31,7 +31,7 @@ Template.home.helpers({
     // so to make sure there is never an empty "favorites" section, we have to check
     let res = false;
     for (let i = 0; i < faves.length; i++) {
-      if (faves[i]) {
+      if (faves[i] && Instances.findOne({ _id: faves[i] })) {
         res = true;
         break;
       }
