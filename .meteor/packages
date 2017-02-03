@@ -44,3 +44,4 @@ meteorhacks:aggregate
 dispatch:mocha-phantomjs
 practicalmeteor:chai
 xolvio:cleaner
+reactive-var

@@ -1,15 +1,5 @@
 import { Questions, Answers } from '/lib/common.js';
 
-Template.answers.onCreated(() => {
-  // Checks whether the user has a valid table cookie
-  Meteor.call('cookieCheck', Session.get('tablename'), (error, result) => {
-    if (!result) {
-      // If not, redirect back to the chooser page
-      window.location.href = '/';
-    }
-  });
-});
-
 Template.answers.onRendered(() => {
   // When the template is rendered, sets the document title
   $('.formcontainer').hide().fadeIn(400);

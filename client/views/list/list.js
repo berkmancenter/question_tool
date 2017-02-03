@@ -46,8 +46,8 @@ function standardDeviation(values) {
   return stdDev;
 }
 
-function enableDragging() {
-  Meteor.call('adminCheck', Session.get('id'), (error, result) => {
+function enableDragging(id) {
+  Meteor.call('adminCheck', id, (error, result) => {
     function dragMoveListener(event) {
       const target = event.target;
       const x = (parseFloat(target.getAttribute('data-x')) || 0) + event.dx;
@@ -62,7 +62,7 @@ function enableDragging() {
     }
     // If yes, enable draggable question divs
     if (result) {
-      interact('.question')
+      interact('.question-' + id)
       .ignoreFrom('textarea')
       .draggable({
         // Divs have inertia and continue moving when mouse is released
@@ -82,9 +82,9 @@ function enableDragging() {
       });
 
       // Sets options for drop interaction
-      interact('.question').dropzone({
+      interact('.question-' + id).dropzone({
         // Active when one .quesiton div is dropped on another
-        accept: '.question',
+        accept: '.question-' + id,
         // The two divs need over 75% overlapping for the drop to be registered
         overlap: 0.2,
         ondropactivate(event) { // eslint-disable-line no-unused-vars
@@ -101,6 +101,7 @@ function enableDragging() {
           const id2 = event.target.id;
           const parentNode = document.getElementById('nav');
           Blaze.renderWithData(Template.combine, {
+            instanceid: id,
             first: id1,
             second: id2,
           }, parentNode);
@@ -154,40 +155,21 @@ Meteor.setInterval(() => {
 }, 1000);
 
 Template.list.onCreated(function () {
-  Session.set('responseName', '');
-  Session.set('responseEmail', '');
   Session.set('timeval', new Date().getTime());
-  Session.set('questionCount', 0);
-  Session.set('replyCount', 0);
-  Session.set('questionLimit', 250);
   Session.set('search', 'all');
-  Session.set('tablename', Template.instance().data.tablename);
-  Session.set('id', Template.instance().data._id);
-  Session.set('slug', Template.instance().data.slug);
-  Session.set('description', Template.instance().data.description);
-  if (typeof Template.instance().data.anonymous !== 'undefined') {
-    Session.set('anonymous', Template.instance().data.anonymous);
-  } else {
-    Session.set('anonymous', true);
-  }
-  Session.set('questionLength', Template.instance().data.max_question);
-  Session.set('responseLength', Template.instance().data.max_response);
-  const thresh = Template.instance().data.threshold ? Template.instance().data.threshold : Template.instance().data.threshhold;
-  Session.set('threshold', thresh);
   // eslint-disable-next-line max-len
   if (Meteor.user() && (Template.instance().data.admin === Meteor.user().emails[0].address || Template.instance().data.moderators.indexOf(Meteor.user().emails[0].address) > -1)) {
-    enableDragging();
+    enableDragging(Template.instance().data._id);
   }
-  Session.set('stale_length', Template.instance().data.stale_length);
-  Session.set('new_length', Template.instance().data.new_length);
   this.visibleQuestions = new Mongo.Collection(null);
   this.visibleAnswers = new Mongo.Collection('visibleAnswers', { connection: null }); // need to implement this
   this.state = new ReactiveDict();
 
+  const template = this;
   this.getQuestions = () => {
     // eslint-disable-next-line max-len
     const adminMod = Meteor.user() && (Template.instance().data.admin === Meteor.user().emails[0].address || Template.instance().data.moderators.indexOf(Meteor.user().emails[0].address) > -1);
-    const query = { instanceid: Session.get('id') };
+    const query = { instanceid: template.data._id };
     if (!adminMod) {
       query.state = 'normal';
     }
@@ -211,13 +193,13 @@ Template.list.onCreated(function () {
   this.autorun((computation) => {
     // Grab the questions from the server. Need to define getQuestions as the questions we want.
     const adminMod = Meteor.user() && (Template.instance().data.admin === Meteor.user().emails[0].address || Template.instance().data.moderators.indexOf(Meteor.user().emails[0].address) > -1);
-    const query = { instanceid: Session.get('id') };
+    const query = { instanceid: template.data._id };
     if (!adminMod) {
       query.state = 'normal';
     }
     const questions = Questions.find(query).fetch();
-    const answers = Answers.find({ instanceid: Session.get('id') }).fetch();
-    const client = Template.instance().visibleQuestions.find({ instanceid: Session.get('id') }).fetch();
+    const answers = Answers.find({ instanceid: template.data._id }).fetch();
+    const client = Template.instance().visibleQuestions.find({ instanceid: template.data._id }).fetch();
     const updatedQs = hasUpdates(questions, client);
     // If Tracker re-runs there must have been changes to the questions so we now set the state to let the user know
     if (!computation.firstRun && this.state.get('presentMode') !== true && updatedQs) {
@@ -246,24 +228,12 @@ Template.list.onRendered(() => {
 });
 
 Template.list.helpers({
-  // Sets the template tablename to the Session tablename variable
-  tablename() {
-    return Session.get('tablename');
-  },
-  // Sets the template id to the Session id variable
-  id() {
-    return Session.get('id');
-  },
-  // Sets the template description to the Session description variable
-  description() {
-    return Session.get('description');
-  },
   // Sets the template admin boolean to the Session admin variable
   admin() {
-    return Meteor.user() && Meteor.user().emails[0].address === this.admin;
+    return Meteor.user() && Meteor.user().emails[0].address === Template.instance().data.admin;
   },
   moderator() {
-    return Session.get('mod');
+    return Meteor.user() && Template.instance().data.moderators.indexOf(Meteor.user().emails[0].address) !== -1;
   },
   hasChanges() {
     return Template.instance().state.get('hasChanges');
@@ -284,12 +254,12 @@ Template.list.helpers({
     // Finds the questions from the Questions DB
     if (Session.get('search') === 'all') {
       questions = Template.instance().visibleQuestions.find({
-        instanceid: Session.get('id'),
+        instanceid: Template.instance().data._id,
       }).fetch();
     } else {
       const re = new RegExp(Session.get('search'), 'i');
       questions = Template.instance().visibleQuestions.find({
-        instanceid: Session.get('id'),
+        instanceid: Template.instance().data._id,
         $or: [{
           text: {
             $regex: re,
@@ -350,10 +320,10 @@ Template.list.helpers({
         // Sets the age marker depending on how long since question last modified
         const staleDiff = (Session.get('timeval') - questions[i].lasttouch) / 1000;
         const newDiff = (Session.get('timeval') - questions[i].timeorder) / 1000;
-        if (staleDiff > Session.get('stale_length')) {
+        if (staleDiff > this.stale_length) {
           questions[i].stale = true;
           questions[i].age_marker = 'stale-question';
-        } else if (newDiff < Session.get('new_length')) {
+        } else if (newDiff < this.new_length) {
           questions[i].new = true;
           questions[i].age_marker = 'new-question';
         }
@@ -395,7 +365,8 @@ Template.list.helpers({
             });
           }
         }
-        if (i < Session.get('threshold')) {
+        const thresh = this.threshold ? this.threshold : this.threshhold;
+        if (i < thresh) {
           questions[i].popular = true;
         } else {
           questions[i].popular = false;
@@ -443,12 +414,6 @@ Template.list.helpers({
     // Return the questions object to be displayed in the template
     return questions;
   },
-  responseName() {
-    return Session.get('responseName');
-  },
-  responseEmail() {
-    return Session.get('responseEmail');
-  },
 });
 
 /* eslint-disable func-names, no-unused-vars */
@@ -484,14 +449,14 @@ Template.list.events({
   // When the admin unhide button is clicked...
   'click #unhidebutton': function (event, template) {
     // Call the server-side unhide method to unhide all questions
-    Meteor.call('unhide', Session.get('id'));
+    Meteor.call('unhide', template.data._id);
   },
   'click #deletebutton': function (event, template) {
     popoverTemplate = Blaze.renderWithData(Template.delete, Instances.findOne({ _id: $(event.target.parentElement).data('tableId') }), document.getElementById("nav"));
   },
   'click #navAsk': function (event, template) {
     const parentNode = document.getElementById('nav-wrapper');
-    dropDownTemplate = Blaze.render(Template.propose, parentNode);
+    dropDownTemplate = Blaze.renderWithData(Template.propose, template.data, parentNode);
     const questionDiv = document.getElementById('toparea');
     if (questionDiv.style.display === 'none' || !questionDiv.style.display) {
       toggleButtonText('#navAsk');
@@ -510,46 +475,15 @@ Template.list.events({
       }
     }
   },
-  'click .replybutton': function (event, template) {
-    Session.set('replyCount', 0);
-    $('.replybottom').slideUp();
-    $('.replyarea').val('');
-    $('.replybutton').html('Reply');
-    const theID = event.target.id.substring(5);
-    const theArea = document.getElementById('down' + theID);
-    if (theArea.style.display === 'none' || !theArea.style.display) {
-      document.getElementById('reply' + theID).innerHTML = 'Close';
-      $('#down' + theID).slideDown(400, function () {
-        $(this).css('display', 'block');
-      });
-      $('#text' + theID).focus();
-    } else {
-      if (typeof replyError !== 'undefined') {
-        Blaze.remove(replyError);
-      }
-      document.getElementById('reply' + theID).innerHTML = 'Reply';
-      $('#down' + theID).slideUp();
-    }
-  },
   'click .checkbox': function (event, template) {
     const checked = event.target.firstElementChild;
     if (checked.style.display === 'none' || !checked.style.display) {
       checked.style.display = 'block';
-      if (Meteor.user()) {
-        $('.replyname').val('Anonymous');
-        $('.replyemail').val('');
-      }
     }
   },
   'click .checked': function (event, template) {
-    // console.log(event);
-    // return false;
     const checked = event.target;
     if (checked.style.display === 'block') {
-      if (Meteor.user()) {
-        $('.replyname').val(Meteor.user().profile.name);
-        $('.replyemail').val(Meteor.user().emails[0].address);
-      }
       checked.style.display = 'none';
     }
   },
@@ -560,7 +494,7 @@ Template.list.events({
     const answer = document.getElementById('text' + theID).value;
 
     // Calls a server-side method to answer a question and update DBs
-    Meteor.call('answer', Session.get('id'), answer, theID, anon, (e, r) => {
+    Meteor.call('answer', template.data._id, answer, theID, anon, (e, r) => {
       // If the result is an object, there was an error
       if (typeof r === 'object') {
         // Store an object of the error names and codes
@@ -594,7 +528,7 @@ Template.list.events({
 
     const anon = true;
     // Calls a server-side method to answer a question and update DBs
-    Meteor.call('answer', Session.get('id'), answer, theID, anon, (e, r) => {
+    Meteor.call('answer', template.data._id, answer, theID, anon, (e, r) => {
       // If the result is an object, there was an error
       if (typeof r === 'object') {
         // Store an object of the error names and codes
@@ -633,12 +567,6 @@ Template.list.events({
       }
     }
   },
-  'keyup .replyname': function (event, template) {
-    Session.set('responseName', event.target.value);
-  },
-  'keyup .replyemail': function (event, template) {
-    Session.set('responseEmail', event.target.value);
-  },
   'keyup #searchbar': function (event, template) {
     if (event.target.value) {
       Session.set('search', event.target.value);
@@ -647,24 +575,8 @@ Template.list.events({
     }
     // return Users.find({name: {$regex: re}});
   },
-  'keyup .replyarea': function (event, template) {
-    const urlRegex = /(https?:\/\/(?:www\.|(?!www))[^\s\.]+\.[^\s]{2,}|www\.[^\s]+\.[^\s]{2,})/g;
-    const found = event.target.value.match(urlRegex);
-    let total = 0;
-    if (found) {
-      let totalURL = 0;
-      for (let f = 0; f < found.length; f++) {
-        totalURL += found[f].length;
-      }
-      total = (event.target.value.length - totalURL) + found.length;
-      $(event.target).attr('maxlength', Number(Session.get('responseLength') + totalURL - found.length));
-    } else {
-      total = event.target.value.length;
-    }
-    Session.set('replyCount', total);
-  },
   'click .facebookbutton': function (event, template) {
-    popupwindow('https://www.facebook.com/sharer/sharer.php?u=' + encodeURIComponent(window.location.origin + '/list/' + Session.get('slug')), 'Share Question Tool!', 600, 400);
+    popupwindow('https://www.facebook.com/sharer/sharer.php?u=' + encodeURIComponent(window.location.origin + '/list/' + template.data.slug), 'Share Question Tool!', 600, 400);
   },
   'click .twitterbutton': function (event, template) {
     const questionDiv = event.target.parentElement.parentElement.parentElement;
@@ -672,12 +584,12 @@ Template.list.events({
     if (questionText.length > 35) {
       questionText = questionText.substring(0, 34);
     }
-    const tweetText = 'Check out this question: "' + questionText + '..." on Question Tool by @berkmancenter ' + window.location.origin + '/list/' + Session.get('slug');
+    const tweetText = 'Check out this question: "' + questionText + '..." on Question Tool by @berkmancenter ' + window.location.origin + '/list/' + template.data.slug;
     popupwindow('https://twitter.com/intent/tweet?text=' + encodeURIComponent(tweetText), 'Share Question Tool!', 600, 400);
   },
   'click #modbutton': function (event, template) {
     const parentNode = document.getElementById('nav');
-    popoverTemplate = Blaze.render(Template.add, parentNode);
+    popoverTemplate = Blaze.renderWithData(Template.add, template.data, parentNode);
   },
   'click #renamebutton': function (event, template) {
     const parentNode = document.getElementById('nav');
@@ -686,10 +598,6 @@ Template.list.events({
       table,
       isList: true,
     }, parentNode);
-  },
-  'click .adminquestionmodify': function (event, template) {
-    const parentNode = document.getElementById('nav');
-    popoverTemplate = Blaze.renderWithData(Template.modify, event.currentTarget.id, parentNode);
   },
   'click #navPresent': function (event, template) {
     present();
@@ -705,34 +613,6 @@ Template.list.events({
   'click #navUnPresent': function (event, template) {
     unPresent();
     Template.instance().state.set('presentMode', true);
-  },
-  'click .hiddenMessage': function (event, template) {
-    const parentNode = document.getElementById('main-wrapper');
-    popoverTemplate = Blaze.renderWithData(Template.answers, event.currentTarget.id, parentNode);
-
-    // $(event.currentTarget).prev().slideDown();
-    // event.currentTarget.style.display = "none";
-    // $(event.currentTarget).next().css("display", "block");
-    /* var replyText = "replies";
-    if(event.target.id === 1) {
-      replyText = "reply";
-    }
-    $(event.currentTarget).html("Hide " + replyText + "...");
-    $(event.currentTarget).attr('class', 'hiddenMessageHide');
-    Tracker.flush();*/
-  },
-  'click .hiddenMessageHide': function (event, template) {
-    $(event.currentTarget).prev().prev().slideUp();
-    event.currentTarget.style.display = 'none';
-    $(event.currentTarget).prev().css('display', 'block');
-    /* var numberHidden = event.currentTarget.id;
-    var replyText = "replies";
-    if(numberHidden === 1) {
-      replyText = "reply";
-    }
-    $(event.currentTarget).html("Show " + numberHidden + " {{numberHidden}} more " + replyText + "...");
-    $(event.currentTarget).attr('class', 'hiddenMessage');
-    Tracker.flush();*/
   },
   'click .new-posts': function (event, template) {
     Template.instance().onShowChanges();

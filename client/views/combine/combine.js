@@ -9,20 +9,11 @@ function showError(reason, parentElement, nextElement) {
   currentError = Blaze.renderWithData(Template.form_error, reason, parentNode, nextNode);
 }
 
-Template.combine.onCreated(() => {
-  // Checks whether the user has a valid table cookie
-  Meteor.call('cookieCheck', Session.get('tablename'), (error, result) => {
-    // If not, redirects back to the chooser page
-    if (!result) {
+Template.combine.onCreated(function () {
+  Meteor.call('adminCheck', this.data.instanceid, (e, r) => {
+    if (!r) {
+      // If not, redirects back to the list page
       window.location.href = '/';
-    } else {
-      // Checks whether the current user has admin privileges
-      Meteor.call('adminCheck', Session.get('id'), (e, r) => {
-        if (!r) {
-          // If not, redirects back to the list page
-          window.location.href = '/';
-        }
-      });
     }
   });
 });

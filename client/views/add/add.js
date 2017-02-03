@@ -9,21 +9,27 @@ function showModsError(reason) {
   currentError = Blaze.renderWithData(Template.form_error, reason, parentNode, nextNode);
 }
 
-Template.add.onCreated(() => {
-  // Checks whether the user has a valid table cookie
-  Meteor.call('listCookieCheck', Session.get('id'), (error, result) => {
-    if (!result) {
-      // If not, return the user to the chooser page
-      window.location.href = '/';
-    } else {
-      Meteor.call('adminCheck', Session.get('id'), (e, r) => {
-        if (!r) {
-          // If not, return the user to the chooser page
-          window.location.href = '/';
-        }
-      });
+Template.add.onCreated(function () {
+  this.numberOfNewMods = new ReactiveVar(1);
+  if (this.data.admin !== Meteor.user().emails[0].address) {
+    Router.go('/');
+  }
+});
+
+Template.add.helpers({
+  mods() {
+    return Instances.findOne({ _id: Template.instance().data._id }, { reactive: true }).moderators;
+  },
+  newMod() {
+    return Template.instance().numberOfNewMods.get();
+  },
+  loop(count) {
+    const arr = [];
+    for (let i = 0; i < count; i++) {
+      arr.push({});
     }
-  });
+    return arr;
+  },
 });
 
 Template.add.onRendered(() => {
@@ -32,29 +38,12 @@ Template.add.onRendered(() => {
   $('#darker').hide().fadeIn(400);
 });
 
-Template.add.helpers({
-  // Sets the template tablename to the tablename Cookie
-  tablename: Session.get('tablename'),
-  mods() {
-    const instance = Instances.findOne({
-      tablename: Session.get('tablename'),
-    }, {
-      reactive: true,
-    });
-    const mods = [];
-    for (let m = 0; m < instance.moderators.length; m++) {
-      mods.push(instance.moderators[m]);
-    }
-    return mods;
-  },
-});
-
 /* eslint-disable func-names, no-unused-vars, consistent-return */
 Template.add.events({
   'click .plusbutton': function (event, template) {
     const row = event.currentTarget.parentElement;
     const modBoxes = document.getElementsByClassName('modbox');
-    if (modBoxes.length > 4) {
+    if (modBoxes.length >= 4) {
       showModsError("You've reached max of 4 moderators.");
       return false;
     }
@@ -62,23 +51,11 @@ Template.add.events({
     for (let i = 0; i < buttons.length; i++) {
       buttons[i].style.display = 'none';
     }
-    const line = document.createElement('div');
-    const input = document.createElement('input');
-    const plus = document.createElement('div');
-    line.className = 'modline';
-    input.type = 'text';
-    input.style.clear = 'both';
-    input.maxLength = '45';
-    input.className = 'modbox newmod';
-    plus.className = 'plusbutton';
-    plus.innerHTML = '+';
-    line.appendChild(input);
-    line.appendChild(plus);
-    row.appendChild(line);
+    template.numberOfNewMods.set(template.numberOfNewMods.get() + 1);
   },
   'click .removebutton': function (event, template) {
-    const mod = event.currentTarget.previousElementSibling.value;
-    Meteor.call('removeMods', mod, Session.get('id'));
+    const mod = $(event.currentTarget).data('email');
+    Meteor.call('removeMods', mod, template.data._id);
   },
   // When the submit button is clicked...
   'click #modsdonebutton': function (event, template) {
@@ -90,7 +67,7 @@ Template.add.events({
         mods.push(modsInput[m].value);
       }
     }
-    Meteor.call('addMods', mods, Session.get('id'), (error, result) => {
+    Meteor.call('addMods', mods, template.data._id, (error, result) => {
       // If the result is an object, there was an error
       if (typeof result === 'object') {
         // Alert the error
@@ -108,7 +85,7 @@ Template.add.events({
                     mods[m],
                     Meteor.user().emails[0].address,
                     'You have been added as a moderator on Question Tool',
-                    Meteor.user().profile.name + ' added you as a moderator of ' + Session.get('tablename') + ' at ' + Iron.Location.get().originalUrl + ' on Question Tool. You are able to modify, combine, and hide questions. You must use this email address when registering to be considered a moderator.');
+                    Meteor.user().profile.name + ' added you as a moderator of ' + template.data.tablename + ' at ' + Iron.Location.get().originalUrl + ' on Question Tool. You are able to modify, combine, and hide questions. You must use this email address when registering to be considered a moderator.');
       }
       let boxes = document.getElementsByClassName('newmod');
       boxes = boxes[boxes.length - 1];

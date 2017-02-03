@@ -298,7 +298,8 @@ Meteor.methods({
     if (this.userId) {
       const email = Meteor.users.findOne({ _id: this.userId }).emails[0].address;
       const quest = Questions.findOne({ _id: question });
-      return quest.email === email && quest.posterLoggedIn;
+      const inst = Instances.findOne({ _id: quest.instanceid });
+      return (quest.email === email && quest.posterLoggedIn) || email === inst.admin || inst.moderators.indexOf(email) !== -1;
     }
     return false;
   },

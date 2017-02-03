@@ -36,7 +36,7 @@ Template.rename.events({
       } else if (result) {
         const isList = template.data.isList;
         if (isList) {
-          window.location.href = '/list/' + Instances.findOne({ _id: Session.get('id') }).slug;
+          window.location.href = '/list/' + Instances.findOne({ _id: table._id }).slug;
         } else {
           Blaze.remove(popoverTemplate);
         }

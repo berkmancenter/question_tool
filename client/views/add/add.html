@@ -7,21 +7,23 @@
 		<div class="modaltopmessage">
 			Press the red "x" to remove moderators. Type in new emails and press "+" for more. Hit "done" once finished.
 		</div>
-		<div class="inputcontainer">
+		<div class="inputcontainer" style="text-align: center;">
 			{{#each mods}}
 				<div class="modline">
                     <input class="modbox" disabled="disabled" style="float:left" type="text" maxlength="45" value="{{this}}"/>
-					<div class="removebutton">
+					<div class="removebutton" data-email="{{this}}">
 						x
 					</div>
 				</div>
 			{{/each}}
+			{{#each loop newMod}}
 			<div class="modline">
                 <input class="modbox newmod" style="float:left" type="text" maxlength="45" />
 				<div class="plusbutton">
 					+
 				</div>
 			</div>
+			{{/each}}
 			<div id="modsdonebutton">
 				Done
 			</div>

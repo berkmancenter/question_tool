@@ -1,4 +1,4 @@
-import { Questions } from '/lib/common.js';
+import { Questions, Instances } from '/lib/common.js';
 
 function showModifyError(reason) {
   if (typeof currentError !== 'undefined') {
@@ -10,19 +10,13 @@ function showModifyError(reason) {
 }
 
 Template.modify.onCreated(() => {
-  // Checks whether the user has a valid table cookie
-  Meteor.call('cookieCheck', Session.get('tablename'), (error, result) => {
-    if (!result) {
-      // If not, redirect back to the chooser page
-      window.location.href = '/';
-    } else {
-      // Checks whether the user has proper admin privileges
-      Meteor.call('canModify', Template.instance().data, (e, r) => {
-        if (!r) {
-          // If not, redirects back to the list page
-          window.location.href = '/';
-        }
-      });
+  const quest = Template.instance().data;
+  Meteor.call('canModify', quest, (e, r) => {
+    if (!r) {
+      // If not, redirects back to the list page
+      const instanceid = Questions.findOne({ _id: quest }).instanceid;
+      const slug = Instances.findOne({ _id: instanceid }).slug;
+      window.location.href = '/list/' + slug;
     }
   });
 });
@@ -40,7 +34,8 @@ Template.modify.helpers({
     }).text;
   },
   maxmodlength() {
-    return Session.get('questionLength');
+    const instanceid = Questions.findOne({ _id: Template.instance().data }).instanceid;
+    return Instances.findOne({ _id: instanceid }).max_question;
   },
 });
 

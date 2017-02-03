@@ -11,7 +11,7 @@ Template.nav.events({
   },
   'click #navShare': function (event, template) {
     const parentNode = document.getElementById('nav');
-    popoverTemplate = Blaze.render(Template.share, parentNode);
+    popoverTemplate = Blaze.renderWithData(Template.share, template.data.slug, parentNode);
   },
   'click #navRegister': function (event, template) {
     const parentNode = document.getElementById('nav');

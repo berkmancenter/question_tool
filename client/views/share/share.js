@@ -5,7 +5,7 @@ Template.share.onRendered(() => {
 
 Template.share.helpers({
   shareLink() {
-    return window.location.origin + '/list/' + Session.get('tablename').toLowerCase();
+    return window.location.origin + '/list/' + Template.instance().data;
   },
 });
 

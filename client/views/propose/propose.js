@@ -1,3 +1,5 @@
+import { ReactiveVar } from 'meteor/reactive-var';
+
 function showProposeError(reason) {
   if (typeof currentError !== 'undefined') {
     Blaze.remove(currentError);
@@ -8,18 +10,13 @@ function showProposeError(reason) {
 }
 
 Template.propose.helpers({
-  questionLength() {
-    if (Session.get('questionLength')) {
-      return Session.get('questionLength');
-    }
-    return 350;
-  },
-  anonymous() {
-    return Session.get('anonymous');
-  },
   count() {
-    return Session.get('questionCount');
+    return Template.instance().questionCount.get();
   },
+});
+
+Template.propose.onCreated(function () {
+  this.questionCount = new ReactiveVar(0);
 });
 
 Template.propose.onRendered(() => {
@@ -126,7 +123,7 @@ Template.propose.events({
       password1 = password1.value;
       password2 = password2.value;
     }
-    if (Session.get('anonymous')) {
+    if (template.data.anonymous) {
       if (anonymous) {
         posterName = 'Anonymous';
         email = '';
@@ -190,13 +187,14 @@ Template.propose.events({
         });
       });
     }
-    Meteor.call('propose', Session.get('id'), question, anonymous, posterName, posterEmail, (e, r) => {
+    const questionLength = template.data.max_question;
+    Meteor.call('propose', template.data._id, question, anonymous, posterName, posterEmail, (e, r) => {
       // If returns an object, there was an error
       if (typeof r === 'object') {
         // Store an object of the error names and codes
         const errorCodes = {
           tablename: 'Table name is invalid. Please return to the list and try again.',
-          text: 'Posts must be between 10 and ' + Session.get('questionLength') + ' characters.',
+          text: 'Posts must be between 10 and ' + questionLength + ' characters.',
           poster: 'Please enter a valid name using less than 30 characters.',
           ip: 'There was an error with your IP address. Please try again.',
           timeorder: 'There was an error retrieving the current time. Please try again.',
@@ -234,11 +232,11 @@ Template.propose.events({
         totalURL += found[f].length;
       }
       total = (event.target.value.length - totalURL) + found.length;
-      $('#questioninput').attr('maxlength', Number(Session.get('questionLength') + totalURL - found.length));
+      $('#questioninput').attr('maxlength', Number(template.data.max_question + totalURL - found.length));
     } else {
       total = event.target.value.length;
     }
-    Session.set('questionCount', total);
+    template.questionCount.set(total);
   },
 });
 /* eslint-enable func-names, no-unused-vars */
