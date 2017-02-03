@@ -452,7 +452,7 @@ Template.list.events({
     Meteor.call('unhide', template.data._id);
   },
   'click #deletebutton': function (event, template) {
-    popoverTemplate = Blaze.renderWithData(Template.delete, Instances.findOne({ _id: $(event.target.parentElement).data('tableId') }), document.getElementById("nav"));
+    popoverTemplate = Blaze.renderWithData(Template.delete, Instances.findOne({ _id: $(event.target.parentElement).data('tableId') }), document.getElementById('nav'));
   },
   'click #navAsk': function (event, template) {
     const parentNode = document.getElementById('nav-wrapper');

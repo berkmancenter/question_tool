@@ -1,4 +1,4 @@
-/* eslint-disable func-names, no-unused-vars */
+/* eslint-disable func-names, no-unused-vars, prefer-arrow-callback */
 function removePopover() {
   $('.formcontainer').fadeOut(400);
   $('#darker').fadeOut(400, () => {

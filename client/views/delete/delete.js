@@ -21,7 +21,7 @@ Template.delete.events({
           Blaze.remove(currentError);
         }
         const e = 'An error has occurred while trying to delete the instance. Please try again.';
-        currentError = Blaze.renderWithData(Template.form_error, e, document.getElementsByClassName("deleteError")[0]);
+        currentError = Blaze.renderWithData(Template.form_error, e, document.getElementsByClassName('deleteError')[0]);
       } else {
         removePopover();
         Router.go('/');

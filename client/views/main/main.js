@@ -200,7 +200,7 @@ Template.home.events({
     }
   },
   'click .superadmindeletebutton': function (event, template) {
-    popoverTemplate = Blaze.renderWithData(Template.delete, Instances.findOne({ _id: $(event.target).data('instanceid') }), document.getElementById("nav"));
+    popoverTemplate = Blaze.renderWithData(Template.delete, Instances.findOne({ _id: $(event.target).data('instanceid') }), document.getElementById('nav'));
     event.stopPropagation();
   },
   'click .superadminrenamebutton': function (event, template) {

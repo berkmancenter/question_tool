@@ -1,4 +1,4 @@
-import { Questions, Votes, Answers, Instances } from '/lib/common.js';
+import { Votes, Answers, Instances } from '/lib/common.js';
 
 Template.question_div.onCreated(function () {
   this.replyCount = new ReactiveVar(0);
