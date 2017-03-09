@@ -167,6 +167,16 @@ $screen-sm-max: ($screen-md - 1);
 	}
 }
 
+#navHelp {
+	width: 18px;
+	height: 20px;
+	padding: 3px 15px 5px 15px;
+	background-image: url('/help.png');
+	background-repeat: no-repeat;
+	background-size: 1.2em 1.2em;
+	background-position: 0.5em 0.4em;
+}
+
 #navLogout {
 	background-color: #5d6a7b;
 
