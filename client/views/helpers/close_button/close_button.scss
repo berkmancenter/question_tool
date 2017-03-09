@@ -1,14 +1,17 @@
 .closecontainer {
-	cursor: pointer;
-	display: inline-block;
-	background-color: #ea6153;
-	border-radius: 5px;
-	padding: 0.3em;
-	margin: 10px 0px 0px 10px;
-	color: white;
-
-  &:hover {
-		background-color: #ed766a;
-	}
+    cursor: pointer;
+    display: inline-block;
+    padding: 0.3em;
+    position: relative;
+    left: 92%;
+    top: 5%;
 }
 
+.fa-close {
+    color: #adadad;
+    font-size: 20px;
+    &:hover {
+        color: #ea6153;
+        transform: scale(1.1);
+    }
+}
