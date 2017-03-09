@@ -142,7 +142,6 @@ Meteor.methods({
 			stale_length: stale, 
 			description: description,
 			moderators: mods,
-			/*password: passwordConfirm,*/
 			lasttouch: new Date().getTime() - 1000,
 			admin: admin,
 			max_question: maxQuestion,
@@ -418,6 +417,43 @@ Meteor.methods({
 					// If error, store object in keys variable
 					keys = error.invalidKeys;
 				} else { 
+					var toRemove = Questions.findOne({
+						poster: "the system",
+						instanceid: instanceid
+					});
+					Questions.remove({
+						poster: "the system",
+						instanceid: instanceid
+					}, function(error) {
+						if(error) {
+							keys = error.invalidKeys;
+						} else {
+							var ifExists = Answers.findOne({
+								qid: toRemove.instanceid
+							});
+							if(ifExists) {
+								Answers.remove({
+									qid: toRemove.instanceid
+								}, function(error){
+									if(error) {
+										keys = error.invalidKeys;
+									}
+								});
+							}
+							var ifVotesExist = Votes.findOne({
+								qid: toRemove.instanceid
+							});
+							if(ifVotesExist) {
+								Votes.remove({
+									qid: toRemove.instanceid
+								}, function(error) {
+									if(error) {
+										keys = error.invalidKeys;
+									}
+								});
+							}
+						}
+					});
 					Instances.update({
 						_id: table._id
 					}, {
