@@ -27,14 +27,14 @@ Template.answers.helpers({
     answers.reverse();
     for (let a = 0; a < answers.length; a++) {
       answers[a].text = answers[a].text.replace(/\B(@\S+)/g, '<strong>$1</strong>');
-      // eslint-disable-next-line max-len
-      const urlRegex = /(https?:\/\/)?(www\.)?[-a-zA-Z0-9@:%._\+~#=]{2,256}\.[a-z]{2,6}\b([-a-zA-Z0-9@:%_\+.~#?&//=]*)/gi;
+      const urlRegex = new RegExp(SimpleSchema.RegEx.Url.source.slice(1, -1), 'ig');
       answers[a].text = answers[a].text.replace(urlRegex, (url) => {
-        let fullURL = url;
+        /* let fullURL = url;
         if (url.indexOf('http://') === -1 || url.indexOf('https://') === -1) {
           fullURL = 'http://' + url;
         }
-        return '<a target="_blank" class="questionLink" rel="nofollow" href="' + fullURL + '">' + url + '</a>';
+        */
+        return '<a target="_blank" class="questionLink" rel="nofollow" href="' + url + '">' + url + '</a>';
       });
     }
 
