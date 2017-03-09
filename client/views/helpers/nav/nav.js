@@ -29,6 +29,10 @@ Template.nav.events({
 		Session.set("search", "");
 		Router.go("/");
 	},
+	"click #navHelp": function(event, template) {
+		var parentNode = document.getElementById("nav");
+		popoverTemplate = Blaze.render(Template.helpButton, parentNode);
+	},
 	"click #darker": function(event, template) {
 		$(".formcontainer").fadeOut(400);
 		$("#darker").fadeOut(400, function() {
