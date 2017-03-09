@@ -4,7 +4,7 @@
 import { Meteor } from 'meteor/meteor';
 import { Random } from 'meteor/random';
 import { Accounts } from 'meteor/accounts-base';
-import { assert } from 'meteor/practicalmeteor:chai';
+import { assert } from 'chai';
 import { resetDatabase } from 'meteor/xolvio:cleaner';
 import { Instances, Questions, Answers, Votes } from '/lib/common.js';
 import './methods.js';
