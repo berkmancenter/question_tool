@@ -625,7 +625,7 @@ Meteor.methods({
     const system_names = ['thesystem', 'system'];
     const alphanumeric_name = profileName.replace(/[^a-z0-9]/gi, '');
     const re_name = /^[a-z0-9-_\s]+$/i;
-    const re_email = /^[a-zA-Z0-9.!#$%&’*+/=?^_`{|}~-]+@[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,253}[a-zA-Z0-9])?(?:\.[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,253}[a-zA-Z0-9])?)*$/i;
+    const re_email = SimpleSchema.RegEx.Email;
     if (!profileName || !email || !password) {
       return [{ name: 'missingfield' }];
     } else if (system_names.indexOf(alphanumeric_name.toLowerCase()) !== -1) {
