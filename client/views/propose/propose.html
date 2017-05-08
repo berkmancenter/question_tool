@@ -1,7 +1,7 @@
 <template name="propose">
 		<div id="toparea" style="text-align: center;">
 			<div id="questiondiv">
-	      <textarea id="questioninput" maxlength="{{questionLength}}" placeholder="Enter text here..."></textarea>
+	      <textarea id="questioninput" maxlength="{{max_question}}" placeholder="Enter text here..."></textarea>
 				<div id="topinputcontainer">
 					{{#if currentUser}}
 						<input id="questionnameinput" spellcheck="false" type="text" placeholder="Name..." value="{{currentUser.profile.name}}">
@@ -18,6 +18,7 @@
 				<div id="bottomquestionarea">
 					<div id="checkareas">
 						{{#if currentUser}}
+						{{#if anonymous}}
 							<div id="checkarea1">
 								<div class="checkarealeft">
 									<div class="checkbox" id="anonbox">
@@ -29,8 +30,9 @@
 									<p class="checkboxlabel">Post as anonymous?</p>
 								</div>
 							</div>
+						{{/if}}
 						{{else}}
-							<div id="checkarea1">
+							<div id="checkarea1 chck">
 								<div class="checkarealeft">
 									<div class="checkbox" id="savebox">
 										<div class="checked" id="savecheck">
@@ -41,7 +43,7 @@
 									<p class="checkboxlabel">Save your information?</p>
 								</div>
 							</div>
-							<div id="checkarea2" style="{{#if anonymous}}{{else}}visibility:hidden!important{{/if}}">
+							<div id="checkarea2 chck" style="{{#if anonymous}}{{else}}visibility:hidden!important{{/if}}">
 								<div class="checkarealeft" style="{{#if anonymous}}{{else}}visibility:hidden!important{{/if}}">
 									<div class="checkbox" id="anonbox">
 										<div class="checked" id="anoncheck">
@@ -55,16 +57,12 @@
 						{{/if}}
 					</div>
           <div class="countarea">
-						<span id="darkcounter">{{count}}</span>/{{questionLength}}
+						<span id="darkcounter">{{count}}</span>/{{ max_question }}
 					</div>
 					<div id="buttonarea">
 						Post!
 					</div>
 				</div>
 			</div>
-			<!--<a href="/propose">Post a question</a> ::
-			<a href="/">Choose a different instance</a> ::
-			<a href="/report">Archived questions</a> ::
-			<a href="/rss/{{tablename}}"><img src="/rss.gif" alt="xml icon" /></a>-->
 		</div>
 </template>

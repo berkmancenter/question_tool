@@ -1,12 +1,12 @@
 <template name="question_div">
   <div class="question-wrapper">
-    <div id="{{_id}}" class="question {{#if popular}}popular-question{{else}}{{age_marker}}{{/if}} {{#if isDisabled}}hidden-question{{/if}}">
+    <div id="{{_id}}" class="question question-{{instanceid}} {{#if popular}}popular-question{{else}}{{age_marker}}{{/if}} {{#if isDisabled}}hidden-question{{/if}}">
       <p class="questiontext">{{{text}}}</p>
       <!-- {{# if hasAnswers}}
         {{> answers_list}}
       {{/if}} -->
       {{#if hasAnswers}}
-      <p class="hiddenMessage link" id="{{_id}}">show {{answersCount}}</p>
+      <p class="hiddenMessage showreplies link" id="{{_id}}">show {{answersCount}}</p>
       {{/if}}
       <div class="replybottom" id="down{{_id}}">
         <textarea id="text{{_id}}" class="replyarea" placeholder="Type a response..." maxlength="{{responseLength}}"></textarea>
@@ -35,6 +35,12 @@
           <span class="adminquestionmodify link" id="{{_id}}">
             Modify
           </span>
+          {{ else }}
+            {{#if isPoster}}
+            <span class="adminquestionmodify link" id="{{_id}}">
+              Modify
+            </span>
+            {{/if}}
           {{/if}}
         </span>
         <span class="sharing">

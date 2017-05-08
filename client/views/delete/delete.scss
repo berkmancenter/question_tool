@@ -1,0 +1,28 @@
+.deleteformcontainer {
+	.error {
+		font-weight: 600;
+		width: 70%;
+		margin: auto;
+	}
+
+	.deletetopmessage {
+		font-size: 1.1em;
+	}
+
+	.deletebtn-wrapper{
+		text-align: center;
+		padding: 1em;
+		.deletebtns {
+			display: inline-block;
+			cursor: pointer;
+			margin-left: 0.3em;
+			margin-right: 0.3em;
+			border: none;
+			border-radius: 5px;
+			padding: 0.7em;
+			&.deletebutton {
+				background-color: #ea6153;
+			}
+		}
+	}
+}

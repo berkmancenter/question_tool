@@ -1,7 +1,7 @@
 <template name="list">
 	<div class="wrapper" id="main-wrapper">
 
-		{{> nav list=true title=tablename admin=admin }}
+		{{> nav list=true title=tablename admin=admin slug=slug }}
 		<div class="description" title="Description">{{{description}}}</div>
 		<div id="presentationNav">
 			<div class="pres"><span id="presName">{{tablename}}</span></div>
@@ -12,11 +12,7 @@
 			<div class="admincontainer">
 				<h2>Admin Interface</h2>
 				<p>Click and drag two questions together to combine.</p>
-				<!--<a id="unhidebutton">Unhide all questions</a> ::
-				<a id="{{id}}" class="deletebutton">Delete this instance</a> ::
-				<a href="/add" class="modbutton">Add moderators</a> ::
-				<a href="/rename/{{id}}">Rename this instance</a>-->
-				<ul id="admin-button-list" data-table-id="{{id}}">
+				<ul id="admin-button-list" data-table-id="{{_id}}">
 					<li id="unhidebutton">Unhide all</li>
 					<li id="deletebutton">Delete instance</li>
 					<li id="modbutton">Add moderators</li>
@@ -31,8 +27,8 @@
 			</div>
 		{{/if}}
 		{{#if hasChanges}}<div class="new-posts"><i class="fa fa-refresh"></i> Refresh</div>{{/if}}
-    <div class="masonary-wrapper">
-  		<div class="container">
+    <div class="masonary-wrapper" id="list-wrapper">
+  		<div class="container" id="quest-container">
   			{{#each question}}
   				{{> question_div}}
   			{{/each}}

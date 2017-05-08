@@ -1,8 +1,22 @@
-Template.close_button.events({
-	"click .closecontainer": function(event, template) {
-		$(".formcontainer").fadeOut(400);
-		$("#darker").fadeOut(400, function() {
-			Blaze.remove(popoverTemplate);
-		});
-	}
+/* eslint-disable func-names, no-unused-vars, prefer-arrow-callback */
+function removePopover() {
+  $('.formcontainer').fadeOut(400);
+  $('#darker').fadeOut(400, () => {
+    Blaze.remove(popoverTemplate);
+  });
+}
+
+Template.close_button.onCreated(function () {
+  $(document).keydown((e) => {
+    if (popoverTemplate && e.keyCode === 27) {
+      removePopover();
+    }
+  });
 });
+
+Template.close_button.events({
+  'click .closecontainer': function (event, template) {
+    removePopover();
+  },
+});
+/* eslint-disable func-names, no-unused-vars */

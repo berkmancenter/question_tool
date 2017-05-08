@@ -1,60 +1,48 @@
-Template.answers.onCreated(function () {
-	// Checks whether the user has a valid table cookie
-	Meteor.call('cookieCheck', Session.get("tablename"), function (error, result) {
-		if(!result) {
-			// If not, redirect back to the chooser page
-			window.location.href = "/";
-		}
-	});
-});
+import { Questions, Answers } from '/lib/common.js';
 
-Template.answers.onRendered(function() {
-	// When the template is rendered, sets the document title
-	$(".formcontainer").hide().fadeIn(400);
-	$("#darker").hide().fadeIn(400);
+Template.answers.onRendered(() => {
+  // When the template is rendered, sets the document title
+  $('.formcontainer').hide().fadeIn(400);
+  $('#darker').hide().fadeIn(400);
 });
 
 Template.answers.helpers({
-  question: function() {
-    var id = Template.currentData();
+  question() {
+    const id = Template.currentData();
     return Questions.findOne({ _id: id });
   },
-  date_format: function(timeorder){
+  date_format(timeorder) {
     return moment(timeorder).format('LLL');
   },
-  time_format: function(timeorder){
+  time_format(timeorder) {
     return moment(timeorder).fromNow();
   },
-	answers: function() {
-    var id = Template.currentData();
+  answers() {
+    const id = Template.currentData();
 
-    var answers = Answers.find({
-      qid: id
+    const answers = Answers.find({
+      qid: id,
     }).fetch();
 
-    answers.reverse()
-    for(var a = 0; a < answers.length; a++) {
-      answers[a].text = answers[a].text.replace(/\B(@\S+)/g, "<strong>$1</strong>");
-      var urlRegex = /(https?:\/\/)?(www\.)?[-a-zA-Z0-9@:%._\+~#=]{2,256}\.[a-z]{2,6}\b([-a-zA-Z0-9@:%_\+.~#?&//=]*)/gi;
-      answers[a].text = answers[a].text.replace(urlRegex, function(url) {
-        if(url.indexOf("http://") == -1) {
-          var fullURL = "http://" + url;
-        } else {
-          fullURL = url;
-        }
-        return '<a target="_blank" class="questionLink" rel="nofollow" href="' + fullURL + '">' + url + '</a>';
-      });
+    answers.reverse();
+    for (let a = 0; a < answers.length; a++) {
+      answers[a].text = answers[a].text.replace(/\B(@\S+)/g, '<strong>$1</strong>');
+      const urlRegex = new RegExp(SimpleSchema.RegEx.Url.source.slice(1, -1), 'ig');
+      answers[a].text = answers[a].text.replace(urlRegex, url =>
+        '<a target="_blank" class="questionLink" rel="nofollow" href="' + url + '">' + url + '</a>');
     }
 
-		return answers;
-	}
+    return answers;
+  },
 });
 
+/* eslint-disable func-names, no-unused-vars */
 Template.answers.events({
-	"click #darker": function(event, template) {
-		$(".formcontainer").fadeOut(400);
-		$("#darker").fadeOut(400, function() {
-			Blaze.remove(popoverTemplate);
-		});
-	}
+  'click #darker': function (event, template) {
+    $('.formcontainer').fadeOut(400);
+    $('#darker').fadeOut(400, () => {
+      Blaze.remove(popoverTemplate);
+    });
+  },
 });
+/* eslint-enable func-names, no-unused-vars */

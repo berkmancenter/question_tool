@@ -1,23 +1,53 @@
 {
   "scripts": {
-    "lint": "eslint .",
-    "pretest": "npm run lint --silent"
+    "lint": "eslint . --quiet",
+    "pretest": "npm run lint --silent",
+    "test": "meteor test --once --driver-package dispatch:mocha-phantomjs",
+    "test:watch": "TEST_WATCH=1 meteor test --driver-package dispatch:mocha-phantomjs"
   },
   "eslintConfig": {
     "parser": "babel-eslint",
     "parserOptions": {
       "allowImportExportEverywhere": true
     },
-    "plugins": [
-      "meteor"
-    ],
+    "env": {
+      "meteor": true,
+      "browser": true,
+      "jquery": true
+    },
+    "globals": {
+      "currentError": true,
+      "popoverTemplate": true,
+      "dropDownTemplate": true,
+      "replyError": true,
+      "moment": false,
+      "Iron": false,
+      "UniHTML": false,
+      "interact": false,
+      "SimpleSchema": false,
+      "SyncedCron": false
+    },
+    "plugins": [],
     "extends": [
-      "airbnb",
-      "plugin:meteor/recommended"
+      "airbnb"
     ],
     "settings": {
       "import/resolver": "meteor"
     },
-    "rules": {}
+    "rules": {
+      "no-plusplus": 0,
+      "consistent-return": 1,
+      "prefer-template": 0,
+      "no-underscore-dangle": 1,
+      "no-param-reassign": 0,
+      "max-len": 1,
+      "no-alert": 1,
+      "no-mixed-operators": 1
+    }
+  },
+  "dependencies": {
+    "bcrypt": "^1.0.2",
+    "chai": "^3.5.0",
+    "meteor": "^1.4.1.1"
   }
 }
