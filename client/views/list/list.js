@@ -190,6 +190,13 @@ Template.list.onCreated(function () {
     this.state.set('hasChanges', false);
   };
 
+  this.updateInPlace = (questions) => {
+    questions.forEach(question => 
+      this.visibleQuestions.update({ _id: question._id }, { $set: { state: question.state } })
+    );
+  };
+
+
   this.autorun((computation) => {
     // Grab the questions from the server. Need to define getQuestions as the questions we want.
     const adminMod = Meteor.user() && (Template.instance().data.admin === Meteor.user().emails[0].address || Template.instance().data.moderators.indexOf(Meteor.user().emails[0].address) > -1);
@@ -198,9 +205,16 @@ Template.list.onCreated(function () {
       query.state = 'normal';
     }
     const questions = Questions.find(query).fetch();
+    const hiddenQs = Questions.find({ instanceid: template.data._id, state: 'disabled' }).count();
     const answers = Answers.find({ instanceid: template.data._id }).fetch();
     const client = Template.instance().visibleQuestions.find({ instanceid: template.data._id }).fetch();
+    const clientHidden = Template.instance().visibleQuestions.find({ instanceid: template.data._id,
+      state: 'disabled' }).count();
     const updatedQs = hasUpdates(questions, client);
+    const hiddenUpdate = hiddenQs !== clientHidden;
+    if (hiddenUpdate && adminMod) {
+      this.updateInPlace(questions);
+    }
     // If Tracker re-runs there must have been changes to the questions so we now set the state to let the user know
     if (!computation.firstRun && this.state.get('presentMode') !== true && updatedQs) {
       this.state.set('hasChanges', true);
@@ -237,6 +251,24 @@ Template.list.helpers({
   },
   hasChanges() {
     return Template.instance().state.get('hasChanges');
+  },
+  visible() {
+    if (this.state !== 'disabled') return true;
+
+    let tableAdmin = false;
+    let tableMod = false;
+    let instance = Instances.findOne({ _id: this.instanceid });
+
+    if (Meteor.user()) {
+      const userEmail = Meteor.user().emails[0].address;
+      if (instance.admin === userEmail) {
+        tableAdmin = true;
+      } else if (instance.moderators.indexOf(userEmail) !== -1) {
+        tableMod = true;
+      }
+    }
+
+    return tableAdmin || tableMod;
   },
   // Retrieves, orders, and modifies the questions for the chosen table
   question() {
@@ -393,6 +425,12 @@ Template.list.helpers({
       if (b.popular) {
         bIndex += 999999999;
       }
+      if (a.state == 'disabled' && b.state != 'disabled') {
+        return 1;
+      } else if (a.state != 'disabled' && b.state == 'disabled') {
+        return -1;
+      }
+
       if (aIndex > bIndex) {
         return -1;
       } else if (aIndex < bIndex) {
