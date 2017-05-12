@@ -39,7 +39,7 @@ $popular-question-color: #f1c40f;
   }
 
   &.hidden-question {
-    border-color: $hidden-question-color;
+    border-color: $hidden-question-color !important;
     opacity: $hidden-question-opacity;
     transition-duration: 0.5s;
   }
