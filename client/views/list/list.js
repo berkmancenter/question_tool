@@ -513,6 +513,7 @@ Template.list.events({
       document.getElementById('navAsk').style.backgroundColor = '#ec4f4f';
       $('#toparea').slideDown();
       $('#questioninput').focus();
+      Template.instance().state.set('typing', true);
     } else {
       if (typeof currentError !== 'undefined') {
         Blaze.remove(currentError);
@@ -523,6 +524,7 @@ Template.list.events({
       if (typeof dropDownTemplate !== 'undefined') {
         Blaze.remove(dropDownTemplate);
       }
+      Template.instance().state.set('typing', false);
     }
   },
   'click .checkbox': function (event, template) {
