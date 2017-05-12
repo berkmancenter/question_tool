@@ -155,10 +155,12 @@ Meteor.setInterval(() => {
 }, 1000);
 
 Template.list.onCreated(function () {
+  this.seconds = new ReactiveVar(0);
   Session.set('timeval', new Date().getTime());
   Session.set('search', 'all');
+  const adminMod = Meteor.user() && (Template.instance().data.admin === Meteor.user().emails[0].address || Template.instance().data.moderators.indexOf(Meteor.user().emails[0].address) > -1);
   // eslint-disable-next-line max-len
-  if (Meteor.user() && (Template.instance().data.admin === Meteor.user().emails[0].address || Template.instance().data.moderators.indexOf(Meteor.user().emails[0].address) > -1)) {
+  if (adminMod) {
     enableDragging(Template.instance().data._id);
   }
   this.visibleQuestions = new Mongo.Collection(null);
@@ -168,7 +170,6 @@ Template.list.onCreated(function () {
   const template = this;
   this.getQuestions = () => {
     // eslint-disable-next-line max-len
-    const adminMod = Meteor.user() && (Template.instance().data.admin === Meteor.user().emails[0].address || Template.instance().data.moderators.indexOf(Meteor.user().emails[0].address) > -1);
     const query = { instanceid: template.data._id };
     if (!adminMod) {
       query.state = 'normal';
@@ -198,8 +199,8 @@ Template.list.onCreated(function () {
 
 
   this.autorun((computation) => {
+    if (!this.subscriptionsReady()) { return; }
     // Grab the questions from the server. Need to define getQuestions as the questions we want.
-    const adminMod = Meteor.user() && (Template.instance().data.admin === Meteor.user().emails[0].address || Template.instance().data.moderators.indexOf(Meteor.user().emails[0].address) > -1);
     const query = { instanceid: template.data._id };
     if (!adminMod) {
       query.state = 'normal';
@@ -218,6 +219,9 @@ Template.list.onCreated(function () {
     // If Tracker re-runs there must have been changes to the questions so we now set the state to let the user know
     if (!computation.firstRun && this.state.get('presentMode') !== true && updatedQs) {
       this.state.set('hasChanges', true);
+      Meteor.setTimeout(() => { this.onShowChanges(true); }, 5000);
+      this.seconds.set(5);
+      Meteor.setInterval(() => { this.seconds.set(this.seconds.get() - 1); },1000);
     } else if (!updatedQs && !computation.firstRun) {
       this.state.set('hasChanges', false);
     } else {
@@ -228,7 +232,9 @@ Template.list.onCreated(function () {
 
   // When the user requests it, we should sync the visible todos to
   // reflect the true state of the world
-  this.onShowChanges = () => {
+  this.onShowChanges = (auto) => {
+    this.seconds.set(0);
+    if (auto && this.state.get('typing')) { return false; }
     this.syncQuestions(this.getQuestions());
     this.syncAnswers(this.getAnswers());
   };
@@ -269,6 +275,12 @@ Template.list.helpers({
     }
 
     return tableAdmin || tableMod;
+  },
+  hasSeconds() {
+    return Template.instance().seconds.get() > 0 && !Template.instance().state.get('typing');
+  },
+  seconds() {
+    return Template.instance().seconds.get();
   },
   // Retrieves, orders, and modifies the questions for the chosen table
   question() {
@@ -654,6 +666,12 @@ Template.list.events({
   },
   'click .new-posts': function (event, template) {
     Template.instance().onShowChanges();
+  },
+  'focus .replyarea': function(event, template) {
+    Template.instance().state.set('typing', true);
+  },
+  'blur .replyarea': function(event, template) {
+    Template.instance().state.set('typing', false);
   },
 });
 /* eslint-enable func-names, no-unused-vars */
