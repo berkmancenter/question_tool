@@ -1,7 +1,8 @@
 $border-radius: 4px;
+$hidden-question-opacity: 0.5;
 $new-question-color: #27ae60;
 $stale-question-color: #e9edf0;
-$hidden-question-color: #FF0000;
+$hidden-question-color: rgba(255,0,0,$hidden-question-opacity);
 $popular-question-color: #f1c40f;
 
 .question-wrapper {
@@ -39,6 +40,12 @@ $popular-question-color: #f1c40f;
 
   &.hidden-question {
     border-color: $hidden-question-color;
+    opacity: $hidden-question-opacity;
+    transition-duration: 0.5s;
+  }
+
+  &.hidden-question:hover {
+    opacity: 1;
   }
 
   &.new-question {
@@ -49,6 +56,7 @@ $popular-question-color: #f1c40f;
     border-color: $stale-question-color;
   }
 }
+
 
 .asked-by {
 	color: #999;

@@ -1,4 +1,4 @@
-import { Votes, Answers, Instances } from '/lib/common.js';
+import { Votes, Answers, Instances, Questions } from '/lib/common.js';
 
 Template.question_div.onCreated(function () {
   this.replyCount = new ReactiveVar(0);
@@ -18,7 +18,7 @@ Template.question_div.helpers({
   },
 
   isDisabled() {
-    if (this.state === 'disabled') {
+    if (Questions.findOne({ _id: this._id }).state == 'disabled') {
       return true;
     }
     return false;
