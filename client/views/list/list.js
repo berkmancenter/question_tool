@@ -220,9 +220,9 @@ Template.list.onCreated(function () {
     if (!computation.firstRun && this.state.get('presentMode') !== true && updatedQs) {
       this.state.set('hasChanges', true);
       if(!this.countdown){
-        this.countdown = Meteor.setTimeout(() => { this.onShowChanges(true); }, 10000);
-        this.seconds.set(10);
-        Meteor.setInterval(() => { this.seconds.set(this.seconds.get() - 1); },1000);
+        this.countdown = Meteor.setTimeout(() => { this.onShowChanges(true); }, 5000);
+        this.seconds.set(5);
+        Meteor.setInterval(() => { this.seconds.set(this.seconds.get() - 1); }, 1000);
       }
     } else if (!updatedQs && !computation.firstRun) {
       this.state.set('hasChanges', false);
