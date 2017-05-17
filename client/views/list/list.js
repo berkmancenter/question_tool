@@ -222,7 +222,7 @@ Template.list.onCreated(function () {
       if(!this.countdown){
         this.countdown = Meteor.setTimeout(() => { this.onShowChanges(true); }, 5000);
         this.seconds.set(5);
-        Meteor.setInterval(() => { this.seconds.set(this.seconds.get() - 1); }, 1000);
+        this.secondsInterval = Meteor.setInterval(() => { this.seconds.set(this.seconds.get() - 1); }, 1000);
       }
     } else if (!updatedQs && !computation.firstRun) {
       this.state.set('hasChanges', false);
@@ -237,6 +237,7 @@ Template.list.onCreated(function () {
   this.onShowChanges = (auto) => {
     this.seconds.set(0);
     this.countdown = null;
+    Meteor.clearInterval(this.secondsInterval);
     if (auto && this.state.get('typing')) { return false; }
     this.syncQuestions(this.getQuestions());
     this.syncAnswers(this.getAnswers());
