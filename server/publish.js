@@ -6,9 +6,6 @@ const getInstanceID = slug => (Instances.findOne({ slug })._id);
 Meteor.publish('instances', () => {
   const time = (new Date().getTime() - 2592000000);
   return Instances.find({
-    hidden: {
-      $ne: true,
-    },
     lasttouch: {
       $gt: time,
     },

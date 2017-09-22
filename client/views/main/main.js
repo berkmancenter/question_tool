@@ -108,6 +108,7 @@ Template.home.helpers({
             $regex: re,
           },
         }],
+        hidden: { $ne: true },
       }).fetch();
     }
     instances.sort((a, b) => (b.lasttouch - a.lasttouch));
