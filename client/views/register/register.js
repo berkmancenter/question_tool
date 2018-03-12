@@ -6,7 +6,10 @@ function showRegisterError(reason) {
   const nextNode = document.getElementById('loginemail');
   currentError = Blaze.renderWithData(Template.form_error, reason, parentNode, nextNode);
 }
-
+function validateEmail(email){
+	var pattern =/^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/;
+   	return pattern.test(email);
+}
 Template.register.onRendered(() => {
   $('.formcontainer').hide().fadeIn(400);
   $('#darker').hide().fadeIn(400);
@@ -46,7 +49,9 @@ Template.register.events({
         emError = 'Enter an email address.';
       } else if (email.length < 7 || email.length > 50) {
         emError += ' between 7 and 50 characters.';
-      } else {
+      } else if(!validateEmail(email)){
+      	emError = 'Email address is not a valid.';
+      }else {
         emError += '.';
       }
       showRegisterError(emError);
