@@ -9,6 +9,15 @@ function showModsError(reason) {
   currentError = Blaze.renderWithData(Template.form_error, reason, parentNode, nextNode);
 }
 
+function checkPrevMod(modBoxes) {
+  for (let i = 0; i < modBoxes.length - 1; i++) {
+    if (modBoxes[i].value === modBoxes[modBoxes.length - 1].value) {
+      return false;
+    }
+  }
+  return true;
+}
+
 Template.add.onCreated(function () {
   this.numberOfNewMods = new ReactiveVar(1);
   if (this.data.admin !== Meteor.user().emails[0].address) {
@@ -43,11 +52,9 @@ Template.add.events({
   'click .plusbutton': function (event, template) {
     const row = event.currentTarget.parentElement;
     const modBoxes = document.getElementsByClassName('modbox');
-    for (let i = 0; i < modBoxes.length - 1; i++) { // check if the email was already added or not
-      if (modBoxes[i].value === modBoxes[modBoxes.length - 1].value) {
-        showModsError('Email ID was already added as a moderator.'); // show error since the email ID was already added
-        return false;
-      }
+    if (checkPrevMod(modBoxes) === false) {
+      showModsError('Email ID was already added as a moderator.');
+      return false;
     }
     if (modBoxes.length >= 4) {
       showModsError("You've reached max of 4 moderators.");
