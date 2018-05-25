@@ -179,6 +179,36 @@ Meteor.methods({
     }
     return Instances.findOne({ _id: table_id }).slug;
   },
+  editadv(instanceid) {
+    console.log("called editadv");
+    if (this.userId) {
+      let keys;
+      const email = Meteor.users.findOne({ _id: this.userId }).emails[0].address;
+      const instance = Instances.findOne({
+        _id: instanceid,
+      });
+      if (email === instance.admin || instance.moderators.indexOf(email) !== -1) {
+        // Sets state to normal for every question with tablename table
+        Instances.update({
+          _id: instanceid,
+        }, {
+          $set: {
+            threshold: 4,
+          },
+        }, (error, count, status) => {
+          if (error) {
+            keys = error.invalidKeys;
+          }
+        });
+        if (keys) {
+          return keys;
+        }
+        return true;
+      }
+      return false;
+    }
+    return false;
+  },
   // Method that unhides every question in a given table
   unhide(instanceid) {
     if (this.userId) {
