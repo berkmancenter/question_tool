@@ -179,8 +179,8 @@ Meteor.methods({
     }
     return Instances.findOne({ _id: table_id }).slug;
   },
-  editadv(instanceid) {
-    console.log("called editadv");
+  editadv(instanceid, newThreshold, newMaxQuestion, newMaxResponse, newLength, newStale, newIsHidden) {
+    console.log("New Values: ",newThreshold, newMaxQuestion, newMaxResponse, newLength, newStale, newIsHidden);
     if (this.userId) {
       let keys;
       const email = Meteor.users.findOne({ _id: this.userId }).emails[0].address;
@@ -193,7 +193,12 @@ Meteor.methods({
           _id: instanceid,
         }, {
           $set: {
-            threshold: 4,
+            threshold: newThreshold,
+            new_length: newLength,
+            stale_length: newStale,
+            max_question: newMaxQuestion,
+            max_response: newMaxResponse,
+            hidden: newIsHidden,
           },
         }, (error, count, status) => {
           if (error) {

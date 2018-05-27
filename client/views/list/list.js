@@ -657,8 +657,11 @@ Template.list.events({
   },
   'click #editadvbutton': function (event, template) {
     const parentNode = document.getElementById('nav');
-    popoverTemplate = Blaze.renderWithData(Template.edit, template.data, parentNode);
-    // Meteor.call('editadv', template.data._id);
+    const table = Template.instance().data;
+    popoverTemplate = Blaze.renderWithData(Template.edit, {
+      table,
+      isList: true,
+    }, parentNode);
   },
   'click #navPresent': function (event, template) {
     present();
