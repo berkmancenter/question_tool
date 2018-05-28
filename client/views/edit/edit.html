@@ -10,61 +10,61 @@
 		<div class="inputcontainer" style="text-align: center;">
 			<div class="dropdowncontainer">
 				<p class="dropdownlabel">Number of "featured" questions:</p>
-                <select name="threshold" size="1" value="4">
-                    <option value="2">2</option>
-                    <option value="4">4</option>
-                    <option value="6">6</option>
-                    <option value="8">8</option>
+                <select name="threshold" size="1" value="4">    
+                        <option value="2" {{thresholdFirst}}>2</option>
+                        <option value="4" {{thresholdSecond}}>4</option>
+                        <option value="6" {{thresholdThird}}>6</option>
+                        <option value="8" {{thresholdFourth}}>8</option>
                 </select>
 			</div>
 			<div class="dropdowncontainer">
 				<p class="dropdownlabel">Question max word count:</p>
                 <select name="max_question" size="1">
-                    <option value="250">250</option>
-                    <option value="300">300</option>
-                    <option value="350" selected>350</option>
-                    <option value="400">400</option>
-					<option value="500">500</option>
+                    <option value="250" {{maxQuestionFirst}}>250</option>
+                    <option value="300" {{maxQuestionSecond}}>300</option>
+                    <option value="350" {{maxQuestionThird}}>350</option>
+                    <option value="400" {{maxQuestionFourth}}>400</option>
+					<option value="500" {{maxQuestionFifth}}>500</option>
                 </select>
 			</div>
 			<div class="dropdowncontainer">
 				<p class="dropdownlabel">Response max word count:</p>
                 <select name="max_response" size="1">
-                    <option value="100">100</option>
-                    <option value="150" selected>150</option>
-                    <option value="200">200</option>
-                    <option value="250">250</option>
-					<option value="300">300</option>
+                    <option value="100" {{maxResponseFirst}}>100</option>
+                    <option value="150" {{maxResponseSecond}}>150</option>
+                    <option value="200" {{maxResponseThird}}>200</option>
+                    <option value="250" {{maxResponseFourth}}>250</option>
+					<option value="300" {{maxResponseFifth}}>300</option>
                 </select>
 			</div>
 			<div class="dropdowncontainer">
 				<p class="dropdownlabel">New questions are highlighted for:</p>
                 <select name="new_length" size="1">
-                    <option value="30">30 sec</option>
-                    <option value="60">1 min</option>
-                    <option value="300" selected>5 mins</option>
-                    <option value="3600">1 hour</option>
-                    <option value="86400">1 day</option>
-                    <option value="604800">1 week</option>
+                    <option value="30" {{newLengthFirst}}>30 sec</option>
+                    <option value="60" {{newLengthSecond}}>1 min</option>
+                    <option value="300" {{newLengthThird}}>5 mins</option>
+                    <option value="3600" {{newLengthFourth}}>1 hour</option>
+                    <option value="86400" {{newLengthFifth}}>1 day</option>
+                    <option value="604800" {{newLengthSixth}}>1 week</option>
                 </select>
 			</div>
 			<div class="dropdowncontainer">
 				<p class="dropdownlabel">Old questions are highlighted after:</p>
                 <select name="stale_length" size="1">
-                    <option value="900">15 mins</option>
-                    <option value="1800">30 mins</option>
-                    <option value="3600" selected>1 hour</option>
-                    <option value="86400">1 day</option>
-                    <option value="604800">1 week</option>
-                    <option value="2592000">1 month</option>
-                    <option value="31557600">1 year</option>
+                    <option value="900" {{staleFirst}}>15 mins</option>
+                    <option value="1800" {{staleSecond}}>30 mins</option>
+                    <option value="3600" {{staleThird}}>1 hour</option>
+                    <option value="86400" {{staleFourth}}>1 day</option>
+                    <option value="604800" {{staleFifth}}>1 week</option>
+                    <option value="2592000" {{staleSixth}}>1 month</option>
+                    <option value="31557600" {{staleSeventh}}>1 year</option>
                 </select>
 			</div>
 			<div class="dropdowncontainer">
 				<p class="dropdownlabel">Visibility of instance:</p>
                 <select name="visibility" size="1">
-                    <option value="public">Public</option>
-                    <option value="hidden">Hidden</option>
+                    <option value="public" {{visibilityFirst}}>Public</option>
+                    <option value="hidden" {{visibilitySecond}}>Hidden</option>
                 </select>
 			</div>
 			<div class="editsubmitbutton">

@@ -180,7 +180,6 @@ Meteor.methods({
     return Instances.findOne({ _id: table_id }).slug;
   },
   editadv(instanceid, newThreshold, newMaxQuestion, newMaxResponse, newLength, newStale, newIsHidden) {
-    console.log("New Values: ",newThreshold, newMaxQuestion, newMaxResponse, newLength, newStale, newIsHidden);
     if (this.userId) {
       let keys;
       const email = Meteor.users.findOne({ _id: this.userId }).emails[0].address;
