@@ -149,6 +149,7 @@ Meteor.methods({
       anonymous,
       hidden: isHidden,
       author: usr.profile.name,
+      social: true,
     }, (error, id) => {
       // If error, set keys to the error object
       if (error) {
@@ -179,7 +180,7 @@ Meteor.methods({
     }
     return Instances.findOne({ _id: table_id }).slug;
   },
-  editadv(instanceid, newThreshold, newMaxQuestion, newMaxResponse, newLength, newStale, newIsHidden) {
+  editadv(instanceid, newThreshold, newMaxQuestion, newMaxResponse, newLength, newStale, newIsHidden, newSocial) {
     if (this.userId) {
       let keys;
       const email = Meteor.users.findOne({ _id: this.userId }).emails[0].address;
@@ -198,6 +199,7 @@ Meteor.methods({
             max_question: newMaxQuestion,
             max_response: newMaxResponse,
             hidden: newIsHidden,
+            social: newSocial,
           },
         }, (error, count, status) => {
           if (error) {

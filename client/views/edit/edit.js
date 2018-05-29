@@ -104,10 +104,17 @@ Template.edit.helpers({
   },
   // hidden
   visibilityFirst: function () {
-    return (Template.instance().data.table.hidden=== false) ? 'selected' : '';
+    return (Template.instance().data.table.hidden === false) ? 'selected' : '';
   },
   visibilitySecond: function () {
-    return (Template.instance().data.table.hidden=== true) ? 'selected' : '';
+    return (Template.instance().data.table.hidden === true) ? 'selected' : '';
+  },
+  // social
+  socialFirst: function () {
+    return (Template.instance().data.table.social === true) ? 'selected' : '';
+  },
+  socialSecond: function () {
+    return (Template.instance().data.table.social === false) ? 'selected' : '';
   },
 });
 
@@ -126,8 +133,10 @@ Template.edit.events({
     const stale = staleSelect[staleSelect.selectedIndex].value;
     const hiddenSelector = document.getElementsByName('visibility')[0];
     const isHidden = (hiddenSelector[hiddenSelector.selectedIndex].value === 'hidden');
-    console.log("New parameters: ",threshold, maxQuestion, maxResponse, redLength, stale, isHidden);
-    Meteor.call('editadv', table._id, threshold, maxQuestion, maxResponse, redLength, stale, isHidden, (error, result) => {
+    const socialSelector = document.getElementsByName('social')[0];
+    const social = (socialSelector[socialSelector.selectedIndex].value === 'on');
+    console.log("New parameters: ",threshold, maxQuestion, maxResponse, redLength, stale, isHidden, social);
+    Meteor.call('editadv', table._id, threshold, maxQuestion, maxResponse, redLength, stale, isHidden, social, (error, result) => {
       if (typeof result === 'object') {
         const errorCodes = {
           tablename: 'Please enter a valid instance name using only letters and numbers, no spaces.',

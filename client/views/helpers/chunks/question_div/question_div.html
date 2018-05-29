@@ -54,8 +54,10 @@
           {{#if new}}
             <span class="image-icon new-icon" title="New"></span>
           {{/if}}
-          <span class="image-icon facebookbutton link" title="Share on Facebook"></span>
-          <span class="image-icon twitterbutton link" title="Share on Twitter"></span>
+          {{#if isSocial}}
+            <span class="image-icon facebookbutton link" title="Share on Facebook"></span>
+            <span class="image-icon twitterbutton link" title="Share on Twitter"></span>
+          {{/if}}
         </span>
       </div>
       <div class="asked-by">
