@@ -17,103 +17,103 @@ Template.edit.onRendered(() => {
 
 Template.edit.helpers({
   // threshold
-  thresholdFirst: function () {
+  thresholdFirst() {
     return (Template.instance().data.table.threshold === 2) ? 'selected' : '';
   },
-  thresholdSecond: function () {
+  thresholdSecond() {
     return (Template.instance().data.table.threshold === 4) ? 'selected' : '';
   },
-  thresholdThird: function () {
+  thresholdThird() {
     return (Template.instance().data.table.threshold === 6) ? 'selected' : '';
   },
-  thresholdFourth: function () {
+  thresholdFourth() {
     return (Template.instance().data.table.threshold === 8) ? 'selected' : '';
   },
   // max_question
-  maxQuestionFirst: function () {
+  maxQuestionFirst() {
     return (Template.instance().data.table.max_question === 250) ? 'selected' : '';
   },
-  maxQuestionSecond: function () {
+  maxQuestionSecond() {
     return (Template.instance().data.table.max_question === 300) ? 'selected' : '';
   },
-  maxQuestionThird: function () {
+  maxQuestionThird() {
     return (Template.instance().data.table.max_question === 350) ? 'selected' : '';
   },
-  maxQuestionFourth: function () {
+  maxQuestionFourth() {
     return (Template.instance().data.table.max_question === 400) ? 'selected' : '';
   },
-  maxQuestionFifth: function () {
+  maxQuestionFifth() {
     return (Template.instance().data.table.max_question === 450) ? 'selected' : '';
   },
   // maxresponse
-  maxResponseFirst: function () {
+  maxResponseFirst() {
     return (Template.instance().data.table.max_response === 100) ? 'selected' : '';
   },
-  maxResponseSecond: function () {
+  maxResponseSecond() {
     return (Template.instance().data.table.max_response === 150) ? 'selected' : '';
   },
-  maxResponseThird: function () {
+  maxResponseThird() {
     return (Template.instance().data.table.max_response === 200) ? 'selected' : '';
   },
-  maxResponseFourth: function () {
+  maxResponseFourth() {
     return (Template.instance().data.table.max_response === 250) ? 'selected' : '';
   },
-  maxResponseFifth: function () {
+  maxResponseFifth() {
     return (Template.instance().data.table.max_response === 300) ? 'selected' : '';
   },
   // new_length
-  newLengthFirst: function () {
+  newLengthFirst() {
     return (Template.instance().data.table.new_length === 30) ? 'selected' : '';
   },
-  newLengthSecond: function () {
+  newLengthSecond() {
     return (Template.instance().data.table.new_length === 60) ? 'selected' : '';
   },
-  newLengthThird: function () {
+  newLengthThird() {
     return (Template.instance().data.table.new_length === 300) ? 'selected' : '';
   },
-  newLengthFourth: function () {
+  newLengthFourth() {
     return (Template.instance().data.table.new_length === 3600) ? 'selected' : '';
   },
-  newLengthFifth: function () {
+  newLengthFifth() {
     return (Template.instance().data.table.new_length === 86400) ? 'selected' : '';
   },
-  newLengthSixth: function () {
+  newLengthSixth() {
     return (Template.instance().data.table.new_length === 604800) ? 'selected' : '';
   },
   // stale_length
-  staleFirst: function () {
+  staleFirst() {
     return (Template.instance().data.table.stale_length === 900) ? 'selected' : '';
   },
-  staleSecond: function () {
+  staleSecond() {
     return (Template.instance().data.table.stale_length === 1800) ? 'selected' : '';
   },
-  staleThird: function () {
+  staleThird() {
     return (Template.instance().data.table.stale_length === 3600) ? 'selected' : '';
   },
-  staleFourth: function () {
+  staleFourth() {
     return (Template.instance().data.table.stale_length === 86400) ? 'selected' : '';
   },
-  staleFifth: function () {
+  staleFifth() {
     return (Template.instance().data.table.stale_length === 604800) ? 'selected' : '';
   },
-  staleSixth: function () {
+  staleSixth() {
     return (Template.instance().data.table.stale_length === 2592000) ? 'selected' : '';
   },
-  staleLengthSeventh: function () {
+  staleLengthSeventh() {
     return (Template.instance().data.table.stale_length === 31557600) ? 'selected' : '';
   },
   // hidden
-  visibilityFirst: function () {
+  visibilityFirst() {
     return (Template.instance().data.table.hidden === false) ? 'selected' : '';
   },
-  visibilitySecond: function () {
+  visibilitySecond() {
     return (Template.instance().data.table.hidden === true) ? 'selected' : '';
   },
   // social
-  socialFirst: function () {
+  socialFirst() {
     return (Template.instance().data.table.social === true) ? 'selected' : '';
   },
-  socialSecond: function () {
+  socialSecond() {
     return (Template.instance().data.table.social === false) ? 'selected' : '';
   },
 });
@@ -135,7 +135,7 @@ Template.edit.events({
     const isHidden = (hiddenSelector[hiddenSelector.selectedIndex].value === 'hidden');
     const socialSelector = document.getElementsByName('social')[0];
     const social = (socialSelector[socialSelector.selectedIndex].value === 'on');
-    console.log("New parameters: ",threshold, maxQuestion, maxResponse, redLength, stale, isHidden, social);
+    // console.log("New parameters: ",threshold, maxQuestion, maxResponse, redLength, stale, isHidden, social);
     Meteor.call('editadv', table._id, threshold, maxQuestion, maxResponse, redLength, stale, isHidden, social, (error, result) => {
       if (typeof result === 'object') {
         const errorCodes = {
@@ -157,7 +157,7 @@ Template.edit.events({
           Blaze.remove(popoverTemplate);
         }
       } else {
-        showRenameError('Insufficient permissions.');
+        showEditAdvError('Insufficient permissions.');
       }
     });
   },
