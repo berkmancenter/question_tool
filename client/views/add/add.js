@@ -9,15 +9,6 @@ function showModsError(reason) {
   currentError = Blaze.renderWithData(Template.form_error, reason, parentNode, nextNode);
 }
 
-function checkPrevMod(modBoxes) {
-  for (let i = 0; i < modBoxes.length - 1; i++) {
-    if (modBoxes[i].value === modBoxes[modBoxes.length - 1].value) {
-      return false;
-    }
-  }
-  return true;
-}
-
 Template.add.onCreated(function () {
   this.numberOfNewMods = new ReactiveVar(1);
   if (this.data.admin !== Meteor.user().emails[0].address) {
@@ -52,7 +43,12 @@ Template.add.events({
   'click .plusbutton': function (event, template) {
     const row = event.currentTarget.parentElement;
     const modBoxes = document.getElementsByClassName('modbox');
-    if (checkPrevMod(modBoxes) === false) {
+    var modEmails = new Set();
+    for(let i = 0; i< modBoxes.length - 1; i++) {
+      modEmails.add(modBoxes[i].value);
+    }
+    const currMail = modBoxes[modBoxes.length - 1].value;
+    if (modEmails.has(currMail)) {
       showModsError('Email ID was already added as a moderator.');
       return false;
     }
