@@ -9,6 +9,18 @@ function showModsError(reason) {
   currentError = Blaze.renderWithData(Template.form_error, reason, parentNode, nextNode);
 }
 
+function checkPrevMod(modBoxes) {
+  let modEmails = new Set();
+  for (let i = 0; i < modBoxes.length - 1; i++) {
+    modEmails.add(modBoxes[i].value);
+  }
+  const currMail = modBoxes[modBoxes.length - 1].value;
+  if (modEmails.has(currMail)) {
+    showModsError('Email ID was already added as a moderator.');
+    return false;
+  }
+}
+
 Template.add.onCreated(function () {
   this.numberOfNewMods = new ReactiveVar(1);
   if (this.data.admin !== Meteor.user().emails[0].address) {
@@ -43,13 +55,7 @@ Template.add.events({
   'click .plusbutton': function (event, template) {
     const row = event.currentTarget.parentElement;
     const modBoxes = document.getElementsByClassName('modbox');
-    var modEmails = new Set();
-    for(let i = 0; i< modBoxes.length - 1; i++) {
-      modEmails.add(modBoxes[i].value);
-    }
-    const currMail = modBoxes[modBoxes.length - 1].value;
-    if (modEmails.has(currMail)) {
-      showModsError('Email ID was already added as a moderator.');
+    if (checkPrevMod(modBoxes) === false) {
       return false;
     }
     if (modBoxes.length >= 4) {
@@ -68,7 +74,16 @@ Template.add.events({
   },
   // When the submit button is clicked...
   'click #modsdonebutton': function (event, template) {
-    // Checks whether the proper password was submitted
+    const modBoxes = document.getElementsByClassName('modbox');
+    if (modBoxes.length > 4) {
+      if (modBoxes.length !== 5 || modBoxes[4].value !== "") {
+        showModsError('You can only assign 4 moderators per instance.');
+        return false;
+      }
+    }
+    if (checkPrevMod(modBoxes) === false) {
+      return false;
+    }
     const modsInput = document.getElementsByClassName('newmod');
     const mods = [];
     for (let m = 0; m < modsInput.length; m++) {
