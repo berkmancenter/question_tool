@@ -10,15 +10,11 @@ function showModsError(reason) {
 }
 
 function checkPrevMod(modBoxes) {
-  let modEmails = new Set();
-  for (let i = 0; i < modBoxes.length - 1; i++) {
-    modEmails.add(modBoxes[i].value);
-  }
-  const currMail = modBoxes[modBoxes.length - 1].value;
-  if (modEmails.has(currMail)) {
-    showModsError('Email ID was already added as a moderator.');
-    return false;
-  }
+  const modBoxesArray = Array.from(modBoxes);
+  const modEmails = modBoxesArray.map(b => b.value); // has all the emails
+  const currMail = modBoxes[modBoxes.length - 1].value; // has last email
+  const occurrences = modEmails.filter(val => val === currMail).length;
+  return occurrences === 1;
 }
 
 Template.add.onCreated(function () {
@@ -56,6 +52,7 @@ Template.add.events({
     const row = event.currentTarget.parentElement;
     const modBoxes = document.getElementsByClassName('modbox');
     if (checkPrevMod(modBoxes) === false) {
+      showModsError('Email ID was already added as a moderator.');
       return false;
     }
     if (modBoxes.length >= 4) {
@@ -75,13 +72,15 @@ Template.add.events({
   // When the submit button is clicked...
   'click #modsdonebutton': function (event, template) {
     const modBoxes = document.getElementsByClassName('modbox');
-    if (modBoxes.length > 4) {
-      if (modBoxes.length !== 5 || modBoxes[4].value !== "") {
-        showModsError('You can only assign 4 moderators per instance.');
-        return false;
-      }
+    const modBoxesArray = Array.from(modBoxes);
+    const modEmails = modBoxesArray.map(b => b.value);  
+    const occurrences = modEmails.filter(val => val !== "").length;
+    if (occurrences > 4) {
+      showModsError('You can only assign 4 moderators per instance.');
+      return false;
     }
     if (checkPrevMod(modBoxes) === false) {
+      showModsError('Email ID was already added as a moderator.');
       return false;
     }
     const modsInput = document.getElementsByClassName('newmod');
