@@ -1,5 +1,7 @@
 import { Answers, Questions, Instances } from '/lib/common.js';
 
+let isPresenting = true;
+
 function present() {
   $('#nav-wrapper').slideUp();
   $('#mobile-nav').slideUp();
@@ -8,6 +10,7 @@ function present() {
   $('#footer').slideUp();
   $('#presentationNav').fadeIn();
   $('.admincontainer').slideUp();
+  isPresenting = true;
 }
 
 function unPresent() {
@@ -17,6 +20,11 @@ function unPresent() {
   $('.description').slideDown();
   $('#footer').slideDown();
   $('#presentationNav').fadeOut();
+  isPresenting = false;
+}
+
+function returnIsPresenting() {
+  return isPresenting;
 }
 
 // Helper function that calculates the average given an array

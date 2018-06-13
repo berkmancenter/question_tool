@@ -30,8 +30,10 @@
     <div class="masonary-wrapper" id="list-wrapper">
   		<div class="container" id="quest-container">
   			{{#each question}}
-  				{{#if visible}}
-  					{{> question_div}}
+  				{{#if visible }}
+  					{{#if returnIsPresentating}}
+  						{{> question_div}}
+  					{{/if}}
   				{{/if}}
   			{{/each}}
   		</div>
