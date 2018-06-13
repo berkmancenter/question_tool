@@ -1,6 +1,6 @@
 import { Answers, Questions, Instances } from '/lib/common.js';
 
-let isPresenting = true;
+let isPresenting = false;
 
 function present() {
   $('#nav-wrapper').slideUp();
@@ -21,10 +21,6 @@ function unPresent() {
   $('#footer').slideDown();
   $('#presentationNav').fadeOut();
   isPresenting = false;
-}
-
-function returnIsPresenting() {
-  return isPresenting;
 }
 
 // Helper function that calculates the average given an array
@@ -273,6 +269,8 @@ Template.list.helpers({
   visible() {
     if (this.state !== 'disabled') return true;
 
+    if (isPresenting === true) return false;
+    
     let tableAdmin = false;
     let tableMod = false;
     let instance = Instances.findOne({ _id: this.instanceid });
