@@ -23,9 +23,6 @@ Template.rename.events({
     let newDesc = document.getElementById('descriptionbox').value;
     newDesc = newDesc.charAt(0).toUpperCase() + newDesc.slice(1);
     newDesc = UniHTML.purify(newDesc, { withoutTags: ['a', 'img', 'ol', 'ul', 'span', 'br', 'table', 'caption', 'col', 'colgroup', 'tbody', 'td', 'tfoot', 'th', 'thread', 'tr', 'li'] });
-    if (newName === table.tablename && newDesc === table.description) {
-      return false;
-    }
     Meteor.call('rename', table._id, newName, newDesc, (error, result) => {
       if (typeof result === 'object') {
         const errors = {

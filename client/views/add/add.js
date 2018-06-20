@@ -9,6 +9,14 @@ function showModsError(reason) {
   currentError = Blaze.renderWithData(Template.form_error, reason, parentNode, nextNode);
 }
 
+function checkPrevMod(modBoxes) {
+  const modBoxesArray = Array.from(modBoxes);
+  const modEmails = modBoxesArray.map(b => b.value); // has all the emails
+  const currMail = modBoxes[modBoxes.length - 1].value; // has last email
+  const occurrences = modEmails.filter(val => val === currMail).length;
+  return occurrences === 1;
+}
+
 Template.add.onCreated(function () {
   this.numberOfNewMods = new ReactiveVar(1);
   if (this.data.admin !== Meteor.user().emails[0].address) {
@@ -43,6 +51,10 @@ Template.add.events({
   'click .plusbutton': function (event, template) {
     const row = event.currentTarget.parentElement;
     const modBoxes = document.getElementsByClassName('modbox');
+    if (checkPrevMod(modBoxes) === false) {
+      showModsError('Email ID was already added as a moderator.');
+      return false;
+    }
     if (modBoxes.length >= 4) {
       showModsError("You've reached max of 4 moderators.");
       return false;
@@ -59,7 +71,18 @@ Template.add.events({
   },
   // When the submit button is clicked...
   'click #modsdonebutton': function (event, template) {
-    // Checks whether the proper password was submitted
+    const modBoxes = document.getElementsByClassName('modbox');
+    const modBoxesArray = Array.from(modBoxes);
+    const modEmails = modBoxesArray.map(b => b.value);  
+    const occurrences = modEmails.filter(val => val !== "").length;
+    if (occurrences > 4) {
+      showModsError('You can only assign 4 moderators per instance.');
+      return false;
+    }
+    if (checkPrevMod(modBoxes) === false) {
+      showModsError('Email ID was already added as a moderator.');
+      return false;
+    }
     const modsInput = document.getElementsByClassName('newmod');
     const mods = [];
     for (let m = 0; m < modsInput.length; m++) {
