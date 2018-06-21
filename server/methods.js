@@ -188,7 +188,6 @@ Meteor.methods({
         _id: instanceid,
       });
       if (email === instance.admin || instance.moderators.indexOf(email) !== -1) {
-        // Sets state to normal for every question with tablename table
         Instances.update({
           _id: instanceid,
         }, {
@@ -203,7 +202,9 @@ Meteor.methods({
           },
         }, (error, count, status) => {
           if (error) {
-            keys = error.invalidKeys;
+            errorKey = error.invalidKeys[0].name;
+            console.log("1: ",errorKey);
+            throw new Meteor.Error(errorKey);
           }
         });
         if (keys) {

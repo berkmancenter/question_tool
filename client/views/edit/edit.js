@@ -137,18 +137,18 @@ Template.edit.events({
     const social = (socialSelector[socialSelector.selectedIndex].value === 'on');
     // console.log("New parameters: ",threshold, maxQuestion, maxResponse, redLength, stale, isHidden, social);
     Meteor.call('editadv', table._id, threshold, maxQuestion, maxResponse, redLength, stale, isHidden, social, (error, result) => {
-      if (typeof result === 'object') {
+      if (error) {
         const errorCodes = {
-          tablename: 'Please enter a valid instance name using only letters and numbers, no spaces.',
           threshold: "Please enter a valid # of 'featured' questions using the drop down menu.",
-          new_length: "Please enter a valid value using the 'new questions' drop down menu.",
-          stale_length: "Please enter a valid value using the 'old questions' drop down menu.",
-          description: 'Please enter a valid description under 255 characters.',
-          moderators: 'You have entered too many moderators. Please try again.',
+          new_length: "Please enter a valid value in the 'New questions are highlighted for' drop down menu.",
+          stale_length: "Please enter a valid value in the 'Old questions are highlighted after' drop down menu.",
+          max_question: "Please enter a valid value in the 'Question max word count' drop down menu.",
+          max_response: "Please enter a valid value in the 'Response max word count' drop down menu.",
+          hidden: "Please enter a valid value in the 'visibility of instance' drop down menu.",
+          social: "Please enter a valid value in the 'Social media sharing' drop down menu.",
         };
-        // Alert the error
-        showEditAdvError(errorCodes[result[0].name]);
-      } else if (result) {
+        showEditAdvError(errorCodes[error.error]);
+      } else {
         const isList = template.data.isList;
         console.log(template.data);
         if (isList) {
@@ -156,8 +156,6 @@ Template.edit.events({
         } else {
           Blaze.remove(popoverTemplate);
         }
-      } else {
-        showEditAdvError('Insufficient permissions.');
       }
     });
   },
