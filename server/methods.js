@@ -203,7 +203,6 @@ Meteor.methods({
         }, (error, count, status) => {
           if (error) {
             errorKey = error.invalidKeys[0].name;
-            console.log("1: ",errorKey);
             throw new Meteor.Error(errorKey);
           }
         });
