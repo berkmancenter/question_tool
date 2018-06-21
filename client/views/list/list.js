@@ -1,5 +1,7 @@
 import { Answers, Questions, Instances } from '/lib/common.js';
 
+let isPresenting = false;
+
 function present() {
   $('#nav-wrapper').slideUp();
   $('#mobile-nav').slideUp();
@@ -8,6 +10,7 @@ function present() {
   $('#footer').slideUp();
   $('#presentationNav').fadeIn();
   $('.admincontainer').slideUp();
+  isPresenting = true;
 }
 
 function unPresent() {
@@ -17,6 +20,7 @@ function unPresent() {
   $('.description').slideDown();
   $('#footer').slideDown();
   $('#presentationNav').fadeOut();
+  isPresenting = false;
 }
 
 // Helper function that calculates the average given an array
@@ -265,6 +269,8 @@ Template.list.helpers({
   visible() {
     if (this.state !== 'disabled') return true;
 
+    if (isPresenting === true) return false;
+    
     let tableAdmin = false;
     let tableMod = false;
     let instance = Instances.findOne({ _id: this.instanceid });
