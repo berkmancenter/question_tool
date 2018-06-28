@@ -4,8 +4,8 @@ function showEditAdvError(reason) {
   if (typeof currentError !== 'undefined') {
     Blaze.remove(currentError);
   }
-  const parentNode = document.getElementsByClassName('formcontainer')[0];
-  const nextNode = document.getElementsByClassName('inputcontainer')[0];
+  const parentNode = $('.formcontainer')[0];
+  const nextNode = $('.inputcontainer')[0];
   currentError = Blaze.renderWithData(Template.form_error, reason, parentNode, nextNode);
 }
 
