@@ -180,7 +180,7 @@ Meteor.methods({
     }
     return Instances.findOne({ _id: table_id }).slug;
   },
-  editadv(instanceid, newThreshold, newMaxQuestion, newMaxResponse, newLength, newStale, newIsHidden, newSocial) {
+  editadv(instanceid, newValues) {
     if (this.userId) {
       let keys;
       const email = Meteor.users.findOne({ _id: this.userId }).emails[0].address;
@@ -191,15 +191,7 @@ Meteor.methods({
         Instances.update({
           _id: instanceid,
         }, {
-          $set: {
-            threshold: newThreshold,
-            new_length: newLength,
-            stale_length: newStale,
-            max_question: newMaxQuestion,
-            max_response: newMaxResponse,
-            hidden: newIsHidden,
-            social: newSocial,
-          },
+          $set: newValues,
         }, (error, count, status) => {
           if (error) {
             errorKey = error.invalidKeys[0].name;

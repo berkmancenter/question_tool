@@ -24,23 +24,26 @@ Template.edit.helpers({
 Template.edit.events({
   'click .editsubmitbutton': function (event, template) {
     const table = Template.instance().data.table;
-    const thresholdSelect = document.getElementsByName('threshold')[0];
-    const threshold = thresholdSelect[thresholdSelect.selectedIndex].value;
-    const questionSelect = document.getElementsByName('max_question')[0];
-    const maxQuestion = questionSelect[questionSelect.selectedIndex].value;
-    const responseSelect = document.getElementsByName('max_response')[0];
-    const maxResponse = responseSelect[responseSelect.selectedIndex].value;
-    const lengthSelect = document.getElementsByName('new_length')[0];
-    const redLength = lengthSelect[lengthSelect.selectedIndex].value;
-    const staleSelect = document.getElementsByName('stale_length')[0];
-    const stale = staleSelect[staleSelect.selectedIndex].value;
-    const hiddenSelector = document.getElementsByName('visibility')[0];
-    const isHidden = (hiddenSelector[hiddenSelector.selectedIndex].value === 'hidden');
-    const socialSelector = document.getElementsByName('social')[0];
-    const social = (socialSelector[socialSelector.selectedIndex].value === 'on');
+    const threshold = $('select[name=threshold]')[0].value;
+    const maxQuestion = $('select[name=max_question]')[0].value;
+    const maxResponse = $('select[name=max_response]')[0].value;
+    const redLength = $('select[name=new_length]')[0].value;
+    const stale = $('select[name=stale_length]')[0].value;
+    const isHidden = ($('select[name=visibility]')[0].value === 'hidden');
+    const social = ($('select[name=social]')[0].value === 'on');
     // console.log("New parameters: ",threshold, maxQuestion, maxResponse, redLength, stale, isHidden, social);
-    Meteor.call('editadv', table._id, threshold, maxQuestion, maxResponse, redLength, stale, isHidden, social, (error, result) => {
+    let newValues = {
+      threshold: Number(threshold),
+      new_length: Number(redLength),
+      stale_length: Number(stale),
+      max_question: Number(maxQuestion),
+      max_response: Number(maxResponse),
+      hidden: isHidden,
+      social: social,
+    }
+    Meteor.call('editadv', table._id, newValues, (error, result) => {
       if (error) {
+        console.log("Error is: ", error);
         const errorCodes = {
           threshold: "Please enter a valid # of 'featured' questions using the drop down menu.",
           new_length: "Please enter a valid value in the 'New questions are highlighted for' drop down menu.",
