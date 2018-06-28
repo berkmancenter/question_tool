@@ -4,8 +4,8 @@ function showEditAdvError(reason) {
   if (typeof currentError !== 'undefined') {
     Blaze.remove(currentError);
   }
-  const parentNode = $('.formcontainer')[0];
-  const nextNode = $('.inputcontainer')[0];
+  const parentNode = document.getElementsByClassName('formcontainer')[0];
+  const nextNode =  document.getElementsByClassName('inputcontainer')[0];
   currentError = Blaze.renderWithData(Template.form_error, reason, parentNode, nextNode);
 }
 
@@ -24,13 +24,13 @@ Template.edit.helpers({
 Template.edit.events({
   'click .editsubmitbutton': function (event, template) {
     const table = Template.instance().data.table;
-    const threshold = $('select[name=threshold]')[0].value;
-    const maxQuestion = $('select[name=max_question]')[0].value;
-    const maxResponse = $('select[name=max_response]')[0].value;
-    const redLength = $('select[name=new_length]')[0].value;
-    const stale = $('select[name=stale_length]')[0].value;
-    const isHidden = ($('select[name=visibility]')[0].value === 'hidden');
-    const social = ($('select[name=social]')[0].value === 'on');
+    const threshold = template.$('select[name=threshold]').val();
+    const maxQuestion = template.$('select[name=max_question]').val();
+    const maxResponse = template.$('select[name=max_response]').val();
+    const redLength = template.$('select[name=new_length]').val();
+    const stale = template.$('select[name=stale_length]').val();
+    const isHidden = (template.$('select[name=visibility]').val() === 'hidden');
+    const social = (template.$('select[name=social]').val() === 'on');
     const newValues = {
       threshold: Number(threshold),
       new_length: Number(redLength),
@@ -54,7 +54,6 @@ Template.edit.events({
         showEditAdvError(errorCodes[error.error]);
       } else {
         const isList = template.data.isList;
-        console.log(template.data);
         if (isList) {
           window.location.href = '/list/' + Instances.findOne({ _id: table._id }).slug;
         } else {
