@@ -181,29 +181,25 @@ Meteor.methods({
     return Instances.findOne({ _id: table_id }).slug;
   },
   editadv(instanceid, newValues) {
-    if (this.userId) {
-      let keys;
-      const email = Meteor.users.findOne({ _id: this.userId }).emails[0].address;
-      const instance = Instances.findOne({
-        _id: instanceid,
-      });
-      if (email === instance.admin || instance.moderators.indexOf(email) !== -1) {
-        Instances.update({
-          _id: instanceid,
-        }, {
-          $set: newValues,
-        }, (error, count, status) => {
-          if (error) {
-            errorKey = error.invalidKeys[0].name;
-            throw new Meteor.Error(errorKey);
-          }
-        });
-        if (keys) {
-          return keys;
-        }
-        return true;
-      }
+    if (_.isUndefined(this.userId)) {
       return false;
+    }
+    const email = Meteor.users.findOne({ _id: this.userId }).emails[0].address;
+    const instance = Instances.findOne({
+      _id: instanceid,
+    });
+    if (email === instance.admin || instance.moderators.indexOf(email) !== -1) {
+      Instances.update({
+        _id: instanceid,
+      }, {
+        $set: newValues,
+      }, (error, count, status) => {
+        if (error) {
+          errorKey = error.invalidKeys[0].name;
+          throw new Meteor.Error(errorKey);
+        }
+      });
+      return true;
     }
     return false;
   },

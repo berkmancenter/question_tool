@@ -31,8 +31,7 @@ Template.edit.events({
     const stale = $('select[name=stale_length]')[0].value;
     const isHidden = ($('select[name=visibility]')[0].value === 'hidden');
     const social = ($('select[name=social]')[0].value === 'on');
-    // console.log("New parameters: ",threshold, maxQuestion, maxResponse, redLength, stale, isHidden, social);
-    let newValues = {
+    const newValues = {
       threshold: Number(threshold),
       new_length: Number(redLength),
       stale_length: Number(stale),
@@ -40,10 +39,9 @@ Template.edit.events({
       max_response: Number(maxResponse),
       hidden: isHidden,
       social: social,
-    }
+    };
     Meteor.call('editadv', table._id, newValues, (error, result) => {
       if (error) {
-        console.log("Error is: ", error);
         const errorCodes = {
           threshold: "Please enter a valid # of 'featured' questions using the drop down menu.",
           new_length: "Please enter a valid value in the 'New questions are highlighted for' drop down menu.",
