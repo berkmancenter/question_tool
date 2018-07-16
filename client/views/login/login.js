@@ -42,6 +42,16 @@ Template.login.events({
       }, 10);
     });
   },
+  'click #forgotemphasis': function (event, template) {
+    $('.formcontainer').fadeOut(400);
+    $('#darker').fadeOut(400, () => {
+      Blaze.remove(popoverTemplate);
+      window.setTimeout(() => {
+        const parentNode = document.getElementById('nav');
+        popoverTemplate = Blaze.render(Template.resetpwd, parentNode);
+      }, 10);
+    });
+  },
   'keypress #passwordbox': function (event, template) {
     // eslint-disable-next-line no-param-reassign
     event.which = event.which || event.keyCode;

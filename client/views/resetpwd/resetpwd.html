@@ -1,0 +1,33 @@
+<template name="resetpwd">
+	<div id="darker">
+	</div>
+    {{#if resetPassword}}
+    	<div class="formcontainer">
+			<h1 class="formtitle">Forgot Password</h1>
+			<div class="modaltopmessage">
+				Enter your new password
+			</div>
+			<div class="inputcontainer">
+				<input type="password" id="newpasswordbox" class="input" placeholder="Password...">
+				<div id="newpwdsubmitbutton">
+					Change
+				</div>
+			</div>
+		</div>
+    {{else}}
+		<div class="formcontainer">
+			{{> close_button}}
+			<h1 class="formtitle">Forgot Password</h1>
+			<div class="modaltopmessage">
+				Enter your email to receive the password reset link.
+			</div>
+			<div class="inputcontainer">
+				<input type="text" id="loginemail" spellcheck="false" class="input" placeholder="Email...">
+				<div id="forgotsubmitbutton">
+					Send Email
+				</div>
+			</div>
+		</div>
+    {{/if}}
+
+</template>

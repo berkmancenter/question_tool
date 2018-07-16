@@ -93,7 +93,7 @@ a {
 	}
 }
 
-#loginsubmitbutton {
+#loginsubmitbutton, #registersubmitbutton, #forgotsubmitbutton, #newpwdsubmitbutton {
 	width: 40%;
 	display: block;
 	height: 30px;
@@ -113,7 +113,7 @@ a {
 	}
 }
 
-#registersubmitbutton {
+/*#registersubmitbutton {
 	width: 40%;
 	display: block;
 	height: 30px;
@@ -131,7 +131,7 @@ a {
   &:hover {
 		background-color: #4cd785;
 	}
-}
+}*/
 
 #shareclosebutton {
 	width: 40%;
