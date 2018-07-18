@@ -1,0 +1,67 @@
+.newpwdbox {
+	text-align: center;
+}
+
+.newpwdnav {
+	height: 50px;
+	background-color: #293340;
+	margin-bottom: 50px;
+}
+
+.newpwdnav > #navHome > .fa-home {
+	font-size: 2em;
+	padding: 10px;
+}
+
+.input {
+	width: 300px!important;
+}
+
+#newpwdsubmitbutton {
+	width: 200px;
+	display: block;
+	height: 30px;
+	margin: 0px auto;
+	background-color: #2ecc71;
+	margin-top: 20px;
+	margin-bottom: 10px;
+	border-radius: 5px;
+	cursor: pointer;
+	text-align: center;
+	font-weight: 600;
+	color: white;
+	padding-top: 5px;
+
+  &:hover {
+		background-color: #4cd785;
+	}
+}
+
+#forgotsubmitbutton {
+	margin-bottom: 10px !important;
+}
+
+.newpwdbox > h1 {
+	margin-bottom: 20px;
+}
+
+.newpwdbox > .error {
+	max-width: 420px;
+	display: inline-block;
+}
+
+#newPwdLoadingSpinner {
+	width: 12%;
+	display: inline-block;
+	margin-left: 44%;
+	display: none;
+}
+
+#mailSentMessage {
+	color: #42a1f4;
+	background-color: #fff;
+	width: 50%;
+	margin-left: 25%;
+	text-align: center;
+	display: none;
+}
