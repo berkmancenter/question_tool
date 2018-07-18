@@ -10,13 +10,14 @@
     		</div>
     		<h1 class="formtitle">Change password</h1>
 	    	<div class="newpwdform">	
-	    		<input type="password" pattern=".{6,30}" id="newpasswordbox" class="input" placeholder="New password...">
-	    		<input type="password" id="newpasswordconfirm" class="input" placeholder="Confirm password...">
+	    		<input type="password" pattern=".{6,30}" id="newpasswordbox" class="input" placeholder="New password..." autocomplete="off">
+	    		<input type="password" id="newpasswordconfirm" class="input" placeholder="Confirm password..." autocomplete="off">
 				<div id="newpwdsubmitbutton">
 					Change
 				</div>
 			</div>
     	</div>
+    	<div id="pwdchangemessage">Your password has been changed. Redirecting to homepage...</div>
     {{else}}
 		<div class="formcontainer">
 			{{> close_button}}

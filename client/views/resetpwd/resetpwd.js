@@ -35,6 +35,7 @@ Template.resetpwd.events({
     }
   },
   'click #forgotsubmitbutton': function (event, template) {
+    $("#mailSentMessage").css("display", "none");
     email = document.getElementById('loginemail').value;
     $("#newPwdLoadingSpinner").css("display", "block");
     Accounts.forgotPassword({email: email}, function (e) {
@@ -81,8 +82,13 @@ Template.resetpwd.events({
         }
       } else {
         console.log("Password changed.");
-        Session.set('resetPasswordVar', null);
-        Router.go('/');
+        // $(".newpwdbox").slideUp();
+        $(".newpwdbox").css("display", "none");
+        $("#pwdchangemessage").css("display", "block");
+        setTimeout(() => {
+          Session.set('resetPasswordVar', null);
+          Router.go('/');
+        }, 3000);
       }
     });
   },
