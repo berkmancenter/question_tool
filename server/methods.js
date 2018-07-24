@@ -1,5 +1,6 @@
 /* eslint-disable no-unused-vars, camelcase */
 
+import { _ } from 'underscore';
 import { Answers, Questions, Instances, Votes } from '../lib/common.js';
 
 Meteor.methods({

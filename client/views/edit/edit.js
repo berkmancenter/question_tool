@@ -1,11 +1,12 @@
 import { Instances } from '/lib/common.js';
+import $ from 'jquery'
 
 function showEditAdvError(reason) {
   if (typeof currentError !== 'undefined') {
     Blaze.remove(currentError);
   }
-  const parentNode = document.getElementsByClassName('formcontainer')[0];
-  const nextNode =  document.getElementsByClassName('inputcontainer')[0];
+  const parentNode = $('.formcontainer')[0];
+  const nextNode =  $('.inputcontainer')[0];
   currentError = Blaze.renderWithData(Template.form_error, reason, parentNode, nextNode);
 }
 
@@ -32,11 +33,11 @@ Template.edit.events({
     const isHidden = (template.$('select[name=visibility]').val() === 'hidden');
     const social = (template.$('select[name=social]').val() === 'on');
     const newValues = {
-      threshold: Number(threshold),
-      new_length: Number(redLength),
-      stale_length: Number(stale),
-      max_question: Number(maxQuestion),
-      max_response: Number(maxResponse),
+      threshold: parseInt(threshold),
+      new_length: parseInt(redLength),
+      stale_length: parseInt(stale),
+      max_question: parseInt(maxQuestion),
+      max_response: parseInt(maxResponse),
       hidden: isHidden,
       social: social,
     };
