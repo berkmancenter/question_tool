@@ -1,3 +1,5 @@
+import $ from 'jquery'
+
 Accounts.onResetPasswordLink((token, done) => {
   Router.go("resetpwd");
 })
@@ -10,8 +12,8 @@ function showChangePwdError(reason, parentElement, nextElement) {
   if (typeof currentError !== 'undefined') {
     Blaze.remove(currentError);
   }
-  const parentNode = document.getElementsByClassName(parentElement)[0];
-  const nextNode = document.getElementsByClassName(nextElement)[0];
+  const parentNode = $('.' + parentElement)[0];
+  const nextNode = $('.' + nextElement)[0];
   currentError = Blaze.renderWithData(Template.form_error, reason, parentNode, nextNode);
 }
 
@@ -31,17 +33,16 @@ Template.resetpwd.events({
     event.which = event.which || event.keyCode;
     if (event.which === 13) {
       event.preventDefault();
-      document.getElementById('newpwdsubmitbutton').click();
+      $('#newpwdsubmitbutton').click();
     }
   },
   'click #forgotsubmitbutton': function (event, template) {
     $("#mailSentMessage").css("display", "none");
-    email = document.getElementById('loginemail').value;
+    email = $('#loginemail').val();
     $("#newPwdLoadingSpinner").css("display", "block");
     Accounts.forgotPassword({email: email}, function (e) {
       $("#newPwdLoadingSpinner").css("display", "none");
       if (e) {
-        console.log("Error in forgot password: ", e.reason);
         if (e.reason === 'User not found') {
           showChangePwdError("The email address that you've entered doesn't match any account.", 'formcontainer', 'inputcontainer');
           return false;
@@ -58,8 +59,8 @@ Template.resetpwd.events({
     });
   },
   'click #newpwdsubmitbutton': function (event, template) {
-    const newPass = document.getElementById('newpasswordbox').value;
-    const newPassConfirm = document.getElementById('newpasswordconfirm').value;
+    const newPass = $('#newpasswordbox').val();
+    const newPassConfirm = $('#newpasswordconfirm').val();
     if (!$('#newpasswordbox')[0].checkValidity()) {
       showChangePwdError('Password must be between 6 and 30 characters', 'newpwdbox', 'newpwdform');
       return false;
@@ -69,7 +70,6 @@ Template.resetpwd.events({
     }
     Accounts.resetPassword(Session.get('resetPasswordVar'), newPass, function (e) {
       if (e) {
-        console.log("Error in changing password: ", e.reason);
         if (e.reason === 'Token expired') {
           showChangePwdError('This link is expired.', 'newpwdbox', 'newpwdform');
           return false;
@@ -81,8 +81,6 @@ Template.resetpwd.events({
           return false;
         }
       } else {
-        console.log("Password changed.");
-        // $(".newpwdbox").slideUp();
         $(".newpwdbox").css("display", "none");
         $("#pwdchangemessage").css("display", "block");
         setTimeout(() => {

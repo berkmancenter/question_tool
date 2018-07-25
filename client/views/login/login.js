@@ -1,3 +1,5 @@
+import $ from 'jquery'
+
 function showError(reason, parentElement, nextElement) {
   if (typeof currentError !== 'undefined') {
     Blaze.remove(currentError);
