@@ -1,0 +1,82 @@
+<template name="edit">
+	<div id="darker">
+	</div>
+	<div class="formcontainer editformcontainer">
+		{{> close_button}}
+		<h1 class="formtitle">Edit</h1>
+		<div class="modaltopmessage renamemessage">
+			Edit Advanced Options.
+		</div>
+		<div class="inputcontainer" style="text-align: center;">
+			<div class="dropdowncontainer">
+				<p class="dropdownlabel">Number of "featured" questions:</p>
+                <select name="threshold" size="1" value="4">    
+                        <option value="2" {{isSelected "threshold" 2}}>2</option>
+                        <option value="4" {{isSelected "threshold" 4}}>4</option>
+                        <option value="6" {{isSelected "threshold" 6}}>6</option>
+                        <option value="8" {{isSelected "threshold" 8}}>8</option>
+                </select>
+			</div>
+			<div class="dropdowncontainer">
+				<p class="dropdownlabel">Question max word count:</p>
+                <select name="max_question" size="1">
+                    <option value="250" {{isSelected "max_question" 250}}>250</option>
+                    <option value="300" {{isSelected "max_question" 300}}>300</option>
+                    <option value="350" {{isSelected "max_question" 350}}>350</option>
+                    <option value="400" {{isSelected "max_question" 400}}>400</option>
+					<option value="500" {{isSelected "max_question" 500}}>500</option>
+                </select>
+			</div>
+			<div class="dropdowncontainer">
+				<p class="dropdownlabel">Response max word count:</p>
+                <select name="max_response" size="1">
+                    <option value="100" {{isSelected "max_response" 100}}>100</option>
+                    <option value="150" {{isSelected "max_response" 150}}>150</option>
+                    <option value="200" {{isSelected "max_response" 200}}>200</option>
+                    <option value="250" {{isSelected "max_response" 250}}>250</option>
+					<option value="300" {{isSelected "max_response" 300}}>300</option>
+                </select>
+			</div>
+			<div class="dropdowncontainer">
+				<p class="dropdownlabel">New questions are highlighted for:</p>
+                <select name="new_length" size="1">
+                    <option value="30" {{isSelected "new_length" 30}}>30 sec</option>
+                    <option value="60" {{isSelected "new_length" 60}}>1 min</option>
+                    <option value="300" {{isSelected "new_length" 300}}>5 mins</option>
+                    <option value="3600" {{isSelected "new_length" 3600}}>1 hour</option>
+                    <option value="86400" {{isSelected "new_length" 86400}}>1 day</option>
+                    <option value="604800" {{isSelected "new_length" 604800}}>1 week</option>
+                </select>
+			</div>
+			<div class="dropdowncontainer">
+				<p class="dropdownlabel">Old questions are highlighted after:</p>
+                <select name="stale_length" size="1">
+                    <option value="900" {{isSelected "stale_length" 900}}>15 mins</option>
+                    <option value="1800" {{isSelected "stale_length" 1800}}>30 mins</option>
+                    <option value="3600" {{isSelected "stale_length" 3600}}>1 hour</option>
+                    <option value="86400" {{isSelected "stale_length" 86400}}>1 day</option>
+                    <option value="604800" {{isSelected "stale_length" 604800}}>1 week</option>
+                    <option value="2592000" {{isSelected "stale_length" 2592000}}>1 month</option>
+                    <option value="31557600" {{isSelected "stale_length" 31557600}}>1 year</option>
+                </select>
+			</div>
+			<div class="dropdowncontainer">
+				<p class="dropdownlabel">Visibility of instance:</p>
+                <select name="visibility" size="1">
+                    <option value="public" {{isSelected "hidden" false}}>Public</option>
+                    <option value="hidden" {{isSelected "hidden" true}}>Hidden</option>
+                </select>
+			</div>
+            <div class="dropdowncontainer">
+                <p class="dropdownlabel">Social media sharing:</p>
+                <select name="social" size="1">
+                    <option value="on" {{isSelected "social" true}}>On</option>
+                    <option value="off" {{isSelected "social" false}}>Off</option>
+                </select>
+            </div>
+			<div class="editsubmitbutton">
+				Done
+			</div>
+		</div>
+	</div>
+</template>
