@@ -1,8 +1,4 @@
 <template name="resetpwd">
-	{{#unless resetPassword}}
-		<div id="darker">
-		</div>
-	{{/unless}}
     {{#if resetPassword}}
     	<div class="newpwdbox">
     		<div class="newpwdnav">
@@ -19,6 +15,8 @@
     	</div>
     	<div id="pwdchangemessage">Your password has been changed successfully. Redirecting to homepage...</div>
     {{else}}
+		<div id="darker">
+		</div>
 		<div class="formcontainer">
 			{{> close_button}}
 			<h1 class="formtitle">Forgot Password</h1>
