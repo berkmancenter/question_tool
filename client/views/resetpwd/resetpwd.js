@@ -36,6 +36,13 @@ Template.resetpwd.events({
       $('#newpwdsubmitbutton').click();
     }
   },
+  'keypress #loginemail': function (event, template) {
+    event.which = event.which || event.keyCode;
+    if (event.which === 13) {
+      event.preventDefault();
+      $('#forgotsubmitbutton').click();
+    }
+  },
   'click #forgotsubmitbutton': function (event, template) {
     $("#mailSentMessage").css("display", "none");
     email = $('#loginemail').val();
