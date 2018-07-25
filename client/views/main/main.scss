@@ -129,9 +129,9 @@ input {
 }
 
 .dropdowncontainer {
-	width: 100%;
-	display: block;
-	float: left;
+	width: 100%!important;
+	display: inline-block;
+	margin: auto;
 
 	@media screen and (min-width: $screen-md){
 		width: 90%;

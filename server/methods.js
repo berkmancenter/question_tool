@@ -1,5 +1,6 @@
 /* eslint-disable no-unused-vars, camelcase */
 
+import { _ } from 'underscore';
 import { Answers, Questions, Instances, Votes } from '../lib/common.js';
 
 Meteor.methods({
@@ -149,6 +150,7 @@ Meteor.methods({
       anonymous,
       hidden: isHidden,
       author: usr.profile.name,
+      social: true,
     }, (error, id) => {
       // If error, set keys to the error object
       if (error) {
@@ -178,6 +180,29 @@ Meteor.methods({
       return keys;
     }
     return Instances.findOne({ _id: table_id }).slug;
+  },
+  editadv(instanceid, newValues) {
+    if (_.isUndefined(this.userId)) {
+      return false;
+    }
+    const email = Meteor.users.findOne({ _id: this.userId }).emails[0].address;
+    const instance = Instances.findOne({
+      _id: instanceid,
+    });
+    if (email === instance.admin || instance.moderators.indexOf(email) !== -1) {
+      Instances.update({
+        _id: instanceid,
+      }, {
+        $set: newValues,
+      }, (error, count, status) => {
+        if (error) {
+          errorKey = error.invalidKeys[0].name;
+          throw new Meteor.Error(errorKey);
+        }
+      });
+      return true;
+    }
+    return false;
   },
   // Method that unhides every question in a given table
   unhide(instanceid) {

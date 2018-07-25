@@ -1,0 +1,32 @@
+.editformcontainer {
+	.error {
+		font-weight: 600;
+		width: 70%;
+		margin: auto;
+	}
+}
+
+.editsubmitbutton {
+	width: 40%;
+	display: block;
+	height: 30px;
+	margin: 0px auto;
+	background-color: #2ecc71;
+	margin-top: 20px;
+	margin-bottom: 35px;
+	border-radius: 5px;
+	cursor: pointer;
+	text-align: center;
+	font-weight: 600;
+	color: white;
+	padding-top: 5px;
+
+  &:hover {
+		background-color: #4cd785;
+	}
+}
+
+.dropdowncnt {
+	width: 100%;
+	display: block;
+}

@@ -661,6 +661,14 @@ Template.list.events({
       isList: true,
     }, parentNode);
   },
+  'click #editadvbutton': function (event, template) {
+    const parentNode = document.getElementById('nav');
+    const table = Template.instance().data;
+    popoverTemplate = Blaze.renderWithData(Template.edit, {
+      table,
+      isList: true,
+    }, parentNode);
+  },
   'click #navPresent': function (event, template) {
     present();
     Template.instance().state.set('presentMode', true);

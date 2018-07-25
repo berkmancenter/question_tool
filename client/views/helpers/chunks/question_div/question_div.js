@@ -24,6 +24,10 @@ Template.question_div.helpers({
     return false;
   },
 
+  isSocial() {
+    return Instances.findOne({ _id: this.instanceid }).social;
+  },
+
   hasAnswers() {
     const answers = Answers.find({
       qid: this._id,
