@@ -196,7 +196,7 @@ Meteor.methods({
         $set: newValues,
       }, (error, count, status) => {
         if (error) {
-          errorKey = error.invalidKeys[0].name;
+          const errorKey = error.invalidKeys[0].name;
           throw new Meteor.Error(errorKey);
         }
       });
