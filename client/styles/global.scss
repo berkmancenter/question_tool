@@ -473,13 +473,30 @@ a {
 	font-weight: 600;
 }
 
-.plusbuttoncontainer {
+.instancemodsminus {
+	cursor: pointer;
+	background-color: red;
+	color: white;
+	text-align: center;
+	font-weight: 600;
+	width: 31px;
+	float: left;
+	height: 30px;
+	margin: 10px;
+	border-radius: 5px;
+	font-size: 23px;
+}
+
+.buttoncontainer {
 	width: 51px;
 	height: 50px;
+	display: inline;
 }
 
 #recent {
 	padding-bottom: 45px;
 }
 
-
+.modinputfield {
+	padding-bottom: 2em;
+}
