@@ -49,11 +49,21 @@ Template.create.events({
   },
   'click .instancemodsplus': function (event, template) {
     const modfields = document.getElementsByClassName('modinputfield');
+    let addinputfield = true;
     if (modfields.length < 4) {
-      $('.instancemodsplus').remove();
-      $('.buttoncontainer').last().append('<div class="instancemodsminus" >x</div>');
-      $('<div class="modinputfield"><input class="instancemodsinput" type="text" placeholder="Moderator email..."><div class="buttoncontainer"><div class="instancemodsplus">+</div></div></div>').insertAfter($('.modinputfield').last());
-      $('#instancebottominputcontainer').height((index, height) => (height + 50));
+      for (let inputindex = 0; inputindex < modfields.length; inputindex++) {
+        if (modfields[inputindex].children[0].value === '') {
+          showCreateError('Fill in the exisitng input fields before creating a new one.');
+          addinputfield = false;
+          break;
+        }
+      }
+      if (addinputfield === true) {
+        $('.instancemodsplus').remove();
+        $('.buttoncontainer').last().append('<div class="instancemodsminus" >x</div>');
+        $('<div class="modinputfield"><input class="instancemodsinput" type="text" placeholder="Moderator email..."><div class="buttoncontainer"><div class="instancemodsplus">+</div></div></div>').insertAfter($('.modinputfield').last());  
+        $('#instancebottominputcontainer').height((index, height) => (height + 50));
+      }
     } else {
       showCreateError("You've reached the maximum # of moderators (4).");
       return false;
