@@ -105,6 +105,10 @@ Template.create.events({
     for (let m = 0; m < modsInput.length; m++) {
       if (modsInput[m].checkValidity()) {
         if (modsInput[m].value) {
+          if (modsInput[m].value.trim() === Meteor.user().emails[0].address) {
+            showCreateError('Admin cannot be added as a moderator.');
+            return false;
+          }
           mods.push(modsInput[m].value.trim());
         }
       } else {
