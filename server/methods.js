@@ -499,6 +499,23 @@ Meteor.methods({
     }
     return false;
   },
+  adminQuesDel(quesid) {
+    // Ensures that the user has proper admin privileges
+    if (this.userId) {
+        Questions.remove({ _id: quesid });
+
+        const v_num = Votes.find({ qid: quesid }).count();
+        const v_r = Votes.remove({ qid: quesid });
+        if (v_num > v_r) { return false; }
+
+        const a_num = Answers.find({ qid: quesid }).count();
+        const a_r = Answers.remove({ qid: quesid });
+        if (a_num > a_r) { return false; }
+
+        return true;
+      }
+      return false;
+  },
   rename(id, name, desc) {
     if (this.userId) {
       let result;

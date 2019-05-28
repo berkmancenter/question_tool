@@ -1,9 +1,13 @@
+.error-cont {
+	text-align: center;
+}
+
 .error {
 	font-weight: 700;
-	width: calc(100% - 2em);
+	width: fit-content;
 	border: 2px solid #e74c3c;
 	background-color: #e74c3c;
-	display: block;
+	display: inline-block;
 	margin: 0.3em;
 	padding: 0.3em;
 	margin-bottom: 15px;
@@ -11,7 +15,7 @@
 	font-size: 14px;
 	color: white;
 	font-weight: normal;
-	text-align: left
+	text-align: center;
 }
 
 .errorIcon {
@@ -23,6 +27,7 @@
 }
 
 .error-dismiss {
+	padding-left: 10px;
 	float: right;
 	cursor: pointer;
 	transition-duration: 0.3s;
