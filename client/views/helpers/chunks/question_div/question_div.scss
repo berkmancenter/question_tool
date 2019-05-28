@@ -137,7 +137,7 @@ $popular-question-color: #f1c40f;
 }
 
 .facebookbutton {
-	background-image: url('/facebook.png');
+  background-image: url('/facebook.png');
 
   &:hover {
 		background-image: url('/facebook_blue.png');
@@ -149,6 +149,14 @@ $popular-question-color: #f1c40f;
 
   &:hover {
 		background-image: url('/twitter_blue.png');
+	}
+}
+
+.deletebutton {
+  background-image: url('/delete_black.png');
+
+  &:hover {
+		background-image: url('/delete_red.png');
 	}
 }
 

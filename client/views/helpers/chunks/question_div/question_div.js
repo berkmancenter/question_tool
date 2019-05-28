@@ -101,4 +101,11 @@ Template.question_div.events({
     const parentNode = document.getElementById('nav');
     popoverTemplate = Blaze.renderWithData(Template.modify, template.data._id, parentNode);
   },
+  'click .adminquestiondelete': function (event, template) {
+    const quesId = template.data._id;
+    Meteor.call('adminQuesDel', quesId, (error, result) => {
+      console.log(error);
+      console.log(result);
+    });
+  },
 });
