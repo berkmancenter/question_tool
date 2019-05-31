@@ -50,9 +50,17 @@ A user who is signed in can create an instance with a specific topic, after whic
 
    Navigate to the /server/lib/startup.js file to set the email of the Question Tool superadmin (is able to delete/rename instances) and add a mail server URL for emailing. Superadmin must create a Question Tool account and be logged in with the specified email address for the superadmin priveleges.
 
+## Development
+
+The only thing you need is Docker (https://docs.docker.com/install/).
+
+* Install Docker
+* Run `docker-compose up` and wait until it sets up everything
+* The app will be available on `http://localhost:8888`
+
 ## Contributing
 
-1. Fork it! 
+1. Fork it!
 2. Check out the [code style guide](STYLEGUIDE.md).
 3. Create your feature branch: `git checkout -b my-new-feature`
 4. Commit your changes: `git commit -am 'Add some feature'`

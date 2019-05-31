@@ -11,7 +11,6 @@
       "allowImportExportEverywhere": true
     },
     "env": {
-      "meteor": true,
       "browser": true,
       "jquery": true
     },
@@ -48,7 +47,6 @@
   "dependencies": {
     "bcrypt": "^1.0.2",
     "chai": "^3.5.0",
-    "jquery": "^3.3.1",
-    "meteor": "^1.4.1.1"
+    "jquery": "^3.3.1"
   }
 }
