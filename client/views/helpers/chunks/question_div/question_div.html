@@ -1,6 +1,7 @@
 <template name="question_div">
   <div class="question-wrapper">
-    <div id="{{_id}}" class="question question-{{instanceid}} {{#if popular}}popular-question{{else}}{{age_marker}}{{/if}} {{#if isDisabled}}hidden-question{{/if}}">
+    <div id="{{_id}}"
+      class="question question-{{instanceid}} {{#if popular}}popular-question{{else}}{{age_marker}}{{/if}} {{#if isDisabled}}hidden-question{{/if}}">
       <p class="questiontext">{{{text}}}</p>
       <!-- {{# if hasAnswers}}
         {{> answers_list}}
@@ -9,7 +10,8 @@
       <p class="hiddenMessage showreplies link" id="{{_id}}">show {{answersCount}}</p>
       {{/if}}
       <div class="replybottom" id="down{{_id}}">
-        <textarea id="text{{_id}}" class="replyarea" placeholder="Type a response..." maxlength="{{responseLength}}"></textarea>
+        <textarea id="text{{_id}}" class="replyarea" placeholder="Type a response..."
+          maxlength="{{responseLength}}"></textarea>
         <div style="margin: 8px 0">
           <span class="replycounter">
             {{replyCount}}/{{responseLength}}
@@ -36,27 +38,27 @@
             Modify
           </span>
           {{ else }}
-            {{#if isPoster}}
-            <span class="adminquestionmodify link" id="{{_id}}">
-              Modify
-            </span>
-            {{/if}}
+          {{#if isPoster}}
+          <span class="adminquestionmodify link" id="{{_id}}">
+            Modify
+          </span>
+          {{/if}}
           {{/if}}
         </span>
         <span class="sharing">
           {{#if popular}}
           <span class="image-icon popular-icon" title="Popular"></span>
           {{else}}
-            {{#if stale}}
-              <span class="image-icon stale-icon" title="Stale"></span>
-            {{/if}}
+          {{#if stale}}
+          <span class="image-icon stale-icon" title="Stale"></span>
+          {{/if}}
           {{/if}}
           {{#if new}}
-            <span class="image-icon new-icon" title="New"></span>
+          <span class="image-icon new-icon" title="New"></span>
           {{/if}}
           {{#if isSocial}}
-            <span class="image-icon facebookbutton link" title="Share on Facebook"></span>
-            <span class="image-icon twitterbutton link" title="Share on Twitter"></span>
+          <span class="image-icon facebookbutton link" title="Share on Facebook"></span>
+          <span class="image-icon twitterbutton link" title="Share on Twitter"></span>
           {{/if}}
         </span>
       </div>
@@ -64,9 +66,9 @@
         {{#if poster}}
         <span class="poser">
           {{#if email}}
-            <a href="mailto:{{email}}">{{poster}}</a>
+          <a href="mailto:{{email}}">{{poster}}</a>
           {{else}}
-            {{poster}}
+          {{poster}}
           {{/if}}
         </span>
         {{/if}}
