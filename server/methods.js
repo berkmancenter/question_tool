@@ -153,7 +153,8 @@ Meteor.methods({
     maxQuestion,
     maxResponse,
     anonymous,
-    isHidden
+    isHidden,
+    isSocial
   ) {
     const usr = Meteor.users.findOne({ _id: this.userId });
     if (usr === undefined) {
@@ -175,7 +176,7 @@ Meteor.methods({
         anonymous,
         hidden: isHidden,
         author: usr.profile.name,
-        social: true
+        social: isSocial
       },
       (error, id) => {
         // If error, set keys to the error object
