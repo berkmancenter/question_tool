@@ -178,7 +178,7 @@ Meteor.methods({
         social: true
       },
       (error, id) => {
-        // If error, set keys to the error object.
+        // If error, set keys to the error object
         if (error) {
           keys = error.invalidKeys;
         }
