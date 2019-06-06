@@ -9,34 +9,42 @@
 			<div class="pres"><span id="navUnPresent"><i class="fa fa-times"></i> Exit</span></div>
 		</div>
 		{{#if admin}}
-			<div class="admincontainer">
-				<h2>Admin Interface</h2>
-				<p>Click and drag two questions together to combine.</p>
-				<ul id="admin-button-list" data-table-id="{{_id}}">
-					<li id="unhidebutton">Unhide all</li>
-					<li id="deletebutton">Delete instance</li>
-					<li id="modbutton">Add moderators</li>
-					<li id="renamebutton">Edit instance</li>
-					<li id="editadvbutton">Edit advanced options</li>
-				</ul>
+		<div class="admincontainer">
+			<div class="adminnav">
+				<div>
+					<h2>Admin Interface</h2>
+				</div>
+				<div>
+					{{> close_button}}
+				</div>
 			</div>
+			<p>Click and drag two questions together to combine.</p>
+			<ul id="admin-button-list" data-table-id="{{_id}}">
+				<li id="unhidebutton">Unhide all</li>
+				<li id="deletebutton">Delete instance</li>
+				<li id="modbutton">Add moderators</li>
+				<li id="renamebutton">Edit instance</li>
+				<li id="editadvbutton">Edit advanced options</li>
+			</ul>
+		</div>
 		{{/if}}
 		{{#if moderator}}
-			<div class="admincontainer modcontainer">
-				<h2>Moderator Interface</h2>
-				<p>Click and drag two questions together to combine.</p>
-			</div>
+		<div class="admincontainer modcontainer">
+			<h2>Moderator Interface</h2>
+			<p>Click and drag two questions together to combine.</p>
+		</div>
 		{{/if}}
-		{{#if hasChanges}}<div class="new-posts"><i class="fa fa-refresh"></i> Refresh {{#if hasSeconds}} ({{ seconds }}) {{/if}}</div>{{/if}}
-    <div class="masonary-wrapper" id="list-wrapper">
-  		<div class="container" id="quest-container">
-  			{{#each question}}
-  				{{#if visible}}
-  					{{> question_div}}
-  				{{/if}}
-  			{{/each}}
-  		</div>
-	</div>
+		{{#if hasChanges}}<div class="new-posts"><i class="fa fa-refresh"></i> Refresh {{#if hasSeconds}}
+			({{ seconds }}) {{/if}}</div>{{/if}}
+		<div class="masonary-wrapper" id="list-wrapper">
+			<div class="container" id="quest-container">
+				{{#each question}}
+				{{#if visible}}
+				{{> question_div}}
+				{{/if}}
+				{{/each}}
+			</div>
+		</div>
 		{{> footer}}
 	</div>
 </template>
