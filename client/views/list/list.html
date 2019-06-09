@@ -10,7 +10,14 @@
 		</div>
 		{{#if admin}}
 			<div class="admincontainer">
-				<h2>Admin Interface</h2>
+				<div class="admin-nav">
+					<div>
+						<h2>Admin Interface</h2>
+					</div>
+					<div>
+						{{> close_button}}
+					</div>
+				</div>
 				<p>Click and drag two questions together to combine.</p>
 				<ul id="admin-button-list" data-table-id="{{_id}}">
 					<li id="unhidebutton">Unhide all</li>

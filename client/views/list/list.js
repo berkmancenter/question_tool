@@ -196,7 +196,7 @@ Template.list.onCreated(function () {
   };
 
   this.updateInPlace = (questions) => {
-    questions.forEach(question => 
+    questions.forEach(question =>
       this.visibleQuestions.update({ _id: question._id }, { $set: { state: question.state } })
     );
   };
@@ -270,7 +270,7 @@ Template.list.helpers({
     if (this.state !== 'disabled') return true;
 
     if (isPresenting === true) return false;
-    
+
     let tableAdmin = false;
     let tableMod = false;
     let instance = Instances.findOne({ _id: this.instanceid });
@@ -693,5 +693,10 @@ Template.list.events({
   'blur .replyarea': function(event, template) {
     Template.instance().state.set('typing', false);
   },
+  "click .closecontainer": function(event, template) {
+    document
+      .getElementsByClassName("admincontainer")[0]
+      .setAttribute("style", "display: none;");
+  }
 });
 /* eslint-enable func-names, no-unused-vars */
