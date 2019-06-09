@@ -10,7 +10,7 @@
 		<div class="inputcontainer" style="text-align: center;">
 			<div class="dropdowncontainer">
 				<p class="dropdownlabel">Number of "featured" questions:</p>
-                <select name="threshold" size="1" value="4">    
+                <select name="threshold" size="1" value="4">
                         <option value="2" {{isSelected "threshold" 2}}>2</option>
                         <option value="4" {{isSelected "threshold" 4}}>4</option>
                         <option value="6" {{isSelected "threshold" 6}}>6</option>
@@ -74,6 +74,13 @@
                     <option value="off" {{isSelected "social" false}}>Off</option>
                 </select>
             </div>
+			<div class="dropdowncontainer">
+				<p class="dropdownlabel">Allow anonymous:</p>
+				<select name="anonymous" size="1">
+					<option value="on" {{isSelected "anonymous" true}}>On</option>
+					<option value="off" {{isSelected "anonymous" false}}>Off</option>
+				</select>
+			</div>
 			<div class="editsubmitbutton">
 				Done
 			</div>
