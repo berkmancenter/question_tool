@@ -693,10 +693,8 @@ Template.list.events({
   'blur .replyarea': function(event, template) {
     Template.instance().state.set('typing', false);
   },
-  "click .closecontainer": function(event, template) {
-    document
-      .getElementsByClassName("admincontainer")[0]
-      .setAttribute("style", "display: none;");
+  'click .closecontainer': function(event, template) {
+    $('.admincontainer').css('display', 'none'); // Updated the css on the click event of close button in admin interface card
   }
 });
 /* eslint-enable func-names, no-unused-vars */
