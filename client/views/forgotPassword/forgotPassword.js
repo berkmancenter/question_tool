@@ -1,3 +1,4 @@
+// Function for email validation
 function validateEmail(email) {
   var reg = /^([A-Za-z0-9_\-\.])+\@([A-Za-z0-9_\-\.])+\.([A-Za-z]{2,4})$/;
   if(reg.test(email) === false) {
@@ -20,7 +21,7 @@ Template.ForgotPassword.events({
   'click #forgotpasswordsubmitbutton': function(event, template) {
     event.preventDefault();
     var forgotPasswordEmail = $('#forgotPasswordEmail').val();
-    if(!validateEmail(forgotPasswordEmail)) {
+    if(!validateEmail(forgotPasswordEmail)) { // If email is not valid
       showError('Please enter a valid email address', 'inputcontainer', 'forgotPasswordEmail');
       return false;
     }
