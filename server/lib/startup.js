@@ -5,4 +5,8 @@ Meteor.startup(() => {
   process.env.MAIL_URL = 'http://localhost:3000/';
 
   SyncedCron.start();
+
+  Accounts.urls.resetPassword = function(token) {
+    return Meteor.absoluteUrl('reset-password/' + token);
+  };
 });
