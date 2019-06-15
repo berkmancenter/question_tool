@@ -28,17 +28,26 @@ Template.ForgotPassword.events({
       if(err) {
         console.log(err)
         if(err.message === 'User not found [403]') {
+          showError('Email doesn\'t exist', 'inputcontainer', 'forgotPasswordEmail');
           console.log('Email doesn\'t exist');
         } else {
+          showError('We are sorry, but something went wrong', 'inputcontainer', 'forgotPasswordEmail');
           console.log('We are sorry, but something went wrong');
         }
       } else {
         console.log('Email sent, check your mailbox');
+        window.location.href = '/';
       }
     })
-  }
+  },
+  'click #loginemphasis': function (event, template) {
+    $('.formcontainer').fadeOut(400);
+    $('#darker').fadeOut(400, () => {
+      Blaze.remove(popoverTemplate);
+      window.setTimeout(() => {
+        const parentNode = document.getElementById('nav');
+        popoverTemplate = Blaze.render(Template.login, parentNode);
+      }, 10);
+    });
+  },
 });
-
-if(Accounts._resetPasswordToken) {
-  Session.set('resetPassword', Accounts._resetPasswordToken);
-}
