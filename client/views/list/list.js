@@ -694,7 +694,7 @@ Template.list.events({
     Template.instance().state.set('typing', false);
   },
   'click .closecontainer': function(event, template) {
-    $('.admincontainer').css('display', 'none'); // Updated the css on the click event of close button in admin interface card
+    $('.admincontainer').css('display', 'none');
   }
 });
 /* eslint-enable func-names, no-unused-vars */
