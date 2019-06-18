@@ -99,8 +99,9 @@ Template.add.events({
             showModsError('You can only assign 4 moderators per instance.');
             return false;
           }
-          if(result[i].name === 'owner') { // Check is the server returned error corresponding to the addition of owner as moderator
-            showModsError('You cannot add owner of the instance as moderator'); // Display the error message
+          // Check is the server returned error corresponding to the addition of owner as moderator
+          if(result[i].name === 'owner') {
+            showModsError(`${result[i].value} is already an owner of the instance and has the privileges of a moderator.`); // Display the error message
             return false;
           }
         }
