@@ -35,7 +35,19 @@
   					{{> question_div}}
   				{{/if}}
   			{{/each}}
-  		</div>
+		</div>
+		{{#if hiddenQuestionsPresent}}
+			<hr>
+			<div class="container" id="quest-container">
+					{{#each question}}
+						{{#if invisible}}
+							{{#if adminMod}}
+								{{> question_div}}
+							{{/if}}
+						{{/if}}
+					{{/each}}
+			</div>
+		{{/if}}
 	</div>
 		{{> footer}}
 	</div>

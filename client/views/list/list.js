@@ -270,10 +270,15 @@ Template.list.helpers({
     if (this.state !== 'disabled') return true;
 
     if (isPresenting === true) return false;
-    
+  },
+  invisible() {
+    if (this.state == 'disabled') return true;
+    return false;
+  },
+  adminMod() {
     let tableAdmin = false;
     let tableMod = false;
-    let instance = Instances.findOne({ _id: this.instanceid });
+    const instance = Instances.findOne({ _id: this.instanceid });
 
     if (Meteor.user()) {
       const userEmail = Meteor.user().emails[0].address;
@@ -283,8 +288,37 @@ Template.list.helpers({
         tableMod = true;
       }
     }
-
     return tableAdmin || tableMod;
+  },
+  hiddenQuestionsPresent() {
+    let questions;
+    if (Session.get('search') === 'all') {
+      questions = Template.instance().visibleQuestions.find({
+        instanceid: Template.instance().data._id,
+      }).fetch();
+    } else {
+      const re = new RegExp(Session.get('search'), 'i');
+      questions = Template.instance().visibleQuestions.find({
+        instanceid: Template.instance().data._id,
+        $or: [{
+          text: {
+            $regex: re,
+          },
+        }, {
+          poster: {
+            $regex: re,
+          },
+        }],
+      }).fetch();
+    }
+    let noOfHiddenQues = 0;
+    questions.forEach(function(question) {
+      if (question.state === 'disabled')
+        noOfHiddenQues += 1;
+    });
+    if(noOfHiddenQues > 0)
+      return true;
+    return false;
   },
   hasSeconds() {
     return Template.instance().seconds.get() > 0 && !Template.instance().state.get('typing');
