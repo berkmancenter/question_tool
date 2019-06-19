@@ -53,7 +53,7 @@ Template.create.events({
       $('.instancemodsinput').removeClass('lastmodinput');
       $('.plusbuttoncontainer').removeClass('lastmodinput');
       $('.instancemodsplus').remove();
-      $('<input class="instancemodsinput lastmodinput" type="email" placeholder="Moderator email..."><div class="emptyinputspacer lastinputspacer"><div class="plusbuttoncontainer"><div class="instancemodsplus">+</div></div></div>').insertAfter('.lastinputspacer').last(); // Updated the input type to email for perfect validation
+      $('<input class="instancemodsinput lastmodinput" type="email" placeholder="Moderator email..."><div class="emptyinputspacer lastinputspacer"><div class="plusbuttoncontainer"><div class="instancemodsplus">+</div></div></div>').insertAfter('.lastinputspacer').last();
       $('.lastinputspacer').first().removeClass('lastinputspacer');
       $('#instancebottominputcontainer').height((index, height) => (height + 50));
     } else {
@@ -157,11 +157,14 @@ Template.create.events({
       last.previousSibling.focus();
     }
   },
-  'change .instancemodsinput': function(event, template) { // Function to be triggered on change event of the moderator email input
-    if(!event.target.checkValidity()) { // If the input is not valid show error
+  'change .instancemodsinput': function(event, template) {
+    // Function to be triggered on change event of the moderator email input
+    if(!event.target.checkValidity()) {
+      // If the input is not valid show error
       showCreateError(event.target.value + ' is not a valid email.');
-    } else { // If input is valid remove errors
-      $(".error").css("display", "none");
+    } else {
+      // If input is valid remove errors
+      $('.error').css('display', 'none');
     }
   }
 });
