@@ -670,11 +670,38 @@ Meteor.methods({
     return Accounts.createUser({ email, password, profile: { name: profileName } });
   },
   createPDF(slug) {
-    var doc = new PDFDocument({size: 'A4', margin: 50});
-    doc.fontSize(12);
+    let questionList = [];
+    let answerList = [];
+    let doc = new PDFDocument({size: 'A4', margin: 50});
+    if(!doc) {
+      console.log('Not able to initialize PDFKit object');
+      return false;
+    }
     let currentInstance = Instances.findOne({slug: slug});
-    doc.text(`This is the archive of ${currentInstance.tablename}`, {underline: true});
-    console.log(process.env.PWD);
-    doc.writeSync(process.env.PWD + '/PDFKitExample.pdf');
+    let randomNum = Math.floor(Math.random() * (10000 - 1 + 1)) + 1;
+    let filename = 'Instance_archive_'+currentInstance.tablename+'_'+randomNum+'.pdf';
+    console.log(filename);
+    doc.fontSize(28);
+    doc.text(`This is the archive of ${currentInstance.tablename}`, {underline: true, });
+    let questionsOnCurrentInstance = Questions.find({instanceid: currentInstance._id});
+    let answersOnCurrentInstance = Answers.find({instanceid: currentInstance._id});
+    answersOnCurrentInstance.forEach(function(ans) {
+      answerList.push(ans);
+    });
+    questionsOnCurrentInstance.forEach(function(ques, i) {
+      doc.fontSize(18);
+      doc.text(`${i+1}. ${ques.poster} posted: ${ques.text}`, 20, doc.y, {align: 'left', indent: 25});
+      let currentAns = answerList.filter((obj) => {
+        return obj.qid === ques._id
+      }).map((obj) => {
+        return obj.poster + ": " +obj.text;
+      })
+      doc.fontSize(14);
+      doc.list(currentAns, 30, doc.y, {align: 'left', indent: 40, numbered: true});
+      doc.moveDown();
+    });
+
+    doc.writeSync(process.env.PWD + '/Instance_archive_'+currentInstance.tablename+'_'+randomNum+'.pdf');
+    return true;
   }
 });
