@@ -35,7 +35,12 @@ Template.nav.events({
       Blaze.remove(popoverTemplate);
     });
   },
+  'click #navArchive': function(event, template) {
+    console.log("Button tapped");
+    Meteor.call('createPDF', template.data.slug, (error, result) => {
+      console.log("callback");
+    })
+  }
 });
 
 /* eslint-enable func-names, no-unused-vars */
-

@@ -669,4 +669,12 @@ Meteor.methods({
 
     return Accounts.createUser({ email, password, profile: { name: profileName } });
   },
+  createPDF(slug) {
+    var doc = new PDFDocument({size: 'A4', margin: 50});
+    doc.fontSize(12);
+    let currentInstance = Instances.findOne({slug: slug});
+    doc.text(`This is the archive of ${currentInstance.tablename}`, {underline: true});
+    console.log(process.env.PWD);
+    doc.writeSync(process.env.PWD + '/PDFKitExample.pdf');
+  }
 });
