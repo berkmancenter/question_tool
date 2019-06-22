@@ -679,8 +679,6 @@ Meteor.methods({
     }
     let currentInstance = Instances.findOne({slug: slug});
     let randomNum = Math.floor(Math.random() * (10000 - 1 + 1)) + 1;
-    let filename = 'Instance_archive_'+currentInstance.tablename+'_'+randomNum+'.pdf';
-    console.log(filename);
     doc.fontSize(28);
     doc.text(`This is the archive of ${currentInstance.tablename}`, {underline: true, });
     let questionsOnCurrentInstance = Questions.find({instanceid: currentInstance._id});

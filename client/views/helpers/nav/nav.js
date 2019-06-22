@@ -36,9 +36,8 @@ Template.nav.events({
     });
   },
   'click #navArchive': function(event, template) {
-    console.log("Button tapped");
     Meteor.call('createPDF', template.data.slug, (error, result) => {
-      console.log(result);
+      console.log('Sucessfully mailed the instance archive');
     })
   }
 });
