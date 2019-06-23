@@ -1,8 +1,8 @@
 <template name="edit">
-	<div id="darker">
-	</div>
+	<div id="darker"></div>
 	<div class="formcontainer editformcontainer">
 		{{> close_button}}
+
 		<h1 class="formtitle">Edit</h1>
 		<div class="modaltopmessage renamemessage">
 			Edit Advanced Options.
@@ -75,12 +75,12 @@
 				</select>
 			</div>
 			<div class="dropdowncontainer">
-        <p class="dropdownlabel">Allow anonymous:</p>
-        <select name="anonymous" size="1">
+				<p class="dropdownlabel">Allow anonymous:</p>
+				<select name="anonymous" size="1">
 					<option value="on" {{isSelected "anonymous" true}}>On</option>
 					<option value="off" {{isSelected "anonymous" false}}>Off</option>
-        </select>
-      </div>
+				</select>
+			</div>
 			<div class="editsubmitbutton">
 				Done
 			</div>
