@@ -32,7 +32,7 @@ Template.edit.events({
     const stale = template.$('select[name=stale_length]').val();
     const isHidden = (template.$('select[name=visibility]').val() === 'hidden');
     const social = (template.$('select[name=social]').val() === 'on');
-    const anonymous = template.$('select[name=anonymous]'').val() === 'on'; // Fetch the anonymous value from the dropdown
+    const anonymous = template.$('select[name=anonymous]').val() === 'on'; // Fetch the anonymous value from the dropdown
     const newValues = {
       threshold: parseInt(threshold),
       new_length: parseInt(redLength),
