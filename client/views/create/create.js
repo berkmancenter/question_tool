@@ -90,8 +90,10 @@ Template.create.events({
     const maxResponse = responseSelect[responseSelect.selectedIndex].value;
     const hiddenSelector = document.getElementsByName('visibility')[0];
     const isHidden = (hiddenSelector[hiddenSelector.selectedIndex].value === 'hidden');
-    const socialSelector = document.getElementsByName('social')[0]; // Extract the HTML select element for getting the social toggles
-    const isSocial = socialSelector[socialSelector.selectedIndex].value === 'on'; // Boolean value to store whether the user has selected Social share to be on or off
+    // Extract the HTML select element for getting the social toggles
+    const socialSelector = document.getElementsByName('social')[0];
+    // Boolean value to store whether the user has selected Social share to be on or off
+    const isSocial = socialSelector[socialSelector.selectedIndex].value === 'on';
 
     let description = document.getElementById('instancedescriptioninput').value;
 
