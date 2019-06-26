@@ -672,23 +672,42 @@ Meteor.methods({
   createPDF(slug) {
     let questionList = [];
     let answerList = [];
+    let boldFont = 'Helvetica-Bold';
+    let normalFont = 'Helvetica';
     let doc = new PDFDocument({size: 'A4', margin: 50});
-    if(!doc) {
+
+    if (!doc) {
       console.log('Not able to initialize PDFKit object');
       return false;
     }
+
     let currentInstance = Instances.findOne({slug: slug});
     let randomNum = Math.floor(Math.random() * (10000 - 1 + 1)) + 1;
     doc.fontSize(28);
     doc.text(`This is the archive of ${currentInstance.tablename}`, {underline: true, });
+    doc.moveDown();
     let questionsOnCurrentInstance = Questions.find({instanceid: currentInstance._id});
+    let noOfQuestionsOnCurrentInstance = Questions.find({instanceid: currentInstance._id}).count();
     let answersOnCurrentInstance = Answers.find({instanceid: currentInstance._id});
     answersOnCurrentInstance.forEach(function(ans) {
       answerList.push(ans);
     });
+    doc.fontSize(14);
+    console.log(questionsOnCurrentInstance);
+    doc.text(`Author: ${currentInstance.author}`, 20, doc.y, {align: 'left'});
+    doc.text(`Description of instance: ${currentInstance.description}`, 20, doc.y, {align: 'left'});
+    doc.text(`Posted On: ${moment(currentInstance.lasttouch).format('MM/DD/YYYY HH:mm')}`, 20, doc.y, {align: 'left'});
+    doc.text(`Max Question Allowed: ${currentInstance.max_question} | Max Response Allowed: ${currentInstance.max_response}`);
+    doc.text(`Total Questions Posted Till Now: ${noOfQuestionsOnCurrentInstance}`);
+    doc.moveDown();
     questionsOnCurrentInstance.forEach(function(ques, i) {
-      doc.fontSize(18);
-      doc.text(`${i+1}. ${ques.poster} posted: ${ques.text}`, 20, doc.y, {align: 'left', indent: 25});
+      doc.fontSize(14);
+      doc.font(boldFont).text(`${i+1}. ${ques.poster} posted: ${ques.text}`, 20, doc.y, {align: 'left'});
+      doc.font(normalFont);
+      doc.text(`Posted On: ${moment(ques.timeorder).format('MM/DD/YYYY HH:mm')}`);
+      doc.text(`Last Updated On: ${moment(ques.lasttouch).format('MM/DD/YYYY HH:mm')}`);
+      doc.text(`No. Of Upvotes: ${ques.votes}`);
+      doc.text('List of replies:')
       let currentAns = answerList.filter((obj) => {
         return obj.qid === ques._id
       }).map((obj) => {
@@ -698,8 +717,9 @@ Meteor.methods({
       doc.list(currentAns, 30, doc.y, {align: 'left', indent: 40, numbered: true});
       doc.moveDown();
     });
-
-    doc.writeSync(process.env.PWD + '/Instance_archive_'+currentInstance.tablename+'_'+randomNum+'.pdf');
+    doc.rect(5, 5, 580, doc.y).stroke();
+    // doc.writeSync(process.env.PWD + '/Instance_archive_'+currentInstance.tablename+'_'+randomNum+'.pdf');
+    doc.writeSync(process.env.PWD + '/Instance_archive_.pdf');
     return true;
   }
 });
