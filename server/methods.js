@@ -3,6 +3,8 @@
 import { _ } from 'underscore';
 import { Answers, Questions, Instances, Votes } from '../lib/common.js';
 
+var fs = Npm.require('fs');
+
 Meteor.methods({
   // A method that returns the current connection's IP address
   getIP() {
@@ -57,6 +59,26 @@ Meteor.methods({
       from,
       subject,
       text,
+    });
+  },
+  sendEmailWithAttachment(to, from, subject, text, filePath, filename) {
+    check([to, from, subject, text, filePath, filename], [String]);
+
+    // Let other method calls from the same client start running,
+    // without waiting for the email sending to complete.
+    this.unblock();
+
+    Email.send({
+      to,
+      from,
+      subject,
+      text,
+      attachments: [
+        {   // file on disk as an attachment
+            filename: filename,
+            path: filePath // stream this file
+        }
+      ]
     });
   },
   // A method that adds an answer to the databases
@@ -674,6 +696,8 @@ Meteor.methods({
     let answerList = [];
     let boldFont = 'Helvetica-Bold';
     let normalFont = 'Helvetica';
+    let headingFontSize = 28;
+    let normalFontSize = 14;
     let doc = new PDFDocument({size: 'A4', margin: 50});
 
     if (!doc) {
@@ -683,7 +707,9 @@ Meteor.methods({
 
     let currentInstance = Instances.findOne({slug: slug});
     let randomNum = Math.floor(Math.random() * (10000 - 1 + 1)) + 1;
-    doc.fontSize(28);
+    let filename = 'Instance_archive_'+currentInstance.tablename+'_'+randomNum+'.pdf';
+    let filepath = process.env.PWD + '/public/' + filename;
+    doc.fontSize(headingFontSize);
     doc.text(`This is the archive of ${currentInstance.tablename}`, {underline: true, });
     doc.moveDown();
     let questionsOnCurrentInstance = Questions.find({instanceid: currentInstance._id});
@@ -692,8 +718,7 @@ Meteor.methods({
     answersOnCurrentInstance.forEach(function(ans) {
       answerList.push(ans);
     });
-    doc.fontSize(14);
-    console.log(questionsOnCurrentInstance);
+    doc.fontSize(normalFontSize);
     doc.text(`Author: ${currentInstance.author}`, 20, doc.y, {align: 'left'});
     doc.text(`Description of instance: ${currentInstance.description}`, 20, doc.y, {align: 'left'});
     doc.text(`Posted On: ${moment(currentInstance.lasttouch).format('MM/DD/YYYY HH:mm')}`, 20, doc.y, {align: 'left'});
@@ -701,7 +726,7 @@ Meteor.methods({
     doc.text(`Total Questions Posted Till Now: ${noOfQuestionsOnCurrentInstance}`);
     doc.moveDown();
     questionsOnCurrentInstance.forEach(function(ques, i) {
-      doc.fontSize(14);
+      doc.fontSize(normalFontSize);
       doc.font(boldFont).text(`${i+1}. ${ques.poster} posted: ${ques.text}`, 20, doc.y, {align: 'left'});
       doc.font(normalFont);
       doc.text(`Posted On: ${moment(ques.timeorder).format('MM/DD/YYYY HH:mm')}`);
@@ -713,13 +738,37 @@ Meteor.methods({
       }).map((obj) => {
         return obj.poster + ": " +obj.text;
       })
-      doc.fontSize(14);
+      doc.fontSize(normalFontSize);
       doc.list(currentAns, 30, doc.y, {align: 'left', indent: 40, numbered: true});
       doc.moveDown();
     });
+    // Draw the bounding borders
     doc.rect(5, 5, 580, doc.y).stroke();
-    // doc.writeSync(process.env.PWD + '/Instance_archive_'+currentInstance.tablename+'_'+randomNum+'.pdf');
-    doc.writeSync(process.env.PWD + '/Instance_archive_.pdf');
+
+    doc.writeSync(filepath);
+    this.unblock();
+    // Send email to admin with file as attachment
+    try {
+      Email.send({
+        to: currentInstance.admin,
+        from: currentInstance.admin,
+        subject: 'Subject',
+        text: 'Text',
+        attachments: [
+          {
+              filename: filename,
+              path: filepath
+          }
+        ]
+      });
+    } catch(err) {
+      console.log('Unable to send email. Something went wrong');
+      console.log(err);
+    } finally {
+      fs.unlink(filepath);
+
+    }
+    console.log("OK")
     return true;
   }
 });
