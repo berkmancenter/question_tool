@@ -61,26 +61,6 @@ Meteor.methods({
       text,
     });
   },
-  sendEmailWithAttachment(to, from, subject, text, filePath, filename) {
-    check([to, from, subject, text, filePath, filename], [String]);
-
-    // Let other method calls from the same client start running,
-    // without waiting for the email sending to complete.
-    this.unblock();
-
-    Email.send({
-      to,
-      from,
-      subject,
-      text,
-      attachments: [
-        {   // file on disk as an attachment
-            filename: filename,
-            path: filePath // stream this file
-        }
-      ]
-    });
-  },
   // A method that adds an answer to the databases
   answer(instanceid, answer, questionID, anonymous) {
     let keys = '';
@@ -765,8 +745,7 @@ Meteor.methods({
       console.log('Unable to send email. Something went wrong');
       console.log(err);
     } finally {
-      fs.unlink(filepath);
-
+      // fs.unlink(filepath);
     }
     console.log("OK")
     return true;
