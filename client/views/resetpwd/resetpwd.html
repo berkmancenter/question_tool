@@ -1,0 +1,37 @@
+<template name="resetpwd">
+    {{#if resetPassword}}
+    	<div class="newpwdbox">
+    		<div class="newpwdnav">
+    			<a id="navHome" class="link" title="Home"><i class="fa fa-home"></i></a>
+    		</div>
+    		<h1 class="formtitle">Change password</h1>
+	    	<div class="newpwdform">	
+	    		<input type="password" pattern=".{6,30}" id="newpasswordbox" class="input" placeholder="New password..." autocomplete="off">
+	    		<input type="password" id="newpasswordconfirm" class="input" placeholder="Confirm password..." autocomplete="off">
+				<div id="newpwdsubmitbutton">
+					Change
+				</div>
+			</div>
+    	</div>
+    	<div id="pwdchangemessage">Your password has been changed successfully. Redirecting to homepage...</div>
+    {{else}}
+		<div id="darker">
+		</div>
+		<div class="formcontainer">
+			{{> close_button}}
+			<h1 class="formtitle">Forgot Password</h1>
+			<div class="modaltopmessage">
+				Enter your email to receive the password reset link.
+			</div>
+			<div class="inputcontainer">
+				<input type="text" id="loginemail" spellcheck="false" class="input" placeholder="Email...">
+				<p id="mailSentMessage">&#10004; Check your inbox</p>
+				<img src="/loading.gif" id="newPwdLoadingSpinner">
+				<div id="forgotsubmitbutton">
+					Send Email
+				</div>
+			</div>
+		</div>
+    {{/if}}
+
+</template>

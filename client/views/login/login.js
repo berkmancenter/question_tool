@@ -1,3 +1,5 @@
+import $ from 'jquery'
+
 function showError(reason, parentElement, nextElement) {
   if (typeof currentError !== 'undefined') {
     Blaze.remove(currentError);
@@ -39,6 +41,16 @@ Template.login.events({
       window.setTimeout(() => {
         const parentNode = document.getElementById('nav');
         popoverTemplate = Blaze.render(Template.register, parentNode);
+      }, 10);
+    });
+  },
+  'click #forgotemphasis': function (event, template) {
+    $('.formcontainer').fadeOut(400);
+    $('#darker').fadeOut(400, () => {
+      Blaze.remove(popoverTemplate);
+      window.setTimeout(() => {
+        const parentNode = document.getElementById('nav');
+        popoverTemplate = Blaze.render(Template.resetpwd, parentNode);
       }, 10);
     });
   },
