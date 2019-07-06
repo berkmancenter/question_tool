@@ -101,7 +101,8 @@ Template.add.events({
           }
           // Check is the server returned error corresponding to the addition of owner as moderator
           if(result[i].name === 'owner') {
-            showModsError(`${result[i].value} is already an owner of the instance and has the privileges of a moderator.`); // Display the error message
+            // Display the error message
+            showModsError(`${result[i].value} is already an owner of the instance and has the privileges of a moderator.`);
             return false;
           }
         }
