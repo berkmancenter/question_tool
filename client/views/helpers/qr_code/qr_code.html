@@ -3,6 +3,13 @@
   </div>
   <div class="formcontainer">
     {{> close_button}}
-    {{>qrcode text="https://www.google.com" size=128}}
+    <div class="modaltopmessage">
+      <h2>Scan QR code to open the corresponding Instance in your device</h2>
+    </div>
+    <div class="qr_codeouter">
+      <div class="qr_codecontainer">
+        {{>qrcode text="https://www.google.com" size=512}}
+      </div>
+    </div>
   </div>
 </template>
