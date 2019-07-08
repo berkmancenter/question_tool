@@ -35,7 +35,10 @@ Template.nav.events({
       Blaze.remove(popoverTemplate);
     });
   },
+  'click #navCode': function(event, template) {
+    const parentNode = document.getElementById('nav');
+    popoverTemplate = Blaze.render(Template.qr_code, parentNode);
+  }
 });
 
 /* eslint-enable func-names, no-unused-vars */
-
