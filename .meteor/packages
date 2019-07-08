@@ -44,3 +44,4 @@ meteorhacks:aggregate
 dispatch:mocha-phantomjs
 xolvio:cleaner
 reactive-var
+panter:qrcode
