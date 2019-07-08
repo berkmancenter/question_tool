@@ -37,7 +37,9 @@ Template.nav.events({
   },
   'click #navCode': function(event, template) {
     const parentNode = document.getElementById('nav');
-    popoverTemplate = Blaze.render(Template.qr_code, parentNode);
+    popoverTemplate = Blaze.renderWithData(Template.qr_code, {
+      link: `https://questions.dev.berkmancenter.org/list/${template.data.slug}`
+    }, parentNode);
   }
 });
 

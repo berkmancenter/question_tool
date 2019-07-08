@@ -1,6 +1,6 @@
 Template.qr_code.helpers({
   link() {
-    return 'https://www.gmail.com'
+    return Template.instance().data.link;
   }
 })
 
