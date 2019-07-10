@@ -270,7 +270,13 @@ Meteor.methods({
       const instance = Instances.findOne({
         _id: instanceid,
       });
+      var found = mods.find(function(element) {
+        return element === instance.admin;
+      });
       if (email === instance.admin) {
+        if(typeof found !== 'undefined') {
+            return [{name: 'owner', type: 'An invalid candidate for a moderator', value: instance.admin}];
+        }
         Instances.update({
           _id: instanceid,
         }, {
