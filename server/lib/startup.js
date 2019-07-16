@@ -4,6 +4,7 @@ Meteor.startup(() => {
 
   SyncedCron.start();
 
+  Accounts.emailTemplates.from = process.env.MAIL_ID_FROM;
   // Update to the reset password URL generated automatically, by removing the hashtag that was earlier appended by default
   Accounts.urls.resetPassword = function(token) {
     return Meteor.absoluteUrl('reset-password/' + token);
