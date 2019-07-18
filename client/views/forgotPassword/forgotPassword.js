@@ -37,8 +37,12 @@ Template.ForgotPassword.events({
           console.log('We are sorry, but something went wrong');
         }
       } else {
-        console.log('Email sent, check your mailbox');
-        window.location.href = '/';
+        $('.formcontainer').fadeOut(400);
+        $('#darker').fadeOut(400);
+        var sAlertId = sAlert.success('Email sent, check your mailbox', {timeout: 4000, position: 'top-right', onClose: function() {
+          window.location.href = '/';
+          sAlert.close(sAlertId);
+        }});
       }
     })
   },
