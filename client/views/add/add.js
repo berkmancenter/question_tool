@@ -60,10 +60,15 @@ Template.add.events({
       return false;
     }
     const buttons = row.getElementsByClassName('plusbutton');
+    const minusButton = row.getElementsByClassName('minusbutton');
     for (let i = 0; i < buttons.length; i++) {
       buttons[i].style.display = 'none';
+      minusButton[i].style.display = 'inline-block';
     }
     template.numberOfNewMods.set(template.numberOfNewMods.get() + 1);
+  },
+  'click .minusbutton': function(event, template) {
+    event.currentTarget.parentElement.remove();
   },
   'click .removebutton': function (event, template) {
     const mod = $(event.currentTarget).data('email');
@@ -73,7 +78,7 @@ Template.add.events({
   'click #modsdonebutton': function (event, template) {
     const modBoxes = document.getElementsByClassName('modbox');
     const modBoxesArray = Array.from(modBoxes);
-    const modEmails = modBoxesArray.map(b => b.value);  
+    const modEmails = modBoxesArray.map(b => b.value);
     const occurrences = modEmails.filter(val => val !== "").length;
     if (occurrences > 4) {
       showModsError('You can only assign 4 moderators per instance.');
