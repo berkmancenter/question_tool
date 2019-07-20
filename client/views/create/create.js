@@ -49,17 +49,12 @@ Template.create.events({
   },
   'click .instancemodsplus': function (event, template) {
     const spacers = document.getElementsByClassName('emptyinputspacer');
-    if (spacers.length < 4) {
-      $('.instancemodsinput').removeClass('lastmodinput');
-      $('.plusbuttoncontainer').removeClass('lastmodinput');
-      $('.instancemodsplus').remove();
-      $('<input class="instancemodsinput lastmodinput" type="email" placeholder="Moderator email..."><div class="emptyinputspacer lastinputspacer"><div class="plusbuttoncontainer"><div class="instancemodsplus">+</div></div></div>').insertAfter('.lastinputspacer').last();
-      $('.lastinputspacer').first().removeClass('lastinputspacer');
-      $('#instancebottominputcontainer').height((index, height) => (height + 50));
-    } else {
-      showCreateError("You've reached the maximum # of moderators (4).");
-      return false;
-    }
+    $('.instancemodsinput').removeClass('lastmodinput');
+    $('.plusbuttoncontainer').removeClass('lastmodinput');
+    $('.instancemodsplus').remove();
+    $('<input class="instancemodsinput lastmodinput" type="email" placeholder="Moderator email..."><div class="emptyinputspacer lastinputspacer"><div class="plusbuttoncontainer"><div class="instancemodsplus">+</div></div></div>').insertAfter('.lastinputspacer').last();
+    $('.lastinputspacer').first().removeClass('lastinputspacer');
+    $('#instancebottominputcontainer').height((index, height) => (height + 50));
   },
   'click #buttonarea': function (event, template) {
     if (!Meteor.user()) {
@@ -128,8 +123,7 @@ Template.create.events({
           threshold: "Please enter a valid # of 'featured' questions using the drop down menu.",
           new_length: "Please enter a valid value using the 'new questions' drop down menu.",
           stale_length: "Please enter a valid value using the 'old questions' drop down menu.",
-          description: 'Please enter a valid description under 255 characters.',
-          moderators: 'You have entered too many moderators. Please try again.',
+          description: 'Please enter a valid description under 255 characters.'
         };
         // Alert the error
         showCreateError(errorCodes[result[0].name]);
