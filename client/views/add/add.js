@@ -17,6 +17,10 @@ function checkPrevMod(modBoxes) {
   return occurrences === 1;
 }
 
+function checkModsAccount(moderators) {
+  
+}
+
 Template.add.onCreated(function () {
   this.numberOfNewMods = new ReactiveVar(1);
   if (this.data.admin !== Meteor.user().emails[0].address) {
@@ -69,7 +73,9 @@ Template.add.events({
   'click #modsdonebutton': function (event, template) {
     const modBoxes = document.getElementsByClassName('modbox');
     const modBoxesArray = Array.from(modBoxes);
+    const allEmails = template.data.moderators;
     const modEmails = modBoxesArray.map(b => b.value);
+    const newMods = modEmails.filter(value => !allEmails.includes(value));
     const occurrences = modEmails.filter(val => val !== "").length;
     if (checkPrevMod(modBoxes) === false) {
       showModsError('Email ID was already added as a moderator.');

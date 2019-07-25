@@ -267,6 +267,22 @@ Meteor.methods({
     if (this.userId) {
       let keys;
       const email = Meteor.users.findOne({ _id: this.userId }).emails[0].address;
+      const existingAccounts = Meteor.users.find({'emails.address': {'$in': mods}}).fetch().map(el => el.emails[0].address);
+      const newAccounts = mods.filter(email => !existingAccounts.includes(email));
+      newAccounts.forEach(async (item) => {
+        await Accounts.createUser({
+          email: item,
+          password: Math.random().toString(36).substr(2, 7),
+          profile: {
+            name: item.slice(0, item.indexOf('@'))
+          }
+        });
+        await Accounts.forgotPassword({email: item}, (err) => {
+          if (err) {
+            console.log(err);
+          }
+        })
+      });
       const instance = Instances.findOne({
         _id: instanceid,
       });
