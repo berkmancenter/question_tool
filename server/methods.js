@@ -132,7 +132,7 @@ Meteor.methods({
     return keys;
   },
   // A method that adds an instance to the databases
-  create(tablename, threshold, newLength, stale, description, mods, maxQuestion, maxResponse, anonymous, isHidden) {
+  create(tablename, threshold, newLength, stale, description, mods, maxQuestion, maxResponse, anonymous, isHidden, isSocial) {
     const usr = Meteor.users.findOne({ _id: this.userId });
     if (usr === undefined) {
       return false;
@@ -152,7 +152,7 @@ Meteor.methods({
       anonymous,
       hidden: isHidden,
       author: usr.profile.name,
-      social: true,
+      social: isSocial,
     }, (error, id) => {
       // If error, set keys to the error object
       if (error) {
@@ -272,7 +272,13 @@ Meteor.methods({
       const instance = Instances.findOne({
         _id: instanceid,
       });
+      var found = mods.find(function(element) {
+        return element === instance.admin;
+      });
       if (email === instance.admin) {
+        if(typeof found !== 'undefined') {
+            return [{name: 'owner', type: 'An invalid candidate for a moderator', value: instance.admin}];
+        }
         Instances.update({
           _id: instanceid,
         }, {

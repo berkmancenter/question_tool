@@ -1,6 +1,7 @@
 <template name="home">
   <div class="wrapper" id="main-wrapper">
     {{> nav title="Q&A Tool" list=false}}
+    {{> sAlert}}
     <div class="masonary-wrapper" id="mwrapper">
       <div id="recent">
         {{#if currentUser.profile.favorites}}

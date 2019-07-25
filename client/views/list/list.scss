@@ -248,3 +248,13 @@ $screen-sm: 768px;
 		padding-bottom: 2px;
 	}
 }
+
+.admin-nav {
+	display: flex;
+	flex-direction: row;
+	justify-content: space-between;
+}
+
+.closecontainer {
+	margin-top: 0;
+}

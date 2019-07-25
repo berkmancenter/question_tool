@@ -32,6 +32,8 @@ Template.edit.events({
     const stale = template.$('select[name=stale_length]').val();
     const isHidden = (template.$('select[name=visibility]').val() === 'hidden');
     const social = (template.$('select[name=social]').val() === 'on');
+    // Fetch the anonymous value from the dropdown
+    const anonymous = template.$('select[name=anonymous]').val() === 'on';
     const newValues = {
       threshold: parseInt(threshold),
       new_length: parseInt(redLength),
@@ -40,6 +42,7 @@ Template.edit.events({
       max_response: parseInt(maxResponse),
       hidden: isHidden,
       social: social,
+      anonymous: anonymous
     };
     Meteor.call('editadv', table._id, newValues, (error, result) => {
       if (error) {
@@ -51,6 +54,7 @@ Template.edit.events({
           max_response: "Please enter a valid value in the 'Response max word count' drop down menu.",
           hidden: "Please enter a valid value in the 'visibility of instance' drop down menu.",
           social: "Please enter a valid value in the 'Social media sharing' drop down menu.",
+          anonymous: "Please enter a valid value in the 'Allow anonymous' drop down menu."
         };
         showEditAdvError(errorCodes[error.error]);
       } else {

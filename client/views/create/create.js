@@ -49,17 +49,12 @@ Template.create.events({
   },
   'click .instancemodsplus': function (event, template) {
     const spacers = document.getElementsByClassName('emptyinputspacer');
-    if (spacers.length < 4) {
-      $('.instancemodsinput').removeClass('lastmodinput');
-      $('.plusbuttoncontainer').removeClass('lastmodinput');
-      $('.instancemodsplus').remove();
-      $('<input class="instancemodsinput lastmodinput" type="text" placeholder="Moderator email..."><div class="emptyinputspacer lastinputspacer"><div class="plusbuttoncontainer"><div class="instancemodsplus">+</div></div></div>').insertAfter('.lastinputspacer').last();
-      $('.lastinputspacer').first().removeClass('lastinputspacer');
-      $('#instancebottominputcontainer').height((index, height) => (height + 50));
-    } else {
-      showCreateError("You've reached the maximum # of moderators (4).");
-      return false;
-    }
+    $('.instancemodsinput').removeClass('lastmodinput');
+    $('.plusbuttoncontainer').removeClass('lastmodinput');
+    $('.instancemodsplus').remove();
+    $('<input class="instancemodsinput lastmodinput" type="email" placeholder="Moderator email..."><div class="emptyinputspacer lastinputspacer"><div class="plusbuttoncontainer"><div class="instancemodsplus">+</div></div></div>').insertAfter('.lastinputspacer').last();
+    $('.lastinputspacer').first().removeClass('lastinputspacer');
+    $('#instancebottominputcontainer').height((index, height) => (height + 50));
   },
   'click #buttonarea': function (event, template) {
     if (!Meteor.user()) {
@@ -90,6 +85,11 @@ Template.create.events({
     const maxResponse = responseSelect[responseSelect.selectedIndex].value;
     const hiddenSelector = document.getElementsByName('visibility')[0];
     const isHidden = (hiddenSelector[hiddenSelector.selectedIndex].value === 'hidden');
+    // Extract the HTML select element for getting the social toggles
+    const socialSelector = document.getElementsByName('social')[0];
+    // Boolean value to store whether the user has selected Social share to be on or off
+    const isSocial = socialSelector[socialSelector.selectedIndex].value === 'on';
+
     let description = document.getElementById('instancedescriptioninput').value;
 
     // Ensures that the table description is capitalized
@@ -114,7 +114,7 @@ Template.create.events({
     }
     // console.log(mods);
     // Calls the 'create' function on the server to add Instance to the DB
-    Meteor.call('create', tablename, threshold, redLength, stale, description, mods, maxQuestion, maxResponse, anonymous, isHidden, (error, result) => {
+    Meteor.call('create', tablename, threshold, redLength, stale, description, mods, maxQuestion, maxResponse, anonymous, isHidden, isSocial, (error, result) => {
       // If the result is an object, there was an error
       if (typeof result === 'object') {
         // Store an object of the error names and codes
@@ -123,8 +123,7 @@ Template.create.events({
           threshold: "Please enter a valid # of 'featured' questions using the drop down menu.",
           new_length: "Please enter a valid value using the 'new questions' drop down menu.",
           stale_length: "Please enter a valid value using the 'old questions' drop down menu.",
-          description: 'Please enter a valid description under 255 characters.',
-          moderators: 'You have entered too many moderators. Please try again.',
+          description: 'Please enter a valid description under 255 characters.'
         };
         // Alert the error
         showCreateError(errorCodes[result[0].name]);
@@ -157,7 +156,16 @@ Template.create.events({
       last.previousSibling.focus();
     }
   },
+  'change .instancemodsinput': function(event, template) {
+    // Function to be triggered on change event of the moderator email input
+    if(!event.target.checkValidity()) {
+      // If the input is not valid show error
+      showCreateError(event.target.value + ' is not a valid email.');
+    } else {
+      // If input is valid remove errors
+      $('.error').css('display', 'none');
+    }
+  }
 });
 
 /* eslint-enable func-names, no-unused-vars */
-

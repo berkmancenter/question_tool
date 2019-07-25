@@ -33,8 +33,8 @@ Template.register.events({
       let nameError = 'Please enter a name';
       if (loginName.length === 0) {
         nameError += '.';
-      } else if (loginName.length < 3 || loginName.length > 30) {
-        nameError += ' between 3 and 30 characters.';
+      } else if (loginName.length < 2 || loginName.length > 30) {
+        nameError += ' between 2 and 30 characters.';
       } else {
         nameError += ' with only letters, numbers, spaces, dashes, or underscores.';
       }
