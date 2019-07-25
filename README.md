@@ -43,6 +43,7 @@ A user who is signed in can create an instance with a specific topic, after whic
    export HTTP_FORWARDED_COUNT=1
    export PORT=8000
    export MAIL_URL='smtp://user:password@mailhost:port/'
+   export MAIL_ID_FROM='<email id of the smtp server>'
    node main.js
    ```
 
