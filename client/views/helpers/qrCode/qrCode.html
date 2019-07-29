@@ -1,14 +1,14 @@
 <template name="qrCode">
 	<div id="darker"></div>
 	<div class="qrCodeouter">
-    {{> close_button}}
+		{{> close_button}}
 		<div class="modaltopmessage">
 			<h2>Scan the QR code to open the corresponding instance in your device</h2>
 		</div>
 		<div class="qrCodeinner">
 			<div class="qrCodecontainer">
-        {{>qrcode text=link size=512}}
-      </div>
+				{{>qrcode text=link size=512}}
+			</div>
 		</div>
 	</div>
 </template>

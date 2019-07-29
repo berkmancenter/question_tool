@@ -4,33 +4,32 @@
   color: black;
 }
 
-.qrCodeouter {
+.qr_codeouter {
   padding: 10px;
   display: none;
-	background-color: #FFF;
-	border: 2px solid #e9edf0;
-	border-radius: 5px;
-	display: block;
+  background-color: #FFF;
+  border: 2px solid #e9edf0;
+  border-radius: 5px;
+  display: block;
   width: auto;
   height: auto;
-	margin-top: 120px;
-	margin-bottom: 120px;
-	z-index: 9999999999999999;
-	position: fixed;
-	top: 0;
-	left: 32%;
-	max-height: calc(100vh - 200px);
+  margin-top: 120px;
+  margin-bottom: 120px;
+  z-index: 9999999999999999;
+  position: fixed;
+  top: 0;
+  left: 32%;
+  max-height: calc(100vh - 200px);
   overflow-y: hidden;
-
   .errorIcon {
-		margin-top: 4px;
-	}
+         margin-top: 4px;
+}
 }
 
-.qrCodeinner {
+.qr_codeinner {
   text-align: center;
 }
 
-.qrCodecontainer {
+.qr_codecontainer {
   display: inline-block;
 }
