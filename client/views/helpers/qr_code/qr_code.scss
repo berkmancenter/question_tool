@@ -6,30 +6,26 @@
 
 .qr_codeouter {
   padding: 10px;
-  display: none;
   background-color: #FFF;
   border: 2px solid #e9edf0;
   border-radius: 5px;
   display: block;
-  width: auto;
-  height: auto;
-  margin-top: 120px;
-  margin-bottom: 120px;
+  width:40%;
+  height:80%;
+  min-height: 600px;
+  margin-top: 5%;
+  left: 25%;
+  margin-bottom: 5%;
   z-index: 2147483647;
   position: fixed;
   top: 0;
-  left: 32%;
   max-height: calc(100vh - 200px);
-  overflow-y: hidden;
   .errorIcon {
          margin-top: 4px;
   }
 }
 
-.qr_codeinner {
-  text-align: center;
-}
-
-.qr_codecontainer {
-  display: inline-block;
+canvas {
+  height: 100%;
+  width: 100%;
 }
