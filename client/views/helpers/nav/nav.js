@@ -35,7 +35,12 @@ Template.nav.events({
       Blaze.remove(popoverTemplate);
     });
   },
+  'click #navCode': function(event, template) {
+    const parentNode = document.getElementById('nav');
+    popoverTemplate = Blaze.renderWithData(Template.qr_code, {
+      link: Meteor.absoluteUrl() + `/list/${template.data.slug}`
+    }, parentNode);
+  }
 });
 
 /* eslint-enable func-names, no-unused-vars */
-

@@ -45,3 +45,4 @@ dispatch:mocha-phantomjs
 xolvio:cleaner
 reactive-var
 juliancwirko:s-alert
+panter:qrcode
