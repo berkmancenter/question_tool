@@ -684,23 +684,23 @@ Meteor.methods({
     let normalFont = 'Helvetica';
     let headingFontSize = 28;
     let normalFontSize = 14;
-    let doc = new PDFDocument({size: 'A4', margin: 50});
+    let doc = new PDFDocument({ size: 'A4', margin: 50 });
 
     if (!doc) {
       console.log('Not able to initialize PDFKit object');
       return false;
     }
 
-    let currentInstance = Instances.findOne({slug: slug});
+    let currentInstance = Instances.findOne({ slug: slug });
     let randomNum = Math.floor(Math.random() * (10000 - 1 + 1)) + 1;
-    let filename = 'Instance_archive_'+currentInstance.tablename+'_'+randomNum+'.pdf';
+    let filename = 'Instance_archive_' + currentInstance.tablename + '_' + randomNum + '.pdf';
     let filepath = process.env.PWD + '/public/' + filename;
     doc.fontSize(headingFontSize);
     doc.text(`This is the archive of ${currentInstance.tablename}`, {underline: true, });
     doc.moveDown();
-    let questionsOnCurrentInstance = Questions.find({instanceid: currentInstance._id});
-    let noOfQuestionsOnCurrentInstance = Questions.find({instanceid: currentInstance._id}).count();
-    let answersOnCurrentInstance = Answers.find({instanceid: currentInstance._id});
+    let questionsOnCurrentInstance = Questions.find({ instanceid: currentInstance._id });
+    let noOfQuestionsOnCurrentInstance = Questions.find({ instanceid: currentInstance._id }).count();
+    let answersOnCurrentInstance = Answers.find({ instanceid: currentInstance._id });
     answersOnCurrentInstance.forEach(function(ans) {
       answerList.push(ans);
     });
@@ -725,7 +725,7 @@ Meteor.methods({
         return obj.poster + ": " +obj.text;
       })
       doc.fontSize(normalFontSize);
-      doc.list(currentAns, 30, doc.y, {align: 'left', indent: 40, numbered: true});
+      doc.list(currentAns, 30, doc.y, { align: 'left', indent: 40, numbered: true });
       doc.moveDown();
     });
     // Draw the bounding borders
@@ -750,10 +750,8 @@ Meteor.methods({
     } catch(err) {
       console.log('Unable to send email. Something went wrong');
       console.log(err);
-    } finally {
-      // fs.unlink(filepath);
     }
-    console.log("OK")
+    console.log("OK");
     return true;
   }
 });

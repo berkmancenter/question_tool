@@ -35,9 +35,15 @@ Template.nav.events({
       Blaze.remove(popoverTemplate);
     });
   },
+  'click #navCode': function(event, template) {
+    const parentNode = document.getElementById('nav');
+    popoverTemplate = Blaqze.renderWithData(Template.qr_code, {
+      link: Meteor.absoluteUrl() + `/list/${template.data.slug}`
+    }, parentNode);
+  },
   'click #navArchive': function(event, template) {
-    Meteor.call('createPDF', template.data.slug, (error, result) => {
-      console.log('Sucessfully mailed the instance archive');
+    Meteor.call('createPDF', template.data.slug, function (error, result) {
+      console.log("pdf mailed");
     })
   }
 });
