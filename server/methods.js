@@ -698,7 +698,7 @@ Meteor.methods({
     }
     let randomNum = Math.floor(Math.random() * (10000 - 1 + 1)) + 1;
     let filename = 'Instance_archive_' + currentInstance.tablename + '_' + randomNum + '.pdf';
-    let filepath = process.env.PWD + '/public/' + filename;
+    let filepath = process.env.PWD + '/' + filename;
     doc.fontSize(headingFontSize);
     doc.text(`This is the archive of ${currentInstance.tablename}`, {underline: true, });
     doc.moveDown();
@@ -754,6 +754,8 @@ Meteor.methods({
     } catch(err) {
       console.log('Unable to send email. Something went wrong');
       console.log(err);
+    } finally {
+      fs.unlink(filepath);
     }
     console.log("OK");
     return true;

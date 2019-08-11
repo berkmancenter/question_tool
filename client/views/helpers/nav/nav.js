@@ -42,8 +42,18 @@ Template.nav.events({
     }, parentNode);
   },
   'click #navArchive': function(event, template) {
+    $('#navArchive').find('i').attr('class', 'fa fa-refresh fa-spin');
     Meteor.call('createPDF', template.data.slug, function (error, result) {
-      console.log("pdf mailed");
+      $('#navArchive').find('i').attr('class', 'fa fa-download');
+      if(error) {
+        var sAlertId = sAlert.error('Something went wrong, please try again', {timeout: 4000, position: 'top-right', onClose: function() {
+          sAlert.close(sAlertId);
+        }});
+      } else {
+        var sAlertId = sAlert.success('Email with Archive PDF sent, please check your mailbox', {timeout: 4000, position: 'top-right', onClose: function() {
+          sAlert.close(sAlertId);
+        }});
+      }
     })
   }
 });
