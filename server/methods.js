@@ -692,6 +692,10 @@ Meteor.methods({
     }
 
     let currentInstance = Instances.findOne({ slug: slug });
+    let currentUser = Meteor.users.findOne({ _id: this.userId }).emails[0].address;
+    if(currentUser !== currentInstance.admin) {
+      return false;
+    }
     let randomNum = Math.floor(Math.random() * (10000 - 1 + 1)) + 1;
     let filename = 'Instance_archive_' + currentInstance.tablename + '_' + randomNum + '.pdf';
     let filepath = process.env.PWD + '/public/' + filename;
