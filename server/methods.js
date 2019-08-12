@@ -741,9 +741,9 @@ Meteor.methods({
     try {
       Email.send({
         to: currentInstance.admin,
-        from: currentInstance.admin,
-        subject: 'Subject',
-        text: 'Text',
+        from: process.env.MAIL_ID_FROM,
+        subject: `Archive PDF of the ${currentInstance.tablename} instance`,
+        text: `Please find attached the PDF for the archive of the ${currentInstance.tablename} instance along with this email.`,
         attachments: [
           {
               filename: filename,
