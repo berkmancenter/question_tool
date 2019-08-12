@@ -737,6 +737,7 @@ Meteor.methods({
 
     doc.writeSync(filepath);
     this.unblock();
+    console.log(filename, filepath);
     // Send email to admin with file as attachment
     try {
       Email.send({
@@ -746,8 +747,8 @@ Meteor.methods({
         text: `Please find attached the PDF for the archive of the ${currentInstance.tablename} instance along with this email.`,
         attachments: [
           {
-              filename: filename,
-              path: filepath
+              fileName: filename,
+              filePath: filepath
           }
         ]
       });
@@ -755,7 +756,7 @@ Meteor.methods({
       console.log('Unable to send email. Something went wrong');
       console.log(err);
     } finally {
-      fs.unlink(filepath);
+      // fs.unlink(filepath);
     }
     console.log("OK");
     return true;
