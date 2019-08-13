@@ -1,5 +1,21 @@
 import { Votes, Answers, Instances, Questions } from '/lib/common.js';
 
+emphasizeQuestion = function(id) {
+  Streamy.broadcast('emphasize', { data: id });
+}
+
+deEmphasizeQuestion = function(id) {
+  Streamy.broadcast('de-emphasize', { data: id });
+}
+
+Streamy.on('emphasize', function(d, s) {
+  $(`#${d.data}`).find('p.questiontext').css('background-color', 'yellow');
+});
+
+Streamy.on('de-emphasize', function(d, s) {
+  $(`#${d.data}`).find('p.questiontext').css('background-color', '');
+});
+
 Template.question_div.onCreated(function () {
   this.replyCount = new ReactiveVar(0);
 });
@@ -53,6 +69,10 @@ Template.question_div.helpers({
   time_format(timeorder) {
     return moment(timeorder).fromNow();
   },
+
+  isAdmin() {
+    return Instances.findOne({ _id: this.instanceid }).admin === Meteor.user().emails[0].address;
+  }
 });
 
 Template.question_div.events({
@@ -101,4 +121,16 @@ Template.question_div.events({
     const parentNode = document.getElementById('nav');
     popoverTemplate = Blaze.renderWithData(Template.modify, template.data._id, parentNode);
   },
+  'change .remote-highlight': function(event, template) {
+    const currInstance = Instances.findOne({ _id: template.data.instanceid });
+    if(currInstance.admin !== Meteor.user().emails[0].address) {
+      return;
+    }
+    let id = event.currentTarget.parentElement.parentElement.id;
+    if(event.target.checked === true) {
+      emphasizeQuestion(id);
+    } else {
+      deEmphasizeQuestion(id);
+    }
+  }
 });
