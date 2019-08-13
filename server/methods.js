@@ -710,10 +710,10 @@ Meteor.methods({
     });
     doc.fontSize(normalFontSize);
     doc.text(`Author: ${currentInstance.author}`, 20, doc.y, {align: 'left'});
-    doc.text(`Description of instance: ${currentInstance.description}`, 20, doc.y, {align: 'left'});
+    doc.text(`Description Of The Instance: ${currentInstance.description}`, 20, doc.y, {align: 'left'});
     doc.text(`Posted On: ${moment(currentInstance.lasttouch).format('MM/DD/YYYY HH:mm')}`, 20, doc.y, {align: 'left'});
-    doc.text(`Max Question Allowed: ${currentInstance.max_question} | Max Response Allowed: ${currentInstance.max_response}`);
-    doc.text(`Total Questions Posted Till Now: ${noOfQuestionsOnCurrentInstance}`);
+    doc.text(`Max. Questions Allowed: ${currentInstance.max_question} | Max. Responses Allowed: ${currentInstance.max_response}`);
+    doc.text(`Total Questions Posted Until Now: ${noOfQuestionsOnCurrentInstance}`);
     doc.moveDown();
     questionsOnCurrentInstance.forEach(function(ques, i) {
       doc.fontSize(normalFontSize);
@@ -722,7 +722,7 @@ Meteor.methods({
       doc.text(`Posted On: ${moment(ques.timeorder).format('MM/DD/YYYY HH:mm')}`);
       doc.text(`Last Updated On: ${moment(ques.lasttouch).format('MM/DD/YYYY HH:mm')}`);
       doc.text(`No. Of Upvotes: ${ques.votes}`);
-      doc.text('List of replies:')
+      doc.text('List Of Replies:')
       let currentAns = answerList.filter((obj) => {
         return obj.qid === ques._id
       }).map((obj) => {
