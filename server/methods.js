@@ -737,7 +737,6 @@ Meteor.methods({
 
     doc.writeSync(filepath);
     this.unblock();
-    console.log(filename, filepath);
     // Send email to admin with file as attachment
     try {
       Email.send({
@@ -756,7 +755,7 @@ Meteor.methods({
       console.log('Unable to send email. Something went wrong');
       console.log(err);
     } finally {
-      // fs.unlink(filepath);
+      fs.unlink(filepath);
     }
     console.log("OK");
     return true;
