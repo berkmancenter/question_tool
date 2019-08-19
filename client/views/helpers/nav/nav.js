@@ -35,7 +35,27 @@ Template.nav.events({
       Blaze.remove(popoverTemplate);
     });
   },
+  'click #navCode': function(event, template) {
+    const parentNode = document.getElementById('nav');
+    popoverTemplate = Blaze.renderWithData(Template.qr_code, {
+      link: Meteor.absoluteUrl() + `/list/${template.data.slug}`
+    }, parentNode);
+  },
+  'click #navArchive': function(event, template) {
+    $('#navArchive').find('i').attr('class', 'fa fa-refresh fa-spin');
+    Meteor.call('createPDF', template.data.slug, function (error, result) {
+      $('#navArchive').find('i').attr('class', 'fa fa-download');
+      if(error) {
+        var sAlertId = sAlert.error('Something went wrong, please try again', {timeout: 4000, position: 'top-right', onClose: function() {
+          sAlert.close(sAlertId);
+        }});
+      } else {
+        var sAlertId = sAlert.success('Email with Archive PDF sent, please check your mailbox', {timeout: 4000, position: 'top-right', onClose: function() {
+          sAlert.close(sAlertId);
+        }});
+      }
+    })
+  }
 });
 
 /* eslint-enable func-names, no-unused-vars */
-

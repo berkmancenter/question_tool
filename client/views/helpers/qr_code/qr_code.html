@@ -1,0 +1,10 @@
+<template name="qr_code">
+	<div id="darker"></div>
+	<div class="qr_codeouter">
+		{{> close_button}}
+		<div class="modaltopmessage">
+			<h2>Scan the QR code to open the corresponding instance in your device</h2>
+		</div>
+		{{>qrcode text=link}}
+	</div>
+</template>

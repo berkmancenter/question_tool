@@ -151,6 +151,18 @@ $screen-sm-max: ($screen-md - 1);
 	}
 }
 
+#navArchive {
+	background-color: #4286f4;
+
+	&:hover {
+		background-color: #88adea;
+	}
+
+	.fa {
+		font-size: 1em;
+	}
+}
+
 #navPresent {
 	width: 18px;
 	height: 20px;

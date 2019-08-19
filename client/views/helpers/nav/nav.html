@@ -18,6 +18,7 @@
     			{{#if this.list}}
             <li><a id="navHome" class="link" title="Home"><i class="fa fa-home"></i></a></li>
     				<li><a id="navShare" class="link" title="Share"><i class="fa fa-share-alt-square"></i></a></li>
+            <li><a id="navCode" class="link" title="QRcode"><i class="fa fa-qrcode"></i></a></li>
     			{{/if}}
     		</ul>
         <div>
@@ -26,6 +27,9 @@
     			{{#if this.list}}
             {{#if admin}}
               <li><a id="navAdmin" class="link"><i class="fa fa-cog"></i> Admin</a></li>
+            {{/if}}
+            {{#if admin}}
+              <li><a id="navArchive" class="link"><i class="fa fa-download"></i> Archive</a></li>
             {{/if}}
     				<li><a id="navAsk" class="link" data-toggle-text="Close" title="Post a question">+<i class="fa fa-question"></i></a></li>
     				<li><a id="navPresent" class="link hidden-xs hidden-sm" title="Present">&nbsp;</a></li>
@@ -50,4 +54,5 @@
       <input id="mobile-searchbar" class="{{#if this.list}}listsearchbar{{else}}homesearchbar{{/if}} hidden-md hidden-lg searchbar" type="text" placeholder="Search...">
     </div>
   </div>
+  {{> sAlert}}
 </template>
