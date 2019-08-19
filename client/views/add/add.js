@@ -17,10 +17,6 @@ function checkPrevMod(modBoxes) {
   return occurrences === 1;
 }
 
-function checkModsAccount(moderators) {
-  
-}
-
 Template.add.onCreated(function () {
   this.numberOfNewMods = new ReactiveVar(1);
   if (this.data.admin !== Meteor.user().emails[0].address) {
