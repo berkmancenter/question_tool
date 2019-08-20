@@ -3,6 +3,8 @@
 import { _ } from 'underscore';
 import { Answers, Questions, Instances, Votes } from '../lib/common.js';
 
+var fs = Npm.require('fs');
+
 Meteor.methods({
   // A method that returns the current connection's IP address
   getIP() {
@@ -675,4 +677,87 @@ Meteor.methods({
 
     return Accounts.createUser({ email, password, profile: { name: profileName } });
   },
+  createPDF(slug) {
+    let questionList = [];
+    let answerList = [];
+    let boldFont = 'Helvetica-Bold';
+    let normalFont = 'Helvetica';
+    let headingFontSize = 28;
+    let normalFontSize = 14;
+    let doc = new PDFDocument({ size: 'A4', margin: 50 });
+
+    if (!doc) {
+      console.log('Not able to initialize PDFKit object');
+      return false;
+    }
+
+    let currentInstance = Instances.findOne({ slug: slug });
+    let currentUser = Meteor.users.findOne({ _id: this.userId }).emails[0].address;
+    if(currentUser !== currentInstance.admin) {
+      return false;
+    }
+    let randomNum = Math.floor(Math.random() * (10000 - 1 + 1)) + 1;
+    let filename = 'Instance_archive_' + currentInstance.tablename + '_' + randomNum + '.pdf';
+    let filepath = process.env.PWD + '/' + filename;
+    doc.fontSize(headingFontSize);
+    doc.text(`This is the archive of ${currentInstance.tablename}`, {underline: true, });
+    doc.moveDown();
+    let questionsOnCurrentInstance = Questions.find({ instanceid: currentInstance._id });
+    let noOfQuestionsOnCurrentInstance = Questions.find({ instanceid: currentInstance._id }).count();
+    let answersOnCurrentInstance = Answers.find({ instanceid: currentInstance._id });
+    answersOnCurrentInstance.forEach(function(ans) {
+      answerList.push(ans);
+    });
+    doc.fontSize(normalFontSize);
+    doc.text(`Author: ${currentInstance.author}`, 20, doc.y, {align: 'left'});
+    doc.text(`Description Of The Instance: ${currentInstance.description}`, 20, doc.y, {align: 'left'});
+    doc.text(`Posted On: ${moment(currentInstance.lasttouch).format('MM/DD/YYYY HH:mm')}`, 20, doc.y, {align: 'left'});
+    doc.text(`Max. Questions Allowed: ${currentInstance.max_question} | Max. Responses Allowed: ${currentInstance.max_response}`);
+    doc.text(`Total Questions Posted Until Now: ${noOfQuestionsOnCurrentInstance}`);
+    doc.moveDown();
+    questionsOnCurrentInstance.forEach(function(ques, i) {
+      doc.fontSize(normalFontSize);
+      doc.font(boldFont).text(`${i+1}. ${ques.poster} posted: ${ques.text}`, 20, doc.y, {align: 'left'});
+      doc.font(normalFont);
+      doc.text(`Posted On: ${moment(ques.timeorder).format('MM/DD/YYYY HH:mm')}`);
+      doc.text(`Last Updated On: ${moment(ques.lasttouch).format('MM/DD/YYYY HH:mm')}`);
+      doc.text(`No. Of Upvotes: ${ques.votes}`);
+      doc.text('List Of Replies:')
+      let currentAns = answerList.filter((obj) => {
+        return obj.qid === ques._id
+      }).map((obj) => {
+        return obj.poster + ": " +obj.text;
+      })
+      doc.fontSize(normalFontSize);
+      doc.list(currentAns, 30, doc.y, { align: 'left', indent: 40, numbered: true });
+      doc.moveDown();
+    });
+    // Draw the bounding borders
+    doc.rect(5, 5, 580, doc.y).stroke();
+
+    doc.writeSync(filepath);
+    this.unblock();
+    // Send email to admin with file as attachment
+    try {
+      Email.send({
+        to: currentInstance.admin,
+        from: process.env.MAIL_ID_FROM,
+        subject: `Archive PDF of the ${currentInstance.tablename} instance`,
+        text: `Please find attached the PDF for the archive of the ${currentInstance.tablename} instance along with this email.`,
+        attachments: [
+          {
+              fileName: filename,
+              filePath: filepath
+          }
+        ]
+      });
+    } catch(err) {
+      console.log('Unable to send email. Something went wrong');
+      console.log(err);
+    } finally {
+      fs.unlink(filepath);
+    }
+    console.log("OK");
+    return true;
+  }
 });

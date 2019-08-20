@@ -28,6 +28,9 @@
             {{#if admin}}
               <li><a id="navAdmin" class="link"><i class="fa fa-cog"></i> Admin</a></li>
             {{/if}}
+            {{#if admin}}
+              <li><a id="navArchive" class="link"><i class="fa fa-download"></i> Archive</a></li>
+            {{/if}}
     				<li><a id="navAsk" class="link" data-toggle-text="Close" title="Post a question">+<i class="fa fa-question"></i></a></li>
     				<li><a id="navPresent" class="link hidden-xs hidden-sm" title="Present">&nbsp;</a></li>
     			{{else}}
@@ -51,4 +54,5 @@
       <input id="mobile-searchbar" class="{{#if this.list}}listsearchbar{{else}}homesearchbar{{/if}} hidden-md hidden-lg searchbar" type="text" placeholder="Search...">
     </div>
   </div>
+  {{> sAlert}}
 </template>
