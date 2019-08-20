@@ -56,10 +56,15 @@ Template.add.events({
       return false;
     }
     const buttons = row.getElementsByClassName('plusbutton');
+    const minusButton = row.getElementsByClassName('minusbutton');
     for (let i = 0; i < buttons.length; i++) {
       buttons[i].style.display = 'none';
+      minusButton[i].style.display = 'inline-block';
     }
     template.numberOfNewMods.set(template.numberOfNewMods.get() + 1);
+  },
+  'click .minusbutton': function(event, template) {
+    event.currentTarget.parentElement.remove();
   },
   'click .removebutton': function (event, template) {
     const mod = $(event.currentTarget).data('email');
