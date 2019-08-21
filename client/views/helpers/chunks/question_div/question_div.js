@@ -130,9 +130,9 @@ Template.question_div.events({
     }
     let id = event.currentTarget.parentElement.parentElement.id;
     if (event.target.checked === true) {
-      Meteor.call('emphasize', id, template.data.instanceid, Meteor.user());
+      Meteor.call('emphasize', id, template.data.instanceid);
     } else {
-      Meteor.call('deEmphasize', id, template.data.instanceid, Meteor.user());
+      Meteor.call('deEmphasize', id, template.data.instanceid);
     }
   }
 });

@@ -772,13 +772,15 @@ Meteor.methods({
     }
     return (eventEmitter.emails[0].address === table.admin);
   },
-  emphasize(divId, instanceId, currUser) {
+  emphasize(divId, instanceId) {
+    let currUser = Meteor.users.findOne({ _id: this.userId });
     let currInstance = Instances.findOne({ _id: instanceId });
     if (currInstance.admin === currUser.emails[0].address) {
       Streamy.broadcast('emphasize', { id: divId, instanceId: instanceId, eventEmitter: currUser });
     }
   },
-  deEmphasize(divId, instanceId, currUser) {
+  deEmphasize(divId, instanceId) {
+    let currUser = Meteor.users.findOne({ _id: this.userId });
     let currInstance = Instances.findOne({ _id: instanceId });
     if (currInstance.admin === currUser.emails[0].address) {
       Streamy.broadcast('de-emphasize', { id: divId, instanceId: instanceId, eventEmitter: currUser });
