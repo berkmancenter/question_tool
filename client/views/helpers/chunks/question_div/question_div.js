@@ -128,7 +128,6 @@ Template.question_div.events({
     if (currInstance.admin !== Meteor.user().emails[0].address) {
       return;
     }
-    console.log(Meteor.user());
     let id = event.currentTarget.parentElement.parentElement.id;
     if (event.target.checked === true) {
       Meteor.call('emphasize', id, template.data.instanceid, Meteor.user());
