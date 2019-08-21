@@ -1,21 +1,11 @@
 import { Votes, Answers, Instances, Questions } from '/lib/common.js';
 
 Streamy.on('emphasize', function(data, s) {
-  Meteor.call('instanceAdminCheck', data.instanceId, data.eventEmitter, function (error, result) {
-    if (error || result == false) {
-      return;
-    }
-    $(`#${data.id}`).find('p.questiontext').css('background-color', 'yellow');
-  });
+  $(`#${data.id}`).find('p.questiontext').css('background-color', 'yellow');
 });
 
 Streamy.on('de-emphasize', function(data, s) {
-  Meteor.call('instanceAdminCheck', data.instanceId, data.eventEmitter, function (error, result) {
-    if(error || result == false) {
-      return;
-    }
-    $(`#${data.id}`).find('p.questiontext').css('background-color', '');
-  });
+  $(`#${data.id}`).find('p.questiontext').css('background-color', '');
 });
 
 Template.question_div.onCreated(function () {

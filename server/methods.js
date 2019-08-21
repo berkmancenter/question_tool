@@ -760,30 +760,18 @@ Meteor.methods({
     console.log("OK");
     return true;
   },
-  instanceAdminCheck(instanceid, eventEmitter) {
-    let user;
-    const table = Instances.findOne({ _id: instanceid });
-    if (table === undefined) { return false; }
-    if (!this.userId) {
-      return false;
-    }
-    if (!eventEmitter) {
-      return false;
-    }
-    return (eventEmitter.emails[0].address === table.admin);
-  },
   emphasize(divId, instanceId) {
     let currUser = Meteor.users.findOne({ _id: this.userId });
     let currInstance = Instances.findOne({ _id: instanceId });
     if (currInstance.admin === currUser.emails[0].address) {
-      Streamy.broadcast('emphasize', { id: divId, instanceId: instanceId, eventEmitter: currUser });
+      Streamy.broadcast('emphasize', { id: divId });
     }
   },
   deEmphasize(divId, instanceId) {
     let currUser = Meteor.users.findOne({ _id: this.userId });
     let currInstance = Instances.findOne({ _id: instanceId });
     if (currInstance.admin === currUser.emails[0].address) {
-      Streamy.broadcast('de-emphasize', { id: divId, instanceId: instanceId, eventEmitter: currUser });
+      Streamy.broadcast('de-emphasize', { id: divId });
     }
   }
 });
