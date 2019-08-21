@@ -71,10 +71,6 @@ Template.question_div.helpers({
   time_format(timeorder) {
     return moment(timeorder).fromNow();
   },
-
-  isAdmin() {
-    return Instances.findOne({ _id: this.instanceid }).admin === Meteor.user().emails[0].address;
-  }
 });
 
 Template.question_div.events({
@@ -125,14 +121,21 @@ Template.question_div.events({
   },
   'change .remote-highlight': function(event, template) {
     const currInstance = Instances.findOne({ _id: template.data.instanceid });
-    if (currInstance.admin !== Meteor.user().emails[0].address) {
-      return;
-    }
     let id = event.currentTarget.parentElement.parentElement.id;
     if (event.target.checked === true) {
-      Meteor.call('emphasize', id, template.data.instanceid);
+      Meteor.call('emphasize', id, template.data.instanceid, function(error, result) {
+        if(error) {
+          return false;
+        }
+        return result;
+      });
     } else {
-      Meteor.call('deEmphasize', id, template.data.instanceid);
+      Meteor.call('deEmphasize', id, template.data.instanceid, function(error, result) {
+        if(error) {
+          return false;
+        }
+        return result;
+      });
     }
   }
 });
