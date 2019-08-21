@@ -123,19 +123,9 @@ Template.question_div.events({
     const currInstance = Instances.findOne({ _id: template.data.instanceid });
     let id = event.currentTarget.parentElement.parentElement.id;
     if (event.target.checked === true) {
-      Meteor.call('emphasize', id, template.data.instanceid, function(error, result) {
-        if(error) {
-          return false;
-        }
-        return result;
-      });
+      Meteor.call('emphasize', id, template.data.instanceid);
     } else {
-      Meteor.call('deEmphasize', id, template.data.instanceid, function(error, result) {
-        if(error) {
-          return false;
-        }
-        return result;
-      });
+      Meteor.call('deEmphasize', id, template.data.instanceid);
     }
   }
 });

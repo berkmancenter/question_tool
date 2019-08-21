@@ -777,9 +777,6 @@ Meteor.methods({
     let currInstance = Instances.findOne({ _id: instanceId });
     if (currInstance.admin === currUser.emails[0].address) {
       Streamy.broadcast('emphasize', { id: divId, instanceId: instanceId, eventEmitter: currUser });
-      return true;
-    } else {
-      return false;
     }
   },
   deEmphasize(divId, instanceId) {
@@ -787,9 +784,6 @@ Meteor.methods({
     let currInstance = Instances.findOne({ _id: instanceId });
     if (currInstance.admin === currUser.emails[0].address) {
       Streamy.broadcast('de-emphasize', { id: divId, instanceId: instanceId, eventEmitter: currUser });
-      return true;
-    } else {
-      return false;
     }
   }
 });
