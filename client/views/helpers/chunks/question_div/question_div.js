@@ -1,7 +1,7 @@
 import { Votes, Answers, Instances, Questions } from '/lib/common.js';
 
 Streamy.on('emphasize', function(data, s) {
-  Meteor.call('instanceAdminCheck', data.instanceId, data.admin, function (error, result) {
+  Meteor.call('instanceAdminCheck', data.instanceId, data.eventEmitter, function (error, result) {
     if (error || result == false) {
       return;
     }
@@ -10,7 +10,7 @@ Streamy.on('emphasize', function(data, s) {
 });
 
 Streamy.on('de-emphasize', function(data, s) {
-  Meteor.call('instanceAdminCheck', data.instanceId, data.admin, function (error, result) {
+  Meteor.call('instanceAdminCheck', data.instanceId, data.eventEmitter, function (error, result) {
     if(error || result == false) {
       return;
     }
@@ -128,6 +128,7 @@ Template.question_div.events({
     if (currInstance.admin !== Meteor.user().emails[0].address) {
       return;
     }
+    console.log(Meteor.user());
     let id = event.currentTarget.parentElement.parentElement.id;
     if (event.target.checked === true) {
       Meteor.call('emphasize', id, template.data.instanceid, Meteor.user());
