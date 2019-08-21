@@ -759,5 +759,35 @@ Meteor.methods({
     }
     console.log("OK");
     return true;
+  },
+  instanceAdminCheck(instanceid, adminId) {
+    let user;
+    const table = Instances.findOne({ _id: instanceid });
+    const adminOfInstance = Meteor.users.findOne({'services.password.reset.email': table.admin});
+    if (table === undefined) { return false; }
+    if (!this.userId) {
+      return false;
+    }
+    if (adminId) {
+      user = Meteor.users.findOne({ _id: adminId });
+    } else {
+      return false;
+    }
+    console.log(user.emails[0].address, table.admin );
+    return (user.emails[0].address === table.admin );
+  },
+  emphasize(divId, instanceId, currUser) {
+    let currInstance = Instances.findOne({ _id: instanceId });
+    if (currInstance.admin === currUser.emails[0].address) {
+      let adminOfInstance = Meteor.users.findOne({'services.password.reset.email': currInstance.admin});
+      Streamy.broadcast('emphasize', { id: divId, instanceId: instanceId, admin: adminOfInstance._id });
+    }
+  },
+  deEmphasize(divId, instanceId, currUser) {
+    let currInstance = Instances.findOne({ _id: instanceId });
+    if (currInstance.admin === currUser.emails[0].address) {
+      let adminOfInstance = Meteor.users.findOne({'services.password.reset.email': currInstance.admin});
+      Streamy.broadcast('de-emphasize', { id: divId, instanceId: instanceId, admin: adminOfInstance._id });
+    }
   }
 });

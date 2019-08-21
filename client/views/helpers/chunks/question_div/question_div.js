@@ -1,19 +1,21 @@
 import { Votes, Answers, Instances, Questions } from '/lib/common.js';
 
-emphasizeQuestion = function(id) {
-  Streamy.broadcast('emphasize', { data: id });
-}
-
-deEmphasizeQuestion = function(id) {
-  Streamy.broadcast('de-emphasize', { data: id });
-}
-
-Streamy.on('emphasize', function(d, s) {
-  $(`#${d.data}`).find('p.questiontext').css('background-color', 'yellow');
+Streamy.on('emphasize', function(data, s) {
+  Meteor.call('instanceAdminCheck', data.instanceId, data.admin, function (error, result) {
+    if (error || result == false) {
+      return;
+    }
+    $(`#${data.id}`).find('p.questiontext').css('background-color', 'yellow');
+  });
 });
 
-Streamy.on('de-emphasize', function(d, s) {
-  $(`#${d.data}`).find('p.questiontext').css('background-color', '');
+Streamy.on('de-emphasize', function(data, s) {
+  Meteor.call('instanceAdminCheck', data.instanceId, data.admin, function (error, result) {
+    if(error || result == false) {
+      return;
+    }
+    $(`#${data.id}`).find('p.questiontext').css('background-color', '');
+  });
 });
 
 Template.question_div.onCreated(function () {
@@ -123,14 +125,14 @@ Template.question_div.events({
   },
   'change .remote-highlight': function(event, template) {
     const currInstance = Instances.findOne({ _id: template.data.instanceid });
-    if(currInstance.admin !== Meteor.user().emails[0].address) {
+    if (currInstance.admin !== Meteor.user().emails[0].address) {
       return;
     }
     let id = event.currentTarget.parentElement.parentElement.id;
-    if(event.target.checked === true) {
-      emphasizeQuestion(id);
+    if (event.target.checked === true) {
+      Meteor.call('emphasize', id, template.data.instanceid, Meteor.user());
     } else {
-      deEmphasizeQuestion(id);
+      Meteor.call('deEmphasize', id, template.data.instanceid, Meteor.user());
     }
   }
 });
