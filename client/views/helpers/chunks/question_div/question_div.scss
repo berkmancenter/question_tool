@@ -391,7 +391,7 @@ $popular-question-color: #f1c40f;
   color: #777!important;
 }
 
-.remote-highlight:hover, .remote-highlight > input:hover {
+.remote-highlight:hover, input[type='checkbox'] {
   cursor: pointer;
 }
 
@@ -409,5 +409,5 @@ $popular-question-color: #f1c40f;
   vertical-align: bottom;
   position: relative;
   top: -1px;
-  *overflow: hidden;
+  overflow: hidden;
 }
