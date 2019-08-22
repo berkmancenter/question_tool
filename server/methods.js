@@ -273,7 +273,13 @@ Meteor.methods({
   addMods(mods, instanceid) {
     if (this.userId) {
       var keys = {};
+      const instance = Instances.findOne({
+        _id: instanceid,
+      });
       const email = Meteor.users.findOne({ _id: this.userId }).emails[0].address;
+      if(instance.admin !== email) {
+        return false;
+      }
       const existingAccounts = Meteor.users.find({'emails.address': {'$in': mods}}).fetch().map(el => el.emails[0].address);
       const newAccounts = mods.filter(email => !existingAccounts.includes(email));
       newAccounts.forEach((item) => {
@@ -287,9 +293,6 @@ Meteor.methods({
             name: item.slice(0, item.indexOf('@'))
           }
         });
-      });
-      const instance = Instances.findOne({
-        _id: instanceid,
       });
       var found = mods.find(function(element) {
         return element === instance.admin;
