@@ -1,5 +1,13 @@
 import { Votes, Answers, Instances, Questions } from '/lib/common.js';
 
+Streamy.on('emphasize', function(data, s) {
+  $(`#${data.id}`).find('p.questiontext').css('background-color', 'yellow');
+});
+
+Streamy.on('de-emphasize', function(data, s) {
+  $(`#${data.id}`).find('p.questiontext').css('background-color', '');
+});
+
 Template.question_div.onCreated(function () {
   this.replyCount = new ReactiveVar(0);
 });
@@ -101,4 +109,13 @@ Template.question_div.events({
     const parentNode = document.getElementById('nav');
     popoverTemplate = Blaze.renderWithData(Template.modify, template.data._id, parentNode);
   },
+  'change .remote-highlight': function(event, template) {
+    const currInstance = Instances.findOne({ _id: template.data.instanceid });
+    let id = event.currentTarget.parentElement.parentElement.id;
+    if (event.target.checked === true) {
+      Meteor.call('emphasize', id, template.data.instanceid);
+    } else {
+      Meteor.call('deEmphasize', id, template.data.instanceid);
+    }
+  }
 });
