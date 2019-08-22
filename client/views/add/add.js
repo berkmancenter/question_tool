@@ -89,20 +89,28 @@ Template.add.events({
         mods.push(modsInput[m].value);
       }
     }
-    Meteor.call('addMods', mods, template.data._id, (error, result) => {
-      // If the result is an object, there was an error
-      if (typeof result === 'object' && result.length > 0) {
+    Meteor.call('addMods', mods, template.data._id, (error, response) => {
+      console.log(response);
+      if (typeof response === 'object' && response['status_code'] === false && response['result'].length > 0) {
         // Alert the error
-        for (let i = 0; i < result.length; i++) {
+        for (let i = 0; i < response['result'].length; i++) {
           // Check is the server returned error corresponding to the addition of owner as moderator
-          if(result[i].name === 'owner') {
+          if(response['result'][i].name === 'owner') {
             // Display the error message
-            showModsError(`${result[i].value} is already an owner of the instance and has the privileges of a moderator.`);
+            showModsError(`${response['result'][i].value} is already an owner of the instance and has the privileges of a moderator.`);
             return false;
           }
         }
         showModsError('Please enter valid email addresses.');
         return false;
+      } else if (typeof response === 'object' && response['status_code'] === true && response['result'].length > 0) {
+        for(let k = 0; k < response['result'].length; k++) {
+          Accounts.forgotPassword({email: response['result'][k]}, function(err) {
+            if (err) {
+              console.log(err);
+            }
+          })
+        }
       }
       for (let m = 0; m < mods.length; m++) {
         Meteor.call('sendEmail',

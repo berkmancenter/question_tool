@@ -5,6 +5,11 @@ import { Answers, Questions, Instances, Votes } from '../lib/common.js';
 
 var fs = Npm.require('fs');
 
+function checkValidEmail(email) {
+  let filter = /^([a-zA-Z0-9_\.\-])+\@(([a-zA-Z0-9\-])+\.)+([a-zA-Z0-9]{2,4})+$/;
+  return filter.test(email);
+}
+
 Meteor.methods({
   // A method that returns the current connection's IP address
   getIP() {
@@ -267,23 +272,21 @@ Meteor.methods({
   },
   addMods(mods, instanceid) {
     if (this.userId) {
-      let keys;
+      var keys = {};
       const email = Meteor.users.findOne({ _id: this.userId }).emails[0].address;
       const existingAccounts = Meteor.users.find({'emails.address': {'$in': mods}}).fetch().map(el => el.emails[0].address);
       const newAccounts = mods.filter(email => !existingAccounts.includes(email));
-      newAccounts.forEach(async (item) => {
-        await Accounts.createUser({
+      newAccounts.forEach((item) => {
+        if (checkValidEmail(item) === false) {
+          return;
+        }
+        Accounts.createUser({
           email: item,
           password: Math.random().toString(36).substr(2, 7),
           profile: {
             name: item.slice(0, item.indexOf('@'))
           }
         });
-        await Accounts.forgotPassword({email: item}, (err) => {
-          if (err) {
-            console.log(err);
-          }
-        })
       });
       const instance = Instances.findOne({
         _id: instanceid,
@@ -305,16 +308,20 @@ Meteor.methods({
           },
         }, (error, count, status) => {
           if (error) {
-            keys = error.invalidKeys;
+            keys['status_code'] = false;
+            keys['result'] = error.invalidKeys;
           }
         });
       } else {
         return false;
       }
-      if (keys) {
+      if (keys && Object.keys(keys).length > 0) {
         return keys;
       }
-      return true;
+      keys = {};
+      keys['status_code'] = true;
+      keys['result'] = newAccounts;
+      return keys;
     }
     return false;
   },
