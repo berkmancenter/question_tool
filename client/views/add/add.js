@@ -74,7 +74,9 @@ Template.add.events({
   'click #modsdonebutton': function (event, template) {
     const modBoxes = document.getElementsByClassName('modbox');
     const modBoxesArray = Array.from(modBoxes);
+    const allEmails = template.data.moderators;
     const modEmails = modBoxesArray.map(b => b.value);
+    const newMods = modEmails.filter(value => !allEmails.includes(value));
     const occurrences = modEmails.filter(val => val !== "").length;
     if (checkPrevMod(modBoxes) === false) {
       showModsError('Email ID was already added as a moderator.');
@@ -87,27 +89,35 @@ Template.add.events({
         mods.push(modsInput[m].value);
       }
     }
-    Meteor.call('addMods', mods, template.data._id, (error, result) => {
-      // If the result is an object, there was an error
-      if (typeof result === 'object' && result.length > 0) {
+    Meteor.call('addMods', mods, template.data._id, (error, response) => {
+      if (typeof response === 'object' && response['status_code'] === false && response['result'].length > 0) {
         // Alert the error
-        for (let i = 0; i < result.length; i++) {
+        for (let i = 0; i < response['result'].length; i++) {
           // Check is the server returned error corresponding to the addition of owner as moderator
-          if(result[i].name === 'owner') {
+          if(response['result'][i].name === 'owner') {
             // Display the error message
-            showModsError(`${result[i].value} is already an owner of the instance and has the privileges of a moderator.`);
+            showModsError(`${response['result'][i].value} is already an owner of the instance and has the privileges of a moderator.`);
             return false;
           }
         }
         showModsError('Please enter valid email addresses.');
         return false;
+      } else if (typeof response === 'object' && response['status_code'] === true && response['result'].length > 0) {
+        for(let k = 0; k < response['result'].length; k++) {
+          Accounts.forgotPassword({email: response['result'][k]}, function(err) {
+            if (err) {
+              showModsError('Some error occured while adding the moderator. Please try again.');
+              console.log(err);
+            }
+          })
+        }
       }
       for (let m = 0; m < mods.length; m++) {
         Meteor.call('sendEmail',
                     mods[m],
                     Meteor.user().emails[0].address,
                     'You have been added as a moderator on Question Tool',
-                    Meteor.user().profile.name + ' added you as a moderator of ' + template.data.tablename + ' at ' + Iron.Location.get().originalUrl + ' on Question Tool. You are able to modify, combine, and hide questions. You must use this email address when registering to be considered a moderator.');
+                    Meteor.user().profile.name + ' added you as a moderator of ' + template.data.tablename + ' at ' + Iron.Location.get().originalUrl + ' on Question Tool. You are able to modify, combine, and hide questions.');
       }
       let boxes = document.getElementsByClassName('newmod');
       boxes = boxes[boxes.length - 1];
