@@ -90,7 +90,6 @@ Template.add.events({
       }
     }
     Meteor.call('addMods', mods, template.data._id, (error, response) => {
-      console.log(response);
       if (typeof response === 'object' && response['status_code'] === false && response['result'].length > 0) {
         // Alert the error
         for (let i = 0; i < response['result'].length; i++) {
@@ -107,6 +106,7 @@ Template.add.events({
         for(let k = 0; k < response['result'].length; k++) {
           Accounts.forgotPassword({email: response['result'][k]}, function(err) {
             if (err) {
+              showModsError('Some error occured while adding the moderator. Please try again.');
               console.log(err);
             }
           })
