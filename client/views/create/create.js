@@ -102,6 +102,21 @@ Template.create.events({
     }*/
     const modsInput = document.getElementsByClassName('instancemodsinput');
     const mods = [];
+
+    for (let m = 0; m < modsInput.length; m++) {
+      if (modsInput[m].checkValidity()) {
+        for (let n = m + 1; n < modsInput.length; n++) {
+          if (modsInput[m].value === modsInput[n].value) {
+            showCreateError('Same moderator cannot be added more than once.');
+            return false;
+          }
+        }
+      } else {
+        showCreateError(modsInput[m].value + ' is not a valid email.');
+        return false;
+      }
+    }
+
     for (let m = 0; m < modsInput.length; m++) {
       if (modsInput[m].checkValidity()) {
         if (modsInput[m].value) {
