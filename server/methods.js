@@ -342,12 +342,13 @@ Meteor.methods({
     if (this.userId) {
       const email = Meteor.users.findOne({ _id: this.userId }).emails[0].address;
       const quest = Questions.findOne({ _id: id });
+      
+      if (!quest) { return false; }
       const instanceid = quest.instanceid;
       const instance = Instances.findOne({
         _id: instanceid,
       });
-
-      if (!email || !instance || !instance.admin || !quest) { return false; }
+      if (!email || !instance || !instance.admin) { return false; }
       if (email !== instance.admin && (instance.moderators.indexOf(email) === -1) && (quest.email !== email || !quest.posterLoggedIn)) {
         return false;
       }
