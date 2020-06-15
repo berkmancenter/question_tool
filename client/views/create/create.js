@@ -119,7 +119,8 @@ Template.create.events({
       if (typeof result === 'object') {
         // Store an object of the error names and codes
         const errorCodes = {
-          tablename: 'Please enter a valid instance name using only letters and numbers, no spaces.',
+          // tablename: 'Please enter a valid instance name using only letters and numbers, no spaces.',
+          tablename: 'Please enter a valid instance name using 4 to 30 alphanumeric characters without spaces.',
           threshold: "Please enter a valid # of 'featured' questions using the drop down menu.",
           new_length: "Please enter a valid value using the 'new questions' drop down menu.",
           stale_length: "Please enter a valid value using the 'old questions' drop down menu.",
